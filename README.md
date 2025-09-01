@@ -22,7 +22,7 @@ src/
 │   │   ├── register/page.tsx
 │   │   ├── forgot-password/page.tsx
 │   │   └── layout.tsx
-│   ├── admin/                    # Panel administrativo (SIN route group)
+│   ├── admin/                    # Panel administrativo
 │   │   ├── dashboard/page.tsx
 │   │   ├── users/page.tsx
 │   │   └── layout.tsx
@@ -32,26 +32,54 @@ src/
 │   ├── layout.tsx                # Layout raíz
 │   ├── page.tsx                  # Página principal (redirección)
 │   └── globals.css               # Estilos globales
-├── features/                     # Funcionalidades por rol
-│   ├── auth/                     # Autenticación
+├── modules/                      # 🆕 MÓDULOS POR FUNCIONALIDAD
+│   ├── auth/                     # Módulo de Autenticación
 │   │   ├── LoginForm.tsx
 │   │   ├── RegisterForm.tsx
 │   │   ├── ForgotPasswordForm.tsx
 │   │   └── actions.ts
-│   └── admin/                    # Funcionalidades de Admin
-│       ├── DashboardStats.tsx
-│       ├── QuickActions.tsx
-│       ├── RecentActivity.tsx
-│       ├── SystemHealth.tsx
-│       ├── UserFilters.tsx
-│       ├── UserModal.tsx
-│       ├── UserActions.tsx
-│       └── ExportUsers.tsx
+│   ├── dashboard/                # Módulo Dashboard
+│   │   ├── admin/               # Dashboard específico para Admin
+│   │   │   ├── DashboardStats.tsx
+│   │   │   ├── QuickActions.tsx
+│   │   │   ├── RecentActivity.tsx
+│   │   │   └── SystemHealth.tsx
+│   │   ├── hr/                  # Dashboard para HR
+│   │   ├── lead/                # Dashboard para Lead Project
+│   │   └── volunteer/           # Dashboard para Volunteer
+│   ├── users/                   # Módulo de Gestión de Usuarios
+│   │   ├── admin/               # Gestión completa de usuarios (Admin)
+│   │   │   ├── UserFilters.tsx
+│   │   │   ├── UserModal.tsx
+│   │   │   ├── UserActions.tsx
+│   │   │   └── ExportUsers.tsx
+│   │   ├── hr/                  # Gestión de aplicaciones y candidatos
+│   │   ├── lead/                # Gestión de equipos de proyecto
+│   │   └── volunteer/           # Perfil personal y configuración
+│   ├── communications/          # Módulo de Comunicaciones
+│   │   ├── admin/               # Notificaciones del sistema
+│   │   ├── hr/                  # Comunicación con candidatos
+│   │   ├── lead/                # Coordinación con equipos
+│   │   └── volunteer/           # Mensajes y notificaciones personales
+│   └── projects/                # Módulo de Gestión de Proyectos
+│       ├── admin/               # Supervisión general de proyectos
+│       ├── hr/                  # Asignación de personal
+│       ├── lead/                # Administración directa de proyectos
+│       └── volunteer/           # Participación en proyectos
 ├── components/                   # Componentes reutilizables
 │   └── layout/
 │       ├── Admin/
 │       │   ├── HeaderAdmin.tsx
 │       │   └── FooterAdmin.tsx
+│       ├── HR/
+│       │   ├── HeaderHR.tsx
+│       │   └── FooterHR.tsx
+│       ├── Lead/
+│       │   ├── HeaderLead.tsx
+│       │   └── FooterLead.tsx
+│       ├── Volunteer/
+│       │   ├── HeaderVolunteer.tsx
+│       │   └── FooterVolunteer.tsx
 │       ├── Public/
 │       │   ├── HeaderPublic.tsx
 │       │   └── FooterPublic.tsx
@@ -63,6 +91,54 @@ src/
 │   └── auth.ts                   # Sistema de autenticación
 ```
 
+## 🔧 Nueva Arquitectura de Módulos
+
+### Concepto de Módulos
+Cada **módulo** representa una funcionalidad del sistema (Dashboard, Usuarios, Comunicaciones, etc.) y contiene carpetas específicas para cada rol:
+
+```
+modules/
+├── {nombre-modulo}/
+│   ├── admin/          # Funcionalidad para administradores
+│   ├── hr/             # Funcionalidad para recursos humanos
+│   ├── lead/           # Funcionalidad para líderes de proyecto
+│   └── volunteer/      # Funcionalidad para voluntarios
+```
+
+### Distribución de Trabajo por Integrante
+
+**Cada integrante del equipo trabajará en:**
+1. **Su rama específica**: `admin-branch`, `hr-branch`, `lead-branch`, `volunteer-branch`
+2. **Su carpeta dentro de cada módulo**: `modules/{modulo}/{su-rol}/`
+3. **Las páginas de su rol**: `app/{su-rol}/`
+4. **Su layout específico**: `components/layout/{SuRol}/`
+
+### Módulos Principales a Implementar
+
+#### 🏠 Dashboard Module (`modules/dashboard/`)
+- **Admin**: Métricas generales, usuarios activos, salud del sistema
+- **HR**: Aplicaciones pendientes, procesos de selección, estadísticas de reclutamiento
+- **Lead**: Estado de proyectos, equipos asignados, deadlines próximos
+- **Volunteer**: Tareas personales, progreso individual, próximas actividades
+
+#### 👥 Users Module (`modules/users/`)
+- **Admin**: CRUD completo, gestión de roles, suspensiones, exportación
+- **HR**: Gestión de aplicaciones, entrevistas, onboarding, candidatos
+- **Lead**: Asignación de equipos, evaluación de performance, disponibilidad
+- **Volunteer**: Edición de perfil, configuraciones personales, historial
+
+#### 📱 Communications Module (`modules/communications/`)
+- **Admin**: Notificaciones del sistema, anuncios generales, logs
+- **HR**: Comunicación con candidatos, templates de email, seguimiento
+- **Lead**: Coordinación con equipos, mensajes de proyecto, reportes
+- **Volunteer**: Mensajes personales, notificaciones, chat interno
+
+#### 📊 Projects Module (`modules/projects/`)
+- **Admin**: Supervisión general, métricas de todos los proyectos
+- **HR**: Asignación de personal, necesidades de recursos humanos
+- **Lead**: Administración directa, cronogramas, entregables, equipos
+- **Volunteer**: Proyectos asignados, tareas específicas, progreso
+
 ## 🔐 Sistema de Autenticación
 
 ### Funcionamiento
@@ -73,7 +149,7 @@ El sistema utiliza **localStorage** para mantener las sesiones de usuario. Cada 
 const ROLE_REDIRECTS = {
   admin: '/admin/dashboard',
   hr: '/hr/dashboard', 
-  lead_project: '/lead_project/projects',
+  lead_project: '/lead_project/dashboard',
   volunteer: '/volunteer/profile',
   unassigned: '/volunteer/profile'
 }
@@ -169,20 +245,44 @@ main                 # Rama principal (producción)
 ├── test            # Rama de integración
 ├── admin-branch    # Funcionalidades de Admin
 ├── hr-branch       # Funcionalidades de HR
-└── lead-branch     # Funcionalidades de Lead Project
+├── lead-branch     # Funcionalidades de Lead Project
+└── volunteer-branch # Funcionalidades de Volunteer
 ```
 
-### Flujo de Trabajo
+### Flujo de Trabajo con Módulos
 1. **Desarrollo individual** en rama específica por rol
-2. **Push a rama Test** para integración
-3. **Pull Request** de Test → rama individual para sincronizar
-4. **Pull Request** de Test → Main cuando esté estable
+2. **Trabajar en tu carpeta** dentro de cada módulo: `modules/{modulo}/{tu-rol}/`
+3. **Push a rama Test** para integración
+4. **Pull Request** de Test → rama individual para sincronizar
+5. **Pull Request** de Test → Main cuando esté estable
+
+### Ejemplo de Flujo de Trabajo
+```bash
+# Trabajar en tu rama específica
+git checkout admin-branch
+
+# Crear/modificar archivos en tu carpeta de cada módulo
+# modules/dashboard/admin/
+# modules/users/admin/
+# modules/communications/admin/
+# app/admin/
+
+git add .
+git commit -m "Add: dashboard stats component for admin"
+git push origin admin-branch
+
+# Para integración
+git checkout test
+git merge admin-branch
+git push origin test
+```
 
 ### Comunicación
 - **Avisar cambios** antes de hacer push a Test
 - **Documentar modificaciones** en types.ts
 - **No tocar código** de otros roles sin coordinación
 - **Revisar conflictos** antes de merge a Main
+- **Coordinar cambios** en archivos compartidos (types.ts, layouts, etc.)
 
 ## 🚀 Comandos de Desarrollo
 
@@ -202,42 +302,62 @@ npm start
 
 ## 📁 Agregando Nuevas Funcionalidades
 
-### Para Agregar una Nueva Página
-1. **Crear archivo** en el directorio del rol correspondiente
-2. **Seguir estructura** de páginas existentes
-3. **Actualizar navegación** en el Header correspondiente
-4. **Agregar tipos** necesarios en `types.ts`
+### Para Agregar un Nuevo Módulo
+1. **Crear carpeta** en `modules/{nuevo-modulo}/`
+2. **Crear subcarpetas** para cada rol: `admin/`, `hr/`, `lead/`, `volunteer/`
+3. **Coordinar con el equipo** la estructura y responsabilidades
+4. **Actualizar headers** de navegación en cada rol
 
-### Para Agregar Componentes
-1. **Ubicar en features/** según el rol específico
+### Para Agregar Componentes en tu Módulo
+1. **Ubicar en modules/{modulo}/{tu-rol}/** 
 2. **Usar TypeScript** con interfaces apropiadas
 3. **Seguir convenciones** de naming existentes
 4. **Documentar props** complejas
 
-### Para Agregar Datos Ficticios
-1. **Crear/modificar archivos** en `lib/data/`
-2. **Seguir interfaces** de `types.ts`
-3. **Mantener consistencia** con datos existentes
-4. **Actualizar exportaciones** necesarias
+### Para Agregar Páginas en tu Rol
+1. **Crear archivo** en `app/{tu-rol}/{nueva-pagina}/page.tsx`
+2. **Importar componentes** desde `modules/{modulo}/{tu-rol}/`
+3. **Actualizar navegación** en tu header específico
+4. **Agregar tipos** necesarios en `types.ts`
+
+### Headers y Navegación por Rol
+
+Cada rol debe tener su header con navegación a los módulos correspondientes:
+
+```typescript
+// Ejemplo HeaderAdmin.tsx
+const adminModules = [
+  { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { name: 'Usuarios', href: '/admin/users', icon: Users },
+  { name: 'Comunicaciones', href: '/admin/communications', icon: MessageSquare },
+  { name: 'Proyectos', href: '/admin/projects', icon: FolderOpen },
+];
+
+// Ejemplo HeaderHR.tsx
+const hrModules = [
+  { name: 'Dashboard', href: '/hr/dashboard', icon: LayoutDashboard },
+  { name: 'Candidatos', href: '/hr/users', icon: UserPlus },
+  { name: 'Comunicaciones', href: '/hr/communications', icon: MessageSquare },
+  { name: 'Reclutamiento', href: '/hr/recruitment', icon: Search },
+];
+```
 
 ## 🧩 Componentes Principales Implementados
 
-### Autenticación Pública
+### Autenticación Pública (`modules/auth/`)
 - ✅ **LoginForm**: Formulario completo con validación
 - ✅ **RegisterForm**: Registro con redirección
 - ✅ **ForgotPasswordForm**: Recuperación de contraseña
-- ✅ **HeaderPublic/FooterPublic**: Layout público
 
-### Panel Administrativo
+### Panel Administrativo (`modules/dashboard/admin/`, `modules/users/admin/`)
 - ✅ **DashboardStats**: Métricas y gráficos en tiempo real
 - ✅ **UserManagement**: CRUD completo de usuarios
 - ✅ **UserFilters**: Filtros avanzados y búsqueda
 - ✅ **ExportUsers**: Exportación en múltiples formatos
-- ✅ **HeaderAdmin/FooterAdmin**: Layout específico admin
 
 ### Sistema de Navegación
 - ✅ **ActiveLink**: Detección automática de página activa
-- ✅ **Carpetas por rol**: Separación clara (admin/, hr/, volunteer/, lead_project/)
+- ✅ **Layouts por rol**: Headers y footers específicos
 - ✅ **Protected Routes**: Validación de permisos automática
 
 ## 🎯 Estado Actual de Implementación
@@ -249,27 +369,57 @@ npm start
 - **Sistema de tipos** TypeScript completo y consistente
 - **Datos ficticios** para 30 usuarios con perfiles completos
 - **CSS moderno** responsive con variables personalizadas
-- **Componentes Admin**: DashboardStats, UserFilters, UserModal, etc.
+- **Módulo Dashboard Admin**: DashboardStats, QuickActions, SystemHealth
+- **Módulo Users Admin**: UserFilters, UserModal, ExportUsers
 
-### 🔄 Pendiente de Implementación
-- **Panel HR**: Gestión de aplicaciones y reclutamiento
-- **Panel Lead Project**: Administración de proyectos y equipos
-- **Panel Volunteer**: Perfil personal y tareas
-- **Features específicas**: hr/, lead_project/, volunteer/ en carpeta features/
+### 🔄 Pendiente de Implementación por Integrante
+
+#### **Integrante Admin** (`admin-branch`)
+- [ ] `modules/communications/admin/` - Sistema de notificaciones
+- [ ] `modules/projects/admin/` - Supervisión general de proyectos
+- [ ] `app/admin/communications/` - Páginas de comunicaciones admin
+- [ ] `app/admin/projects/` - Páginas de proyectos admin
+
+#### **Integrante HR** (`hr-branch`)
+- [ ] `modules/dashboard/hr/` - Dashboard HR con métricas de reclutamiento
+- [ ] `modules/users/hr/` - Gestión de candidatos y aplicaciones
+- [ ] `modules/communications/hr/` - Comunicación con candidatos
+- [ ] `modules/projects/hr/` - Asignación de personal a proyectos
+- [ ] `app/hr/` - Todas las páginas del panel HR
+
+#### **Integrante Lead Project** (`lead-branch`)
+- [ ] `modules/dashboard/lead/` - Dashboard con estado de proyectos
+- [ ] `modules/users/lead/` - Gestión de equipos de trabajo
+- [ ] `modules/communications/lead/` - Coordinación con equipos
+- [ ] `modules/projects/lead/` - Administración directa de proyectos
+- [ ] `app/lead_project/` - Todas las páginas del panel Lead
+
+#### **Integrante Volunteer** (`volunteer-branch`)
+- [ ] `modules/dashboard/volunteer/` - Dashboard personal
+- [ ] `modules/users/volunteer/` - Perfil y configuración personal
+- [ ] `modules/communications/volunteer/` - Mensajes y notificaciones
+- [ ] `modules/projects/volunteer/` - Proyectos asignados y tareas
+- [ ] `app/volunteer/` - Todas las páginas del panel Volunteer
 
 ## 📞 Soporte y Contribución
 
 ### Antes de Contribuir
 1. **Revisar este README** completamente
-2. **Entender la estructura** de tipos y datos
+2. **Entender la estructura de módulos** y tu responsabilidad específica
 3. **Coordinar con el equipo** cambios en archivos compartidos
 4. **Probar localmente** antes de push
 
 ### Reportar Problemas
-1. **Verificar tipos** y interfaces afectadas
+1. **Verificar si afecta tu módulo** o es compartido
 2. **Documentar pasos** para reproducir
 3. **Incluir logs** de error si aplica
-4. **Sugerir solución** si es posible
+4. **Mencionar el módulo afectado** en el reporte
+
+### Coordinación entre Integrantes
+1. **Avisar cambios en types.ts** - afecta a todos
+2. **Coordinar cambios en layouts** - puede afectar navegación
+3. **Comunicar nuevos módulos** - todos deben conocer la estructura
+4. **Documentar APIs internas** - para reutilización entre roles
 
 ---
 
