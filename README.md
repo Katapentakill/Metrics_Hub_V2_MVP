@@ -56,16 +56,31 @@ src/
 │   │   ├── hr/                  # Gestión de aplicaciones y candidatos
 │   │   ├── lead/                # Gestión de equipos de proyecto
 │   │   └── volunteer/           # Perfil personal y configuración
-│   ├── communications/          # Módulo de Comunicaciones
-│   │   ├── admin/               # Notificaciones del sistema
-│   │   ├── hr/                  # Comunicación con candidatos
-│   │   ├── lead/                # Coordinación con equipos
-│   │   └── volunteer/           # Mensajes y notificaciones personales
-│   └── projects/                # Módulo de Gestión de Proyectos
-│       ├── admin/               # Supervisión general de proyectos
-│       ├── hr/                  # Asignación de personal
-│       ├── lead/                # Administración directa de proyectos
-│       └── volunteer/           # Participación en proyectos
+│   ├── projects/                # Módulo de Gestión de Proyectos
+│   │   ├── admin/               # Supervisión general de proyectos
+│   │   ├── hr/                  # Asignación de personal
+│   │   ├── lead/                # Administración directa de proyectos
+│   │   └── volunteer/           # Participación en proyectos
+│   ├── documents/               # Módulo de Documentos
+│   │   ├── admin/               # Gestión completa de documentos
+│   │   ├── hr/                  # Documentos de reclutamiento y legales
+│   │   ├── lead/                # Documentos de proyectos y equipos
+│   │   └── volunteer/           # Documentos personales y recursos
+│   ├── evaluations/             # Módulo de Evaluaciones
+│   │   ├── admin/               # Supervisión de evaluaciones
+│   │   ├── hr/                  # Procesamiento de evaluaciones
+│   │   ├── lead/                # Evaluaciones de equipo
+│   │   └── volunteer/           # Auto-evaluaciones y resultados
+│   ├── recruitment/             # Módulo de Reclutamiento
+│   │   ├── admin/               # Supervisión del proceso
+│   │   ├── hr/                  # Gestión completa del proceso
+│   │   ├── lead/                # Participación en entrevistas
+│   │   └── volunteer/           # Estado de aplicación (solo candidatos)
+│   └── settings/                # Módulo de Configuración
+│       ├── admin/               # Configuración completa del sistema
+│       ├── hr/                  # Configuración de procesos HR
+│       ├── lead/                # Configuración de proyectos
+│       └── volunteer/           # Configuración personal
 ├── components/                   # Componentes reutilizables
 │   └── layout/
 │       ├── Admin/
@@ -113,7 +128,12 @@ modules/
 3. **Las páginas de su rol**: `app/{su-rol}/`
 4. **Su layout específico**: `components/layout/{SuRol}/`
 
-### Módulos Principales a Implementar
+### Módulos Principales - Etapa Primaria
+
+#### 🔐 Auth Module (`modules/auth/`)
+- **Sistema de autenticación**: Login, registro, recuperación de contraseña
+- **Gestión de sesiones**: Tokens de seguridad, redirecciones por rol
+- **Verificación**: Validación de email, seguridad de cuentas
 
 #### 🏠 Dashboard Module (`modules/dashboard/`)
 - **Admin**: Métricas generales, usuarios activos, salud del sistema
@@ -127,17 +147,36 @@ modules/
 - **Lead**: Asignación de equipos, evaluación de performance, disponibilidad
 - **Volunteer**: Edición de perfil, configuraciones personales, historial
 
-#### 📱 Communications Module (`modules/communications/`)
-- **Admin**: Notificaciones del sistema, anuncios generales, logs
-- **HR**: Comunicación con candidatos, templates de email, seguimiento
-- **Lead**: Coordinación con equipos, mensajes de proyecto, reportes
-- **Volunteer**: Mensajes personales, notificaciones, chat interno
-
 #### 📊 Projects Module (`modules/projects/`)
 - **Admin**: Supervisión general, métricas de todos los proyectos
 - **HR**: Asignación de personal, necesidades de recursos humanos
-- **Lead**: Administración directa, cronogramas, entregables, equipos
+- **Lead**: Administración directa, cronogramas, entregables, equipos, gestión de tareas con tableros Kanban
 - **Volunteer**: Proyectos asignados, tareas específicas, progreso
+
+#### 📄 Documents Module (`modules/documents/`)
+- **Personal Documents**: CVs, certificados personales, evaluaciones de cada voluntario
+- **General Resources**: Manuales, guías, políticas de la organización
+- **Legal Documents**: Acuerdos de voluntariado, documentos específicos por región
+- **Templates**: Plantillas de certificados, cartas de referencia
+- **Knowledge Base**: FAQ, tutoriales, recursos de capacitación para voluntarios
+
+#### 📈 Evaluations Module (`modules/evaluations/`)
+- **Sistema de evaluaciones**: Evaluaciones de desempeño cada 2 meses
+- **Feedback bidireccional**: Evaluación hacia arriba, hacia abajo y horizontal
+- **Planes de mejora**: Identificación automática de áreas de crecimiento
+- **Métricas de progreso**: Tracking del desarrollo personal y profesional
+
+#### 🔄 Recruitment Module (`modules/recruitment/`)
+- **Proceso de selección**: Las 6 etapas completas del blueprint (Aplicación → Filtro HR → Video → Entrevista → Decisión → Onboarding)
+- **Gestión de candidatos**: Pipeline de aplicaciones y estados
+- **Entrevistas virtuales**: Programación y seguimiento
+- **Onboarding**: Proceso de integración de nuevos voluntarios
+
+#### ⚙️ Settings Module (`modules/settings/`)
+- **Configuración del sistema**: Parámetros generales de la plataforma
+- **Permisos por rol**: Matriz de permisos y configuraciones específicas
+- **Personalización**: Configuración de notificaciones, idioma, zona horaria
+- **Integraciones**: Configuración de herramientas externas (Slack, Zoom, etc.)
 
 ## 🔐 Sistema de Autenticación
 
