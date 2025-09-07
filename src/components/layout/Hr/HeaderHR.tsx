@@ -5,9 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, UserPlus, MessageSquare, Search, FileText,ClipboardList,LayoutGrid } from 'lucide-react';
 const hrModules = [
-  { name: 'Dashboard', href: '/hr/dashboard', icon: LayoutDashboard },
-  { name: 'Kanban', href: '/hr/recruitment', icon: LayoutGrid },
-  { name: 'Onboarding', href: '/hr/onboarding', icon: ClipboardList },
+
+  { name: 'Onboarding', href: '/hr/recruitment', icon: ClipboardList },
  // Enlace a la nueva página de Onboarding
   { name: 'Comunicaciones', href: '/hr/communications', icon: MessageSquare }, // Comunicación general
   { name: 'Asignación Proyectos', href: '/hr/projects', icon: Search },
