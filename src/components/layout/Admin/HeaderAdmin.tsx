@@ -78,7 +78,7 @@ export default function HeaderAdmin() {
               Reportes
             </ActiveLink>
             {/* Nuevo enlace para Onboarding */}
-            <ActiveLink href="/admin/onboarding" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/admin/recruitments" className="nav-link px-3 py-2 rounded-lg text-sm">
               <Handshake className="w-4 h-4 inline mr-2" />
               Onboarding
             </ActiveLink>
