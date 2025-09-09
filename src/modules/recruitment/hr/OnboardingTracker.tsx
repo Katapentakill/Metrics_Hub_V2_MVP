@@ -120,37 +120,37 @@ export default function OnboardingTracker() {
 
   const handleDelete = (id: string) => {
     setCandidates((prev) => prev.filter((c) => c.id !== id));
-    console.log(`Candidato con ID ${id} eliminado temporalmente.`);
+    console.log(`Candidate with ID ${id} temporarily deleted.`);
   };
 
   const handleAdd = (candidate: MockCandidate) => {
     console.log(
-      `Candidato ${candidate.name} añadido a la base de datos de voluntarios activos.`
+      `Candidate ${candidate.name} added to the active volunteers database.`
     );
   };
 
   const statusNotifications: Record<CandidateStatus, string> = {
-    'Application Received': 'Notificación: “HR Review, Schedule Interview”',
-    'Accepted by HR': 'Notificación: “PM Schedule Interview”',
-    'Rejected by HR': 'Notificación: “Rejected”',
+    'Application Received': 'Notification: “HR Review, Schedule Interview”',
+    'Accepted by HR': 'Notification: “PM Schedule Interview”',
+    'Rejected by HR': 'Notification: “Rejected”',
     'Accepted by PM':
-      'Notificación: “PM Sent form and HR Send Offer Letter”',
-    'Rejected by PM': 'Notificación: “Rejected”',
-    'Rejected by Candidate': 'Notificación: “Rejected”',
+      'Notification: “PM Sent form and HR Send Offer Letter”',
+    'Rejected by PM': 'Notification: “Rejected”',
+    'Rejected by Candidate': 'Notification: “Rejected”',
     'Accepted by Candidate':
-      'Notificación: “HR Agreement, Request Docs, Welcome Letter, Records & Access”',
-    'Onboard': 'Notificación: “Done”',
-    'HR Review': 'Notificación: “HR Review in progress”',
-    'Interview Scheduled': 'Notificación: “Interview Scheduled”',
-    'Interview Completed': 'Notificación: “Interview Completed”',
-    'Offer Sent': 'Notificación: “Offer Sent”',
+      'Notification: “HR Agreement, Request Docs, Welcome Letter, Records & Access”',
+    'Onboard': 'Notification: “Done”',
+    'HR Review': 'Notification: “HR Review in progress”',
+    'Interview Scheduled': 'Notification: “Interview Scheduled”',
+    'Interview Completed': 'Notification: “Interview Completed”',
+    'Offer Sent': 'Notification: “Offer Sent”',
   };
 
   if (candidates.length === 0) {
     return (
       <div className="flex justify-center items-center h-64">
         <p className="text-xl text-slate-500">
-          No hay candidatos en el rastreador de incorporación.
+          No candidates in the onboarding tracker.
         </p>
       </div>
     );
@@ -164,22 +164,22 @@ export default function OnboardingTracker() {
             <thead className="bg-slate-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Candidato
+                  Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Estatus de Aplicación
+                  Application Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Rol Aplicado
+                  Role
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Tipo Voluntario
+                  Volunteer Type
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  CPT/OPT Documentos
+                  CPT/OPT Docs
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Acciones
+                  HR Actions
                 </th>
               </tr>
             </thead>
@@ -292,7 +292,7 @@ export default function OnboardingTracker() {
                           onClick={() => handleDelete(candidate.id)}
                           className="bg-red-100 text-red-700 px-2 py-1 rounded hover:bg-red-200 flex items-center"
                         >
-                          <Trash size={16} className="mr-1" /> Eliminar
+                          <Trash size={16} className="mr-1" /> Delete
                         </button>
                       )}
                       {candidate.applicationStatus === 'Onboard' && (
@@ -300,7 +300,7 @@ export default function OnboardingTracker() {
                           onClick={() => handleAdd(candidate)}
                           className="bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200 flex items-center"
                         >
-                          <PlusCircle size={16} className="mr-1" /> Añadir
+                          <PlusCircle size={16} className="mr-1" /> Add
                         </button>
                       )}
                     </td>
@@ -312,7 +312,7 @@ export default function OnboardingTracker() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-slate-600">
                           {/* CONTACTO */}
                           <div className="space-y-1">
-                            <p className="font-semibold text-slate-800">Contacto</p>
+                            <p className="font-semibold text-slate-800">Contact</p>
                             <div className="flex items-center space-x-2">
                               <Mail size={16} />
                               <input
@@ -339,12 +339,12 @@ export default function OnboardingTracker() {
 
                           {/* DOCUMENTOS DETALLADOS */}
                           <div className="space-y-1">
-                            <p className="font-semibold text-slate-800">Documentos</p>
+                            <p className="font-semibold text-slate-800">Documents</p>
                             <div className="flex items-center space-x-2">
                               <FileText size={16} />
                               <input
                                 type="url"
-                                placeholder="Link al CV"
+                                placeholder="CV Link"
                                 value={candidate.cvLink ?? ''}
                                 onChange={(e) =>
                                   handleFieldChange(candidate.id, 'cvLink', e.target.value)
@@ -356,7 +356,7 @@ export default function OnboardingTracker() {
                               <Briefcase size={16} />
                               <input
                                 type="url"
-                                placeholder="Link al Contrato"
+                                placeholder="Offer Letter Link"
                                 value={candidate.offerLetterLink ?? ''}
                                 onChange={(e) =>
                                   handleFieldChange(
@@ -372,20 +372,20 @@ export default function OnboardingTracker() {
 
                           {/* HORARIOS Y ENTREVISTAS */}
                           <div className="space-y-1">
-                            <p className="font-semibold text-slate-800">Horarios y Entrevistas</p>
+                            <p className="font-semibold text-slate-800">Schedule & Interviews</p>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
                               <span>
-                                Entrevista HR: {candidate.hrInterviewDate ?? 'N/A'}{' '}
+                                HR Interview: {candidate.hrInterviewDate ?? 'N/A'}{' '}
                                 {candidate.interviewAssigned
-                                  ? `(Asignado a: ${candidate.interviewAssigned})`
+                                  ? `(Assigned to: ${candidate.interviewAssigned})`
                                   : ''}
                               </span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
                               <span>
-                                Entrevista PM: {candidate.pmInterviewDate ?? 'N/A'}{' '}
+                                PM Interview: {candidate.pmInterviewDate ?? 'N/A'}{' '}
                                 {candidate.supervisor
                                   ? `(Supervisor: ${candidate.supervisor})`
                                   : ''}
@@ -395,7 +395,7 @@ export default function OnboardingTracker() {
                               <Globe size={16} />
                               <input
                                 type="text"
-                                placeholder="Zona horaria"
+                                placeholder="Timezone"
                                 value={candidate.timezone ?? ''}
                                 onChange={(e) =>
                                   handleFieldChange(candidate.id, 'timezone', e.target.value)
@@ -413,13 +413,13 @@ export default function OnboardingTracker() {
                                 }
                                 className="border rounded px-2 py-1 text-sm text-slate-700 w-24"
                               />
-                              <span>hrs/semana</span>
+                              <span>hrs/week</span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
                               <input
                                 type="text"
-                                placeholder="Duración"
+                                placeholder="Duration"
                                 value={candidate.duration ?? ''}
                                 onChange={(e) =>
                                   handleFieldChange(candidate.id, 'duration', e.target.value)
@@ -429,11 +429,11 @@ export default function OnboardingTracker() {
                             </div>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
-                              <span>Inicio: {candidate.startDate ?? 'N/A'}</span>
+                              <span>Start Date: {candidate.startDate ?? 'N/A'}</span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
-                              <span>Fin: {candidate.endDate ?? 'N/A'}</span>
+                              <span>End Date: {candidate.endDate ?? 'N/A'}</span>
                             </div>
                           </div>
                         </div>
@@ -458,7 +458,7 @@ export default function OnboardingTracker() {
           }}
           className="bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 flex items-center"
         >
-          <Plus size={16} className="mr-1" /> Añadir Candidato
+          <Plus size={16} className="mr-1" /> Add Candidate
         </button>
       </div>
     </div>

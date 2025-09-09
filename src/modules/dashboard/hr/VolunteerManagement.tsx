@@ -1,4 +1,4 @@
-//src/modules/dashboard/hr/VolunteerManagement.tsx
+// src/modules/dashboard/hr/VolunteerManagement.tsx
 'use client';
 
 import { getMockVolunteers } from '@/lib/data/mockVolunteerData';
@@ -33,13 +33,16 @@ export default function VolunteerManagement() {
   }, []);
   
   const totalVolunteers = volunteers.length;
-  const pendingPromotions = volunteers.filter(v => v.hasPromotionRequest).length;
-  const pendingEvaluations = volunteers.filter(v => v.evaluationStatus === 'pending').length;
+  
+  // Como el mock data no tiene 'hasPromotionRequest' y 'evaluationStatus', se simulan aquí
+  // Estos valores son aleatorios para el propósito de demostración
+  const pendingPromotions = Math.floor(Math.random() * (totalVolunteers / 5)); 
+  const pendingEvaluations = Math.floor(Math.random() * (totalVolunteers / 3));
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <MetricCard 
-        title="Voluntarios Activos"
+        title="Voluntarios Totales"
         value={totalVolunteers}
         unit=""
         icon={Users}

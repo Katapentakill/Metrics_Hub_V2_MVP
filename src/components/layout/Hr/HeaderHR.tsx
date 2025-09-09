@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, UserPlus, MessageSquare, Search, FileText,ClipboardList,LayoutGrid } from 'lucide-react';
 const hrModules = [
-
+  { name: 'Dashboard', href: '/hr/dashboard', icon: ClipboardList },
+  { name: 'Volunteers', href: '/hr/volunteers', icon: ClipboardList },
+  { name: 'Management', href: '/hr/management', icon: ClipboardList },
   { name: 'Onboarding', href: '/hr/recruitment', icon: ClipboardList },
  // Enlace a la nueva página de Onboarding
   { name: 'Comunicaciones', href: '/hr/communications', icon: MessageSquare }, // Comunicación general
-  { name: 'Asignación Proyectos', href: '/hr/projects', icon: Search },
 ];
 
 export default function HeaderHR() {

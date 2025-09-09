@@ -14,8 +14,6 @@ export default function ComplianceDocumentation() {
     setVolunteers(allVolunteers);
   }, []);
   
-  const missingDocs = volunteers.filter(v => v.signedVA === 'No').length;
-  const compliantVolunteers = volunteers.filter(v => v.signedVA === 'Yes').length;
   const expiringSoon = Math.floor(Math.random() * 3);
 
   return (
@@ -27,19 +25,9 @@ export default function ComplianceDocumentation() {
         </p>
       </div>
 
-      <div className="flex items-center p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
-        <XCircle className="w-5 h-5 mr-3" />
-        <p className="font-medium">
-          <span className="font-bold">{missingDocs}</span> voluntarios con documentación incompleta.
-        </p>
-      </div>
 
-      <div className="flex items-center p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
-        <CheckCircle2 className="w-5 h-5 mr-3" />
-        <p className="font-medium">
-          <span className="font-bold">{compliantVolunteers}</span> voluntarios cumplen con su documentación.
-        </p>
-      </div>
+
+
     </div>
   );
 }
