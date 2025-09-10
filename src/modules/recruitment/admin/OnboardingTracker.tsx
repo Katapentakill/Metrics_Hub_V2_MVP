@@ -1,4 +1,4 @@
-//src/modules/recruitment/admin/OnboardingTracker.tsx
+// src/modules/recruitment/admin/OnboardingTracker.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -10,7 +10,6 @@ import {
 } from '@/lib/data/mockRecruitmentData';
 
 import {
-  Pencil,
   Mail,
   Phone,
   Globe,
@@ -20,8 +19,8 @@ import {
   Clock,
   Plus,
   Minus,
-  Trash,
-  PlusCircle,
+  Search,
+  Filter,
 } from 'lucide-react';
 
 // Genera los datos una sola vez fuera del componente
@@ -80,71 +79,44 @@ const getStatusColor = (status: CandidateStatus) => {
   }
 };
 
-// Opciones CPT/OPT
+// Opciones CPT/OPT (ajustado para que todos inicien con mayúscula)
 const cptOptOptions: CptOptStatus[] = [
   'No required',
-  'requested',
-  'received',
-  'approved',
-  'rejected',
+  'Requested',
+  'Received',
+  'Approved',
+  'Rejected',
 ];
 
-// Colores para documentos CPT/OPT
+// Colores para documentos CPT/OPT (ajustado para los nuevos nombres)
 const c_optStatusColors = {
   'No required': 'bg-slate-100 text-slate-700',
-  requested: 'bg-blue-100 text-blue-700',
-  received: 'bg-purple-100 text-purple-700',
-  approved: 'bg-green-100 text-green-700',
-  rejected: 'bg-red-100 text-red-700',
+  'Requested': 'bg-blue-100 text-blue-700',
+  'Received': 'bg-purple-100 text-purple-700',
+  'Approved': 'bg-green-100 text-green-700',
+  'Rejected': 'bg-red-100 text-red-700',
 };
 
 export default function OnboardingTracker() {
-  const [candidates, setCandidates] = useState<MockCandidate[]>(initialMockData);
+  const [candidates] = useState<MockCandidate[]>(initialMockData);
   const [expanded, setExpanded] = useState<string[]>([]);
-
-  const handleFieldChange = (
-    candidateId: string,
-    field: keyof MockCandidate,
-    value: any
-  ) => {
-    setCandidates((prev) =>
-      prev.map((c) => (c.id === candidateId ? { ...c, [field]: value } : c))
-    );
-  };
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>('All');
+  const [filterType, setFilterType] = useState<string>('All');
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
-
-  const handleDelete = (id: string) => {
-    setCandidates((prev) => prev.filter((c) => c.id !== id));
-    console.log(`Candidate with ID ${id} temporarily deleted.`);
-  };
-
-  const handleAdd = (candidate: MockCandidate) => {
-    console.log(
-      `Candidate ${candidate.name} added to the active volunteers database.`
-    );
-  };
-
-  const statusNotifications: Record<CandidateStatus, string> = {
-    'Application Received': 'Notification: “HR Review, Schedule Interview”',
-    'Accepted by HR': 'Notification: “PM Schedule Interview”',
-    'Rejected by HR': 'Notification: “Rejected”',
-    'Accepted by PM':
-      'Notification: “PM Sent form and HR Send Offer Letter”',
-    'Rejected by PM': 'Notification: “Rejected”',
-    'Rejected by Candidate': 'Notification: “Rejected”',
-    'Accepted by Candidate':
-      'Notification: “HR Agreement, Request Docs, Welcome Letter, Records & Access”',
-    'Onboard': 'Notification: “Done”',
-    'HR Review': 'Notification: “HR Review in progress”',
-    'Interview Scheduled': 'Notification: “Interview Scheduled”',
-    'Interview Completed': 'Notification: “Interview Completed”',
-    'Offer Sent': 'Notification: “Offer Sent”',
-  };
+  
+  // Lógica de filtrado y búsqueda combinada
+  const filteredCandidates = candidates.filter(candidate => {
+      const matchesSearch = candidate.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus === 'All' || candidate.applicationStatus === filterStatus;
+      const matchesType = filterType === 'All' || candidate.volunteerType === filterType;
+      return matchesSearch && matchesStatus && matchesType;
+  });
 
   if (candidates.length === 0) {
     return (
@@ -158,6 +130,54 @@ export default function OnboardingTracker() {
 
   return (
     <div>
+      {/* Sección de Filtros y Búsqueda */}
+      <div className="bg-slate-100 rounded-lg p-6 mb-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
+        <div className="flex items-center space-x-2 text-slate-600 font-semibold">
+          <Filter size={20} />
+          <span>Filters</span>
+        </div>
+        
+        {/* Barra de Búsqueda */}
+        <div className="relative w-full md:w-1/3">
+          <input
+            type="text"
+            placeholder="Search candidates..."
+            className="w-full h-10 pl-10 pr-4 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 placeholder:text-slate-500 transition-all duration-200"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+        </div>
+
+        {/* Filtro de Estatus */}
+        <div className="w-full md:w-1/3">
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="w-full h-10 px-4 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-700"
+          >
+            <option value="All">All Statuses</option>
+            {allStatuses.map(status => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </select>
+        </div>
+        
+        {/* Filtro de Tipo de Voluntario */}
+        <div className="w-full md:w-1/3">
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="w-full h-10 px-4 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-700"
+          >
+            <option value="All">All Volunteer Types</option>
+            {volunteerTypes.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+      
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200">
@@ -178,13 +198,10 @@ export default function OnboardingTracker() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                   CPT/OPT Docs
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  HR Actions
-                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-slate-200">
-              {candidates.map((candidate) => (
+              {filteredCandidates.map((candidate) => (
                 <React.Fragment key={candidate.id}>
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
@@ -202,138 +219,50 @@ export default function OnboardingTracker() {
                         <span>{candidate.name}</span>
                       </div>
                     </td>
-                    {/* Estatus de Aplicación */}
+                    {/* Estatus de Aplicación (ahora de solo lectura) */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      <select
-                        value={candidate.applicationStatus}
-                        onChange={(e) =>
-                          handleFieldChange(
-                            candidate.id,
-                            'applicationStatus',
-                            e.target.value as CandidateStatus
-                          )
-                        }
-                        className={`block w-full px-2 py-1 border rounded-md text-xs font-semibold ${getStatusColor(
-                          candidate.applicationStatus
-                        )}`}
+                      <span
+                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(candidate.applicationStatus)}`}
                       >
-                        {allStatuses.map((status) => (
-                          <option key={status} value={status}>
-                            {status}
-                          </option>
-                        ))}
-                      </select>
+                        {candidate.applicationStatus}
+                      </span>
                     </td>
-                    {/* Rol Aplicado */}
+                    {/* Rol Aplicado (ahora de solo lectura) */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      <select
-                        value={candidate.role}
-                        onChange={(e) =>
-                          handleFieldChange(candidate.id, 'role', e.target.value)
-                        }
-                        className="block w-full px-2 py-1 border rounded-md text-sm text-slate-700"
-                      >
-                        {roles.map((role) => (
-                          <option key={role} value={role}>
-                            {role}
-                          </option>
-                        ))}
-                      </select>
+                      <span className="text-sm text-slate-700">
+                        {candidate.role}
+                      </span>
                     </td>
-                    {/* Tipo Voluntario */}
+                    {/* Tipo Voluntario (ahora de solo lectura) */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      <select
-                        value={candidate.volunteerType}
-                        onChange={(e) =>
-                          handleFieldChange(
-                            candidate.id,
-                            'volunteerType',
-                            e.target.value
-                          )
-                        }
-                        className="block w-full px-2 py-1 border rounded-md text-sm text-slate-700"
-                      >
-                        {volunteerTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        ))}
-                      </select>
+                      <span className="text-sm text-slate-700">
+                        {candidate.volunteerType}
+                      </span>
                     </td>
-                    {/* Documentos CPT/OPT */}
+                    {/* Documentos CPT/OPT (ahora de solo lectura) */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      <select
-                        value={candidate.cptOptStatus || 'No required'}
-                        onChange={(e) =>
-                          handleFieldChange(
-                            candidate.id,
-                            'cptOptStatus',
-                            e.target.value as CptOptStatus
-                          )
-                        }
-                        className={`block w-full px-2 py-1 border rounded-md text-xs font-semibold ${
-                          c_optStatusColors[candidate.cptOptStatus]
-                        }`}
-                        disabled={candidate.volunteerType === 'Regular'}
+                      <span
+                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${c_optStatusColors[candidate.cptOptStatus as keyof typeof c_optStatusColors]}`}
                       >
-                        {cptOptOptions.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    {/* Acciones */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
-                      {['Rejected by HR', 'Rejected by PM', 'Rejected by Candidate'].includes(
-                        candidate.applicationStatus
-                      ) && (
-                        <button
-                          onClick={() => handleDelete(candidate.id)}
-                          className="bg-red-100 text-red-700 px-2 py-1 rounded hover:bg-red-200 flex items-center"
-                        >
-                          <Trash size={16} className="mr-1" /> Delete
-                        </button>
-                      )}
-                      {candidate.applicationStatus === 'Onboard' && (
-                        <button
-                          onClick={() => handleAdd(candidate)}
-                          className="bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200 flex items-center"
-                        >
-                          <PlusCircle size={16} className="mr-1" /> Add
-                        </button>
-                      )}
+                        {candidate.cptOptStatus}
+                      </span>
                     </td>
                   </tr>
                   {/* BLOQUE EXPANDIDO */}
                   {expanded.includes(candidate.id) && (
                     <tr>
-                      <td colSpan={6} className="px-6 py-4 bg-slate-50">
+                      <td colSpan={5} className="px-6 py-4 bg-slate-50">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-slate-600">
                           {/* CONTACTO */}
                           <div className="space-y-1">
                             <p className="font-semibold text-slate-800">Contact</p>
                             <div className="flex items-center space-x-2">
                               <Mail size={16} />
-                              <input
-                                type="email"
-                                value={candidate.email}
-                                onChange={(e) =>
-                                  handleFieldChange(candidate.id, 'email', e.target.value)
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-full"
-                              />
+                              <span>{candidate.email}</span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Phone size={16} />
-                              <input
-                                type="text"
-                                value={candidate.phone}
-                                onChange={(e) =>
-                                  handleFieldChange(candidate.id, 'phone', e.target.value)
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-full"
-                              />
+                              <span>{candidate.phone}</span>
                             </div>
                           </div>
 
@@ -342,31 +271,11 @@ export default function OnboardingTracker() {
                             <p className="font-semibold text-slate-800">Documents</p>
                             <div className="flex items-center space-x-2">
                               <FileText size={16} />
-                              <input
-                                type="url"
-                                placeholder="CV Link"
-                                value={candidate.cvLink ?? ''}
-                                onChange={(e) =>
-                                  handleFieldChange(candidate.id, 'cvLink', e.target.value)
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-full"
-                              />
+                              <a href={candidate.cvLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">{candidate.cvLink ? 'View CV' : 'N/A'}</a>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Briefcase size={16} />
-                              <input
-                                type="url"
-                                placeholder="Offer Letter Link"
-                                value={candidate.offerLetterLink ?? ''}
-                                onChange={(e) =>
-                                  handleFieldChange(
-                                    candidate.id,
-                                    'offerLetterLink',
-                                    e.target.value
-                                  )
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-full"
-                              />
+                              <a href={candidate.offerLetterLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">{candidate.offerLetterLink ? 'View Offer Letter' : 'N/A'}</a>
                             </div>
                           </div>
 
@@ -393,39 +302,15 @@ export default function OnboardingTracker() {
                             </div>
                             <div className="flex items-center space-x-2">
                               <Globe size={16} />
-                              <input
-                                type="text"
-                                placeholder="Timezone"
-                                value={candidate.timezone ?? ''}
-                                onChange={(e) =>
-                                  handleFieldChange(candidate.id, 'timezone', e.target.value)
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-full"
-                              />
+                              <span>Timezone: {candidate.timezone ?? 'N/A'}</span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Clock size={16} />
-                              <input
-                                type="number"
-                                value={candidate.hrsWk ?? ''}
-                                onChange={(e) =>
-                                  handleFieldChange(candidate.id, 'hrsWk', Number(e.target.value))
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-24"
-                              />
-                              <span>hrs/week</span>
+                              <span>{candidate.hrsWk ?? 'N/A'} hrs/week</span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
-                              <input
-                                type="text"
-                                placeholder="Duration"
-                                value={candidate.duration ?? ''}
-                                onChange={(e) =>
-                                  handleFieldChange(candidate.id, 'duration', e.target.value)
-                                }
-                                className="border rounded px-2 py-1 text-sm text-slate-700 w-32"
-                              />
+                              <span>Duration: {candidate.duration ?? 'N/A'}</span>
                             </div>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
@@ -445,21 +330,6 @@ export default function OnboardingTracker() {
             </tbody>
           </table>
         </div>
-      </div>
-      {/* BOTÓN AÑADIR CANDIDATO */}
-      <div className="px-6 py-4 bg-slate-50 flex justify-end">
-        <button
-          onClick={() => {
-            const randomCandidate =
-              initialMockData[Math.floor(Math.random() * initialMockData.length)];
-            const newCandidate = { ...randomCandidate, id: `new-${Date.now()}` };
-            setCandidates((prev) => [...prev, newCandidate]);
-            setExpanded((prev) => [...prev, newCandidate.id]); // auto-expand
-          }}
-          className="bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 flex items-center"
-        >
-          <Plus size={16} className="mr-1" /> Add Candidate
-        </button>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-//src/lib/data/mockRecruitmentData.ts
+// src/lib/data/mockRecruitmentData.ts
 import { faker } from '@faker-js/faker';
 
 // Tipos de estados de candidatos
@@ -25,10 +25,10 @@ export type ToDoTask =
 // Estado CPT/OPT
 export type CptOptStatus =
   | 'No required'
-  | 'requested'
-  | 'received'
-  | 'approved'
-  | 'rejected';
+  | 'Requested'
+  | 'Received'
+  | 'Approved'
+  | 'Rejected';
 
 // Interfaz para candidatos
 export interface MockCandidate {
@@ -152,10 +152,10 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       hrsWk: faker.number.int({ min: 10, max: 40 }),
       cptOptStatus: faker.helpers.arrayElement([
         'No required',
-        'requested',
-        'received',
-        'approved',
-        'rejected',
+        'Requested',
+        'Received',
+        'Approved',
+        'Rejected',
       ]),
       // NUEVOS CAMPOS AÑADIDOS
       volunteerType: faker.helpers.arrayElement(volunteerTypes),

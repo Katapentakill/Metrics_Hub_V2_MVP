@@ -13,7 +13,8 @@ import {
   ChevronDown,
   LogOut,
   User,
-  Shield
+  Shield,
+  ClipboardList // Importa el nuevo ícono
 } from 'lucide-react';
 import ActiveLink from '../../ActiveLink';
 
@@ -29,6 +30,7 @@ export default function HeaderAdmin() {
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showManagementMenu, setShowManagementMenu] = useState(false); // Estado para el nuevo menú
   const [notificationCount] = useState(3); // Simulado
 
   useEffect(() => {
@@ -68,14 +70,41 @@ export default function HeaderAdmin() {
               <Users className="w-4 h-4 inline mr-2" />
               Usuarios
             </ActiveLink>
-            <ActiveLink href="/admin/projects" className="nav-link px-3 py-2 rounded-lg text-sm">
-              <FolderOpen className="w-4 h-4 inline mr-2" />
-              Proyectos
-            </ActiveLink>
-            <ActiveLink href="/admin/reports" className="nav-link px-3 py-2 rounded-lg text-sm">
-              <FileText className="w-4 h-4 inline mr-2" />
-              Reportes
-            </ActiveLink>
+            
+            {/* Nuevo menú desplegable de Gestión */}
+            <div className="relative">
+              <button
+                onClick={() => setShowManagementMenu(!showManagementMenu)}
+                className="nav-link px-3 py-2 rounded-lg text-sm flex items-center"
+              >
+                <FolderOpen className="w-4 h-4 inline mr-2" />
+                Gestión
+                <ChevronDown className={`w-4 h-4 ml-1 transform transition-transform ${showManagementMenu ? 'rotate-180' : 'rotate-0'}`} />
+              </button>
+
+              {showManagementMenu && (
+                <div className="absolute left-0 top-11 w-48 card p-2 space-y-1 z-50">
+                  <ActiveLink href="/admin/projects" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <FolderOpen className="w-4 h-4" />
+                    <span>Proyectos</span>
+                  </ActiveLink>
+                  <ActiveLink href="/admin/reports" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <FileText className="w-4 h-4" />
+                    <span>Reportes</span>
+                  </ActiveLink>
+                  <ActiveLink href="/admin/recruitment" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <ClipboardList className="w-4 h-4" />
+                    <span>Onboarding</span>
+                  </ActiveLink>
+                  <ActiveLink href="/admin/volunteers" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <ClipboardList className="w-4 h-4" />
+                    <span>Volunteers</span>
+                  </ActiveLink>
+                </div>
+              )}
+            </div>
+            {/* Fin del nuevo menú */}
+
             <ActiveLink href="/admin/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
               <Settings className="w-4 h-4 inline mr-2" />
               Configuración
