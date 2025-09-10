@@ -27,7 +27,7 @@ import {
 // Genera los datos una sola vez fuera del componente
 const initialMockData = getMockRecruitmentData(15);
 
-// Lista de estados de reclutamiento
+// Lista de estados de reclutamiento (ajustado para que todos inicien con mayúscula)
 const allStatuses: CandidateStatus[] = [
   'Application Received',
   'HR Review',
@@ -80,22 +80,22 @@ const getStatusColor = (status: CandidateStatus) => {
   }
 };
 
-// Opciones CPT/OPT
+// Opciones CPT/OPT (ajustado para que todos inicien con mayúscula)
 const cptOptOptions: CptOptStatus[] = [
   'No required',
-  'requested',
-  'received',
-  'approved',
-  'rejected',
+  'Requested',
+  'Received',
+  'Approved',
+  'Rejected',
 ];
 
-// Colores para documentos CPT/OPT
+// Colores para documentos CPT/OPT (ajustado para los nuevos nombres)
 const c_optStatusColors = {
   'No required': 'bg-slate-100 text-slate-700',
-  requested: 'bg-blue-100 text-blue-700',
-  received: 'bg-purple-100 text-purple-700',
-  approved: 'bg-green-100 text-green-700',
-  rejected: 'bg-red-100 text-red-700',
+  'Requested': 'bg-blue-100 text-blue-700',
+  'Received': 'bg-purple-100 text-purple-700',
+  'Approved': 'bg-green-100 text-green-700',
+  'Rejected': 'bg-red-100 text-red-700',
 };
 
 export default function OnboardingTracker() {
