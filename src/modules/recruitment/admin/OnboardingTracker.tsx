@@ -79,7 +79,7 @@ const getStatusColor = (status: CandidateStatus) => {
   }
 };
 
-// Opciones CPT/OPT (ajustado para que todos inicien con mayúscula)
+// Opciones CPT/OPT
 const cptOptOptions: CptOptStatus[] = [
   'No required',
   'Requested',
@@ -88,7 +88,7 @@ const cptOptOptions: CptOptStatus[] = [
   'Rejected',
 ];
 
-// Colores para documentos CPT/OPT (ajustado para los nuevos nombres)
+// Colores para documentos CPT/OPT
 const c_optStatusColors = {
   'No required': 'bg-slate-100 text-slate-700',
   'Requested': 'bg-blue-100 text-blue-700',
@@ -109,13 +109,17 @@ export default function OnboardingTracker() {
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
-  
+
   // Lógica de filtrado y búsqueda combinada
-  const filteredCandidates = candidates.filter(candidate => {
-      const matchesSearch = candidate.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesStatus = filterStatus === 'All' || candidate.applicationStatus === filterStatus;
-      const matchesType = filterType === 'All' || candidate.volunteerType === filterType;
-      return matchesSearch && matchesStatus && matchesType;
+  const filteredCandidates = candidates.filter((candidate) => {
+    const matchesSearch = candidate.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === 'All' || candidate.applicationStatus === filterStatus;
+    const matchesType =
+      filterType === 'All' || candidate.volunteerType === filterType;
+    return matchesSearch && matchesStatus && matchesType;
   });
 
   if (candidates.length === 0) {
@@ -136,7 +140,7 @@ export default function OnboardingTracker() {
           <Filter size={20} />
           <span>Filters</span>
         </div>
-        
+
         {/* Barra de Búsqueda */}
         <div className="relative w-full md:w-1/3">
           <input
@@ -157,12 +161,14 @@ export default function OnboardingTracker() {
             className="w-full h-10 px-4 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-700"
           >
             <option value="All">All Statuses</option>
-            {allStatuses.map(status => (
-              <option key={status} value={status}>{status}</option>
+            {allStatuses.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
             ))}
           </select>
         </div>
-        
+
         {/* Filtro de Tipo de Voluntario */}
         <div className="w-full md:w-1/3">
           <select
@@ -171,13 +177,15 @@ export default function OnboardingTracker() {
             className="w-full h-10 px-4 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-700"
           >
             <option value="All">All Volunteer Types</option>
-            {volunteerTypes.map(type => (
-              <option key={type} value={type}>{type}</option>
+            {volunteerTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
             ))}
           </select>
         </div>
       </div>
-      
+
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200">
@@ -219,30 +227,36 @@ export default function OnboardingTracker() {
                         <span>{candidate.name}</span>
                       </div>
                     </td>
-                    {/* Estatus de Aplicación (ahora de solo lectura) */}
+                    {/* Estatus de Aplicación */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                       <span
-                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(candidate.applicationStatus)}`}
+                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
+                          candidate.applicationStatus
+                        )}`}
                       >
                         {candidate.applicationStatus}
                       </span>
                     </td>
-                    {/* Rol Aplicado (ahora de solo lectura) */}
+                    {/* Rol Aplicado */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                       <span className="text-sm text-slate-700">
                         {candidate.role}
                       </span>
                     </td>
-                    {/* Tipo Voluntario (ahora de solo lectura) */}
+                    {/* Tipo Voluntario */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                       <span className="text-sm text-slate-700">
                         {candidate.volunteerType}
                       </span>
                     </td>
-                    {/* Documentos CPT/OPT (ahora de solo lectura) */}
+                    {/* Documentos CPT/OPT */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                       <span
-                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${c_optStatusColors[candidate.cptOptStatus as keyof typeof c_optStatusColors]}`}
+                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+                          c_optStatusColors[
+                            candidate.cptOptStatus as keyof typeof c_optStatusColors
+                          ]
+                        }`}
                       >
                         {candidate.cptOptStatus}
                       </span>
@@ -255,7 +269,9 @@ export default function OnboardingTracker() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-slate-600">
                           {/* CONTACTO */}
                           <div className="space-y-1">
-                            <p className="font-semibold text-slate-800">Contact</p>
+                            <p className="font-semibold text-slate-800">
+                              Contact
+                            </p>
                             <div className="flex items-center space-x-2">
                               <Mail size={16} />
                               <span>{candidate.email}</span>
@@ -268,20 +284,50 @@ export default function OnboardingTracker() {
 
                           {/* DOCUMENTOS DETALLADOS */}
                           <div className="space-y-1">
-                            <p className="font-semibold text-slate-800">Documents</p>
+                            <p className="font-semibold text-slate-800">
+                              Documents
+                            </p>
+
+                            {/* CV */}
                             <div className="flex items-center space-x-2">
                               <FileText size={16} />
-                              <a href={candidate.cvLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">{candidate.cvLink ? 'View CV' : 'N/A'}</a>
+                              {candidate.cvLink ? (
+                                <a
+                                  href={candidate.cvLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 hover:underline truncate"
+                                >
+                                  View CV
+                                </a>
+                              ) : (
+                                <span className="text-slate-500">N/A</span>
+                              )}
                             </div>
+
+                            {/* Offer Letter */}
                             <div className="flex items-center space-x-2">
                               <Briefcase size={16} />
-                              <a href={candidate.offerLetterLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">{candidate.offerLetterLink ? 'View Offer Letter' : 'N/A'}</a>
+                              {candidate.offerLetterLink ? (
+                                <a
+                                  href={candidate.offerLetterLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 hover:underline truncate"
+                                >
+                                  View Offer Letter
+                                </a>
+                              ) : (
+                                <span className="text-slate-500">N/A</span>
+                              )}
                             </div>
                           </div>
 
                           {/* HORARIOS Y ENTREVISTAS */}
                           <div className="space-y-1">
-                            <p className="font-semibold text-slate-800">Schedule & Interviews</p>
+                            <p className="font-semibold text-slate-800">
+                              Schedule & Interviews
+                            </p>
                             <div className="flex items-center space-x-2">
                               <Calendar size={16} />
                               <span>
