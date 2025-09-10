@@ -13,7 +13,11 @@ import {
   LogOut,
   User,
   Shield,
-  LayoutGrid
+  LayoutGrid,
+  FileText,
+  BarChart3,
+  BookOpen,
+  Kanban
 } from 'lucide-react';
 
 interface SessionData {
@@ -26,10 +30,16 @@ interface SessionData {
 
 const hrModules = [
   { name: 'Dashboard', href: '/hr/dashboard', icon: LayoutGrid },
-  { name: 'Voluntarios', href: '/hr/volunteers', icon: Users },
-  { name: 'Management', href: '/hr/management', icon: ClipboardList },
-  { name: 'Onboarding', href: '/hr/onboarding', icon: ClipboardList },
-  { name: 'Comunicaciones', href: '/hr/communications', icon: MessageSquare },
+  { name: 'Volunteers', href: '/hr/volunteers', icon: Users },
+  { name: 'Onboarding', href: '/hr/recruitment', icon: ClipboardList },
+  { name: 'Communications', href: '/hr/communications', icon: MessageSquare },
+];
+
+const hrManagementModules = [
+  { name: 'Training', href: '/hr/training', icon: BookOpen },
+  { name: 'Evaluation & Feedback', href: '/hr/feedback', icon: BarChart3 },
+  { name: 'Documents', href: '/hr/documents', icon: FileText },
+  { name: 'Task Board', href: '/hr/tasks', icon: Kanban },
 ];
 
 export default function HeaderHR() {
@@ -37,10 +47,11 @@ export default function HeaderHR() {
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showManagementMenu, setShowManagementMenu] = useState(false);
   const [notificationCount] = useState(2); // Simulado
 
   useEffect(() => {
-    // Simula la obtención de la sesión desde localStorage
+    // Simulates fetching session from localStorage
     const sessionData = localStorage.getItem('auth_session');
     if (sessionData) {
       setSession(JSON.parse(sessionData));
@@ -55,7 +66,7 @@ export default function HeaderHR() {
   return (
     <header className="nav-header fixed top-0 left-0 right-0 z-50 px-6 py-3 h-16">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
-        {/* Logo y título */}
+        {/* Logo and title */}
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -63,11 +74,11 @@ export default function HeaderHR() {
             </div>
             <div>
               <h1 className="text-lg font-bold text-gradient">Living Stones</h1>
-              <p className="text-xs text-muted -mt-1">Panel de RRHH</p>
+              <p className="text-xs text-muted -mt-1">HR Panel</p>
             </div>
           </div>
 
-          {/* Navegación principal */}
+          {/* Main navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
             {hrModules.map((module) => (
               <Link
@@ -83,12 +94,38 @@ export default function HeaderHR() {
                 {module.name}
               </Link>
             ))}
+            
+            {/* Dropdown menu for HR Management */}
+            <div className="relative">
+                <button
+                    onClick={() => setShowManagementMenu(!showManagementMenu)}
+                    className="nav-link px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition-colors flex items-center"
+                >
+                    <ClipboardList className="w-4 h-4 inline mr-2" />
+                    HR Management
+                    <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${showManagementMenu ? 'rotate-180' : ''}`} />
+                </button>
+                {showManagementMenu && (
+                    <div className="absolute top-11 left-0 w-60 card p-2 space-y-1 z-50">
+                        {hrManagementModules.map((module) => (
+                            <Link
+                                key={module.name}
+                                href={module.href}
+                                className={`flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors`}
+                            >
+                                <module.icon className="w-4 h-4" />
+                                <span>{module.name}</span>
+                            </Link>
+                        ))}
+                    </div>
+                )}
+            </div>
           </nav>
         </div>
 
-        {/* Acciones del usuario */}
+        {/* User actions */}
         <div className="flex items-center space-x-4">
-          {/* Notificaciones */}
+          {/* Notifications */}
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
@@ -103,25 +140,25 @@ export default function HeaderHR() {
             </button>
             {showNotifications && (
               <div className="absolute right-0 top-11 w-80 card p-4 space-y-3 z-50">
-                <h3 className="font-semibold text-sm text-slate-700">Notificaciones</h3>
+                <h3 className="font-semibold text-sm text-slate-700">Notifications</h3>
                 <div className="space-y-2">
                   <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
-                    <p className="text-sm font-medium text-blue-800">Nueva solicitud de voluntario</p>
-                    <p className="text-xs text-blue-600">José Pérez ha enviado su solicitud</p>
+                    <p className="text-sm font-medium text-blue-800">New volunteer application</p>
+                    <p className="text-xs text-blue-600">José Pérez has submitted their application</p>
                   </div>
                   <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-                    <p className="text-sm font-medium text-yellow-800">Comunicado pendiente</p>
-                    <p className="text-xs text-yellow-600">Revisar el comunicado de bienvenida</p>
+                    <p className="text-sm font-medium text-yellow-800">Pending announcement</p>
+                    <p className="text-xs text-yellow-600">Review the welcome announcement</p>
                   </div>
                 </div>
                 <button className="w-full text-sm text-primary hover:underline">
-                  Ver todas las notificaciones
+                  View all notifications
                 </button>
               </div>
             )}
           </div>
 
-          {/* Menú de usuario */}
+          {/* User menu */}
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
@@ -132,7 +169,7 @@ export default function HeaderHR() {
               </div>
               <div className="hidden md:block text-left">
                 <p className="text-sm font-medium text-slate-700">{session?.name || 'Admin'}</p>
-                <p className="text-xs text-muted -mt-0.5">RRHH</p>
+                <p className="text-xs text-muted -mt-0.5">HR</p>
               </div>
               <ChevronDown className="w-4 h-4 text-slate-500" />
             </button>
@@ -146,11 +183,11 @@ export default function HeaderHR() {
                 <div className="py-1 space-y-1">
                   <Link href="/hr/profile" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
                     <User className="w-4 h-4" />
-                    <span>Mi Perfil</span>
+                    <span>My Profile</span>
                   </Link>
                   <Link href="/hr/settings" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
                     <ClipboardList className="w-4 h-4" />
-                    <span>Gestión</span>
+                    <span>Settings</span>
                   </Link>
                   <hr className="my-1 border-slate-200" />
                   <button
@@ -158,7 +195,7 @@ export default function HeaderHR() {
                     className="flex items-center space-x-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full text-left"
                   >
                     <LogOut className="w-4 h-4" />
-                    <span>Cerrar Sesión</span>
+                    <span>Log Out</span>
                   </button>
                 </div>
               </div>
