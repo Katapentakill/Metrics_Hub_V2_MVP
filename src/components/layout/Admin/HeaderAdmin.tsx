@@ -61,7 +61,7 @@ export default function HeaderAdmin() {
           </div>
 
           {/* Navegación principal */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-4">
             <ActiveLink href="/admin/dashboard" className="nav-link px-3 py-2 rounded-lg text-sm">
               <BarChart3 className="w-4 h-4 inline mr-2" />
               Dashboard
@@ -99,6 +99,10 @@ export default function HeaderAdmin() {
                   <ActiveLink href="/admin/volunteers" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
                     <ClipboardList className="w-4 h-4" />
                     <span>Volunteers</span>
+                  </ActiveLink>
+                  <ActiveLink href="/admin/documents" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <FileText className="w-4 h-4" />
+                    <span>Documents</span>
                   </ActiveLink>
                 </div>
               )}
