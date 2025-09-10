@@ -1,66 +1,171 @@
 // src/components/layout/HR/HeaderHR.tsx
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation'; // Importa useRouter
-import { LayoutDashboard, UserPlus, MessageSquare, Search, FileText,ClipboardList,LayoutGrid, LogOut } from 'lucide-react'; // Importa el ícono de LogOut
-import { useState } from 'react'; // Importa useState si lo necesitas para la sesión
+import { usePathname } from 'next/navigation';
+import { 
+  ClipboardList, 
+  Users, 
+  MessageSquare, 
+  Bell,
+  ChevronDown,
+  LogOut,
+  User,
+  Shield,
+  LayoutGrid
+} from 'lucide-react';
+
+interface SessionData {
+  userId: string;
+  email: string;
+  name: string;
+  role: string;
+  avatar?: string;
+}
 
 const hrModules = [
-  { name: 'Dashboard', href: '/hr/dashboard', icon: ClipboardList },
-  { name: 'Volunteers', href: '/hr/volunteers', icon: ClipboardList },
+  { name: 'Dashboard', href: '/hr/dashboard', icon: LayoutGrid },
+  { name: 'Voluntarios', href: '/hr/volunteers', icon: Users },
   { name: 'Management', href: '/hr/management', icon: ClipboardList },
-  { name: 'Onboarding', href: '/hr/recruitment', icon: ClipboardList },
+  { name: 'Onboarding', href: '/hr/onboarding', icon: ClipboardList },
   { name: 'Comunicaciones', href: '/hr/communications', icon: MessageSquare },
 ];
 
 export default function HeaderHR() {
   const pathname = usePathname();
-  const router = useRouter(); // Inicializa el router
+  const [session, setSession] = useState<SessionData | null>(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notificationCount] = useState(2); // Simulado
 
-  // Función para manejar el cierre de sesión
+  useEffect(() => {
+    // Simula la obtención de la sesión desde localStorage
+    const sessionData = localStorage.getItem('auth_session');
+    if (sessionData) {
+      setSession(JSON.parse(sessionData));
+    }
+  }, []);
+
   const handleLogout = () => {
-    // Elimina el token o la información de la sesión del localStorage
-    localStorage.removeItem('auth_session'); 
-    // Redirige al usuario a la página de inicio de sesión
-    router.push('/login');
+    localStorage.removeItem('auth_session');
+    window.location.href = '/login';
   };
 
   return (
-    <header className="bg-white shadow-sm p-4 border-b border-slate-200">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center">
-          <span className="text-xl font-bold text-emerald-600">Living Stones</span>
-          <span className="ml-2 text-sm text-slate-500">Panel de RRHH</span>
-        </div>
-        <ul className="flex items-center space-x-6">
-          {hrModules.map((module) => (
-            <li key={module.name}>
+    <header className="nav-header fixed top-0 left-0 right-0 z-50 px-6 py-3 h-16">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
+        {/* Logo y título */}
+        <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <Shield className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-gradient">Living Stones</h1>
+              <p className="text-xs text-muted -mt-1">Panel de RRHH</p>
+            </div>
+          </div>
+
+          {/* Navegación principal */}
+          <nav className="hidden lg:flex items-center space-x-1">
+            {hrModules.map((module) => (
               <Link
+                key={module.name}
                 href={module.href}
-                className={`flex items-center text-sm font-medium p-2 rounded-lg transition-colors ${
-                  pathname === module.href
-                    ? 'bg-emerald-100 text-emerald-700'
+                className={`nav-link px-3 py-2 rounded-lg text-sm transition-colors ${
+                  pathname.startsWith(module.href)
+                    ? 'bg-purple-100 text-purple-700 font-semibold'
                     : 'text-slate-600 hover:bg-slate-100'
                 }`}
               >
-                <module.icon className="w-4 h-4 mr-2" />
+                <module.icon className="w-4 h-4 inline mr-2" />
                 {module.name}
               </Link>
-            </li>
-          ))}
-          {/* Añade el botón de Cerrar Sesión */}
-          <li>
+            ))}
+          </nav>
+        </div>
+
+        {/* Acciones del usuario */}
+        <div className="flex items-center space-x-4">
+          {/* Notificaciones */}
+          <div className="relative">
             <button
-              onClick={handleLogout}
-              className="flex items-center text-sm font-medium p-2 rounded-lg transition-colors text-slate-600 hover:bg-slate-100"
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors"
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Cerrar Sesión
+              <Bell className="w-5 h-5 text-slate-600" />
+              {notificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  {notificationCount}
+                </span>
+              )}
             </button>
-          </li>
-        </ul>
-      </nav>
+            {showNotifications && (
+              <div className="absolute right-0 top-11 w-80 card p-4 space-y-3 z-50">
+                <h3 className="font-semibold text-sm text-slate-700">Notificaciones</h3>
+                <div className="space-y-2">
+                  <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                    <p className="text-sm font-medium text-blue-800">Nueva solicitud de voluntario</p>
+                    <p className="text-xs text-blue-600">José Pérez ha enviado su solicitud</p>
+                  </div>
+                  <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                    <p className="text-sm font-medium text-yellow-800">Comunicado pendiente</p>
+                    <p className="text-xs text-yellow-600">Revisar el comunicado de bienvenida</p>
+                  </div>
+                </div>
+                <button className="w-full text-sm text-primary hover:underline">
+                  Ver todas las notificaciones
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Menú de usuario */}
+          <div className="relative">
+            <button
+              onClick={() => setShowUserMenu(!showUserMenu)}
+              className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-white" />
+              </div>
+              <div className="hidden md:block text-left">
+                <p className="text-sm font-medium text-slate-700">{session?.name || 'Admin'}</p>
+                <p className="text-xs text-muted -mt-0.5">RRHH</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-slate-500" />
+            </button>
+
+            {showUserMenu && (
+              <div className="absolute right-0 top-11 w-56 card p-2 z-50">
+                <div className="px-3 py-2 border-b border-slate-200">
+                  <p className="text-sm font-medium text-slate-700">{session?.name}</p>
+                  <p className="text-xs text-muted">{session?.email}</p>
+                </div>
+                <div className="py-1 space-y-1">
+                  <Link href="/hr/profile" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <User className="w-4 h-4" />
+                    <span>Mi Perfil</span>
+                  </Link>
+                  <Link href="/hr/settings" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                    <ClipboardList className="w-4 h-4" />
+                    <span>Gestión</span>
+                  </Link>
+                  <hr className="my-1 border-slate-200" />
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full text-left"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Cerrar Sesión</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
