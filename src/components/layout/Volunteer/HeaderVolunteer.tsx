@@ -61,27 +61,27 @@ export default function HeaderLead() {
 
           {/* Navegación principal */}
           <nav className="hidden lg:flex items-center space-x-1 flex-shrink-0">
-            <ActiveLink href="/lead_project/dashboard" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/volunteer/dashboard" className="nav-link px-3 py-2 rounded-lg text-sm">
               <BarChart3 className="w-4 h-4 inline mr-2" />
               Dashboard
             </ActiveLink>
-            <ActiveLink href="/lead_project/users" className="nav-link px-3 py-2 rounded-lg text-sm">
-              <Users className="w-4 h-4 inline mr-2" />
-              Mi Equipo
-            </ActiveLink>
-            <ActiveLink href="/lead_project/projects" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/volunteer/projects" className="nav-link px-3 py-2 rounded-lg text-sm">
               <FolderOpen className="w-4 h-4 inline mr-2" />
-              Proyectos
+              Mis Proyectos
             </ActiveLink>
-            <ActiveLink href="/lead_project/reports" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/volunteer/reports" className="nav-link px-3 py-2 rounded-lg text-sm">
               <FileText className="w-4 h-4 inline mr-2" />
-              Tareas
+              Mis Tareas
             </ActiveLink>
-            <ActiveLink href="/lead_project/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/volunteer/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
               <MessageSquare className="w-4 h-4 inline mr-2" />
-              Comunicación
+              Mensajes
             </ActiveLink>
-            {/* <ActiveLink href="/lead_project/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/volunteer/profile" className="nav-link px-3 py-2 rounded-lg text-sm">
+              <Users className="w-4 h-4 inline mr-2" />
+              Perfil
+            </ActiveLink>
+            {/* <ActiveLink href="/volunteer/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
               <Settings className="w-4 h-4 inline mr-2" />
               Configuración
             </ActiveLink> */}
@@ -163,11 +163,11 @@ export default function HeaderLead() {
                   <p className="text-xs text-muted">{session?.email}</p>
                 </div>
                 <div className="py-1 space-y-1">
-                  <a href="/lead_project/profile" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                  <a href="/volunteer/profile" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
                     <User className="w-4 h-4" />
                     <span>Mi Perfil</span>
                   </a>
-                  <a href="/lead_project/settings" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                  <a href="/volunteer/settings" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
                     <Settings className="w-4 h-4" />
                     <span>Configuración</span>
                   </a>
