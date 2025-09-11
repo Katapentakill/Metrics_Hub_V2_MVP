@@ -1,4 +1,3 @@
-// src/app/lead_project/layout.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,10 +5,29 @@ import { redirect } from 'next/navigation';
 import HeaderLead from '@/components/layout/Lead/HeaderLead';
 import FooterLead from '@/components/layout/Lead/FooterLead';
 
+/**
+ * Props para el layout del módulo **Lead Project**.
+ * 
+ * @property children - Contenido que se renderiza dentro del layout.
+ */
 interface LeadProjectLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * Layout principal para el rol **Líder de Proyecto**.
+ * 
+ * - Verifica que el usuario tenga sesión activa y el rol `lead_project`.
+ * - Si no está autorizado, redirige al login.
+ * - Si está autorizado, renderiza el header, footer y el contenido central.
+ * 
+ * @example
+ * ```tsx
+ * <LeadProjectLayout>
+ *   <DashboardPage />
+ * </LeadProjectLayout>
+ * ```
+ */
 export default function LeadProjectLayout({ children }: LeadProjectLayoutProps) {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

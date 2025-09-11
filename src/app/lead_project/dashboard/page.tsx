@@ -1,4 +1,3 @@
-// src/app/lead_project/dashboard/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -22,26 +21,53 @@ import {
 // import UpcomingDeadlines from '@/modules/dashboard/lead/UpcomingDeadlines';
 // import TeamPerformance from '@/modules/dashboard/lead/TeamPerformance';
 
+/**
+ * Representa las métricas principales que se muestran
+ * en el **dashboard de Líder de Proyecto**.
+ */
 interface LeadDashboardData {
+  /** Número total de proyectos asignados al líder. */
   totalProjects: number;
+  /** Proyectos actualmente activos. */
   activeProjects: number;
+  /** Proyectos finalizados con éxito. */
   completedProjects: number;
+  /** Número total de miembros en los equipos del líder. */
   totalTeamMembers: number;
+  /** Miembros activos en el periodo actual. */
   activeTeamMembers: number;
+  /** Total de tareas registradas en los proyectos. */
   totalTasks: number;
+  /** Tareas que ya fueron completadas. */
   completedTasks: number;
+  /** Cantidad de tareas atrasadas. */
   overdueTasks: number;
+  /** Deadlines próximos a cumplirse. */
   upcomingDeadlines: number;
+  /** Tareas completadas en el mes en curso. */
   thisMonthCompletions: number;
+  /** Porcentaje de productividad del equipo. */
   teamProductivity: number;
 }
 
+/**
+ * Página de **Dashboard del Líder de Proyecto**.
+ *
+ * - Simula la carga de datos relacionados con proyectos, tareas y equipos.
+ * - Muestra métricas clave en tarjetas con indicadores visuales.
+ * - Renderiza secciones de vista general, equipo asignado, deadlines y alertas.
+ * - Incluye placeholders de componentes que pueden ser implementados después.
+ */
 export default function LeadProjectDashboard() {
+  /** Estado con las métricas simuladas del dashboard. */
   const [data, setData] = useState<LeadDashboardData | null>(null);
+
+  /** Estado de carga mientras se simula la petición a la API. */
   const [isLoading, setIsLoading] = useState(true);
 
+  // Simulación de carga de datos
   useEffect(() => {
-    // Simular carga de datos específicos para Lead Project
+    
     const loadDashboardData = async () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       

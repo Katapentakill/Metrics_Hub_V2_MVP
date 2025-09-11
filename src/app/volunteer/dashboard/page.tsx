@@ -1,4 +1,3 @@
-// src/app/volunteer/dashboard/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -21,18 +20,41 @@ import MyTasks from '@/modules/dashboard/volunteer/MyTasks';
 import MyProjects from '@/modules/dashboard/volunteer/MyProjects';
 import UpcomingActivities from '@/modules/dashboard/volunteer/UpcomingActivities';
 
+/**
+ * Representa las métricas principales que se muestran
+ * en el **dashboard del Voluntario**.
+ */
 interface VolunteerDashboardData {
+  /** Número de tareas completadas por el voluntario. */
   tasksCompleted: number;
+  /** Total de tareas asignadas al voluntario. */
   totalTasks: number;
+  /** Cantidad de proyectos en los que participa actualmente. */
   activeProjects: number;
+  /** Total de horas de voluntariado acumuladas. */
   totalVolunteerHours: number;
+  /** Horas de voluntariado realizadas en el mes en curso. */
   thisMonthHours: number;
+  /** Próximo deadline asignado al voluntario. */
   nextDeadline: string;
+  /** Número de logros obtenidos. */
   achievements: number;
+  /** Meta semanal de horas establecida. */
   weeklyGoal: number;
+  /** Horas de voluntariado registradas en la semana actual. */
   weeklyProgress: number;
 }
 
+
+/**
+ * Página principal del **Dashboard del Voluntario**.
+ *
+ * - Simula la carga de datos personales del voluntario.
+ * - Muestra métricas de progreso, proyectos activos, horas registradas y próximos deadlines.
+ * - Incluye componentes secundarios como estadísticas personales, tareas, proyectos y actividades próximas.
+ *
+ * @returns Vista interactiva del panel de control para voluntarios.
+ */
 export default function VolunteerDashboard() {
   const [data, setData] = useState<VolunteerDashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);

@@ -1,4 +1,3 @@
-// src/app/volunteer/layout.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,10 +5,30 @@ import { redirect } from 'next/navigation';
 import HeaderVolunteer from '@/components/layout/Volunteer/HeaderVolunteer';
 import FooterVolunteer from '@/components/layout/Volunteer/FooterVolunteer';
 
+/**
+ * Props del layout para la sección de Voluntarios.
+ * 
+ * @property {React.ReactNode} children - Contenido de la página que se renderiza dentro del layout.
+ */
 interface VolunteerLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * Layout principal para el rol **Voluntario**.
+ * 
+ * - Valida la sesión en `localStorage` para asegurar que el usuario tenga rol `volunteer` o `unassigned`.
+ * - Redirige a `/login` si la sesión no existe o no es válida.
+ * - Muestra un estado de carga mientras se verifica la sesión.
+ * - Incluye el `HeaderVolunteer` y `FooterVolunteer`.
+ * 
+ * @example
+ * ```tsx
+ * <VolunteerLayout>
+ *   <VolunteerDashboard />
+ * </VolunteerLayout>
+ * ```
+ */
 export default function VolunteerLayout({ children }: VolunteerLayoutProps) {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
