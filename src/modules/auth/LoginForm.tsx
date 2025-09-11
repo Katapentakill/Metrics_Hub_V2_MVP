@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, Loader2 } from 'lucide-react';
-import { loginAction } from './actions';
+import { loginAction, completeTwoFactorAction } from '@/lib/auth/authActions';
 
 interface LoginFormProps {
   className?: string;
@@ -12,31 +12,59 @@ export default function LoginForm({ className = '' }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [requiresTwoFactor, setRequiresTwoFactor] = useState(false);
+  const [twoFactorCode, setTwoFactorCode] = useState('');
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setIsLoading(true);
     setError(null);
 
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
     try {
-      const result = await loginAction(formData);
+      const result = await loginAction(email, password);
       
       if (!result.success) {
         setError(result.error || 'Error desconocido');
         return;
       }
 
-      if (result.user) {
-        const session = {
-          userId: result.user.id,
-          email: result.user.email,
-          name: result.user.name,
-          role: result.user.role,
-          avatar: result.user.avatar,
-          loginTime: new Date().toISOString()
-        };
-        
-        localStorage.setItem('auth_session', JSON.stringify(session));
-        window.location.href = result.redirectPath || '/volunteer/profile';
+      if (result.requiresTwoFactor && result.user) {
+        setRequiresTwoFactor(true);
+        setCurrentUser(result.user);
+        return;
+      }
+
+      if (result.user && result.redirectPath) {
+        window.location.href = result.redirectPath;
+      }
+
+    } catch (err) {
+      setError('Error de conexión. Intenta nuevamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleTwoFactorSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await completeTwoFactorAction(currentUser.id, twoFactorCode);
+      
+      if (!result.success) {
+        setError(result.error || 'Código inválido');
+        return;
+      }
+
+      if (result.redirectPath) {
+        window.location.href = result.redirectPath;
       }
 
     } catch (err) {
@@ -54,7 +82,8 @@ export default function LoginForm({ className = '' }: LoginFormProps) {
           <p className="text-muted">Ingresa a tu cuenta de Living Stones</p>
         </div>
 
-        <form action={handleSubmit} className="space-y-4">
+        {!requiresTwoFactor ? (
+          <form onSubmit={handleSubmit} className="space-y-4">
           <div className="input-group">
             <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
               Email
@@ -120,6 +149,76 @@ export default function LoginForm({ className = '' }: LoginFormProps) {
             )}
           </button>
         </form>
+        ) : (
+          <form onSubmit={handleTwoFactorSubmit} className="space-y-4">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-semibold text-secondary mb-2">
+                Verificación en Dos Pasos
+              </h3>
+              <p className="text-muted">
+                Ingresa el código de 6 dígitos para {currentUser?.email}
+              </p>
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="twoFactorCode" className="block text-sm font-medium text-secondary mb-2">
+                Código de Verificación
+              </label>
+              <div className="relative">
+                <Lock className="input-icon w-5 h-5" />
+                <input
+                  type="text"
+                  id="twoFactorCode"
+                  name="twoFactorCode"
+                  value={twoFactorCode}
+                  onChange={(e) => setTwoFactorCode(e.target.value)}
+                  required
+                  maxLength={6}
+                  className="input-field has-icon w-full text-center text-2xl tracking-widest"
+                  placeholder="000000"
+                  disabled={isLoading}
+                />
+              </div>
+              <p className="text-xs text-muted mt-1">
+                Para demo: ingresa cualquier código de 6 dígitos
+              </p>
+            </div>
+
+            {error && (
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading || twoFactorCode.length !== 6}
+              className="btn-living w-full flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Verificando...
+                </>
+              ) : (
+                'Verificar Código'
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setRequiresTwoFactor(false);
+                setCurrentUser(null);
+                setTwoFactorCode('');
+                setError(null);
+              }}
+              className="w-full text-sm text-muted hover:text-secondary transition-colors"
+            >
+              ← Volver al login
+            </button>
+          </form>
+        )}
 
         <div className="text-center space-y-2">
           <a href="/forgot-password" className="text-sm text-primary hover:underline transition-colors">
@@ -137,11 +236,15 @@ export default function LoginForm({ className = '' }: LoginFormProps) {
       <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
         <h3 className="text-sm font-semibold text-slate-700 mb-2">🔑 Credenciales de prueba:</h3>
         <div className="space-y-1 text-xs text-slate-600">
-          <div><strong>Admin:</strong> admin_1@example.com</div>
-          <div><strong>HR:</strong> hr_1@example.com</div>
-          <div><strong>Lead:</strong> lead_1@example.com</div>
-          <div><strong>Volunteer:</strong> volunteer_1@example.com</div>
-          <div className="mt-1"><strong>Password:</strong> password123</div>
+          <div><strong>Admin:</strong> alex@metrics.com (admin123)</div>
+          <div><strong>HR:</strong> sarah@metrics.com (hr123)</div>
+          <div><strong>Senior HR:</strong> mike@metrics.com (seniorhr123)</div>
+          <div><strong>Project Manager:</strong> lisa@metrics.com (pm123)</div>
+          <div><strong>Volunteer:</strong> tom@metrics.com (volunteer123)</div>
+          <div><strong>Unassigned:</strong> guest@metrics.com (guest123)</div>
+          <div className="mt-2 text-xs text-slate-500">
+            <strong>Nota:</strong> Alex, Sarah y Mike tienen 2FA habilitado
+          </div>
         </div>
       </div>
     </div>

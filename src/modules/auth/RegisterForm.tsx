@@ -296,13 +296,23 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      // Simular registro
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const { registerAction } = await import('@/lib/auth/authActions');
       
-      console.log('Form Data:', formData);
-      alert('Registro completado. Por favor inicia sesión.');
+      const result = await registerAction({
+        email: formData.email,
+        name: `${formData.profile.first_name} ${formData.profile.last_name}`,
+        password: formData.password
+      });
+      
+      if (result.success) {
+        alert('Registro completado. Por favor inicia sesión.');
+        window.location.href = '/login';
+      } else {
+        alert(`Error en el registro: ${result.error}`);
+      }
     } catch (error) {
       console.error('Error en registro:', error);
+      alert('Error de conexión. Intenta nuevamente.');
     } finally {
       setIsLoading(false);
     }

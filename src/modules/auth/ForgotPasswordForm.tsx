@@ -18,14 +18,28 @@ export default function ForgotPasswordForm({ className = '' }: ForgotPasswordFor
     e.preventDefault();
     setIsLoading(true);
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsLoading(false);
-    setIsSuccess(true);
-
-    setTimeout(() => {
-      router.push('/login?message=Revisa tu email para restablecer tu contraseña');
-    }, 3000);
+    try {
+      const { forgotPasswordAction } = await import('@/lib/auth/authActions');
+      
+      const result = await forgotPasswordAction(email);
+      
+      if (result.success) {
+        setIsSuccess(true);
+        // Show the new password for demo purposes
+        alert(`Nueva contraseña generada: ${result.newPassword}\n\nGuárdala en un lugar seguro.`);
+        
+        setTimeout(() => {
+          router.push('/login?message=Tu nueva contraseña ha sido generada');
+        }, 3000);
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error de conexión. Intenta nuevamente.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   if (isSuccess) {
@@ -37,16 +51,16 @@ export default function ForgotPasswordForm({ className = '' }: ForgotPasswordFor
           </div>
           
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-gradient">¡Email Enviado!</h1>
+            <h1 className="text-2xl font-bold text-gradient">¡Contraseña Restablecida!</h1>
             <p className="text-muted">
-              Hemos enviado las instrucciones para restablecer tu contraseña a:
+              Se ha generado una nueva contraseña para:
             </p>
             <p className="font-medium text-secondary">{email}</p>
           </div>
 
           <div className="space-y-4">
             <p className="text-sm text-muted">
-              Revisa tu bandeja de entrada y carpeta de spam.
+              La nueva contraseña se mostró en una ventana emergente.
             </p>
             
             <div className="text-sm text-muted">
@@ -117,7 +131,7 @@ export default function ForgotPasswordForm({ className = '' }: ForgotPasswordFor
 
       <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
         <div className="text-sm text-blue-700">
-          <strong>Nota:</strong> Este es un prototipo. En producción, aquí se enviaría un email real con un enlace seguro para restablecer la contraseña.
+          <strong>Nota:</strong> Este es un sistema de demo. En producción, se enviaría un email real con un enlace seguro para restablecer la contraseña.
         </div>
       </div>
     </div>

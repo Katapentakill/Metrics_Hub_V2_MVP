@@ -32,14 +32,16 @@ export default function HeaderAdmin() {
   const [notificationCount] = useState(3); // Simulado
 
   useEffect(() => {
-    const sessionData = localStorage.getItem('auth_session');
+    const sessionData = localStorage.getItem('metrics_hub_session');
     if (sessionData) {
       setSession(JSON.parse(sessionData));
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('auth_session');
+  const handleLogout = async () => {
+    // Use the mock logout action to properly clear session and audit log
+    const { logoutAction } = await import('@/lib/auth/authActions');
+    await logoutAction();
     window.location.href = '/login';
   };
 

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import HeaderAdmin from '@/components/layout/Admin/HeaderAdmin';
 import FooterAdmin from '@/components/layout/Admin/FooterAdmin';
+import AuthTestButton from '@/components/AuthTestButton';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const session = localStorage.getItem('auth_session');
+    const session = localStorage.getItem('metrics_hub_session');
     
     if (!session) {
       window.location.href = '/login';
@@ -63,6 +64,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
       </main>
       <FooterAdmin />
+      <AuthTestButton />
     </div>
   );
 }
