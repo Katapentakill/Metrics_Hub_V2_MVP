@@ -417,3 +417,49 @@ export interface NotificationSettings {
   blocked_notification_types: string[];
   digest_frequency: 'immediate' | 'hourly' | 'daily' | 'weekly';
 }
+// src/lib/types.ts
+
+// 🔹 Tipos para documentos
+export type DocumentType =
+  | 'organization'
+  | 'hr'
+  | 'project'
+  | 'volunteer'
+  | 'general'
+  | 'legal'
+  | 'template'
+  | 'volunteer-personal'
+  | 'policy';
+
+
+export type DocumentStatus =
+  | 'published'
+  | 'draft'
+  | 'pending'
+  | 'approved'
+  | 'rejected'
+  | 'in-review'
+  |'verified'
+  |'submitted';
+
+// Base común
+export interface BaseDocument {
+  id: string;
+  name: string;
+  type: DocumentType;
+  status: DocumentStatus;
+  uploadDate: string;
+  version: string;
+}
+
+// Documento que se usa en admin (más simple)
+export interface AdminDocument extends BaseDocument {}
+
+// Documento mock (para desarrollo)
+export interface MockDocument extends BaseDocument {
+  lastModifiedDate: string;
+  uploadedBy: string;
+  relatedToUser?: string;
+  relatedToProject?: string;
+}
+

@@ -175,4 +175,5 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       wlLink: faker.internet.url(),
     };
   });
+  
 };
