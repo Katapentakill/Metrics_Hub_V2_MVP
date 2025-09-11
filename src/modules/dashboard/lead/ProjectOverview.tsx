@@ -1,4 +1,3 @@
-// src/modules/dashboard/lead/ProjectOverview.tsx
 'use client';
 
 import { 
@@ -17,24 +16,51 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
+/**
+ * Representa la estructura de un proyecto individual.
+ */
 interface Project {
+  /** ID único del proyecto */
   id: string;
+  /** Nombre del proyecto */
   name: string;
+  /** Breve descripción del proyecto */
   description: string;
+  /** Estado actual del proyecto */
   status: 'active' | 'planning' | 'review' | 'paused' | 'completed';
+  /** Porcentaje de progreso del proyecto (0-100) */
   progress: number;
+  /** Número de integrantes del equipo asignado */
   teamSize: number;
+  /** Fecha límite de entrega (YYYY-MM-DD) */
   dueDate: string;
+  /** Nivel de prioridad asignado */
   priority: 'high' | 'medium' | 'low';
+  /** Número de tareas completadas */
   tasksCompleted: number;
+  /** Número total de tareas asignadas */
   totalTasks: number;
+  /** Última actividad registrada */
   lastActivity: string;
+  /** Color principal para representar el proyecto en la UI */
   color: string;
 }
 
+/**
+ * ProjectOverview Component
+ *
+ * Renderiza una vista general de los proyectos asignados a un **Lead Project**.
+ * Permite ver estado, progreso, equipo, tareas y deadlines de cada proyecto.
+ * Incluye acciones rápidas para la gestión (ver tareas, gestionar equipo, generar reportes).
+ *
+ * @component
+ * @example
+ * <ProjectOverview />
+ */
 export default function ProjectOverview() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
+  /** Lista de proyectos del lead con sus métricas principales */
   const projects: Project[] = [
     {
       id: '1',
@@ -94,37 +120,23 @@ export default function ProjectOverview() {
     }
   ];
 
+  /**
+   * Devuelve la configuración visual (color, label, ícono) según el estado del proyecto.
+   */
   const getStatusConfig = (status: Project['status']) => {
     const configs = {
-      active: { 
-        label: 'Activo', 
-        color: 'text-green-700 bg-green-100',
-        icon: Play
-      },
-      planning: { 
-        label: 'Planificación', 
-        color: 'text-blue-700 bg-blue-100',
-        icon: Calendar
-      },
-      review: { 
-        label: 'En Revisión', 
-        color: 'text-yellow-700 bg-yellow-100',
-        icon: Eye
-      },
-      paused: { 
-        label: 'Pausado', 
-        color: 'text-slate-700 bg-slate-100',
-        icon: Pause
-      },
-      completed: { 
-        label: 'Completado', 
-        color: 'text-emerald-700 bg-emerald-100',
-        icon: CheckCircle
-      }
+      active: { label: 'Activo', color: 'text-green-700 bg-green-100', icon: Play },
+      planning: { label: 'Planificación', color: 'text-blue-700 bg-blue-100', icon: Calendar },
+      review: { label: 'En Revisión', color: 'text-yellow-700 bg-yellow-100', icon: Eye },
+      paused: { label: 'Pausado', color: 'text-slate-700 bg-slate-100', icon: Pause },
+      completed: { label: 'Completado', color: 'text-emerald-700 bg-emerald-100', icon: CheckCircle }
     };
     return configs[status];
   };
 
+  /**
+   * Devuelve los estilos según la prioridad del proyecto.
+   */
   const getPriorityColor = (priority: Project['priority']) => {
     const colors = {
       high: 'border-red-300 bg-red-50',
@@ -134,6 +146,12 @@ export default function ProjectOverview() {
     return colors[priority];
   };
 
+  /**
+   * Calcula los días restantes o de retraso hasta la fecha límite.
+   * 
+   * @param dueDate Fecha de deadline del proyecto
+   * @returns Objeto con número de días y estado: "overdue", "urgent", "soon", "normal"
+   */
   const getDaysUntilDeadline = (dueDate: string) => {
     const today = new Date();
     const deadline = new Date(dueDate);
@@ -146,6 +164,12 @@ export default function ProjectOverview() {
     return { days: diffDays, status: 'normal' };
   };
 
+  /**
+   * Ejecuta acciones específicas sobre un proyecto.
+   * 
+   * @param projectId ID del proyecto
+   * @param action Acción a ejecutar (ej: "view-tasks", "view-team", "generate-report", "approve")
+   */
   const handleProjectAction = (projectId: string, action: string) => {
     console.log(`Action ${action} on project ${projectId}`);
     // Aquí irían las acciones específicas del proyecto
@@ -153,6 +177,7 @@ export default function ProjectOverview() {
 
   return (
     <div className="card p-6">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-slate-800 flex items-center">
           <FolderOpen className="w-5 h-5 mr-2 text-emerald-600" />
@@ -171,6 +196,7 @@ export default function ProjectOverview() {
         </div>
       </div>
 
+      {/* Lista de proyectos */}
       <div className="grid grid-cols-1 gap-4 mb-6">
         {projects.map((project) => {
           const statusConfig = getStatusConfig(project.status);
@@ -208,13 +234,14 @@ export default function ProjectOverview() {
 
               {/* Métricas principales */}
               <div className="grid grid-cols-4 gap-4 mb-4">
+                {/* Progreso */}
                 <div className="text-center">
                   <div className={`w-8 h-8 ${project.color} rounded-full mx-auto mb-1 flex items-center justify-center text-white font-semibold text-sm`}>
                     {project.progress}%
                   </div>
                   <p className="text-xs text-slate-600">Progreso</p>
                 </div>
-                
+                {/* Miembros */}
                 <div className="text-center">
                   <div className="flex items-center justify-center space-x-1 mb-1">
                     <Users className="w-4 h-4 text-slate-500" />
@@ -222,7 +249,7 @@ export default function ProjectOverview() {
                   </div>
                   <p className="text-xs text-slate-600">Miembros</p>
                 </div>
-                
+                {/* Tareas */}
                 <div className="text-center">
                   <div className="flex items-center justify-center space-x-1 mb-1">
                     <CheckCircle className="w-4 h-4 text-green-500" />
@@ -230,7 +257,7 @@ export default function ProjectOverview() {
                   </div>
                   <p className="text-xs text-slate-600">Tareas</p>
                 </div>
-                
+                {/* Deadline */}
                 <div className="text-center">
                   <div className={`font-semibold mb-1 ${
                     deadline.status === 'overdue' ? 'text-red-600' :

@@ -1,4 +1,3 @@
-// src/modules/dashboard/lead/QuickActions.tsx
 'use client';
 
 import { 
@@ -16,12 +15,31 @@ import {
   Settings
 } from 'lucide-react';
 
+/**
+ * QuickActions Component
+ *
+ * Renderiza un panel de **acciones rápidas** para el rol de **Lead Project**.
+ * Permite ejecutar acciones frecuentes como crear tareas, planificar sprints,
+ * revisar equipos, atender tareas urgentes y configurar preferencias.
+ *
+ * Además, incluye métricas rápidas de productividad y accesos directos de gestión de equipos.
+ *
+ * @component
+ * @example
+ * <QuickActions />
+ */
 export default function QuickActions() {
+  /**
+   * Maneja la ejecución de acciones principales desde los botones del panel.
+   *
+   * @param action Acción a ejecutar (ej: "create-task", "plan-sprint", "review-teams")
+   */
   const handleAction = (action: string) => {
     console.log(`Executing lead action: ${action}`);
     // Aquí irían las acciones reales para Lead Project
   };
 
+  /** Acciones rápidas principales disponibles para el Lead */
   const quickActions = [
     {
       title: 'Nueva Tarea',
@@ -46,6 +64,7 @@ export default function QuickActions() {
     }
   ];
 
+  /** Lista de tareas urgentes que requieren atención inmediata */
   const urgentTasks = [
     {
       title: '3 Tareas vencen hoy',
@@ -73,6 +92,7 @@ export default function QuickActions() {
     }
   ];
 
+  /** Acciones relacionadas con la gestión de equipos */
   const teamActions = [
     {
       title: 'Asignar Nuevo Miembro',

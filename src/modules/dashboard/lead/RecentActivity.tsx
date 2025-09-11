@@ -1,4 +1,3 @@
-// src/modules/dashboard/lead/RecentActivity.tsx
 'use client';
 
 import { 
@@ -16,6 +15,9 @@ import {
   TrendingUp
 } from 'lucide-react';
 
+/**
+ * Representa una entrada de actividad en el dashboard de Lead Project.
+ */
 interface LeadActivityItem {
   id: string;
   type: 'task' | 'project' | 'team' | 'milestone' | 'meeting' | 'assignment' | 'review';
@@ -30,7 +32,19 @@ interface LeadActivityItem {
   priority?: 'high' | 'medium' | 'low';
 }
 
+/**
+ * RecentActivity Component
+ *
+ * Muestra un **feed de actividades recientes** en los proyectos asignados al Lead Project.
+ * Incluye tareas completadas, asignaciones, reuniones, hitos alcanzados, revisiones pendientes
+ * y cambios en los proyectos. Además, ofrece métricas rápidas y filtros de visualización.
+ *
+ * @component
+ * @example
+ * <RecentActivity />
+ */
 export default function RecentActivity() {
+  /** Lista mock de actividades recientes */
   const activities: LeadActivityItem[] = [
     {
       id: '1',
@@ -129,15 +143,33 @@ export default function RecentActivity() {
     }
   ];
 
+  /**
+   * Retorna el texto del tiempo transcurrido desde la actividad.
+   * En este mock, simplemente devuelve el string recibido.
+   *
+   * @param time Texto del tiempo (ej: "Hace 2 horas")
+   * @returns {string} Tiempo formateado
+   */
   const getTimeAgo = (time: string) => {
     return time;
   };
 
+  /**
+   * Maneja la acción de ver detalles de una actividad.
+   *
+   * @param activityId ID de la actividad seleccionada
+   */
   const handleViewTask = (activityId: string) => {
     console.log(`Ver detalles de actividad: ${activityId}`);
     // Aquí iría la lógica para mostrar detalles específicos del lead
   };
 
+  /**
+   * Devuelve el color de badge según el proyecto.
+   *
+   * @param project Nombre del proyecto
+   * @returns {string} Clases de Tailwind para estilos del badge
+   */
   const getProjectBadgeColor = (project: string) => {
     const colors: {[key: string]: string} = {
       'EcoVerde': 'bg-green-100 text-green-700',
@@ -150,6 +182,7 @@ export default function RecentActivity() {
 
   return (
     <div className="card p-6">
+      {/* Header con título y acciones */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-slate-800 flex items-center">
           <Clock className="w-5 h-5 mr-2 text-slate-600" />
@@ -165,10 +198,11 @@ export default function RecentActivity() {
         </div>
       </div>
 
+      {/* Lista de actividades */}
       <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
         {activities.map((activity) => (
           <div key={activity.id} className="flex items-start space-x-3 group">
-            {/* Icono de actividad con indicador de prioridad */}
+            {/* Icono con indicador de prioridad */}
             <div className={`${activity.bgColor} p-2 rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform relative`}>
               <activity.icon className={`w-4 h-4 ${activity.color}`} />
               {activity.priority === 'high' && (
@@ -207,7 +241,7 @@ export default function RecentActivity() {
                 </div>
               </div>
 
-              {/* Acciones rápidas */}
+              {/* Acciones rápidas para revisiones o tareas bloqueadas */}
               {(activity.type === 'review' || activity.priority === 'high') && (
                 <div className="mt-2 flex items-center space-x-2">
                   <button 
@@ -224,7 +258,7 @@ export default function RecentActivity() {
                 </div>
               )}
 
-              {/* Línea divisoria sutil */}
+              {/* Línea divisoria */}
               <div className="mt-3 border-b border-slate-100 last:border-b-0"></div>
             </div>
           </div>
@@ -276,7 +310,7 @@ export default function RecentActivity() {
         </div>
       </div>
 
-      {/* Filtros y acciones */}
+      {/* Filtros y acciones adicionales */}
       <div className="mt-4 flex flex-wrap gap-2">
         <button className="px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
           Solo mis proyectos
