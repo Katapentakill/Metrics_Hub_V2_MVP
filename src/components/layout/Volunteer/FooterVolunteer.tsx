@@ -1,12 +1,25 @@
-// src/components/layout/Volunteer/FooterVolunteer.tsx
 import { Heart, Users, Target, BookOpen, Award, Clock, MessageSquare, Calendar } from 'lucide-react';
 
+/**
+ * Footer del **portal del voluntario**.
+ *
+ * Este componente incluye:
+ * - Información de identidad del portal y métricas personales.
+ * - Acciones rápidas (tareas, proyectos, equipo, recursos).
+ * - Opciones de desarrollo personal (capacitaciones, logros, feedback).
+ * - Estado del voluntario, estadísticas destacadas y próximas actividades.
+ * - Un mensaje motivacional para reforzar el compromiso del voluntario.
+ *
+ * @component
+ * @example
+ * return <FooterVolunteer />;
+ */
 export default function FooterVolunteer() {
   return (
     <footer className="bg-slate-900 text-slate-300 mt-12">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo y descripción del voluntario */}
+          {/* Logo, descripción y métricas principales */}
           <div className="col-span-1 md:col-span-2 space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-living-green-500 to-living-green-600 rounded-xl flex items-center justify-center">
@@ -38,7 +51,7 @@ export default function FooterVolunteer() {
             </div>
           </div>
 
-          {/* Mis acciones rápidas */}
+          {/* Enlaces de acciones rápidas */}
           <div>
             <h4 className="text-white font-semibold mb-4">Acciones Rápidas</h4>
             <div className="space-y-2">
@@ -60,7 +73,7 @@ export default function FooterVolunteer() {
             </div>
           </div>
 
-          {/* Desarrollo y aprendizaje */}
+          {/* Enlaces de desarrollo y aprendizaje */}
           <div>
             <h4 className="text-white font-semibold mb-4">Desarrollo Personal</h4>
             <div className="space-y-2">
@@ -84,7 +97,7 @@ export default function FooterVolunteer() {
           </div>
         </div>
 
-        {/* Información de progreso y comunidad */}
+        {/* Estado general del voluntario */}
         <div className="mt-8 pt-8 border-t border-slate-800">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
             <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-6 text-sm">
@@ -112,7 +125,7 @@ export default function FooterVolunteer() {
           </div>
         </div>
 
-        {/* Estadísticas personales destacadas */}
+        {/* Métricas rápidas del voluntario */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
             <div className="flex items-center space-x-3">

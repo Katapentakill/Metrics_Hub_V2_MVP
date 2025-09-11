@@ -1,4 +1,4 @@
-// src/components/layout/HeaderLead.tsx
+// src/components/layout/HeaderVolunteer.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import ActiveLink from '../../ActiveLink';
 
+/**
+ * Datos de sesión del usuario autenticado.
+ */
 interface SessionData {
   userId: string;
   email: string;
@@ -26,12 +29,27 @@ interface SessionData {
   avatar?: string;
 }
 
-export default function HeaderLead() {
+/**
+ * Header del **portal del voluntario**.
+ *
+ * Incluye:
+ * - Logo y nombre del sistema con rol asociado.
+ * - Navegación principal (dashboard, proyectos, tareas, mensajes, perfil).
+ * - Barra de búsqueda interna.
+ * - Notificaciones con contador y menú desplegable.
+ * - Menú de usuario con opciones de perfil, configuración y cerrar sesión.
+ *
+ * @component
+ * @example
+ * return <HeaderVolunteer />;
+ */
+export default function HeaderVolunteer() {
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationCount] = useState(3); // Simulado
 
+  // Recupera la sesión desde localStorage al montar el componente
   useEffect(() => {
     const sessionData = localStorage.getItem('auth_session');
     if (sessionData) {
@@ -39,6 +57,7 @@ export default function HeaderLead() {
     }
   }, []);
 
+  // Cierra sesión eliminando datos locales y redirigiendo al login
   const handleLogout = () => {
     localStorage.removeItem('auth_session');
     window.location.href = '/login';
@@ -47,6 +66,7 @@ export default function HeaderLead() {
   return (
     <header className="nav-header fixed top-0 left-0 right-0 z-50 px-6 py-3 h-16">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
+        
         {/* Logo y título */}
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-3 whitespace-nowrap">
@@ -55,7 +75,7 @@ export default function HeaderLead() {
             </div>
             <div className="leading-tight">
               <h1 className="text-base font-bold text-gradient">Living Stones</h1>
-              <p className="text-[11px] text-muted">Líder de Proyecto</p>
+              <p className="text-[11px] text-muted">Portal Voluntario</p>
             </div>
           </div>
 
@@ -81,7 +101,8 @@ export default function HeaderLead() {
               <Users className="w-4 h-4 inline mr-2" />
               Perfil
             </ActiveLink>
-            {/* <ActiveLink href="/volunteer/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
+            {/* Opción de configuración futura
+            <ActiveLink href="/volunteer/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
               <Settings className="w-4 h-4 inline mr-2" />
               Configuración
             </ActiveLink> */}
@@ -90,6 +111,7 @@ export default function HeaderLead() {
 
         {/* Acciones del usuario */}
         <div className="flex items-center space-x-4">
+          
           {/* Búsqueda */}
           <div className="hidden md:block relative">
             <input
@@ -121,16 +143,16 @@ export default function HeaderLead() {
                 <h3 className="font-semibold text-sm text-slate-700">Notificaciones</h3>
                 <div className="space-y-2">
                   <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
-                    <p className="text-sm font-medium text-blue-800">Nuevo usuario registrado</p>
-                    <p className="text-xs text-blue-600">María González se registró como voluntaria</p>
+                    <p className="text-sm font-medium text-blue-800">Nuevo mensaje recibido</p>
+                    <p className="text-xs text-blue-600">Tu coordinador te envió una actualización</p>
                   </div>
                   <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-                    <p className="text-sm font-medium text-yellow-800">Proyecto requiere atención</p>
-                    <p className="text-xs text-yellow-600">EcoVerde tiene tareas bloqueadas</p>
+                    <p className="text-sm font-medium text-yellow-800">Tarea pendiente</p>
+                    <p className="text-xs text-yellow-600">Tienes 2 tareas por completar</p>
                   </div>
                   <div className="p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
-                    <p className="text-sm font-medium text-green-800">Evaluación completada</p>
-                    <p className="text-xs text-green-600">15 evaluaciones de Q4 finalizadas</p>
+                    <p className="text-sm font-medium text-green-800">Nuevo proyecto disponible</p>
+                    <p className="text-xs text-green-600">Puedes unirte al proyecto "EcoVerde"</p>
                   </div>
                 </div>
                 <button className="w-full text-sm text-primary hover:underline">
@@ -150,8 +172,8 @@ export default function HeaderLead() {
                 <User className="w-4 h-4 text-white" />
               </div>
               <div className="hidden md:block text-left max-w-[120px] truncate">
-                <p className="text-sm font-medium text-slate-700 truncate">{session?.name || 'Lead'}</p>
-                <p className="text-xs text-muted -mt-0.5 truncate">Líder de Proyecto</p>
+                <p className="text-sm font-medium text-slate-700 truncate">{session?.name || 'Volunteer'}</p>
+                <p className="text-xs text-muted -mt-0.5 truncate">Portal Voluntario</p>
               </div>
               <ChevronDown className="w-4 h-4 text-slate-500" />
             </button>

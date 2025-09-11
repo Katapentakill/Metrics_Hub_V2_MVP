@@ -1,4 +1,3 @@
-// src/components/layout/Lead/FooterLead.tsx
 'use client';
 
 import { 
@@ -14,9 +13,23 @@ import {
   Award
 } from 'lucide-react';
 
+/**
+ * Footer principal del panel de **Líder de Proyecto**.
+ *
+ * Este footer incluye:
+ * - Barra superior con estadísticas rápidas.
+ * - Sección principal con branding, acciones rápidas, gestión de proyectos y estado actual.
+ * - Barra inferior con derechos y créditos.
+ * - Botón flotante de acción rápida.
+ *
+ * @component
+ * @example
+ * return <FooterLead />;
+ */
 export default function FooterLead() {
   const currentYear = new Date().getFullYear();
 
+  // Estadísticas rápidas mostradas en la barra superior del footer
   const quickStats = [
     { label: 'Proyectos Activos', value: '6', icon: FolderOpen, color: 'text-emerald-600' },
     { label: 'Miembros del Equipo', value: '22', icon: Users, color: 'text-blue-600' },
@@ -24,6 +37,7 @@ export default function FooterLead() {
     { label: 'Productividad', value: '87%', icon: TrendingUp, color: 'text-purple-600' }
   ];
 
+  // Enlaces de acciones rápidas
   const quickLinks = [
     { name: 'Dashboard', href: '/lead_project/dashboard', icon: BarChart3 },
     { name: 'Mis Proyectos', href: '/lead_project/projects', icon: FolderOpen },
@@ -31,6 +45,7 @@ export default function FooterLead() {
     { name: 'Cronograma', href: '/lead_project/schedule', icon: Calendar }
   ];
 
+  // Enlaces relacionados con gestión de proyectos
   const projectLinks = [
     { name: 'Crear Nueva Tarea', href: '/lead_project/tasks/new', icon: Target },
     { name: 'Reportes de Progreso', href: '/lead_project/reports', icon: BarChart3 },
@@ -40,7 +55,7 @@ export default function FooterLead() {
 
   return (
     <footer className="bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-900 text-white">
-      {/* Stats Bar */}
+      {/* Barra de estadísticas rápidas */}
       <div className="bg-emerald-800/50 backdrop-blur-sm border-b border-emerald-700/50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -57,10 +72,11 @@ export default function FooterLead() {
         </div>
       </div>
 
-      {/* Main Footer Content */}
+      {/* Contenido principal del footer */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Section */}
+          
+          {/* Sección de branding */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -80,7 +96,7 @@ export default function FooterLead() {
             </div>
           </div>
 
-          {/* Quick Actions */}
+          {/* Acciones rápidas */}
           <div>
             <h4 className="text-white font-semibold mb-4 flex items-center">
               <Target className="w-4 h-4 mr-2" />
@@ -101,7 +117,7 @@ export default function FooterLead() {
             </ul>
           </div>
 
-          {/* Project Management */}
+          {/* Gestión de proyectos */}
           <div>
             <h4 className="text-white font-semibold mb-4 flex items-center">
               <FolderOpen className="w-4 h-4 mr-2" />
@@ -122,13 +138,14 @@ export default function FooterLead() {
             </ul>
           </div>
 
-          {/* Status & Updates */}
+          {/* Estado actual de proyectos */}
           <div>
             <h4 className="text-white font-semibold mb-4 flex items-center">
               <Clock className="w-4 h-4 mr-2" />
               Estado Actual
             </h4>
             <div className="space-y-4">
+              {/* Progreso de proyectos */}
               <div className="bg-emerald-800/50 rounded-lg p-3 border border-emerald-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-emerald-200 text-sm">Proyectos Este Mes</span>
@@ -139,6 +156,7 @@ export default function FooterLead() {
                 </div>
               </div>
 
+              {/* Eficiencia del equipo */}
               <div className="bg-emerald-800/50 rounded-lg p-3 border border-emerald-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-emerald-200 text-sm">Eficiencia del Equipo</span>
@@ -149,6 +167,7 @@ export default function FooterLead() {
                 </div>
               </div>
 
+              {/* Mensajes de estado */}
               <div className="text-emerald-200 text-xs">
                 <p>✅ Todos los deadlines bajo control</p>
                 <p>📈 Productividad por encima del objetivo</p>
@@ -158,7 +177,7 @@ export default function FooterLead() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Barra inferior con créditos */}
       <div className="border-t border-emerald-700/50 bg-emerald-900/50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
@@ -177,10 +196,11 @@ export default function FooterLead() {
         </div>
       </div>
 
-      {/* Floating Action Hint */}
+      {/* Botón flotante de acción rápida */}
       <div className="fixed bottom-6 right-6 z-40">
         <div className="bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-full shadow-lg transition-colors cursor-pointer group">
           <Target className="w-5 h-5" />
+          {/* Tooltip de acción */}
           <div className="absolute right-full top-1/2 transform -translate-y-1/2 mr-3 px-3 py-2 bg-slate-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             Crear nueva tarea
             <div className="absolute left-full top-1/2 transform -translate-y-1/2 -ml-1 w-2 h-2 bg-slate-800 rotate-45"></div>

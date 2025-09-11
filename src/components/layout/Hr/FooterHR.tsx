@@ -1,6 +1,25 @@
-// src/components/layout/FooterAdmin.tsx
-import { Shield, Database, Users, Settings, BarChart3, AlertCircle } from 'lucide-react';
+import { 
+  Shield, 
+  Database, 
+  Users, 
+  Settings, 
+  BarChart3, 
+  AlertCircle 
+} from 'lucide-react';
 
+/**
+ * Footer específico para el panel de **Recursos Humanos (HR)**.
+ * 
+ * Este componente muestra:
+ * - Información de branding y propósito del sistema HR.
+ * - Enlaces rápidos para acceder a las principales secciones del panel.
+ * - Estado del sistema y sincronización.
+ * - Una nota de seguridad recordando responsabilidades y confidencialidad.
+ * 
+ * @component
+ * @example
+ * return <FooterHR />;
+ */
 export default function FooterHR() {
   return (
     <footer className="bg-slate-900 text-slate-300 mt-12">

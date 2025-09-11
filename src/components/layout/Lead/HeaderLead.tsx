@@ -1,4 +1,3 @@
-// src/components/layout/HeaderLead.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -26,12 +25,27 @@ interface SessionData {
   avatar?: string;
 }
 
+/**
+ * Header principal del panel de **Líder de Proyecto**.
+ *
+ * Este componente incluye:
+ * - Logo y título institucional.
+ * - Navegación principal (dashboard, equipo, proyectos, tareas, comunicación).
+ * - Barra de búsqueda.
+ * - Centro de notificaciones.
+ * - Menú de usuario (perfil, configuración, cerrar sesión).
+ *
+ * @component
+ * @example
+ * return <HeaderLead />;
+ */
 export default function HeaderLead() {
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationCount] = useState(3); // Simulado
 
+  // Recupera la sesión guardada en localStorage (simulación)
   useEffect(() => {
     const sessionData = localStorage.getItem('auth_session');
     if (sessionData) {
@@ -39,6 +53,7 @@ export default function HeaderLead() {
     }
   }, []);
 
+  // Cierra la sesión y redirige al login
   const handleLogout = () => {
     localStorage.removeItem('auth_session');
     window.location.href = '/login';
@@ -47,6 +62,7 @@ export default function HeaderLead() {
   return (
     <header className="nav-header fixed top-0 left-0 right-0 z-50 px-6 py-3 h-16">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
+        
         {/* Logo y título */}
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-3 whitespace-nowrap">
@@ -81,15 +97,19 @@ export default function HeaderLead() {
               <MessageSquare className="w-4 h-4 inline mr-2" />
               Comunicación
             </ActiveLink>
-            {/* <ActiveLink href="/lead_project/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
+            {/* Ejemplo de ruta futura para Configuración */}
+            {/* 
+            <ActiveLink href="/lead_project/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
               <Settings className="w-4 h-4 inline mr-2" />
               Configuración
-            </ActiveLink> */}
+            </ActiveLink> 
+            */}
           </nav>
         </div>
 
         {/* Acciones del usuario */}
         <div className="flex items-center space-x-4">
+          
           {/* Búsqueda */}
           <div className="hidden md:block relative">
             <input
@@ -116,6 +136,7 @@ export default function HeaderLead() {
               )}
             </button>
 
+            {/* Dropdown de notificaciones */}
             {showNotifications && (
               <div className="absolute right-0 top-11 w-80 card p-4 space-y-3 z-50">
                 <h3 className="font-semibold text-sm text-slate-700">Notificaciones</h3>
@@ -156,6 +177,7 @@ export default function HeaderLead() {
               <ChevronDown className="w-4 h-4 text-slate-500" />
             </button>
 
+            {/* Dropdown de usuario */}
             {showUserMenu && (
               <div className="absolute right-0 top-11 w-56 card p-2 z-50">
                 <div className="px-3 py-2 border-b border-slate-200">

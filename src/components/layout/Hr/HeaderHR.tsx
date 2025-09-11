@@ -1,4 +1,3 @@
-// src/components/layout/HeaderAdmin.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -17,6 +16,9 @@ import {
 } from 'lucide-react';
 import ActiveLink from '../../ActiveLink';
 
+/**
+ * Representa los datos de la sesión activa del usuario HR.
+ */
 interface SessionData {
   userId: string;
   email: string;
@@ -25,12 +27,27 @@ interface SessionData {
   avatar?: string;
 }
 
+/**
+ * Header del panel de **Recursos Humanos (HR)**.
+ *
+ * Este componente incluye:
+ * - Logo y branding del panel HR.
+ * - Navegación principal a secciones clave (Dashboard, Usuarios, Proyectos, Reportes).
+ * - Barra de búsqueda.
+ * - Centro de notificaciones.
+ * - Menú de usuario con perfil, configuración y logout.
+ *
+ * @component
+ * @example
+ * return <HeaderHR />;
+ */
 export default function HeaderHR() {
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notificationCount] = useState(3); // Simulado
+  const [notificationCount] = useState(3); // Número simulado de notificaciones nuevas
 
+  // Recupera la sesión almacenada en localStorage al cargar el componente
   useEffect(() => {
     const sessionData = localStorage.getItem('auth_session');
     if (sessionData) {
@@ -38,6 +55,11 @@ export default function HeaderHR() {
     }
   }, []);
 
+  /**
+   * Maneja el cierre de sesión del usuario HR.
+   * - Elimina la sesión de `localStorage`.
+   * - Redirige al login.
+   */
   const handleLogout = () => {
     localStorage.removeItem('auth_session');
     window.location.href = '/login';
@@ -46,7 +68,8 @@ export default function HeaderHR() {
   return (
     <header className="nav-header fixed top-0 left-0 right-0 z-50 px-6 py-3 h-16">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
-        {/* Logo y título */}
+        
+        {/* Logo + Identidad de HR */}
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
@@ -81,7 +104,8 @@ export default function HeaderHR() {
 
         {/* Acciones del usuario */}
         <div className="flex items-center space-x-4">
-          {/* Búsqueda */}
+          
+          {/* Barra de búsqueda */}
           <div className="hidden md:block relative">
             <input
               type="text"
@@ -107,6 +131,7 @@ export default function HeaderHR() {
               )}
             </button>
 
+            {/* Panel desplegable de notificaciones */}
             {showNotifications && (
               <div className="absolute right-0 top-11 w-80 card p-4 space-y-3 z-50">
                 <h3 className="font-semibold text-sm text-slate-700">Notificaciones</h3>
@@ -147,6 +172,7 @@ export default function HeaderHR() {
               <ChevronDown className="w-4 h-4 text-slate-500" />
             </button>
 
+            {/* Panel desplegable del usuario */}
             {showUserMenu && (
               <div className="absolute right-0 top-11 w-56 card p-2 z-50">
                 <div className="px-3 py-2 border-b border-slate-200">
