@@ -1,22 +1,35 @@
-// src/modules/dashboard/volunteer/PersonalStats.tsx
 'use client';
 
 import { BarChart3, TrendingUp, Clock, Target } from 'lucide-react';
 
+/**
+ * Props del componente PersonalStats.
+ * Contiene estadísticas resumidas del voluntario.
+ */
 interface PersonalStatsProps {
   data: {
+    /** Número de tareas completadas por el voluntario */
     tasksCompleted?: number;
+    /** Número total de tareas asignadas */
     totalTasks?: number;
+    /** Cantidad de proyectos activos actualmente */
     activeProjects?: number;
+    /** Total de horas acumuladas de voluntariado */
     totalVolunteerHours?: number;
+    /** Horas dedicadas durante el mes actual */
     thisMonthHours?: number;
+    /** Meta semanal en horas */
     weeklyGoal?: number;
+    /** Progreso alcanzado esta semana (en %) */
     weeklyProgress?: number;
   } | null;
 }
 
 export default function PersonalStats({ data }: PersonalStatsProps) {
-  // Datos ficticios para el gráfico de progreso mensual
+  /**
+   * Datos ficticios que representan la evolución de horas y tareas
+   * completadas por mes en los últimos 6 meses.
+   */
   const monthlyProgress = [
     { month: 'Ene', hours: 8, tasks: 5 },
     { month: 'Feb', hours: 12, tasks: 7 },
@@ -26,10 +39,12 @@ export default function PersonalStats({ data }: PersonalStatsProps) {
     { month: 'Jun', hours: 12, tasks: 8 },
   ];
 
+  // Determinar el máximo de horas para normalizar la altura de las barras
   const maxHours = Math.max(...monthlyProgress.map(m => m.hours));
 
   return (
     <div className="card p-6">
+      {/* Encabezado */}
       <div className="flex items-center space-x-2 mb-6">
         <BarChart3 className="w-5 h-5 text-living-green-600" />
         <h3 className="text-lg font-semibold text-slate-800">Mi Rendimiento</h3>
@@ -37,7 +52,9 @@ export default function PersonalStats({ data }: PersonalStatsProps) {
 
       {/* Gráfico de progreso mensual */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-slate-600 mb-4">Horas de Voluntariado - Últimos 6 Meses</h4>
+        <h4 className="text-sm font-medium text-slate-600 mb-4">
+          Horas de Voluntariado - Últimos 6 Meses
+        </h4>
         <div className="flex items-end justify-between space-x-2 h-32">
           {monthlyProgress.map((month, index) => (
             <div key={index} className="flex flex-col items-center flex-1">
@@ -61,6 +78,7 @@ export default function PersonalStats({ data }: PersonalStatsProps) {
 
       {/* Métricas detalladas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Promedio semanal */}
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-center space-x-2 mb-2">
             <Clock className="w-4 h-4 text-blue-600" />
@@ -69,11 +87,10 @@ export default function PersonalStats({ data }: PersonalStatsProps) {
           <div className="text-2xl font-bold text-blue-700">
             {data ? Math.round((data.totalVolunteerHours || 0) / 12) : 0}h
           </div>
-          <div className="text-xs text-blue-600">
-            Últimas 12 semanas
-          </div>
+          <div className="text-xs text-blue-600">Últimas 12 semanas</div>
         </div>
 
+        {/* Eficiencia */}
         <div className="bg-green-50 p-4 rounded-lg">
           <div className="flex items-center space-x-2 mb-2">
             <Target className="w-4 h-4 text-green-600" />
@@ -82,11 +99,10 @@ export default function PersonalStats({ data }: PersonalStatsProps) {
           <div className="text-2xl font-bold text-green-700">
             {data ? Math.round(((data.tasksCompleted || 0) / (data.totalTasks || 1)) * 100) : 0}%
           </div>
-          <div className="text-xs text-green-600">
-            Tareas completadas
-          </div>
+          <div className="text-xs text-green-600">Tareas completadas</div>
         </div>
 
+        {/* Crecimiento mensual */}
         <div className="bg-purple-50 p-4 rounded-lg">
           <div className="flex items-center space-x-2 mb-2">
             <TrendingUp className="w-4 h-4 text-purple-600" />
@@ -95,9 +111,7 @@ export default function PersonalStats({ data }: PersonalStatsProps) {
           <div className="text-2xl font-bold text-purple-700">
             +{data?.thisMonthHours || 0}h
           </div>
-          <div className="text-xs text-purple-600">
-            vs. mes anterior
-          </div>
+          <div className="text-xs text-purple-600">vs. mes anterior</div>
         </div>
       </div>
 

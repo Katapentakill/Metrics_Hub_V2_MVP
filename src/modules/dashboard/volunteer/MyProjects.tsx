@@ -1,11 +1,48 @@
-// src/modules/dashboard/volunteer/MyProjects.tsx
 'use client';
 
 import { FolderOpen, Users, Calendar, TrendingUp } from 'lucide-react';
 
+/**
+ * Representa un proyecto en el que participa un voluntario.
+ */
+interface VolunteerProject {
+  /** Identificador único del proyecto */
+  id: string;
+  /** Nombre del proyecto */
+  name: string;
+  /** Descripción breve del proyecto */
+  description: string;
+  /** Avance del proyecto en porcentaje (0–100) */
+  progress: number;
+  /** Rol del voluntario dentro del proyecto */
+  role: string;
+  /** Cantidad de personas que conforman el equipo */
+  team_size: number;
+  /** Fecha límite de entrega (formato ISO: YYYY-MM-DD) */
+  deadline: string;
+  /** Estado actual del proyecto */
+  status: 'active' | 'finishing';
+  /** Nivel de prioridad asignado al proyecto */
+  priority: 'high' | 'medium';
+  /** Color representativo del proyecto */
+  color: string;
+}
+
+
+/**
+ * MyProjects Component
+ *
+ * Muestra la **lista de proyectos en los que participa un voluntario**.
+ * Incluye progreso, rol dentro del proyecto, tamaño del equipo, deadline
+ * y estado general. También proporciona estadísticas rápidas y accesos directos.
+ *
+ * @component
+ * @example
+ * <MyProjects />
+ */
 export default function MyProjects() {
-  // Datos ficticios de proyectos del voluntario
-  const projects = [
+  /** Datos ficticios de proyectos del voluntario */
+  const projects: VolunteerProject[] = [
     {
       id: '1',
       name: 'EcoVerde',
@@ -14,8 +51,8 @@ export default function MyProjects() {
       role: 'Coordinador de Campo',
       team_size: 8,
       deadline: '2025-10-15',
-      status: 'active' as const,
-      priority: 'high' as const,
+      status: 'active',
+      priority: 'high',
       color: 'green'
     },
     {
@@ -26,8 +63,8 @@ export default function MyProjects() {
       role: 'Mentor',
       team_size: 12,
       deadline: '2025-11-30',
-      status: 'active' as const,
-      priority: 'medium' as const,
+      status: 'active',
+      priority: 'medium',
       color: 'blue'
     },
     {
@@ -38,12 +75,18 @@ export default function MyProjects() {
       role: 'Asistente de Datos',
       team_size: 6,
       deadline: '2025-09-20',
-      status: 'finishing' as const,
-      priority: 'high' as const,
+      status: 'finishing',
+      priority: 'high',
       color: 'purple'
     }
   ];
 
+  /**
+   * Devuelve las clases de color para un estado de proyecto.
+   *
+   * @param status Estado del proyecto
+   * @returns {string} Clases de Tailwind CSS
+   */
   const getStatusColor = (status: 'active' | 'finishing') => {
     switch (status) {
       case 'active': return 'text-blue-600 bg-blue-100';
@@ -51,6 +94,12 @@ export default function MyProjects() {
     }
   };
 
+  /**
+   * Devuelve el texto legible para un estado de proyecto.
+   *
+   * @param status Estado del proyecto
+   * @returns {string} Texto descriptivo
+   */
   const getStatusText = (status: 'active' | 'finishing') => {
     switch (status) {
       case 'active': return 'Activo';
@@ -58,6 +107,12 @@ export default function MyProjects() {
     }
   };
 
+  /**
+   * Formatea una fecha en formato legible en español.
+   *
+   * @param dateString Fecha en formato ISO
+   * @returns {string} Fecha formateada
+   */
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', { 
@@ -67,6 +122,12 @@ export default function MyProjects() {
     });
   };
 
+  /**
+   * Retorna el gradiente de color correspondiente al progreso del proyecto.
+   *
+   * @param progress Número entre 0 y 100
+   * @returns {string} Clases de Tailwind CSS
+   */
   const getProgressColor = (progress: number) => {
     if (progress >= 80) return 'from-green-500 to-green-600';
     if (progress >= 50) return 'from-blue-500 to-blue-600';
@@ -75,6 +136,7 @@ export default function MyProjects() {
 
   return (
     <div className="card p-6">
+      {/* Header con contador de proyectos */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-2">
           <FolderOpen className="w-5 h-5 text-living-green-600" />
@@ -105,6 +167,7 @@ export default function MyProjects() {
       <div className="space-y-4">
         {projects.map((project) => (
           <div key={project.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+            {/* Encabezado del proyecto */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <div className="flex items-center space-x-2 mb-1">
@@ -118,7 +181,7 @@ export default function MyProjects() {
               </div>
             </div>
 
-            {/* Progreso del proyecto */}
+            {/* Progreso */}
             <div className="mb-3">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-xs text-slate-600">Progreso</span>
@@ -132,7 +195,7 @@ export default function MyProjects() {
               </div>
             </div>
 
-            {/* Información adicional */}
+            {/* Info adicional */}
             <div className="flex items-center justify-between text-xs text-slate-500">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-1">
@@ -190,7 +253,7 @@ export default function MyProjects() {
         </div>
       </div>
 
-      {/* Enlace para ver todos */}
+      {/* Enlace a ver todos */}
       <div className="mt-4 text-center">
         <button className="text-sm text-living-green-600 hover:text-living-green-700 font-medium">
           Ver todos mis proyectos →

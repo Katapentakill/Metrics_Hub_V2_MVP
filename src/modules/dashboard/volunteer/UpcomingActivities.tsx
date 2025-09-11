@@ -1,74 +1,104 @@
-// src/modules/dashboard/volunteer/UpcomingActivities.tsx
 'use client';
 
 import { Calendar, Clock, MapPin, Users, Video, Coffee } from 'lucide-react';
 
+/**
+ * Representa una actividad programada para un voluntario.
+ */
+interface VolunteerActivity {
+  /** Identificador único de la actividad */
+  id: string;
+  /** Título descriptivo de la actividad */
+  title: string;
+  /** Tipo de actividad (reunión, capacitación, trabajo de campo, social o entrevista) */
+  type: 'meeting' | 'training' | 'fieldwork' | 'social' | 'interview';
+  /** Fecha de la actividad en formato YYYY-MM-DD */
+  date: string;
+  /** Hora de inicio en formato HH:mm */
+  time: string;
+  /** Duración estimada (ejemplo: "2h", "1h 30min") */
+  duration: string;
+  /** Lugar donde se llevará a cabo */
+  location: string;
+  /** Número de asistentes confirmados */
+  attendees: number;
+  /** Proyecto asociado a la actividad */
+  project: string;
+  /** Nivel de prioridad visual (alto, medio, bajo) */
+  priority: 'high' | 'medium' | 'low';
+}
+
 export default function UpcomingActivities() {
-  // Datos ficticios de próximas actividades
-  const activities = [
+  /**
+   * Lista ficticia de actividades próximas que se mostrarán al voluntario.
+   */
+  const activities: VolunteerActivity[] = [
     {
       id: '1',
       title: 'Reunión de Equipo EcoVerde',
-      type: 'meeting' as const,
+      type: 'meeting',
       date: '2025-09-10',
       time: '10:00',
       duration: '1h 30min',
       location: 'Virtual - Zoom',
       attendees: 8,
       project: 'EcoVerde',
-      priority: 'high' as const
+      priority: 'high'
     },
     {
       id: '2',
       title: 'Capacitación: Nuevos Protocolos',
-      type: 'training' as const,
+      type: 'training',
       date: '2025-09-11',
       time: '14:00',
       duration: '2h',
       location: 'Sala de Conferencias A',
       attendees: 15,
       project: 'General',
-      priority: 'medium' as const
+      priority: 'medium'
     },
     {
       id: '3',
       title: 'Trabajo de Campo - Reforestación',
-      type: 'fieldwork' as const,
+      type: 'fieldwork',
       date: '2025-09-13',
       time: '08:00',
       duration: '4h',
       location: 'Parque Central, Zona Norte',
       attendees: 12,
       project: 'EcoVerde',
-      priority: 'high' as const
+      priority: 'high'
     },
     {
       id: '4',
       title: 'Coffee Chat con Mentores',
-      type: 'social' as const,
+      type: 'social',
       date: '2025-09-14',
       time: '16:00',
       duration: '1h',
       location: 'Café Central',
       attendees: 6,
       project: 'TechEdu',
-      priority: 'low' as const
+      priority: 'low'
     },
     {
       id: '5',
       title: 'Entrevista a Nuevo Candidato',
-      type: 'interview' as const,
+      type: 'interview',
       date: '2025-09-15',
       time: '11:00',
       duration: '45min',
       location: 'Virtual - Google Meet',
       attendees: 3,
       project: 'Reclutamiento',
-      priority: 'medium' as const
+      priority: 'medium'
     }
   ];
 
-  const getTypeIcon = (type: 'meeting' | 'training' | 'fieldwork' | 'social' | 'interview') => {
+  /**
+   * Retorna el ícono correspondiente según el tipo de actividad.
+   */
+  const getTypeIcon = (type: VolunteerActivity['type']) => {
     switch (type) {
       case 'meeting': return <Video className="w-4 h-4 text-blue-600" />;
       case 'training': return <Users className="w-4 h-4 text-purple-600" />;
@@ -78,7 +108,10 @@ export default function UpcomingActivities() {
     }
   };
 
-  const getTypeColor = (type: 'meeting' | 'training' | 'fieldwork' | 'social' | 'interview') => {
+  /**
+   * Devuelve los estilos de color según el tipo de actividad.
+   */
+  const getTypeColor = (type: VolunteerActivity['type']) => {
     switch (type) {
       case 'meeting': return 'bg-blue-100 text-blue-800';
       case 'training': return 'bg-purple-100 text-purple-800';
@@ -88,7 +121,10 @@ export default function UpcomingActivities() {
     }
   };
 
-  const getTypeText = (type: 'meeting' | 'training' | 'fieldwork' | 'social' | 'interview') => {
+  /**
+   * Devuelve el texto legible para el usuario según el tipo de actividad.
+   */
+  const getTypeText = (type: VolunteerActivity['type']) => {
     switch (type) {
       case 'meeting': return 'Reunión';
       case 'training': return 'Capacitación';
@@ -98,6 +134,10 @@ export default function UpcomingActivities() {
     }
   };
 
+  /**
+   * Formatea la fecha para mostrar etiquetas como "Hoy", "Mañana"
+   * o una fecha abreviada en español.
+   */
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const today = new Date();
@@ -117,7 +157,10 @@ export default function UpcomingActivities() {
     }
   };
 
-  const getPriorityColor = (priority: 'high' | 'medium' | 'low') => {
+  /**
+   * Devuelve el color de borde lateral según la prioridad de la actividad.
+   */
+  const getPriorityColor = (priority: VolunteerActivity['priority']) => {
     switch (priority) {
       case 'high': return 'border-l-red-400';
       case 'medium': return 'border-l-yellow-400';
@@ -125,13 +168,14 @@ export default function UpcomingActivities() {
     }
   };
 
-  // Actividades de hoy y mañana
+  // Filtrar actividades de hoy
   const todayActivities = activities.filter(activity => {
     const activityDate = new Date(activity.date);
     const today = new Date();
     return activityDate.toDateString() === today.toDateString();
   });
 
+  // Filtrar próximas actividades (futuras)
   const upcomingActivities = activities.filter(activity => {
     const activityDate = new Date(activity.date);
     const today = new Date();
@@ -140,6 +184,7 @@ export default function UpcomingActivities() {
 
   return (
     <div className="card p-6">
+      {/* Encabezado */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-2">
           <Calendar className="w-5 h-5 text-living-green-600" />
@@ -150,7 +195,7 @@ export default function UpcomingActivities() {
         </button>
       </div>
 
-      {/* Actividades de hoy (si las hay) */}
+      {/* Actividades de hoy */}
       {todayActivities.length > 0 && (
         <div className="mb-6">
           <h4 className="text-sm font-medium text-slate-700 mb-3 flex items-center space-x-2">
@@ -201,9 +246,7 @@ export default function UpcomingActivities() {
                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${getTypeColor(activity.type)}`}>
                   {getTypeText(activity.type)}
                 </span>
-                <span className="text-xs text-slate-500">
-                  {formatDate(activity.date)}
-                </span>
+                <span className="text-xs text-slate-500">{formatDate(activity.date)}</span>
               </div>
             </div>
             <div className="flex items-center justify-between text-xs text-slate-600">
@@ -235,15 +278,9 @@ export default function UpcomingActivities() {
             <span className="text-sm font-bold text-slate-800">{activities.length} actividades</span>
           </div>
           <div className="flex justify-between text-xs text-slate-600">
-            <span>
-              {activities.filter(a => a.type === 'meeting').length} reuniones
-            </span>
-            <span>
-              {activities.filter(a => a.type === 'fieldwork').length} trabajo de campo
-            </span>
-            <span>
-              {activities.filter(a => a.type === 'training').length} capacitaciones
-            </span>
+            <span>{activities.filter(a => a.type === 'meeting').length} reuniones</span>
+            <span>{activities.filter(a => a.type === 'fieldwork').length} trabajo de campo</span>
+            <span>{activities.filter(a => a.type === 'training').length} capacitaciones</span>
           </div>
         </div>
       </div>

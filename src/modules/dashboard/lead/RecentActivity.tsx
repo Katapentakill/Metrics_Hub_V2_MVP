@@ -19,18 +19,30 @@ import {
  * Representa una entrada de actividad en el dashboard de Lead Project.
  */
 interface LeadActivityItem {
+  /** Identificador único de la actividad */
   id: string;
+  /** Tipo de actividad registrada */
   type: 'task' | 'project' | 'team' | 'milestone' | 'meeting' | 'assignment' | 'review';
+  /** Título corto de la actividad */
   title: string;
+  /** Descripcón detallada de la actividad */
   description: string;
+  /** Momento en el que ocurrió la actividad (ej: "Hace 15 minutos") */
   time: string;
+  /** Proyecto asociado a la actividad (opcional) */
   project?: string;
+  /** Miembro involucrado en la actividad (opcional) */
   member?: string;
+  /** Icono representativo de la actividad (componente de Lucide) */
   icon: any;
+  /** Color principal del icono (ej: `text-green-600`) */
   color: string;
+  /** Color de fondo del contenedor del icono (ej: `bg-green-50`) */
   bgColor: string;
+  /** Nivel de prioridad de la actividad (opcional) */
   priority?: 'high' | 'medium' | 'low';
 }
+
 
 /**
  * RecentActivity Component
