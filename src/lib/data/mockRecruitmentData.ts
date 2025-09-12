@@ -45,8 +45,18 @@ export interface MockCandidate {
   timezone: string;
   hrsWk: number;
   cptOptStatus: CptOptStatus;
-  
-  // NUEVOS CAMPOS AÑADIDOS
+  appliedRole: string;
+  projectPreferences: string[];
+  linkedinUrl: string;
+  portfolioUrl: string;
+  githubUrl: string;
+  recruitmentStage: string;
+  lastContact: Date;
+  interviewDate: Date | null;
+  notes: string;
+
+
+  // Nuevos campos
   volunteerType: 'Regular' | 'CPT' | 'OPT';
   interviewAssigned: string | null;
   supervisor: string | null;
@@ -61,7 +71,6 @@ export interface MockCandidate {
   wlStatus: 'Not Sent' | 'Sent';
   wlLink: string | null;
 }
-
 
 // Generador de datos ficticios
 export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
@@ -97,6 +106,11 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
     'Vitalink',
   ];
 
+  const volunteerTypes = ['Regular', 'CPT', 'OPT'] as const;
+  const offerLetterStatuses = ['Not Sent', 'Sent', 'Accepted', 'Rejected'] as const;
+  const vaStatuses = ['Not Sent', 'Sent', 'Signed', 'Rejected'] as const;
+  const wlStatuses = ['Not Sent', 'Sent'] as const;
+
   return Array.from({ length: count }, () => {
     const status = faker.helpers.arrayElement(statuses);
     const hasInterview = [
@@ -108,27 +122,18 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       'Interview Completed',
     ].includes(status);
 
-    // Generamos fecha mock como string
     const hrInterviewDate = hasInterview
-      ? faker.date.future({ years: 1 }).toISOString().split('T')[0] // formato YYYY-MM-DD
+      ? faker.date.future({ years: 1 }).toISOString().split('T')[0]
+      : null;
+
+    const pmInterviewDate = hasInterview
+      ? faker.date.future({ years: 1 }).toISOString().split('T')[0]
       : null;
 
     const toDo: ToDoTask[] = [];
-
-    // Lógica para tareas según estado
-    if (status === 'Application Received') {
-      toDo.push('HR Review', 'Schedule Interview');
-    } else if (status === 'Accepted by PM') {
-      toDo.push('Send Offer Letter');
-    } else if (status === 'Accepted by Candidate') {
-      toDo.push('Complete Onboarding Docs');
-    }
-
-    // Nuevos campos mock
-    const volunteerTypes = ['Regular', 'CPT', 'OPT'] as const;
-    const offerLetterStatuses = ['Not Sent', 'Sent', 'Accepted', 'Rejected'] as const;
-    const vaStatuses = ['Not Sent', 'Sent', 'Signed', 'Rejected'] as const;
-    const wlStatuses = ['Not Sent', 'Sent'] as const;
+    if (status === 'Application Received') toDo.push('HR Review', 'Schedule Interview');
+    else if (status === 'Accepted by PM') toDo.push('Send Offer Letter');
+    else if (status === 'Accepted by Candidate') toDo.push('Complete Onboarding Docs');
 
     return {
       id: faker.string.uuid(),
@@ -136,34 +141,24 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       email: faker.internet.email(),
       phone: faker.phone.number(),
       role: faker.helpers.arrayElement(roles),
+      appliedRole: faker.helpers.arrayElement(roles),
+      projectPreferences: [faker.commerce.department(), faker.commerce.department()],
+      linkedinUrl: faker.internet.url(),
+      portfolioUrl: faker.internet.url(),
+      githubUrl: faker.internet.url(),
       team: faker.helpers.arrayElement(teams),
       applicationStatus: status,
       toDo,
       hrInterviewDate,
-      cvLink: faker.internet.url(),
-      timezone: faker.helpers.arrayElement([
-        'America/New_York',
-        'Europe/Madrid',
-        'America/Mexico_City',
-        'Asia/Tokyo',
-        'America/Bogota',
-        'Europe/London',
-      ]), // timezone como string mock
-      hrsWk: faker.number.int({ min: 10, max: 40 }),
-      cptOptStatus: faker.helpers.arrayElement([
-        'No required',
-        'Requested',
-        'Received',
-        'Approved',
-        'Rejected',
-      ]),
-      // NUEVOS CAMPOS AÑADIDOS
+      interviewDate: hasInterview ? faker.date.future({ years: 1 }) : null,
+      recruitmentStage: faker.helpers.arrayElement(['Screening', 'Interview', 'Offer', 'Onboarding']),
+      lastContact: faker.date.recent(),
+      notes: faker.lorem.paragraph(),
+      cptOptStatus: faker.helpers.arrayElement(['No required', 'Requested', 'Received', 'Approved', 'Rejected']),
       volunteerType: faker.helpers.arrayElement(volunteerTypes),
       interviewAssigned: faker.person.fullName(),
       supervisor: faker.person.fullName(),
-      pmInterviewDate: hasInterview
-        ? faker.date.future({ years: 1 }).toISOString().split('T')[0]
-        : null,
+      pmInterviewDate,
       duration: `${faker.number.int({ min: 1, max: 12 })} months`,
       startDate: faker.date.future({ years: 1 }).toISOString().split('T')[0],
       endDate: faker.date.future({ years: 2 }).toISOString().split('T')[0],
