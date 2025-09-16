@@ -862,7 +862,7 @@ export default function VolunteerApplicationView({ currentUser }: VolunteerAppli
               required
               value={formData.name || ''}
               onChange={(e) => handleFieldChange('name', e.target.value)}
-              className={`mt-1 block w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+              className={`mt-1 block w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 ${
                 errors.name ? 'border-red-500' : 'border-slate-300'
               }`}
               placeholder="Enter your full name"
@@ -879,7 +879,7 @@ export default function VolunteerApplicationView({ currentUser }: VolunteerAppli
               required
               value={formData.email || ''}
               onChange={(e) => handleFieldChange('email', e.target.value)}
-              className={`mt-1 block w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+              className={`mt-1 block w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 ${
                 errors.email ? 'border-red-500' : 'border-slate-300'
               }`}
               placeholder="your.email@example.com"
@@ -895,7 +895,7 @@ export default function VolunteerApplicationView({ currentUser }: VolunteerAppli
               type="tel"
               value={formData.phone || ''}
               onChange={(e) => handleFieldChange('phone', e.target.value)}
-              className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900"
               placeholder="+1 (555) 123-4567"
             />
           </div>
@@ -907,7 +907,7 @@ export default function VolunteerApplicationView({ currentUser }: VolunteerAppli
               id="timezone"
               value={formData.timezone || ''}
               onChange={(e) => handleFieldChange('timezone', e.target.value)}
-              className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900"
             >
               <option value="" disabled>Select your time zone</option>
               {timezones.map(tz => (
@@ -925,7 +925,7 @@ export default function VolunteerApplicationView({ currentUser }: VolunteerAppli
               id="volunteerType"
               value={formData.volunteerType || 'Regular'}
               onChange={(e) => handleFieldChange('volunteerType', e.target.value)}
-              className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="mt-1 block w-full border border-slate-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900"
             >
               <option value="Regular">Regular Volunteer</option>
               <option value="CPT">CPT Student (Curricular Practical Training)</option>
@@ -997,8 +997,8 @@ export default function VolunteerApplicationView({ currentUser }: VolunteerAppli
               </div>
             ) : (
               <div className="space-y-2">
-                <label className="flex items-center px-4 py-2 bg-indigo-500 text-white text-sm rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer w-fit">
-                  <ArrowUpTrayIcon className="h-4 w-4 mr-2" /> Upload CV/Resume
+                <label className="flex items-center px-4 py-2 bg-indigo-500 text-sm rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer w-fit">
+                  <ArrowUpTrayIcon className="h-4 w-4 mr-2" /> <span className="text-white">Upload CV/Resume</span>
                   <input
                     type="file"
                     className="hidden"

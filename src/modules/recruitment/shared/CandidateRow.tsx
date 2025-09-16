@@ -41,13 +41,12 @@ interface CandidateRowProps {
   allTeams: string[];
 }
 
-const formatDate = (date: Date | null): string => {
+// Nueva función para formatear la fecha y hora para el input datetime-local
+const formatDateTimeLocal = (date: Date | null): string => {
   if (!date) return '';
   const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  // Devuelve la fecha en el formato YYYY-MM-DDTHH:mm
+  return d.toISOString().slice(0, 16);
 };
 
 const formatInterviewDate = (date: Date | null): string => {
@@ -58,7 +57,6 @@ const formatInterviewDate = (date: Date | null): string => {
     year: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
-    second: '2-digit',
     hour12: true,
   };
   return new Intl.DateTimeFormat('en-US', options).format(date);
@@ -351,8 +349,8 @@ export function CandidateRow({
                       <CalendarIcon className="h-4 w-4 text-slate-500" />
                       <span>HR Interview:</span>
                       <input
-                        type="date"
-                        value={formatDate(tempData.hrInterviewDate || candidate.hrInterviewDate)}
+                        type="datetime-local" // CAMBIO CLAVE
+                        value={formatDateTimeLocal(tempData.hrInterviewDate || candidate.hrInterviewDate)}
                         onChange={(e) => handleTempFieldChange('hrInterviewDate', e.target.value ? new Date(e.target.value) : null)}
                         className="border rounded px-2 py-1 w-full text-sm"
                       />
@@ -361,8 +359,8 @@ export function CandidateRow({
                       <CalendarIcon className="h-4 w-4 text-slate-500" />
                       <span>PM Interview:</span>
                       <input
-                        type="date"
-                        value={formatDate(tempData.pmInterviewDate || candidate.pmInterviewDate)}
+                        type="datetime-local" // CAMBIO CLAVE
+                        value={formatDateTimeLocal(tempData.pmInterviewDate || candidate.pmInterviewDate)}
                         onChange={(e) => handleTempFieldChange('pmInterviewDate', e.target.value ? new Date(e.target.value) : null)}
                         className="border rounded px-2 py-1 w-full text-sm"
                       />

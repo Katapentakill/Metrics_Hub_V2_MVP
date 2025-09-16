@@ -2,37 +2,63 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { getMockRecruitmentData, MockCandidate } from '@/lib/data/mockRecruitmentData';
-import { 
-  STATUS_COLORS, 
-  CPT_OPT_COLORS, 
-  CANDIDATE_STATUSES, 
-  AVAILABLE_ROLES, 
-  VOLUNTEER_TYPES,
+import {
+  getMockRecruitmentData,
+  MockCandidate,
+  CandidateStatus,
+  CptOptStatus,
+  teams as allTeams,
+} from '@/lib/data/mockRecruitmentData';
+import {
   ROLE_PERMISSIONS,
-  DEFAULT_TEXTS 
+  DEFAULT_TEXTS,
+  TABLE_CONFIG,
+  CANDIDATE_STATUSES,
+  AVAILABLE_ROLES,
+  VOLUNTEER_TYPES,
 } from '@/modules/recruitment/shared/constants';
-import { StatusBadge } from '@/modules/recruitment/shared/StatusBadge';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import {
+  MagnifyingGlassIcon,
+  PlusIcon,
+} from '@heroicons/react/24/outline';
+import { CandidateRow } from '@/modules/recruitment/shared/CandidateRow';
+
+const initialMockData = getMockRecruitmentData(25); // Admin has a larger view
 
 export default function RecruitmentTracker() {
-  const [candidates] = useState<MockCandidate[]>(getMockRecruitmentData(15));
-  const [expanded, setExpanded] = useState<string[]>([]);
+  const [candidates, setCandidates] = useState<MockCandidate[]>(initialMockData);
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
     role: 'all',
-    volunteerType: 'all'
+    volunteerType: 'all',
   });
-  const permissions = ROLE_PERMISSIONS.admin;
 
-  const toggleExpand = (id: string) => {
-    setExpanded(prev => 
-      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+  const permissions = ROLE_PERMISSIONS.admin;
+  const config = TABLE_CONFIG.admin;
+
+  const handleDelete = (id: string) => {
+    setCandidates((prev) => prev.filter((c) => c.id !== id));
+    console.log(`Candidate with ID ${id} deleted.`);
+  };
+
+  // The admin has full CRUD, so the update function is necessary.
+  const handleUpdate = (candidateId: string, field: keyof MockCandidate, value: any) => {
+    setCandidates(prev =>
+      prev.map(c => {
+        if (c.id === candidateId) {
+          const updatedCandidate = { ...c, [field]: value };
+          // Auto-set CPT/OPT status for Regular volunteers
+          if (field === 'volunteerType' && value === 'Regular') {
+            updatedCandidate.cptOptStatus = 'No Required';
+          }
+          return updatedCandidate;
+        }
+        return c;
+      })
     );
   };
-  
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
@@ -41,33 +67,29 @@ export default function RecruitmentTracker() {
   const filteredCandidates = useMemo(() => {
     let result = candidates;
 
-    // Filter by search term
     if (filters.search) {
-      result = result.filter(candidate =>
-        candidate.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-        candidate.email.toLowerCase().includes(filters.search.toLowerCase())
+      result = result.filter(c =>
+        c.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        c.email.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
-    // Filter by status
     if (filters.status !== 'all') {
-      result = result.filter(candidate => candidate.applicationStatus === filters.status);
+      result = result.filter(c => c.applicationStatus === filters.status);
     }
 
-    // Filter by role
     if (filters.role !== 'all') {
-      result = result.filter(candidate => candidate.appliedRole === filters.role);
+      result = result.filter(c => c.appliedRole === filters.role);
     }
 
-    // Filter by volunteer type
     if (filters.volunteerType !== 'all') {
-      result = result.filter(candidate => candidate.volunteerType === filters.volunteerType);
+      result = result.filter(c => c.volunteerType === filters.volunteerType);
     }
-    
+
     return result;
   }, [candidates, filters]);
 
-  if (filteredCandidates.length === 0) {
+  if (candidates.length === 0) {
     return (
       <div className="flex justify-center items-center h-64">
         <p className="text-xl text-slate-500">
@@ -79,144 +101,99 @@ export default function RecruitmentTracker() {
 
   return (
     <div>
-      {/* Filtros */}
-      <div className="flex flex-wrap gap-4 mb-6 items-center">
-        {/* Search */}
-        <div className="relative flex-grow">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <MagnifyingGlassIcon className="h-5 w-5 text-slate-400" />
+      {config.showFilters && (
+        <div className="flex flex-wrap gap-4 mb-6 items-center">
+          {/* Campo de búsqueda mejorado */}
+          <div className="relative flex-grow min-w-[200px]">
+            <label htmlFor="search" className="sr-only">Search</label>
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <MagnifyingGlassIcon className="h-5 w-5 text-slate-400" />
+            </div>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder={DEFAULT_TEXTS.searchPlaceholder}
+              onChange={handleFilterChange}
+              className="block w-full rounded-md border-slate-300 bg-white pl-10 py-2 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            />
           </div>
-          <input
-            type="text"
-            name="search"
-            placeholder={DEFAULT_TEXTS.searchPlaceholder}
-            onChange={handleFilterChange}
-            className="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
+
+          {/* Filtro por estado mejorado */}
+          <div className="min-w-[150px]">
+            <label htmlFor="status" className="sr-only">Status</label>
+            <select
+              name="status"
+              id="status"
+              onChange={handleFilterChange}
+              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
+            >
+              <option value="all">All Statuses</option>
+              {CANDIDATE_STATUSES.map(s => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por rol mejorado */}
+          <div className="min-w-[150px]">
+            <label htmlFor="role" className="sr-only">Role</label>
+            <select
+              name="role"
+              id="role"
+              onChange={handleFilterChange}
+              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
+            >
+              <option value="all">All Roles</option>
+              {AVAILABLE_ROLES.map(r => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por tipo de voluntario mejorado */}
+          <div className="min-w-[150px]">
+            <label htmlFor="volunteerType" className="sr-only">Volunteer Type</label>
+            <select
+              name="volunteerType"
+              id="volunteerType"
+              onChange={handleFilterChange}
+              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
+            >
+              <option value="all">All Types</option>
+              {VOLUNTEER_TYPES.map(vt => (
+                <option key={vt} value={vt}>{vt}</option>
+              ))}
+            </select>
+          </div>
         </div>
+      )}
 
-        {/* Status Filter */}
-        <select
-          name="status"
-          onChange={handleFilterChange}
-          className="rounded-md border-slate-300 text-sm"
-        >
-          <option value="all">All Statuses</option>
-          {CANDIDATE_STATUSES.map(s => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-
-        {/* Role Filter */}
-        <select
-          name="role"
-          onChange={handleFilterChange}
-          className="rounded-md border-slate-300 text-sm"
-        >
-          <option value="all">All Roles</option>
-          {AVAILABLE_ROLES.map(r => (
-            <option key={r} value={r}>{r}</option>
-          ))}
-        </select>
-
-        {/* Volunteer Type Filter */}
-        <select
-          name="volunteerType"
-          onChange={handleFilterChange}
-          className="rounded-md border-slate-300 text-sm"
-        >
-          <option value="all">All Types</option>
-          {VOLUNTEER_TYPES.map(vt => (
-            <option key={vt} value={vt}>{vt}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* Tabla */}
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Volunteer Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  CPT/OPT
-                </th>
-                <th className="relative px-6 py-3"></th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
+                {config.showActions && (
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                )}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-slate-200">
               {filteredCandidates.map((candidate) => (
-                <React.Fragment key={candidate.id}>
-                  <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
-                      {candidate.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      {candidate.appliedRole}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      <StatusBadge status={candidate.applicationStatus} />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      {candidate.volunteerType}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                      <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${CPT_OPT_COLORS[candidate.cptOptStatus]}`}>
-                        {candidate.cptOptStatus}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button 
-                        onClick={() => toggleExpand(candidate.id)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        {expanded.includes(candidate.id) ? (
-                          <ChevronUpIcon className="h-5 w-5" />
-                        ) : (
-                          <ChevronDownIcon className="h-5 w-5" />
-                        )}
-                      </button>
-                    </td>
-                  </tr>
-                  
-                  {/* Expanded block - read-only for admin */}
-                  {expanded.includes(candidate.id) && (
-                    <tr>
-                      <td colSpan={6} className="px-6 py-4 bg-slate-50">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-slate-700">
-                          <div>
-                            <p><span className="font-semibold">Email:</span> {candidate.email}</p>
-                            <p><span className="font-semibold">Phone:</span> {candidate.phone}</p>
-                            <p><span className="font-semibold">LinkedIn:</span> <a href={candidate.linkedinUrl} className="text-blue-500 hover:underline">{candidate.linkedinUrl}</a></p>
-                            <p><span className="font-semibold">Portfolio:</span> <a href={candidate.portfolioUrl} className="text-blue-500 hover:underline">{candidate.portfolioUrl}</a></p>
-                          </div>
-                          <div>
-                            <p><span className="font-semibold">Project Preference:</span> {candidate.projectPreferences}</p>
-                            <p><span className="font-semibold">Recruitment Stage:</span> {candidate.recruitmentStage}</p>
-                            <p><span className="font-semibold">Last Contact:</span> {candidate.lastContact.toLocaleDateString()}</p>
-                            <p><span className="font-semibold">Interview Date:</span> {candidate.interviewDate?.toLocaleDateString() || 'N/A'}</p>
-                          </div>
-                          <div className="col-span-1 md:col-span-2 lg:col-span-1">
-                            <p><span className="font-semibold">Notes:</span></p>
-                            <p className="mt-1 p-2 bg-white rounded-md border border-slate-200">{candidate.notes}</p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
+                <CandidateRow
+                  key={candidate.id}
+                  candidate={candidate}
+                  permissions={permissions}
+                  onUpdate={handleUpdate}
+                  onDelete={handleDelete}
+                  showActions={config.showActions}
+                  allTeams={allTeams}
+                />
               ))}
             </tbody>
           </table>
