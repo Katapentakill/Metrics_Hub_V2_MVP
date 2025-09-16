@@ -1,4 +1,4 @@
-// src/modules/recruitment/lead/OnboardingTracker.tsx
+// src/modules/recruitment/lead/RecruitmentTracker.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -54,7 +54,7 @@ const getStatusColor = (status: CandidateStatus) => {
   }
 };
 
-export default function OnboardingTrackerLead() {
+export default function RecruitmentTrackerLead() {
   const [candidates] = useState<MockCandidate[]>(initialMockData);
   const [expanded, setExpanded] = useState<string[]>([]);
 

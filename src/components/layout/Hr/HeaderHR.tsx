@@ -31,7 +31,7 @@ interface SessionData {
 const hrModules = [
   { name: 'Dashboard', href: '/hr/dashboard', icon: LayoutGrid },
   { name: 'Volunteers', href: '/hr/volunteers', icon: Users },
-  { name: 'Onboarding', href: '/hr/recruitment', icon: ClipboardList },
+  { name: 'Recruitment', href: '/hr/recruitment', icon: ClipboardList },
   { name: 'Communications', href: '/hr/communications', icon: MessageSquare },
 ];
 
