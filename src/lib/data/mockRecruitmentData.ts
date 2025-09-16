@@ -1,9 +1,9 @@
-// src/lib/data/mockRecruitmentData.ts
+//src/lib/data/mockRecruitmentData.ts
 import { faker } from '@faker-js/faker';
 
-// Tipos de estados de candidatos
 export type CandidateStatus =
   | 'Application Received'
+  | 'Application Accepted'
   | 'Accepted by HR'
   | 'Rejected by HR'
   | 'Accepted by PM'
@@ -22,15 +22,13 @@ export type ToDoTask =
   | 'Send Offer Letter'
   | 'Complete Onboarding Docs';
 
-// Estado CPT/OPT
 export type CptOptStatus =
-  | 'No required'
+  | 'No Required'
   | 'Requested'
   | 'Received'
   | 'Approved'
   | 'Rejected';
 
-// Interfaz para candidatos
 export interface MockCandidate {
   id: string;
   name: string;
@@ -53,18 +51,13 @@ export interface MockCandidate {
   lastContact: Date;
   interviewDate: Date | null;
   notes: string;
-
-  // Nuevos campos
   volunteerType: 'Regular' | 'CPT' | 'OPT';
   interviewAssigned: string | null;
   supervisor: string | null;
-  
-  // Tipos de fecha corregidos
   hrInterviewDate: Date | null;
   pmInterviewDate: Date | null;
   startDate: Date | null;
   endDate: Date | null;
-
   duration: string;
   offerLetterStatus: 'Not Sent' | 'Sent' | 'Accepted' | 'Rejected';
   offerLetterLink: string | null;
@@ -72,9 +65,9 @@ export interface MockCandidate {
   vaLink: string | null;
   wlStatus: 'Not Sent' | 'Sent';
   wlLink: string | null;
+  editingNotesId?: string | null;
 }
 
-// Generador de datos ficticios
 export const teams = [
   'Global Affairs Office',
   'Genesis',
@@ -83,12 +76,30 @@ export const teams = [
   'Vitalink',
 ];
 
+export const roles = [
+  'Innovation Manager',
+  'Senior Project Manager',
+  'Data Analyst',
+  'Graphic Designer',
+  'Software Developer',
+  'UX/UI Designer',
+];
+
+export const timezones = [
+  'America/New_York',
+  'America/Los_Angeles',
+  'Europe/London',
+  'Europe/Berlin',
+  'Asia/Tokyo',
+  'Australia/Sydney',
+];
+
 export const vaStatuses = ['Not Sent', 'Sent', 'Signed', 'Rejected'] as const;
 export const wlStatuses = ['Not Sent', 'Sent'] as const;
 export const offerLetterStatuses = ['Not Sent', 'Sent', 'Accepted', 'Rejected'] as const;
 
-export const cptOptOptions: CptOptStatus[] = [ // Added 'export' here
-  'No required',
+export const cptOptOptions: CptOptStatus[] = [
+  'No Required',
   'Requested',
   'Received',
   'Approved',
@@ -98,6 +109,7 @@ export const cptOptOptions: CptOptStatus[] = [ // Added 'export' here
 export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
   const statuses: CandidateStatus[] = [
     'Application Received',
+    'Application Accepted',
     'Accepted by HR',
     'Rejected by HR',
     'Accepted by PM',
@@ -111,20 +123,13 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
     'Offer Sent',
   ];
 
-  const roles = [
-    'Innovation Manager',
-    'Senior Project Manager',
-    'Data Analyst',
-    'Graphic Designer',
-    'Software Developer',
-    'UX/UI Designer',
-  ];
-
   const volunteerTypes = ['Regular', 'CPT', 'OPT'] as const;
 
   return Array.from({ length: count }, () => {
     const status = faker.helpers.arrayElement(statuses);
+    const volunteerType = faker.helpers.arrayElement(volunteerTypes);
     const hasInterview = [
+      'Application Accepted',
       'Accepted by HR',
       'Accepted by PM',
       'Accepted by Candidate',
@@ -160,8 +165,8 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       recruitmentStage: faker.helpers.arrayElement(['Screening', 'Interview', 'Offer', 'Onboarding']),
       lastContact: faker.date.recent(),
       notes: faker.lorem.paragraph(),
-      cptOptStatus: faker.helpers.arrayElement(cptOptOptions),
-      volunteerType: faker.helpers.arrayElement(volunteerTypes),
+      cptOptStatus: volunteerType === 'Regular' ? 'No Required' : faker.helpers.arrayElement(cptOptOptions.filter(opt => opt !== 'No Required')),
+      volunteerType,
       interviewAssigned: faker.person.fullName(),
       supervisor: faker.person.fullName(),
       pmInterviewDate: hasInterview ? faker.date.future({ years: 1 }) : null,
@@ -172,7 +177,7 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       wlStatus: faker.helpers.arrayElement(wlStatuses),
       wlLink: faker.internet.url(),
       cvLink: faker.internet.url(),
-      timezone: faker.location.timeZone(),
+      timezone: faker.helpers.arrayElement(timezones),
       hrsWk: faker.number.int({ min: 5, max: 20 }),
       duration: `${faker.number.int({ min: 1, max: 12 })} months`,
       startDate: startDate,

@@ -1,9 +1,10 @@
-// src/modules/recruitment/shared/constants.ts
+//src/modules/recruitment/shared/constants.ts
 import { CandidateStatus, CptOptStatus } from '@/lib/data/mockRecruitmentData';
+import { User } from '@/lib/types';
 
-// Status colors - centralizados para evitar duplicación
 export const STATUS_COLORS: Record<CandidateStatus, string> = {
   'Application Received': 'bg-blue-100 text-blue-700',
+  'Application Accepted': 'bg-teal-100 text-teal-700',
   'HR Review': 'bg-purple-100 text-purple-700',
   'Interview Scheduled': 'bg-yellow-100 text-yellow-700',
   'Interview Completed': 'bg-orange-100 text-orange-700',
@@ -17,34 +18,17 @@ export const STATUS_COLORS: Record<CandidateStatus, string> = {
   'Rejected by Candidate': 'bg-red-100 text-red-700',
 };
 
-// CPT/OPT status colors
 export const CPT_OPT_COLORS: Record<CptOptStatus, string> = {
-  'No required': 'bg-slate-100 text-slate-700',
+  'No Required': 'bg-slate-100 text-slate-700',
   'Requested': 'bg-blue-100 text-blue-700',
   'Received': 'bg-purple-100 text-purple-700',
   'Approved': 'bg-green-100 text-green-700',
   'Rejected': 'bg-red-100 text-red-700',
 };
 
-// Lista completa de estados - para usar en selects y validaciones
 export const CANDIDATE_STATUSES: CandidateStatus[] = [
   'Application Received',
-  'HR Review',
-  'Interview Scheduled', 
-  'Interview Completed',
-  'Offer Sent',
-  'Accepted by HR',
-  'Accepted by PM',
-  'Accepted by Candidate',
-  'Rejected by HR',
-  'Rejected by PM',
-  'Rejected by Candidate',
-  'Onboard',
-];
-
-// Lista ordenada de estados por rol
-export const ADMIN_VISIBLE_STATUSES: CandidateStatus[] = [
-  'Application Received',
+  'Application Accepted',
   'HR Review',
   'Interview Scheduled',
   'Interview Completed',
@@ -58,30 +42,6 @@ export const ADMIN_VISIBLE_STATUSES: CandidateStatus[] = [
   'Onboard',
 ];
 
-export const HR_EDITABLE_STATUSES: CandidateStatus[] = [
-  'Application Received',
-  'HR Review',
-  'Interview Scheduled',
-  'Interview Completed',
-  'Offer Sent',
-  'Accepted by HR',
-  'Accepted by PM',
-  'Accepted by Candidate',
-  'Rejected by HR',
-  'Rejected by PM',
-  'Rejected by Candidate',
-  'Onboard',
-];
-
-export const LEAD_RELEVANT_STATUSES: CandidateStatus[] = [
-  'Interview Scheduled',
-  'Interview Completed',
-  'Offer Sent',
-  'Rejected by PM',
-  'Onboard',
-];
-
-// Roles disponibles para aplicar
 export const AVAILABLE_ROLES = [
   'Innovation Manager',
   'Senior Project Manager',
@@ -91,68 +51,79 @@ export const AVAILABLE_ROLES = [
   'UX/UI Designer',
 ];
 
-// Tipos de voluntario
 export const VOLUNTEER_TYPES = ['Regular', 'CPT', 'OPT'] as const;
 
-// CPT/OPT options
 export const CPT_OPT_OPTIONS: CptOptStatus[] = [
-  'No required',
+  'No Required',
   'Requested',
   'Received',
   'Approved',
   'Rejected',
 ];
 
-// Action button variants para consistencia visual
-export const ACTION_BUTTON_VARIANTS = {
-  primary: 'bg-blue-100 text-blue-700 hover:bg-blue-200',
-  success: 'bg-green-100 text-green-700 hover:bg-green-200',
-  danger: 'bg-red-100 text-red-700 hover:bg-red-200',
-  warning: 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200',
-  secondary: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-} as const;
-
-// Tamaños de botones
-export const BUTTON_SIZES = {
-  sm: 'px-2 py-1 text-xs',
-  md: 'px-3 py-1 text-sm',
-  lg: 'px-4 py-2 text-base',
-} as const;
-
-// Mensajes de notificación por cambio de estado
-export const STATUS_NOTIFICATIONS: Record<CandidateStatus, string> = {
-  'Application Received': 'Notification: "HR Review, Schedule Interview"',
-  'HR Review': 'Notification: "HR Review in progress"',
-  'Interview Scheduled': 'Notification: "Interview Scheduled"',
-  'Interview Completed': 'Notification: "Interview Completed"',
-  'Offer Sent': 'Notification: "Offer Sent"',
-  'Accepted by HR': 'Notification: "PM Schedule Interview"',
-  'Accepted by PM': 'Notification: "PM Sent form and HR Send Offer Letter"',
-  'Accepted by Candidate': 'Notification: "HR Agreement, Request Docs, Welcome Letter, Records & Access"',
-  'Rejected by HR': 'Notification: "Rejected"',
-  'Rejected by PM': 'Notification: "Rejected"',
-  'Rejected by Candidate': 'Notification: "Rejected"',
-  'Onboard': 'Notification: "Done"',
-};
-
-// Estados que permiten eliminar candidatos
 export const DELETABLE_STATUSES: CandidateStatus[] = [
   'Rejected by HR',
   'Rejected by PM',
   'Rejected by Candidate',
 ];
 
-// Estados que permiten agregar a voluntarios activos
 export const ADDABLE_STATUSES: CandidateStatus[] = [
   'Onboard',
 ];
 
-// Estados que requieren feedback de PM
-export const FEEDBACK_REQUIRED_STATUSES: CandidateStatus[] = [
-  'Interview Completed',
-];
+// FIXED: Proper role permissions interface
+export interface RecruitmentRolePermissions {
+  canEdit: boolean;
+  canDelete: boolean;
+  canViewAll: boolean;
+  canCreate: boolean;
+  canScheduleInterview?: boolean;
+  canSubmitFeedback?: boolean;
+  canUploadDocuments?: boolean;
+  canViewAnalytics?: boolean;
+  canExport?: boolean;
+}
 
-// Configuración de tabla por rol
+export const ROLE_PERMISSIONS: Record<User['role'], RecruitmentRolePermissions> = {
+  admin: {
+    canEdit: false,
+    canDelete: false,
+    canViewAll: true,
+    canCreate: false,
+    canViewAnalytics: true,
+    canExport: true,
+  },
+  hr: {
+    canEdit: true,
+    canDelete: true,
+    canViewAll: true,
+    canCreate: true,
+    canScheduleInterview: true,
+    canViewAnalytics: true,
+    canExport: true,
+  },
+  lead_project: {
+    canEdit: false,
+    canDelete: false,
+    canViewAll: false,
+    canCreate: false,
+    canSubmitFeedback: true,
+  },
+  volunteer: {
+    canEdit: true,
+    canDelete: false,
+    canViewAll: false,
+    canCreate: false,
+    canUploadDocuments: true,
+  },
+  unassigned: {
+    canEdit: false,
+    canDelete: false,
+    canViewAll: false,
+    canCreate: false,
+  }
+};
+
 export const TABLE_CONFIG = {
   admin: {
     showActions: false,
@@ -180,56 +151,6 @@ export const TABLE_CONFIG = {
   },
 } as const;
 
-// Columnas visibles por rol
-export const VISIBLE_COLUMNS = {
-  admin: ['name', 'status', 'role', 'volunteerType', 'cptOpt'],
-  hr: ['name', 'status', 'role', 'volunteerType', 'cptOpt', 'actions'],
-  lead_project: ['name', 'status', 'role', 'actions'],
-  volunteer: ['stage', 'status', 'documents', 'tasks'],
-} as const;
-
-// Permisos por rol - corresponden a los roles en tu types.ts
-export const ROLE_PERMISSIONS = {
-  admin: {
-    canEdit: false,        // Solo lectura para supervisión
-    canDelete: false,
-    canViewAll: true,
-    canCreate: false,
-    canViewAnalytics: true,
-    canExport: true,
-  },
-  hr: {
-    canEdit: true,         // Control total del pipeline
-    canDelete: true,
-    canViewAll: true,
-    canCreate: true,
-    canScheduleInterview: true,
-    canViewAnalytics: true,
-    canExport: true,
-  },
-  lead_project: {
-    canEdit: false,        // Solo candidatos asignados
-    canDelete: false,
-    canViewAll: false,     // Solo sus candidatos
-    canCreate: false,
-    canSubmitFeedback: true,
-  },
-  volunteer: {
-    canEdit: false,        // Solo su propia aplicación
-    canDelete: false,
-    canViewAll: false,     // Solo su perfil
-    canCreate: false,
-    canUploadDocuments: true,
-  },
-  unassigned: {
-    canEdit: false,
-    canDelete: false,
-    canViewAll: false,
-    canCreate: false,
-  }
-} as const;
-
-// Placeholders y textos por defecto
 export const DEFAULT_TEXTS = {
   noData: {
     admin: 'No candidates in the system.',
