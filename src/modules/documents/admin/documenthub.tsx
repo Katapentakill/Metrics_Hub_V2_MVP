@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 const sections = [
   {
     title: 'Company Library',
-    description: 'Accede a documentos generales de la organización.',
+    description: 'Aquí puedes encontrar documentos de referencia generales y de uso común.',
     href: '/admin/documents/company-library',
     icon: BookOpen,
     color: 'text-blue-600',

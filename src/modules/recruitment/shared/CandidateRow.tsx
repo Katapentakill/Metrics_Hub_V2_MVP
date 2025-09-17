@@ -369,9 +369,19 @@ export function CandidateRow({
                       <Clock className="h-4 w-4 text-slate-500" />
                       <span>Duration:</span>
                       <input
-                        type="text"
-                        value={tempData.duration || candidate.duration}
-                        onChange={(e) => handleTempFieldChange('duration', e.target.value)}
+                        type="number"
+                        value={tempData.duration || ''}
+                        onChange={(e) => handleTempFieldChange('duration', parseInt(e.target.value))}
+                        className="border rounded px-2 py-1 w-full text-sm"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-slate-500" />
+                      <span>Hours/Week:</span>
+                      <input
+                        type="number"
+                        value={tempData.hrsWk || ''}
+                        onChange={(e) => handleTempFieldChange('hrsWk', parseInt(e.target.value))}
                         className="border rounded px-2 py-1 w-full text-sm"
                       />
                     </div>
@@ -402,10 +412,14 @@ export function CandidateRow({
                     <div className="flex items-center space-x-2">
                       <UserIcon className="h-4 w-4 text-slate-500" />
                       <span>Assigned to: {candidate.interviewAssigned || 'N/A'}</span>
-                    </div>                    
+                    </div>
                     <div className="flex items-center space-x-2">
                       <Clock className="h-4 w-4 text-slate-500" />
-                      <span>Duration: {candidate.duration}</span>
+                      <span>Duration: {candidate.duration} months</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-slate-500" />
+                      <span>Hours/Week: {candidate.hrsWk}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <PencilIcon className="h-4 w-4 text-slate-500" />
