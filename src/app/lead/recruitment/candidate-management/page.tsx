@@ -1,46 +1,64 @@
-// src/modules/recruitment/lead/RecruitmentTracker.tsx
+// src/app/lead/recruitment/candidate-management/RecruitmentTracker/page.tsx
 'use client';
 
 import React, { useState, useMemo } from 'react';
 import {
   getMockRecruitmentData,
   MockCandidate,
+  CandidateStatus,
+  CptOptStatus,
+  teams as allTeams,
 } from '@/lib/data/mockRecruitmentData';
 import {
   ROLE_PERMISSIONS,
   DEFAULT_TEXTS,
   TABLE_CONFIG,
-  AVAILABLE_ROLES,
-  RecruitmentRolePermissions,
   CANDIDATE_STATUSES,
+  AVAILABLE_ROLES,
+  VOLUNTEER_TYPES,
 } from '@/modules/recruitment/shared/constants';
 import {
   MagnifyingGlassIcon,
+  PlusIcon,
 } from '@heroicons/react/24/outline';
 import { CandidateRow } from '@/modules/recruitment/shared/CandidateRow';
 
 const initialMockData = getMockRecruitmentData(25);
-
-// Simulating a Project Lead user for this component
-const currentUserRole = 'lead_project';
-const leadSpecificTeam = 'Vitalink'; // The team this project lead manages
+const mockLeadTeam = 'Vitalink'; // Simula el equipo del líder
 
 export default function RecruitmentTracker() {
-  const [candidates, setCandidates] = useState<MockCandidate[]>(initialMockData);
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
     role: 'all',
+    volunteerType: 'all',
   });
+  
+  const permissions = ROLE_PERMISSIONS.lead_project;
+  const config = TABLE_CONFIG.lead_project;
+  
+  // Filtra los datos iniciales por el equipo del líder
+  const myTeamCandidates = useMemo(() => {
+    return initialMockData.filter(candidate => candidate.team === mockLeadTeam);
+  }, []);
 
-  const permissions: RecruitmentRolePermissions = ROLE_PERMISSIONS[currentUserRole];
-  const config = TABLE_CONFIG[currentUserRole];
+  const [candidates, setCandidates] = useState<MockCandidate[]>(myTeamCandidates);
+
+  const handleDelete = (id: string) => {
+    // La lógica de eliminación permanece, aunque el líder no tiene permiso para borrar
+    setCandidates((prev) => prev.filter((c) => c.id !== id));
+    console.log(`Candidate with ID ${id} deleted.`);
+  };
 
   const handleUpdate = (candidateId: string, field: keyof MockCandidate, value: any) => {
     setCandidates(prev =>
       prev.map(c => {
         if (c.id === candidateId) {
-          return { ...c, [field]: value };
+          const updatedCandidate = { ...c, [field]: value };
+          if (field === 'volunteerType' && value === 'Regular') {
+            updatedCandidate.cptOptStatus = 'No Required';
+          }
+          return updatedCandidate;
         }
         return c;
       })
@@ -53,11 +71,12 @@ export default function RecruitmentTracker() {
   };
 
   const filteredCandidates = useMemo(() => {
-    let result = candidates.filter(c => c.team === leadSpecificTeam);
+    let result = myTeamCandidates;
 
     if (filters.search) {
       result = result.filter(c =>
-        c.name.toLowerCase().includes(filters.search.toLowerCase())
+        c.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        c.email.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
@@ -69,10 +88,14 @@ export default function RecruitmentTracker() {
       result = result.filter(c => c.appliedRole === filters.role);
     }
 
-    return result;
-  }, [candidates, filters]);
+    if (filters.volunteerType !== 'all') {
+      result = result.filter(c => c.volunteerType === filters.volunteerType);
+    }
 
-  if (filteredCandidates.length === 0) {
+    return result;
+  }, [myTeamCandidates, filters]);
+
+  if (candidates.length === 0) {
     return (
       <div className="flex justify-center items-center h-64">
         <p className="text-xl text-slate-500">
@@ -83,7 +106,12 @@ export default function RecruitmentTracker() {
   }
 
   return (
-    <div>
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-6">Seguimiento de Candidatos de mi Equipo</h1>
+      <p className="text-gray-600 mb-10">
+        Este panel te permite visualizar el progreso de los candidatos de tu equipo y gestionar el flujo de reclutamiento de forma centralizada.
+      </p>
+      
       {config.showFilters && (
         <div className="flex flex-wrap gap-4 mb-6 items-center">
           <div className="relative flex-grow min-w-[200px]">
@@ -130,6 +158,21 @@ export default function RecruitmentTracker() {
               ))}
             </select>
           </div>
+
+          <div className="min-w-[150px]">
+            <label htmlFor="volunteerType" className="sr-only">Volunteer Type</label>
+            <select
+              name="volunteerType"
+              id="volunteerType"
+              onChange={handleFilterChange}
+              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
+            >
+              <option value="all">All Types</option>
+              {VOLUNTEER_TYPES.map(vt => (
+                <option key={vt} value={vt}>{vt}</option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
@@ -138,12 +181,12 @@ export default function RecruitmentTracker() {
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Role</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Role</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
                 {config.showActions && (
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
                 )}
               </tr>
             </thead>
@@ -154,8 +197,9 @@ export default function RecruitmentTracker() {
                   candidate={candidate}
                   permissions={permissions}
                   onUpdate={handleUpdate}
-                  onDelete={() => {}}
+                  onDelete={handleDelete}
                   showActions={config.showActions}
+                  allTeams={allTeams}
                 />
               ))}
             </tbody>

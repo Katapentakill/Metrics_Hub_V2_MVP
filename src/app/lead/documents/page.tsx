@@ -1,11 +1,12 @@
-import VolunteerManagement from '@/modules/documents/lead/documents';
+// src/app/lead/documents/page.tsx
+
+import LeadDocumentHub from '@/modules/documents/lead/documenthub';
 import React from 'react';
 
-export default function VolunteersPage() {
+export default function LeadDocumentsPage() {
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Volunteers</h1>
-      <VolunteerManagement />
+      <LeadDocumentHub />
     </div>
   );
 }

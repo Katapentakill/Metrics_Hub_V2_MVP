@@ -1,4 +1,4 @@
-import VolunteerManagement from '@/modules/documents/volunteer/documents';
+import VolunteerManagement from '@/modules/documents/volunteer/documenthub';
 import React from 'react';
 
 export default function VolunteersPage() {

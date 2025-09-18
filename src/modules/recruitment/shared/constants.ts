@@ -1,4 +1,4 @@
-//src/modules/recruitment/shared/constants.ts
+// src/modules/recruitment/shared/constants.ts
 import { CandidateStatus, CptOptStatus } from '@/lib/data/mockRecruitmentData';
 import { User } from '@/lib/types';
 
@@ -71,7 +71,6 @@ export const ADDABLE_STATUSES: CandidateStatus[] = [
   'Onboard',
 ];
 
-// FIXED: Proper role permissions interface
 export interface RecruitmentRolePermissions {
   canEdit: boolean;
   canDelete: boolean;
@@ -86,10 +85,10 @@ export interface RecruitmentRolePermissions {
 
 export const ROLE_PERMISSIONS: Record<User['role'], RecruitmentRolePermissions> = {
   admin: {
-    canEdit: false,
-    canDelete: false,
+    canEdit: true,
+    canDelete: true,
     canViewAll: true,
-    canCreate: false,
+    canCreate: true,
     canViewAnalytics: true,
     canExport: true,
   },
@@ -121,15 +120,22 @@ export const ROLE_PERMISSIONS: Record<User['role'], RecruitmentRolePermissions> 
     canDelete: false,
     canViewAll: false,
     canCreate: false,
-  }
+  },
 };
 
-export const TABLE_CONFIG = {
+export interface TableConfig {
+  showActions: boolean;
+  showFilters: boolean;
+  showAnalytics: boolean;
+  allowEditing: boolean;
+}
+
+export const TABLE_CONFIG: Record<User['role'], TableConfig> = {
   admin: {
-    showActions: false,
+    showActions: true,
     showFilters: true,
     showAnalytics: true,
-    allowEditing: false,
+    allowEditing: true,
   },
   hr: {
     showActions: true,
@@ -139,11 +145,17 @@ export const TABLE_CONFIG = {
   },
   lead_project: {
     showActions: true,
+    showFilters: true,
+    showAnalytics: false,
+    allowEditing: true,
+  },
+  volunteer: {
+    showActions: false,
     showFilters: false,
     showAnalytics: false,
     allowEditing: false,
   },
-  volunteer: {
+  unassigned: {
     showActions: false,
     showFilters: false,
     showAnalytics: false,
@@ -157,12 +169,14 @@ export const DEFAULT_TEXTS = {
     hr: 'No candidates in the onboarding tracker.',
     lead_project: 'No candidates assigned to your projects.',
     volunteer: 'Your application is not found.',
+    unassigned: 'Access not permitted.',
   },
   pageTitle: {
     admin: 'Recruitment Overview (Admin)',
     hr: 'Recruitment Tracker (HR)',
     lead_project: 'Onboarding Dashboard (Project Lead)',
     volunteer: 'My Application Status',
+    unassigned: 'No Access',
   },
   addButton: 'Add Candidate',
   searchPlaceholder: 'Search candidates...',
