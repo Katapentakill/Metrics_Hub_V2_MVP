@@ -548,7 +548,7 @@ export interface CandidateToUserMapping {
 export interface MockDocument {
   id: string;
   name: string;
-  type: 'company-library' | 'policies-guides' | 'hiring-onboarding' | 'employee-management' | 'termination' | 'volunteer-submissions';
+  type: 'company-library' | 'policies-guides' | 'hiring-onboarding' | 'employee-management' | 'termination' | 'volunteer-submissions'| 'volunteer-reference';
   status: 'draft' | 'published' | 'in-review' | 'approved' | 'completed' | 'verified' | 'filed' | 'signed' | 'sent' | 'submitted';
   uploadDate: string;
   lastModifiedDate: string;
@@ -584,7 +584,7 @@ export const DOCUMENTS_PERMISSIONS: Record<User['role'], DocumentsRolePermission
     canEdit: true,
     canDelete: true,
     canApprove: true,
-    allowedTypes: ['company-library', 'policies-guides', 'hiring-onboarding', 'employee-management', 'termination'],
+    allowedTypes: ['company-library', 'policies-guides', 'hiring-onboarding', 'employee-management', 'termination', 'volunteer-submissions', 'volunteer-reference'],
   },
   lead_project: {
     canView: true,

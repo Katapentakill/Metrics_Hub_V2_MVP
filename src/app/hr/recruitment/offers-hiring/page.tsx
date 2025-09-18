@@ -1,4 +1,4 @@
-//src/app/hr/recruitment/offers-hiring/page.tsx
+
 // src/app/hr/recruitment/offers-hiring/page.tsx
 import Link from 'next/link';
 import { Mail, Briefcase, UserPlus, FileCheck, Handshake, BookOpen } from 'lucide-react';
@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 const offersHiringSections = [
   {
-    title: 'Generación y Envío de Ofertas',
-    description: 'Crea y personaliza cartas de oferta, envíalas a los candidatos seleccionados y realiza un seguimiento de su estado.',
-    href: '/hr/recruitment/offers-hiring/offer-letters',
+    title: 'Generación y Envío de Documentos',
+    description: 'Crea y personaliza cartas de oferta y acuerdos, envíalas a los candidatos seleccionados y realiza un seguimiento de su estado.',
+    href: '/hr/recruitment/offers-hiring/letters',
     icon: Mail,
     color: 'text-blue-600',
   },

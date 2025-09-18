@@ -1,16 +1,15 @@
 // src/app/hr/documents/volunteer-termination/page.tsx
-// src/app/hr/documents/termination/page.tsx
-'use client';
-
 import DocumentList from '@/modules/documents/hr/documentlist';
 
-export default function HRTerminationPage() {
+export default function VolunteerTerminationPage() {
+  const allowedTypes = ['volunteer-termination'];
+
   return (
     <DocumentList
-      title="🛑 Termination"
-      description="Documentos necesarios para el proceso de salida de un empleado. Aseguran un proceso formal y legal para todas las partes."
-      allowedTypes={['termination']}
-      cardColor="text-red-600"
+      title="Certificados de Terminación de Voluntariado"
+      description="Administra y emite los certificados de finalización para los voluntarios, reconociendo su servicio y contribución a la organización."
+      allowedTypes={allowedTypes}
+      cardColor="text-green-600"
       canAdd={true}
       canEdit={true}
       canDelete={true}

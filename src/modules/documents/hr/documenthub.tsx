@@ -1,6 +1,6 @@
 // src/modules/documents/hr/documenthub.tsx
 import Link from 'next/link';
-import { FileText, Users, BookOpen, UserPlus, Clock, Briefcase, Handshake } from 'lucide-react';
+import { FileText, BookOpen, UserPlus, Briefcase, Handshake,Users } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 const sections = [
@@ -17,6 +17,13 @@ const sections = [
     href: '/hr/documents/volunteers-and-administrative-management',
     icon: Briefcase,
     color: 'text-purple-600',
+  },
+  {
+    title: 'Volunteer Documents',
+    description: 'Archivos permanentes y seguros de cada voluntario (contratos, acuerdos de confidencialidad, identificaciones, etc.).',
+    href: '/hr/documents/volunteer-documents',
+    icon: Users,
+    color: 'text-teal-600',
   },
   {
     title: 'Policies & Guides',
@@ -41,12 +48,14 @@ const sections = [
   },
 ];
 
+
 export default function DocumentHub() {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">HR Document Center</h1>
       <p className="text-gray-600 mb-10">
-        Bienvenido al centro de documentos de Recursos Humanos. Elige una sección para explorar y gestionar la información.
+        Bienvenido al centro de documentos de Recursos Humanos. Aquí se administran plantillas, normativas y materiales organizativos. 
+        Los documentos permanentes de cada voluntario se encuentran en el módulo <strong>Volunteer Documents</strong>.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

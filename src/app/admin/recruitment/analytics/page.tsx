@@ -1,4 +1,4 @@
-//src/app/admin/recruitment/analytics/page.tsx
+
 // src/app/admin/recruitment/analytics/page.tsx
 import Link from 'next/link';
 import { PieChart, BarChart2, TrendingUp, DollarSign, Users } from 'lucide-react';

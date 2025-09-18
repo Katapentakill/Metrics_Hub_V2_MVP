@@ -1,4 +1,3 @@
-// src/lib/data/mockDocuments.ts
 import { MockDocument } from '@/lib/types';
 
 
@@ -214,5 +213,47 @@ export const mockDocuments: MockDocument[] = [
     lastModifiedDate: '2024-04-18',
     version: '1.0',
     uploadedBy: 'Luis García',
+  },
+  // 🔹 Volunteer Termination Documents: Documentos para la salida de voluntarios
+  {
+    id: 'vol-term-1',
+    name: 'Certificado de Servicio - Ana Pérez',
+    type: 'volunteer-termination',
+    status: 'sent',
+    uploadDate: '2024-05-25',
+    lastModifiedDate: '2024-05-25',
+    version: '1.0',
+    uploadedBy: 'HR Manager',
+  },
+  {
+    id: 'vol-term-2',
+    name: 'Carta de Referencia - Juan Soto',
+    type: 'volunteer-termination',
+    status: 'draft',
+    uploadDate: '2024-05-28',
+    lastModifiedDate: '2024-05-28',
+    version: '0.9',
+    uploadedBy: 'HR Manager',
+  },
+  {
+    id: 'vol-term-3',
+    name: 'Certificado de Terminación de Voluntariado - Luis G',
+    type: 'volunteer-termination',
+    status: 'draft',
+    uploadDate: '2025-09-17',
+    lastModifiedDate: '2025-09-17',
+    version: '1.0',
+    uploadedBy: 'HR Manager',
+  },
+  // 🔹 Volunteer Reference Letters: Cartas de referencia para voluntarios
+  {
+    id: 'vol-ref-1',
+    name: 'Carta de Referencia para Voluntario - Laura M',
+    type: 'volunteer-reference',
+    status: 'sent',
+    uploadDate: '2025-09-17',
+    lastModifiedDate: '2025-09-17',
+    version: '1.0',
+    uploadedBy: 'HR Manager',
   },
 ];

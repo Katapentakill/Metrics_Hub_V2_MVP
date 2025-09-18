@@ -4,7 +4,6 @@ import { Briefcase, FileText, UserPlus, Users, Clock, Handshake, Search, BookOpe
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 const candidateManagementSections = [
-
   {
     title: 'Seguimiento de Candidatos',
     description: 'Visualiza el estado de cada candidato en las diferentes etapas del proceso de selección.',
@@ -12,7 +11,7 @@ const candidateManagementSections = [
     icon: Clock,
     color: 'text-blue-600',
   },
-    {
+  {
     title: 'Base de Datos de Candidatos',
     description: 'Accede, busca y gestiona el repositorio centralizado de todos los currículums y perfiles de aspirantes.',
     href: '/hr/recruitment/candidate-management/database',
@@ -25,6 +24,13 @@ const candidateManagementSections = [
     href: '/hr/recruitment/candidate-management/communication',
     icon: Bell,
     color: 'text-orange-600',
+  },
+  {
+    title: 'Documentos por Aprobación',
+    description: 'Revisa y aprueba documentos clave de los candidatos, OPT/CPT.',
+    href: '/hr/recruitment/candidate-management/documents-approval',
+    icon: Bell,
+    color: 'text-red-600',
   },
 ];
 

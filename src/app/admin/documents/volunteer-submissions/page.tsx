@@ -6,7 +6,7 @@ import DocumentList from '@/modules/documents/admin/documentlist';
 export default function VolunteerSubmissions() {
   return (
     <DocumentList
-      title="📝 Volunteer Submissions"
+      title="Volunteer Submissions"
       description="Revisa y gestiona todos los documentos cargados por los voluntarios."
       allowedTypes={['volunteer-submissions']}
       cardColor="text-purple-600"

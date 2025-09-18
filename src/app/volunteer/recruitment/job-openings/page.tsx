@@ -1,3 +1,4 @@
+// src/app/volunteer/recruitment/job-openings/page.tsx
 'use client';
 
 import { useState } from 'react';
