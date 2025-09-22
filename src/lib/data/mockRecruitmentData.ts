@@ -1,9 +1,9 @@
-// src/lib/data/mockRecruitmentData.ts
+//src/lib/data/mockRecruitmentData.ts
 import { faker } from '@faker-js/faker';
 
-// Tipos de estados de candidatos
 export type CandidateStatus =
   | 'Application Received'
+  | 'Application Accepted'
   | 'Accepted by HR'
   | 'Rejected by HR'
   | 'Accepted by PM'
@@ -22,15 +22,13 @@ export type ToDoTask =
   | 'Send Offer Letter'
   | 'Complete Onboarding Docs';
 
-// Estado CPT/OPT
 export type CptOptStatus =
-  | 'No required'
+  | 'No Required'
   | 'Requested'
   | 'Received'
   | 'Approved'
   | 'Rejected';
 
-// Interfaz para candidatos
 export interface MockCandidate {
   id: string;
   name: string;
@@ -40,33 +38,78 @@ export interface MockCandidate {
   team: string;
   applicationStatus: CandidateStatus;
   toDo: ToDoTask[];
-  hrInterviewDate: string | null;
   cvLink: string;
   timezone: string;
   hrsWk: number;
   cptOptStatus: CptOptStatus;
-  
-  // NUEVOS CAMPOS AÑADIDOS
+  appliedRole: string;
+  projectPreferences: string[];
+  linkedinUrl: string;
+  portfolioUrl: string;
+  githubUrl: string;
+  recruitmentStage: string;
+  lastContact: Date;
+  interviewDate: Date | null;
+  notes: string;
   volunteerType: 'Regular' | 'CPT' | 'OPT';
   interviewAssigned: string | null;
   supervisor: string | null;
-  pmInterviewDate: string | null;
+  hrInterviewDate: Date | null;
+  pmInterviewDate: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
   duration: string;
-  startDate: string | null;
-  endDate: string | null;
   offerLetterStatus: 'Not Sent' | 'Sent' | 'Accepted' | 'Rejected';
   offerLetterLink: string | null;
   vaStatus: 'Not Sent' | 'Sent' | 'Signed' | 'Rejected';
   vaLink: string | null;
   wlStatus: 'Not Sent' | 'Sent';
   wlLink: string | null;
+  editingNotesId?: string | null;
 }
 
+export const teams = [
+  'Global Affairs Office',
+  'Genesis',
+  'Brand & Design',
+  'Human Resources',
+  'Vitalink',
+];
 
-// Generador de datos ficticios
+export const roles = [
+  'Innovation Manager',
+  'Senior Project Manager',
+  'Data Analyst',
+  'Graphic Designer',
+  'Software Developer',
+  'UX/UI Designer',
+];
+
+export const timezones = [
+  'America/New_York',
+  'America/Los_Angeles',
+  'Europe/London',
+  'Europe/Berlin',
+  'Asia/Tokyo',
+  'Australia/Sydney',
+];
+
+export const vaStatuses = ['Not Sent', 'Sent', 'Signed', 'Rejected'] as const;
+export const wlStatuses = ['Not Sent', 'Sent'] as const;
+export const offerLetterStatuses = ['Not Sent', 'Sent', 'Accepted', 'Rejected'] as const;
+
+export const cptOptOptions: CptOptStatus[] = [
+  'No Required',
+  'Requested',
+  'Received',
+  'Approved',
+  'Rejected',
+];
+
 export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
   const statuses: CandidateStatus[] = [
     'Application Received',
+    'Application Accepted',
     'Accepted by HR',
     'Rejected by HR',
     'Accepted by PM',
@@ -80,26 +123,13 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
     'Offer Sent',
   ];
 
-  const roles = [
-    'Innovation Manager',
-    'Senior Project Manager',
-    'Data Analyst',
-    'Graphic Designer',
-    'Software Developer',
-    'UX/UI Designer',
-  ];
-
-  const teams = [
-    'Global Affairs Office',
-    'Genesis',
-    'Brand & Design',
-    'Human Resources',
-    'Vitalink',
-  ];
+  const volunteerTypes = ['Regular', 'CPT', 'OPT'] as const;
 
   return Array.from({ length: count }, () => {
     const status = faker.helpers.arrayElement(statuses);
+    const volunteerType = faker.helpers.arrayElement(volunteerTypes);
     const hasInterview = [
+      'Application Accepted',
       'Accepted by HR',
       'Accepted by PM',
       'Accepted by Candidate',
@@ -108,27 +138,13 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       'Interview Completed',
     ].includes(status);
 
-    // Generamos fecha mock como string
-    const hrInterviewDate = hasInterview
-      ? faker.date.future({ years: 1 }).toISOString().split('T')[0] // formato YYYY-MM-DD
-      : null;
-
     const toDo: ToDoTask[] = [];
-
-    // Lógica para tareas según estado
-    if (status === 'Application Received') {
-      toDo.push('HR Review', 'Schedule Interview');
-    } else if (status === 'Accepted by PM') {
-      toDo.push('Send Offer Letter');
-    } else if (status === 'Accepted by Candidate') {
-      toDo.push('Complete Onboarding Docs');
-    }
-
-    // Nuevos campos mock
-    const volunteerTypes = ['Regular', 'CPT', 'OPT'] as const;
-    const offerLetterStatuses = ['Not Sent', 'Sent', 'Accepted', 'Rejected'] as const;
-    const vaStatuses = ['Not Sent', 'Sent', 'Signed', 'Rejected'] as const;
-    const wlStatuses = ['Not Sent', 'Sent'] as const;
+    if (status === 'Application Received') toDo.push('HR Review', 'Schedule Interview');
+    else if (status === 'Accepted by PM') toDo.push('Send Offer Letter');
+    else if (status === 'Accepted by Candidate') toDo.push('Complete Onboarding Docs');
+    
+    const startDate = faker.date.future({ years: 1 });
+    const endDate = faker.date.future({ years: 2, refDate: startDate });
 
     return {
       id: faker.string.uuid(),
@@ -136,43 +152,37 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
       email: faker.internet.email(),
       phone: faker.phone.number(),
       role: faker.helpers.arrayElement(roles),
+      appliedRole: faker.helpers.arrayElement(roles),
+      projectPreferences: [faker.commerce.department(), faker.commerce.department()],
+      linkedinUrl: faker.internet.url(),
+      portfolioUrl: faker.internet.url(),
+      githubUrl: faker.internet.url(),
       team: faker.helpers.arrayElement(teams),
       applicationStatus: status,
       toDo,
-      hrInterviewDate,
-      cvLink: faker.internet.url(),
-      timezone: faker.helpers.arrayElement([
-        'America/New_York',
-        'Europe/Madrid',
-        'America/Mexico_City',
-        'Asia/Tokyo',
-        'America/Bogota',
-        'Europe/London',
-      ]), // timezone como string mock
-      hrsWk: faker.number.int({ min: 10, max: 40 }),
-      cptOptStatus: faker.helpers.arrayElement([
-        'No required',
-        'Requested',
-        'Received',
-        'Approved',
-        'Rejected',
-      ]),
-      // NUEVOS CAMPOS AÑADIDOS
-      volunteerType: faker.helpers.arrayElement(volunteerTypes),
+      hrInterviewDate: hasInterview ? faker.date.future({ years: 1 }) : null,
+      interviewDate: hasInterview ? faker.date.future({ years: 1 }) : null,
+      recruitmentStage: faker.helpers.arrayElement(['Screening', 'Interview', 'Offer', 'Onboarding']),
+      lastContact: faker.date.recent(),
+      notes: faker.lorem.paragraph(),
+      cptOptStatus: volunteerType === 'Regular' ? 'No Required' : faker.helpers.arrayElement(cptOptOptions.filter(opt => opt !== 'No Required')),
+      volunteerType,
       interviewAssigned: faker.person.fullName(),
       supervisor: faker.person.fullName(),
-      pmInterviewDate: hasInterview
-        ? faker.date.future({ years: 1 }).toISOString().split('T')[0]
-        : null,
-      duration: `${faker.number.int({ min: 1, max: 12 })} months`,
-      startDate: faker.date.future({ years: 1 }).toISOString().split('T')[0],
-      endDate: faker.date.future({ years: 2 }).toISOString().split('T')[0],
+      pmInterviewDate: hasInterview ? faker.date.future({ years: 1 }) : null,
       offerLetterStatus: faker.helpers.arrayElement(offerLetterStatuses),
       offerLetterLink: faker.internet.url(),
       vaStatus: faker.helpers.arrayElement(vaStatuses),
       vaLink: faker.internet.url(),
       wlStatus: faker.helpers.arrayElement(wlStatuses),
       wlLink: faker.internet.url(),
+      cvLink: faker.internet.url(),
+      timezone: faker.helpers.arrayElement(timezones),
+      hrsWk: faker.number.int({ min: 5, max: 20 }),
+      duration: `${faker.number.int({ min: 1, max: 12 })} months`,
+      startDate: startDate,
+      endDate: endDate,
+      editingNotesId: null
     };
   });
 };
