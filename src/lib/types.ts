@@ -1,4 +1,5 @@
-// src/lib/types/types.ts
+// src/lib/types.ts
+import { CandidateStatus, CptOptStatus, MockCandidate } from '@/lib/data/mockRecruitmentData';
 
 // Tipos principales para la base de datos
 export interface User {
@@ -417,3 +418,199 @@ export interface NotificationSettings {
   blocked_notification_types: string[];
   digest_frequency: 'immediate' | 'hourly' | 'daily' | 'weekly';
 }
+
+// ============================================================================
+// RECRUITMENT MODULE TYPES
+// ============================================================================
+
+// Re-exporta los tipos de recruitment
+export type RecruitmentCandidateStatus = CandidateStatus;
+
+// Permisos específicos por rol para el módulo de recruitment
+export interface RecruitmentRolePermissions {
+  canEdit: boolean;
+  canDelete: boolean;
+  canViewAll: boolean;
+  canCreate: boolean;
+  canScheduleInterview?: boolean;
+  canSubmitFeedback?: boolean;
+  canUploadDocuments?: boolean;
+  canViewAnalytics?: boolean;
+  canExport?: boolean;
+}
+
+// Configuración de permisos por rol
+export const RECRUITMENT_PERMISSIONS: Record<User['role'], RecruitmentRolePermissions> = {
+  admin: {
+    canEdit: false,        // Solo lectura para supervisión
+    canDelete: false,
+    canViewAll: true,
+    canCreate: false,
+    canViewAnalytics: true,
+    canExport: true,
+  },
+  hr: {
+    canEdit: true,         // Control total del pipeline
+    canDelete: true,
+    canViewAll: true,
+    canCreate: true,
+    canScheduleInterview: true,
+    canViewAnalytics: true,
+    canExport: true,
+  },
+  lead_project: {
+    canEdit: false,        // Solo candidatos asignados
+    canDelete: false,
+    canViewAll: false,     // Solo sus candidatos
+    canCreate: false,
+    canSubmitFeedback: true,
+  },
+  volunteer: {
+    canEdit: false,        // Solo su propia aplicación
+    canDelete: false,
+    canViewAll: false,     // Solo su perfil
+    canCreate: false,
+    canUploadDocuments: true,
+  },
+  unassigned: {
+    canEdit: false,
+    canDelete: false,
+    canViewAll: false,
+    canCreate: false,
+  }
+};
+
+// Props para componentes de recruitment
+export interface RecruitmentTableProps {
+  candidates: MockCandidate[];
+  permissions: RecruitmentRolePermissions;
+  currentUserRole: User['role'];
+  onUpdate?: (id: string, field: keyof MockCandidate, value: any) => void;
+  onDelete?: (id: string) => void;
+  onCreate?: (candidate: Partial<MockCandidate>) => void;
+  onScheduleInterview?: (candidateId: string) => void;
+  onSubmitFeedback?: (candidateId: string, feedback: string) => void;
+}
+
+export interface RecruitmentActionButtonProps {
+  variant: 'primary' | 'success' | 'danger' | 'secondary' | 'warning';
+  size?: 'sm' | 'md' | 'lg';
+  onClick: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface RecruitmentStatusBadgeProps {
+  status: CandidateStatus;
+  editable?: boolean;
+  onChange?: (status: CandidateStatus) => void;
+  size?: 'sm' | 'md';
+}
+
+export interface RecruitmentFilters {
+  search: string;
+  status: string[];
+  searchTerm?: string;  // 
+  role: string[];    // Array para múltiples selecciones
+  volunteerType: string[];  // Array para múltiples selecciones
+  dateRange: {
+    start: string;
+    end: string;
+  };
+  team: string[];    // Array para múltiples selecciones
+}
+export interface RecruitmentMetrics {
+  totalCandidates: number;
+  candidatesByStatus: Record<CandidateStatus, number>;
+  averageTimeInPipeline: number;
+  pendingInterviews: number;
+  onboardedThisMonth: number;
+  rejectionRate: number;
+}
+
+// Integración con el sistema existente
+export interface CandidateApplicationLink {
+  candidate_id: string;
+  application_id: string;
+  created_at: string;
+}
+
+// Para mapear candidatos mock a aplicaciones reales
+export interface CandidateToUserMapping {
+  mock_candidate_id: string;
+  user_id: string;
+  application_id: string;
+  mapped_at: string;
+}
+
+export interface MockDocument {
+  id: string;
+  name: string;
+  type: 'company-library' | 'policies-guides' | 'hiring-onboarding' | 'employee-management' | 'termination' | 'volunteer-submissions'| 'volunteer-reference';
+  status: 'draft' | 'published' | 'in-review' | 'approved' | 'completed' | 'verified' | 'filed' | 'signed' | 'sent' | 'submitted';
+  uploadDate: string;
+  lastModifiedDate: string;
+  version: string;
+  uploadedBy: string;
+}
+
+// Permisos específicos para el módulo de documentos
+export interface DocumentsRolePermissions {
+  canView: boolean;
+  canDownload: boolean;
+  canUpload: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canApprove: boolean;
+  allowedTypes: MockDocument['type'][];
+}
+
+export const DOCUMENTS_PERMISSIONS: Record<User['role'], DocumentsRolePermissions> = {
+  admin: {
+    canView: true,
+    canDownload: true,
+    canUpload: false,
+    canEdit: false,
+    canDelete: false,
+    canApprove: true,
+    allowedTypes: ['company-library', 'policies-guides', 'volunteer-submissions'],
+  },
+  hr: {
+    canView: true,
+    canDownload: true,
+    canUpload: true,
+    canEdit: true,
+    canDelete: true,
+    canApprove: true,
+    allowedTypes: ['company-library', 'policies-guides', 'hiring-onboarding', 'employee-management', 'termination', 'volunteer-submissions', 'volunteer-reference'],
+  },
+  lead_project: {
+    canView: true,
+    canDownload: true,
+    canUpload: true,
+    canEdit: false,
+    canDelete: false,
+    canApprove: false,
+    allowedTypes: ['company-library', 'policies-guides'],
+  },
+  volunteer: {
+    canView: true,
+    canDownload: true,
+    canUpload: true,
+    canEdit: false,
+    canDelete: false,
+    canApprove: false,
+    allowedTypes: ['volunteer-submissions'],
+  },
+  unassigned: {
+    canView: false,
+    canDownload: false,
+    canUpload: false,
+    canEdit: false,
+    canDelete: false,
+    canApprove: false,
+    allowedTypes: [],
+  }
+};
