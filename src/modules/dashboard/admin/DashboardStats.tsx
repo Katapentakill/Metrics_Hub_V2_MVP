@@ -2,6 +2,7 @@
 'use client';
 
 import { BarChart3, PieChart, TrendingUp, Users, Calendar } from 'lucide-react';
+import { mockAdminChartData } from '@/lib/data/dashboard';
 
 interface DashboardData {
   totalUsers: number;
@@ -21,27 +22,8 @@ interface DashboardStatsProps {
 export default function DashboardStats({ data }: DashboardStatsProps) {
   if (!data) return null;
 
-  // Datos para gráficos simulados (actualizados para 30 usuarios)
-  const usersByRole = [
-    { role: 'Volunteers', count: 19, color: 'bg-blue-500' },
-    { role: 'Lead Projects', count: 5, color: 'bg-emerald-500' },
-    { role: 'HR', count: 4, color: 'bg-purple-500' },
-    { role: 'Admins', count: 2, color: 'bg-red-500' }
-  ];
-
-  const projectStatus = [
-    { status: 'Activos', count: 6, color: 'bg-green-500' },
-    { status: 'En Planificación', count: 1, color: 'bg-yellow-500' },
-    { status: 'Completados', count: 1, color: 'bg-gray-500' }
-  ];
-
-  const monthlyActivity = [
-    { month: 'Oct', registrations: 5, projects: 2 },
-    { month: 'Nov', registrations: 12, projects: 3 },
-    { month: 'Dic', registrations: 8, projects: 1 },
-    { month: 'Ene', registrations: 15, projects: 2 },
-    { month: 'Feb', registrations: 10, projects: 0 }
-  ];
+  // Usar datos centralizados para gráficos
+  const { usersByRole, projectStatus, monthlyActivity } = mockAdminChartData;
 
   return (
     <div className="card p-6 space-y-6">

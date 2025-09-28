@@ -15,9 +15,9 @@ export default function HomePage() {
       const redirectPaths = {
         admin: '/admin/dashboard',
         hr: '/hr/dashboard',
-        lead_project: '/lead_project/projects',
-        volunteer: '/volunteer/profile',
-        unassigned: '/volunteer/profile'
+        lead: '/lead/projects',
+        volunteer: '/volunteer/dashboard',
+        unassigned: '/volunteer/dashboard'
       }
       router.push(redirectPaths[session.role])
     } else {

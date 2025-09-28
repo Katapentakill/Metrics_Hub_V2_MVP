@@ -49,7 +49,7 @@ export default function AdminProjectsPage() {
   const [showEdit, setShowEdit] = useState(false);
 
   const leadCandidates = useMemo(
-    () => extendedMockUsers.filter((u) => u.role === 'lead_project'),
+    () => extendedMockUsers.filter((u) => u.role === 'lead'),
     []
   );
 

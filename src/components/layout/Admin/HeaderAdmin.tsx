@@ -1,7 +1,10 @@
-// src/components/layout/HeaderAdmin.tsx
+// Ubicación: /components/layout/HeaderAdmin.tsx
+// Modificación para navegación dinámica al perfil del usuario
+
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Settings, 
   Users, 
@@ -13,7 +16,10 @@ import {
   ChevronDown,
   LogOut,
   User,
-  Shield
+  Shield,
+  MessageSquare,
+  UserPlus,
+  ClipboardList
 } from 'lucide-react';
 import ActiveLink from '../../ActiveLink';
 
@@ -26,6 +32,7 @@ interface SessionData {
 }
 
 export default function HeaderAdmin() {
+  const router = useRouter();
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -43,6 +50,14 @@ export default function HeaderAdmin() {
     window.location.href = '/login';
   };
 
+  // Función para navegar al perfil dinámicamente
+  const handleProfileClick = () => {
+    if (session?.userId) {
+      router.push(`/admin/profile`);
+      setShowUserMenu(false); // Cerrar el menú
+    }
+  };
+
   return (
     <header className="nav-header fixed top-0 left-0 right-0 z-50 px-6 py-3 h-16">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
@@ -58,7 +73,7 @@ export default function HeaderAdmin() {
             </div>
           </div>
 
-          {/* Navegación principal */}
+          {/* Navegación principal completa */}
           <nav className="hidden lg:flex items-center space-x-1">
             <ActiveLink href="/admin/dashboard" className="nav-link px-3 py-2 rounded-lg text-sm">
               <BarChart3 className="w-4 h-4 inline mr-2" />
@@ -72,9 +87,21 @@ export default function HeaderAdmin() {
               <FolderOpen className="w-4 h-4 inline mr-2" />
               Proyectos
             </ActiveLink>
-            <ActiveLink href="/admin/reports" className="nav-link px-3 py-2 rounded-lg text-sm">
+            <ActiveLink href="/admin/communications" className="nav-link px-3 py-2 rounded-lg text-sm">
+              <MessageSquare className="w-4 h-4 inline mr-2" />
+              Comunicaciones
+            </ActiveLink>
+            <ActiveLink href="/admin/documents" className="nav-link px-3 py-2 rounded-lg text-sm">
               <FileText className="w-4 h-4 inline mr-2" />
-              Reportes
+              Documentos
+            </ActiveLink>
+            <ActiveLink href="/admin/evaluations" className="nav-link px-3 py-2 rounded-lg text-sm">
+              <ClipboardList className="w-4 h-4 inline mr-2" />
+              Evaluaciones
+            </ActiveLink>
+            <ActiveLink href="/admin/recruitment" className="nav-link px-3 py-2 rounded-lg text-sm">
+              <UserPlus className="w-4 h-4 inline mr-2" />
+              Reclutamiento
             </ActiveLink>
             <ActiveLink href="/admin/settings" className="nav-link px-3 py-2 rounded-lg text-sm">
               <Settings className="w-4 h-4 inline mr-2" />
@@ -152,20 +179,21 @@ export default function HeaderAdmin() {
             </button>
 
             {showUserMenu && (
-              <div className="absolute right-0 top-11 w-56 card p-2 z-50">
+              <div className="absolute right-0 top-12 w-56 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50">
                 <div className="px-3 py-2 border-b border-slate-200">
                   <p className="text-sm font-medium text-slate-700">{session?.name}</p>
                   <p className="text-xs text-muted">{session?.email}</p>
+                  <p className="text-xs text-slate-400 mt-1">ID: {session?.userId}</p>
                 </div>
                 <div className="py-1 space-y-1">
-                  <a href="/admin/profile" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
+                  {/* Navegación dinámica al perfil */}
+                  <button
+                    onClick={handleProfileClick}
+                    className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full text-left"
+                  >
                     <User className="w-4 h-4" />
                     <span>Mi Perfil</span>
-                  </a>
-                  <a href="/admin/settings" className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors">
-                    <Settings className="w-4 h-4" />
-                    <span>Configuración</span>
-                  </a>
+                  </button>
                   <hr className="my-1 border-slate-200" />
                   <button
                     onClick={handleLogout}

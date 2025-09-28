@@ -1,13 +1,13 @@
-// Ubicación: src/features/admin/projects/components/EnhancedProjectCard.tsx
+// UBICACIÓN: src/modules/projects/admin/EnhancedProjectCard.tsx
 // Este archivo reemplaza la tarjeta básica de proyecto con una versión más completa
 
 import React from 'react';
-import { Calendar, Clock, Target, TrendingUp, Users, AlertTriangle, CheckCircle, MapPin, MoreVertical } from 'lucide-react';
+import { Calendar, Clock, Target, TrendingUp, Users, AlertTriangle, CheckCircle, MapPin, MoreVertical, Eye, Edit } from 'lucide-react';
 import type { ProjectView } from '@/lib/map/projects/projectView';
 
 interface EnhancedProjectCardProps {
   project: ProjectView;
-  onView: () => void;
+  onView: () => void; // Este ahora navega al Kanban
   onEdit: () => void;
   onDelete: () => void;
   showMenu?: boolean;
@@ -17,7 +17,7 @@ interface EnhancedProjectCardProps {
 
 export default function EnhancedProjectCard({ 
   project, 
-  onView, 
+  onView, // Función que navega al Kanban
   onEdit, 
   onDelete, 
   showMenu = false,
@@ -121,7 +121,10 @@ export default function EnhancedProjectCard({
               {getInitials(proj.name)}
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1">
+              <h3 
+                className="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1 cursor-pointer"
+                onClick={onView} // Click en el título navega al Kanban
+              >
                 {proj.name}
               </h3>
               <div className="flex items-center space-x-2">
@@ -140,10 +143,10 @@ export default function EnhancedProjectCard({
           <div className="flex items-center space-x-2">
             <button 
               onClick={onView}
-              className="opacity-0 group-hover:opacity-100 transition-opacity bg-emerald-50 hover:bg-emerald-100 text-emerald-600 p-2 rounded-lg"
-              title="Ver detalles"
+              className="opacity-0 group-hover:opacity-100 transition-opacity bg-emerald-50 hover:bg-emerald-100 text-emerald-600 p-2 rounded-lg flex items-center space-x-1"
+              title="Ir al proyecto (Kanban)"
             >
-              <Target className="w-4 h-4" />
+              <Eye className="w-4 h-4" />
             </button>
             
             <div className="relative">
@@ -158,22 +161,22 @@ export default function EnhancedProjectCard({
               {showMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
                   <button 
-                    onClick={() => { onEdit(); onMenuToggle?.(); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50 text-sm"
-                  >
-                    <Target className="w-4 h-4 text-gray-500" />
-                    <span>Editar proyecto</span>
-                  </button>
-                  <button 
                     onClick={() => { onView(); onMenuToggle?.(); }}
                     className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50 text-sm"
                   >
-                    <Users className="w-4 h-4 text-gray-500" />
-                    <span>Ver equipo</span>
+                    <Eye className="w-4 h-4 text-emerald-500" />
+                    <span>Ir al proyecto</span>
+                  </button>
+                  <button 
+                    onClick={() => { onEdit(); onMenuToggle?.(); }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50 text-sm"
+                  >
+                    <Edit className="w-4 h-4 text-blue-500" />
+                    <span>Editar proyecto</span>
                   </button>
                   <button 
                     onClick={() => { onDelete(); onMenuToggle?.(); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-red-50 text-sm"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-red-50 text-sm border-t border-gray-100"
                   >
                     <AlertTriangle className="w-4 h-4 text-red-500" />
                     <span className="text-red-600">Eliminar</span>
@@ -321,9 +324,13 @@ export default function EnhancedProjectCard({
             </div>
           </div>
           
-          <div className="text-gray-400">
-            {formatDate(proj.created_at)}
-          </div>
+          <button
+            onClick={onView}
+            className="text-emerald-600 hover:text-emerald-700 text-xs font-medium flex items-center space-x-1 hover:bg-emerald-50 px-2 py-1 rounded transition-colors"
+          >
+            <Eye className="w-3 h-3" />
+            <span>Ver proyecto</span>
+          </button>
         </div>
       </div>
 

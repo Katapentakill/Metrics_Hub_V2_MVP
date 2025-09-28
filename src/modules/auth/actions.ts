@@ -1,3 +1,4 @@
+// C:\LivingStones\Prototipo_Metrics_Hub\src\modules\auth\actions.ts
 'use server';
 
 import { User } from '@/lib/types';
@@ -32,7 +33,7 @@ const staticUsers: User[] = [
     email: 'lead_1@example.com',
     password: 'password123',
     name: 'Líder Uno',
-    role: 'lead_project',
+    role: 'lead',
     status: 'active',
     avatar: '',
     email_verified: 1,
@@ -79,9 +80,9 @@ export async function loginAction(formData: FormData): Promise<LoginResult> {
   const redirectPaths = {
     admin: '/admin/dashboard',
     hr: '/hr/dashboard',
-    lead_project: '/lead_project/projects',
-    volunteer: '/volunteer/profile',
-    unassigned: '/volunteer/profile',
+    lead: '/lead/projects',
+    volunteer: '/volunteer/dashboard',
+    unassigned: '/volunteer/dashboard',
   };
 
   return {

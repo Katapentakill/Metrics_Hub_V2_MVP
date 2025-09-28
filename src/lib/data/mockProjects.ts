@@ -1,7 +1,8 @@
 // src/lib/data/mockProjects.ts
 import { Project, Team, TeamMember } from '@/lib/types';
 
-// Líderes existentes (ids de lead_project en tu extendedUsers): 7..11
+// Proyectos asignados al usuario lead_1@example.com (ID: '3' en auth actions)
+// Líderes existentes en extendedUsers: 7..11 (Miguel, Andrea, Fernando, Gabriela, Ricardo)
 // Voluntarios (varios ids): 12..29
 
 export const mockProjects: Project[] = [
@@ -9,7 +10,7 @@ export const mockProjects: Project[] = [
     id: 'p1',
     name: 'Centro Comunitario Santiago',
     description: 'Remodelación y habilitación de espacios para talleres.',
-    lead_id: '8', // Andrea Castillo (lead_project)
+    lead_id: '3', // Líder Uno (lead_1@example.com) - ID de autenticación
     status: 'active',
     max_team_size: 12,
     current_team_size: 7,
@@ -20,41 +21,11 @@ export const mockProjects: Project[] = [
     id: 'p2',
     name: 'Programa de Alfabetización Lima',
     description: 'Capacitaciones y materiales educativos.',
-    lead_id: '7', // Miguel Rodríguez
+    lead_id: '3', // Líder Uno (lead_1@example.com) - ID de autenticación
     status: 'planning',
     max_team_size: 10,
     current_team_size: 3,
     created_at: '2025-04-12 09:05:00',
-  },
-  {
-    id: 'p3',
-    name: 'Huertos Urbanos Medellín',
-    description: 'Implementación de huertos en barrios vulnerables.',
-    lead_id: '10', // Gabriela Torres
-    status: 'active',
-    max_team_size: 15,
-    current_team_size: 9,
-    created_at: '2025-03-01 12:00:00',
-  },
-  {
-    id: 'p4',
-    name: 'Clínica Móvil Arequipa',
-    description: 'Jornadas médicas itinerantes.',
-    lead_id: '9', // Fernando Ruiz
-    status: 'completed',
-    max_team_size: 8,
-    current_team_size: 8,
-    created_at: '2025-01-22 08:10:00',
-  },
-  {
-    id: 'p5',
-    name: 'Biblioteca Comunitaria CDMX',
-    description: 'Espacio de lectura y talleres para niños.',
-    lead_id: '11', // Ricardo Mendoza
-    status: 'paused',
-    max_team_size: 10,
-    current_team_size: 5,
-    created_at: '2025-06-10 10:00:00',
   },
 ];
 
@@ -132,6 +103,7 @@ export const mockTeamMembers: TeamMember[] = [
   { id: 'm1', team_id: 't1', user_id: '17', joined_at: '2025-05-03', role: 'member', status: 'active' }, // Daniel Castro
   { id: 'm2', team_id: 't1', user_id: '12', joined_at: '2025-05-03', role: 'member', status: 'active' }, // Ana Martínez
   { id: 'm3', team_id: 't1', user_id: '23', joined_at: '2025-05-04', role: 'member', status: 'active' }, // Rodrigo Campos
+  { id: 'm13', team_id: 't1', user_id: '4', joined_at: '2025-05-05', role: 'member', status: 'active' }, // Voluntario Uno (ID: '4' de auth actions)
 
   // p2 / t2
   { id: 'm4', team_id: 't2', user_id: '13', joined_at: '2025-04-13', role: 'member', status: 'active' }, // Pedro Sánchez

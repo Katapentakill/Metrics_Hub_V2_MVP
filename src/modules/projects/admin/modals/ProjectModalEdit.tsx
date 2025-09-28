@@ -6,7 +6,7 @@ import type { Project, ExtendedUserWithProfile } from '@/lib/types';
 
 interface Props {
   project: Project | null;
-  leads: ExtendedUserWithProfile[]; // usuarios con role 'lead_project'
+  leads: ExtendedUserWithProfile[]; // usuarios con role 'lead'
   onSave: (patch: Partial<Project>) => void;
   onClose: () => void;
 }

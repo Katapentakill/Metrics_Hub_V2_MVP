@@ -7,9 +7,9 @@ const AUTH_KEY = 'auth_session';
 const ROLE_REDIRECTS = {
   admin: '/admin/dashboard',
   hr: '/hr/dashboard', 
-  lead_project: '/lead_project/projects',
-  volunteer: '/volunteer/profile',
-  unassigned: '/volunteer/profile'
+  lead: '/lead/projects',
+  volunteer: '/volunteer/dashboard',
+  unassigned: '/volunteer/dashboard'
 } as const;
 
 export interface AuthSession {
@@ -112,7 +112,7 @@ export function isHR(): boolean {
  * Helper para verificar permisos de Lead Project
  */
 export function isLeadProject(): boolean {
-  return hasRole('lead_project');
+  return hasRole('lead');
 }
 
 /**

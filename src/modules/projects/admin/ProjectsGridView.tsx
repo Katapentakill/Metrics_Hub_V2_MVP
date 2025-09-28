@@ -1,8 +1,9 @@
-// Ubicación: src/features/admin/projects/components/ProjectsGridView.tsx
+// UBICACIÓN: src/modules/projects/admin/ProjectsGridView.tsx
 // Este componente reemplaza la tabla tradicional con una vista de grid más visual
 
 import React, { useState } from 'react';
-import { Grid, List, Filter, SortDesc } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Grid, List, Filter, SortDesc, Eye } from 'lucide-react';
 import EnhancedProjectCard from './EnhancedProjectCard';
 import type { ProjectView } from '@/lib/map/projects/projectView';
 
@@ -24,9 +25,15 @@ export default function ProjectsGridView({
   onProjectDelete,
   loading = false
 }: ProjectsGridViewProps) {
+  const router = useRouter();
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [sortBy, setSortBy] = useState<SortOption>('name');
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+  // Función para navegar al proyecto (al Kanban)
+  const navigateToProject = (projectId: string) => {
+    router.push(`/admin/projects/${projectId}`);
+  };
 
   // Función para ordenar proyectos
   const sortedProjects = [...projects].sort((a, b) => {
@@ -169,7 +176,7 @@ export default function ProjectsGridView({
                 <EnhancedProjectCard
                   key={project.project.id}
                   project={project}
-                  onView={() => onProjectView(project)}
+                  onView={() => navigateToProject(project.project.id)} // Cambio aquí: navegar al Kanban
                   onEdit={() => onProjectEdit(project)}
                   onDelete={() => onProjectDelete(project)}
                   showMenu={openMenuId === project.project.id}
@@ -185,7 +192,8 @@ export default function ProjectsGridView({
                 {sortedProjects.map((project) => (
                   <div
                     key={project.project.id}
-                    className="p-6 hover:bg-gray-50 transition-colors"
+                    className="p-6 hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => navigateToProject(project.project.id)} // Click en toda la fila navega al Kanban
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -193,7 +201,9 @@ export default function ProjectsGridView({
                           {project.project.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-800">{project.project.name}</h3>
+                          <h3 className="font-semibold text-gray-800 hover:text-emerald-600 transition-colors">
+                            {project.project.name}
+                          </h3>
                           <p className="text-sm text-gray-600">{project.lead?.name || 'Sin líder'}</p>
                         </div>
                       </div>
@@ -252,18 +262,18 @@ export default function ProjectsGridView({
                         </div>
                         
                         {/* Acciones */}
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2" onClick={(e) => e.stopPropagation()}>
                           <button
-                            onClick={() => onProjectView(project)}
-                            className="text-emerald-600 hover:text-emerald-700 p-1"
-                            title="Ver detalles"
+                            onClick={() => navigateToProject(project.project.id)}
+                            className="text-emerald-600 hover:text-emerald-700 p-1 hover:bg-emerald-50 rounded transition-colors"
+                            title="Ver proyecto (Kanban)"
                           >
-                            <Grid className="w-4 h-4" />
+                            <Eye className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => onProjectEdit(project)}
-                            className="text-blue-600 hover:text-blue-700 p-1"
-                            title="Editar"
+                            onClick={() => onProjectView(project)}
+                            className="text-blue-600 hover:text-blue-700 p-1 hover:bg-blue-50 rounded transition-colors"
+                            title="Ver detalles"
                           >
                             <Filter className="w-4 h-4" />
                           </button>

@@ -1,7 +1,8 @@
-// Ubicación: src/features/admin/projects/components/ProjectsDashboard.tsx
-// Este componente añade métricas y análisis visual al módulo de proyectos
+// UBICACIÓN: src/features/admin/projects/components/ProjectsDashboard.tsx
+// Dashboard de proyectos actualizado con navegación al Kanban
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -12,7 +13,9 @@ import {
   AlertTriangle,
   CheckCircle2,
   BarChart3,
-  PieChart
+  PieChart,
+  Eye,
+  ArrowRight
 } from 'lucide-react';
 import type { ProjectView } from '@/lib/map/projects/projectView';
 
@@ -25,7 +28,13 @@ export default function ProjectsDashboard({
   projects, 
   timeframe = '30d' 
 }: ProjectsDashboardProps) {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'performance' | 'team' | 'timeline'>('overview');
+
+  // Función para navegar al proyecto
+  const navigateToProject = (projectId: string) => {
+    router.push(`/admin/projects/${projectId}`);
+  };
 
   // Calcular métricas principales
   const metrics = useMemo(() => {
@@ -166,55 +175,114 @@ export default function ProjectsDashboard({
 
         <div className="p-6">
           {activeTab === 'overview' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Distribución por estado */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-800">Distribución por Estado</h3>
-                <div className="space-y-3">
-                  {statusDistribution.map((status) => (
-                    <div key={status.name} className="flex items-center justify-between">
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Distribución por estado */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-800">Distribución por Estado</h3>
+                  <div className="space-y-3">
+                    {statusDistribution.map((status) => (
+                      <div key={status.name} className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-3 h-3 rounded-full ${status.color}`}></div>
+                          <span className="text-sm font-medium text-gray-700">{status.name}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-sm font-semibold ${status.textColor}`}>
+                            {status.value}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            ({Math.round((status.value / metrics.total) * 100)}%)
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Distribución por progreso */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-800">Distribución por Progreso</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className={`w-3 h-3 rounded-full ${status.color}`}></div>
-                        <span className="text-sm font-medium text-gray-700">{status.name}</span>
+                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                        <span className="text-sm font-medium text-gray-700">Bajo (&lt;25%)</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <span className={`text-sm font-semibold ${status.textColor}`}>
-                          {status.value}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          ({Math.round((status.value / metrics.total) * 100)}%)
-                        </span>
-                      </div>
+                      <span className="text-sm font-semibold text-red-600">{progressRanges.low}</span>
                     </div>
-                  ))}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <span className="text-sm font-medium text-gray-700">Medio (25-75%)</span>
+                      </div>
+                      <span className="text-sm font-semibold text-yellow-600">{progressRanges.medium}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span className="text-sm font-medium text-gray-700">Alto (&gt;75%)</span>
+                      </div>
+                      <span className="text-sm font-semibold text-green-600">{progressRanges.high}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Distribución por progreso */}
+              {/* Lista de proyectos destacados con navegación */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-800">Distribución por Progreso</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <span className="text-sm font-medium text-gray-700">Bajo (&lt;25%)</span>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-gray-800">Proyectos Destacados</h3>
+                  <button 
+                    onClick={() => router.push('/admin/projects')}
+                    className="text-emerald-600 hover:text-emerald-700 text-sm font-medium flex items-center space-x-1"
+                  >
+                    <span>Ver todos</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {projects.slice(0, 4).map((project) => (
+                    <div 
+                      key={project.project.id}
+                      className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                      onClick={() => navigateToProject(project.project.id)}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-800 group-hover:text-emerald-600 transition-colors">
+                          {project.project.name}
+                        </h4>
+                        <Eye className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 transition-colors" />
+                      </div>
+                      
+                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+                        <div className="flex items-center space-x-1">
+                          <Users className="w-3 h-3" />
+                          <span>{project.project.current_team_size}/{project.project.max_team_size}</span>
+                        </div>
+                        <div className={`px-2 py-1 rounded-full text-xs ${
+                          project.project.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
+                          project.project.status === 'planning' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {project.project.status === 'active' ? 'Activo' : 
+                           project.project.status === 'planning' ? 'Planificación' : 
+                           project.project.status}
+                        </div>
+                      </div>
+                      
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="h-2 bg-emerald-500 rounded-full transition-all duration-300"
+                          style={{ width: `${project.progressPct}%` }}
+                        />
+                      </div>
+                      <div className="text-right text-xs text-gray-500 mt-1">
+                        {project.progressPct}% completado
+                      </div>
                     </div>
-                    <span className="text-sm font-semibold text-red-600">{progressRanges.low}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <span className="text-sm font-medium text-gray-700">Medio (25-75%)</span>
-                    </div>
-                    <span className="text-sm font-semibold text-yellow-600">{progressRanges.medium}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                      <span className="text-sm font-medium text-gray-700">Alto (&gt;75%)</span>
-                    </div>
-                    <span className="text-sm font-semibold text-green-600">{progressRanges.high}</span>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -280,8 +348,14 @@ export default function ProjectsDashboard({
                   {projects.slice(0, 5).map((project) => {
                     const utilization = (project.project.current_team_size / project.project.max_team_size) * 100;
                     return (
-                      <div key={project.project.id} className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">{project.project.name}</span>
+                      <div 
+                        key={project.project.id}
+                        className="flex items-center justify-between hover:bg-white rounded-lg p-2 cursor-pointer transition-colors"
+                        onClick={() => navigateToProject(project.project.id)}
+                      >
+                        <span className="text-sm font-medium text-gray-700 hover:text-emerald-600 transition-colors">
+                          {project.project.name}
+                        </span>
                         <div className="flex items-center space-x-3">
                           <div className="w-24 bg-gray-200 rounded-full h-2">
                             <div 
@@ -321,7 +395,11 @@ export default function ProjectsDashboard({
                     const isUrgent = daysLeft <= 7 && daysLeft >= 0;
                     
                     return (
-                      <div key={project.project.id} className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
+                      <div 
+                        key={project.project.id} 
+                        className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md cursor-pointer transition-all group"
+                        onClick={() => navigateToProject(project.project.id)}
+                      >
                         <div className="flex items-center space-x-4">
                           <div className={`w-3 h-3 rounded-full ${
                             isOverdue ? 'bg-red-500' : 
@@ -329,34 +407,40 @@ export default function ProjectsDashboard({
                             'bg-green-500'
                           }`}></div>
                           <div>
-                            <h4 className="font-medium text-gray-800">{project.project.name}</h4>
+                            <h4 className="font-medium text-gray-800 group-hover:text-emerald-600 transition-colors">
+                              {project.project.name}
+                            </h4>
                             <p className="text-sm text-gray-600">{project.lead?.name}</p>
                           </div>
                         </div>
                         
-                        <div className="text-right">
-                          <div className={`text-sm font-medium ${
-                            isOverdue ? 'text-red-600' : 
-                            isUrgent ? 'text-orange-600' : 
-                            'text-gray-600'
-                          }`}>
-                            {isOverdue ? `${Math.abs(daysLeft)} días vencido` :
-                             daysLeft === 0 ? 'Hoy' :
-                             `${daysLeft} días restantes`}
+                        <div className="flex items-center space-x-6">
+                          <div className="text-right">
+                            <div className={`text-sm font-medium ${
+                              isOverdue ? 'text-red-600' : 
+                              isUrgent ? 'text-orange-600' : 
+                              'text-gray-600'
+                            }`}>
+                              {isOverdue ? `${Math.abs(daysLeft)} días vencido` :
+                               daysLeft === 0 ? 'Hoy' :
+                               `${daysLeft} días restantes`}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {deadline.toLocaleDateString('es-ES')}
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500">
-                            {deadline.toLocaleDateString('es-ES')}
+                          
+                          <div className="text-right">
+                            <div className="text-sm font-medium text-gray-800">{project.progressPct}%</div>
+                            <div className="w-16 bg-gray-200 rounded-full h-1 mt-1">
+                              <div 
+                                className="h-1 bg-emerald-500 rounded-full"
+                                style={{ width: `${project.progressPct}%` }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div className="text-right">
-                          <div className="text-sm font-medium text-gray-800">{project.progressPct}%</div>
-                          <div className="w-16 bg-gray-200 rounded-full h-1 mt-1">
-                            <div 
-                              className="h-1 bg-emerald-500 rounded-full"
-                              style={{ width: `${project.progressPct}%` }}
-                            />
-                          </div>
+                          
+                          <Eye className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 transition-colors" />
                         </div>
                       </div>
                     );

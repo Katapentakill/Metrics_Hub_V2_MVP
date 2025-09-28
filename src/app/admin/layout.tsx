@@ -2,9 +2,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { redirect } from 'next/navigation';
 import HeaderAdmin from '@/components/layout/Admin/HeaderAdmin';
-import FooterAdmin from '@/components/layout/Admin/FooterAdmin';
+import {FooterAdmin} from '@/components/layout/Admin/FooterAdmin';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -57,8 +56,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <HeaderAdmin />
-      <main className="pt-20 pb-8 min-h-screen">
-        <div className="admin-main-content px-6 py-6">
+      <main className="admin-main-content">
+        <div className="page-container">
           {children}
         </div>
       </main>
