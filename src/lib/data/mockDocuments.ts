@@ -1,4 +1,5 @@
-import { MockDocument } from '@/lib/types/documents';
+// src/lib/data/mockDocuments.ts
+import { MockDocument } from '@/lib/types';
 
 
 // Documentos de ejemplo para todo el sistema
@@ -218,7 +219,7 @@ export const mockDocuments: MockDocument[] = [
   {
     id: 'vol-term-1',
     name: 'Certificado de Servicio - Ana Pérez',
-    type: 'termination',
+    type: 'volunteer-termination',
     status: 'sent',
     uploadDate: '2024-05-25',
     lastModifiedDate: '2024-05-25',
@@ -228,7 +229,7 @@ export const mockDocuments: MockDocument[] = [
   {
     id: 'vol-term-2',
     name: 'Carta de Referencia - Juan Soto',
-    type: 'termination',
+    type: 'volunteer-termination',
     status: 'draft',
     uploadDate: '2024-05-28',
     lastModifiedDate: '2024-05-28',
@@ -238,7 +239,7 @@ export const mockDocuments: MockDocument[] = [
   {
     id: 'vol-term-3',
     name: 'Certificado de Terminación de Voluntariado - Luis G',
-    type: 'termination',
+    type: 'volunteer-termination',
     status: 'draft',
     uploadDate: '2025-09-17',
     lastModifiedDate: '2025-09-17',

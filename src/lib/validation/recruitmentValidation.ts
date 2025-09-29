@@ -1,3 +1,5 @@
+// src/lib/validation/recruitmentValidation.ts
+
 import { z, ZodError, ZodIssue } from 'zod';
 import { CandidateStatus, CptOptStatus } from '@/lib/data/mockRecruitmentData';
 import { CANDIDATE_STATUSES, VOLUNTEER_TYPES, CPT_OPT_OPTIONS } from '@/modules/recruitment/shared/constants';

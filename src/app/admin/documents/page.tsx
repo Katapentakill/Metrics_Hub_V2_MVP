@@ -1,7 +1,7 @@
 // src/app/admin/documents/company-library/page.tsx
 'use client';
 
-import DocumentList from '@/modules/documents/admin/documentlist';
+import DocumentList from '@/modules/documents/admin/documentHub';
 
 export default function CompanyLibrary() {
   return (

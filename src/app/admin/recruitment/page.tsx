@@ -1,4 +1,4 @@
-//src/components/layout/Admin/page.tsx
+// src/app/admin/recruitment/page.tsx
 import RecruitmentTracker from '@/modules/recruitment/admin/Talent-Management';
 import React from 'react';
 

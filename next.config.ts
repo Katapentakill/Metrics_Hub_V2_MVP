@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Configuración de internacionalización (i18n)
+  i18n: {
+    locales: ['es', 'en'], // Idiomas soportados
+    defaultLocale: 'es',  // Idioma por defecto (el que usarán las rutas sin prefijo)
+  },
+  //... otras configuraciones
 };
 
-export default nextConfig;
+module.exports = nextConfig;
