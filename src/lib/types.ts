@@ -185,7 +185,7 @@ export interface Evaluation {
   id: string;
   evaluated_user_id: string;
   evaluator_id: string;
-  type: 'performance' | 'peer' | '360' | 'self';
+  type: 'performance' | 'peer' | '360' | 'self' | 'supervisor';
   period: string;
   overall_score: number;
   criteria_scores?: string;
