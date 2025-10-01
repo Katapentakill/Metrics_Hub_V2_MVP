@@ -1,3 +1,4 @@
+// src/modules/users/admin/modals/SuspendUserModal.tsx
 import React, { useState } from 'react';
 import { ExtendedUserWithProfile } from '@/lib/types';
 

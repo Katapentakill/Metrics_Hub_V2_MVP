@@ -1,3 +1,4 @@
+// src/modules/users/admin/AdminUsers.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -11,14 +12,15 @@ import {
   UserCheck,
   Mail,
   Phone,
-  MapPin,
   Calendar,
   Eye,
-  Plus
+  Plus,
+  Briefcase // Icono para la columna de Equipo
 } from 'lucide-react';
 
 import { ExtendedUserWithProfile, UserStats } from '@/lib/types';
-import { extendedMockUsers } from '@/lib/data/extendedUsers';
+// Importar el mock data y su interfaz
+import { getMockVolunteers, MockVolunteer } from '@/lib/data/mockVolunteerData';
 import UserFilters, { type FilterOptions as AdvancedFilters } from '@/modules/users/admin/UserFilters';
 import UserActions from '@/modules/users/admin/UserActions';
 import ExportUsers from '@/modules/users/admin/ExportUsers';
@@ -29,6 +31,64 @@ import ResetPasswordModal from '@/modules/users/admin/modals/ResetPasswordModal'
 import SuspendUserModal from '@/modules/users/admin/modals/SuspendUserModal';
 import ConfirmDeleteModal from '@/modules/users/admin/modals/ConfirmDeleteModal';
 import ExportUserModal from '@/modules/users/admin/modals/ExportUserModal';
+
+// FUNCIÓN DE MAPEO: Adapta MockVolunteer a ExtendedUserWithProfile y añade 'team'
+const mapMockToUser = (mock: MockVolunteer): ExtendedUserWithProfile => {
+  const roleMapping: Record<string, ExtendedUserWithProfile['role']> = {
+    'Administrador': 'admin',
+    'Recursos Humanos': 'hr',
+    'Líder de Proyecto': 'lead',
+    'Voluntario': 'volunteer',
+  };
+
+  const statusMapping: Record<string, ExtendedUserWithProfile['status']> = {
+    'active': 'active',
+    'inactive': 'inactive',
+    'suspended': 'suspended',
+    'Finalized': 'inactive', 
+  };
+
+  const roleKey = mock.role as keyof typeof roleMapping;
+  const statusKey = mock.status as keyof typeof statusMapping;
+
+  // Se usa el cast 'as any' para inyectar 'team_name' sin modificar la interfaz base
+  return {
+    id: mock.id,
+    name: mock.name,
+    email: mock.personalEmail,
+    role: roleMapping[roleKey] || 'unassigned', 
+    status: statusMapping[statusKey] || 'inactive', 
+    created_at: mock.startDate,
+    last_login: mock.endDate,
+    email_verified: 1,
+    password: '',
+    profile: {
+      id: mock.id,
+      user_id: mock.id,
+      first_name: mock.name.split(' ')[0] || '',
+      last_name: mock.name.split(' ').slice(1).join(' ') || '',
+      phone: '',
+      country: '',
+      city: '',
+      timezone: '',
+      hours_per_week: mock.hrsPerWk,
+      preferred_hours: '',
+      preferred_days: '',
+      bio: `Voluntario en el equipo ${mock.team} (${mock.role}).`,
+      motivation: '',
+      university: '',
+      program: '',
+      supervisor_name: mock.supervisor,
+      supervisor_email: mock.personalEmail,
+      skills: [], 
+      languages: [],
+      certifications: [],
+      team_name: mock.team as any, // Inyección de la propiedad 'team_name'
+      birth_date: ''
+    }
+  } as ExtendedUserWithProfile;
+};
+
 
 export default function AdminUsers() {
   const router = useRouter();
@@ -59,35 +119,28 @@ export default function AdminUsers() {
   const loadUsers = async () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
-      const mockUsers = extendedMockUsers;
+      
+      const mockVolunteers = getMockVolunteers(30);
+      const mappedUsers = mockVolunteers.map(mapMockToUser);
 
       const userStats: UserStats = {
-        total: mockUsers.length,
-        active: mockUsers.filter(u => u.status === 'active').length,
-        inactive: mockUsers.filter(u => u.status === 'inactive').length,
-        suspended: mockUsers.filter(u => u.status === 'suspended').length,
-        deleted: mockUsers.filter(u => u.status === 'deleted').length,
+        total: mappedUsers.length,
+        active: mappedUsers.filter(u => u.status === 'active').length,
+        inactive: mappedUsers.filter(u => u.status === 'inactive').length,
+        suspended: mappedUsers.filter(u => u.status === 'suspended').length,
+        deleted: mappedUsers.filter(u => u.status === 'deleted').length,
         byRole: {
-          admin: mockUsers.filter(u => u.role === 'admin').length,
-          hr: mockUsers.filter(u => u.role === 'hr').length,
-          lead: mockUsers.filter(u => u.role === 'lead').length,
-          volunteer: mockUsers.filter(u => u.role === 'volunteer').length,
-          unassigned: mockUsers.filter(u => u.role === 'unassigned').length,
+          admin: mappedUsers.filter(u => u.role === 'admin').length,
+          hr: mappedUsers.filter(u => u.role === 'hr').length,
+          lead: mappedUsers.filter(u => u.role === 'lead').length,
+          volunteer: mappedUsers.filter(u => u.role === 'volunteer').length,
+          unassigned: mappedUsers.filter(u => u.role === 'unassigned').length,
         },
-        byCountry: mockUsers.reduce((acc, user) => {
-          const country = user.profile?.country || 'Unknown';
-          acc[country] = (acc[country] || 0) + 1;
-          return acc;
-        }, {} as Record<string, number>),
-        bySkillCategory: mockUsers.reduce((acc, user) => {
-          user.profile?.skills?.forEach(skill => {
-            acc[skill.category] = (acc[skill.category] || 0) + 1;
-          });
-          return acc;
-        }, {} as Record<string, number>)
+        byCountry: {}, 
+        bySkillCategory: {} 
       };
 
-      setUsers(mockUsers);
+      setUsers(mappedUsers);
       setStats(userStats);
       setIsLoading(false);
     } catch (error) {
@@ -104,11 +157,8 @@ export default function AdminUsers() {
       filtered = filtered.filter(user => 
         user.name.toLowerCase().includes(q) ||
         user.email.toLowerCase().includes(q) ||
-        user.profile?.first_name?.toLowerCase().includes(q) ||
-        user.profile?.last_name?.toLowerCase().includes(q) ||
-        user.profile?.bio?.toLowerCase().includes(q) ||
-        user.profile?.skills?.some(s => s.name.toLowerCase().includes(q)) ||
-        user.profile?.university?.toLowerCase().includes(q)
+        // Búsqueda por team_name inyectado
+        ((user.profile as any)?.team_name as string)?.toLowerCase().includes(q) 
       );
     }
 
@@ -127,7 +177,7 @@ export default function AdminUsers() {
     setFilteredUsers(filtered);
   };
 
-  // Navegación a páginas dedicadas
+  // Navegación y Handlers de Modales (sin cambios)
   const handleViewUser = (userId: string) => {
     router.push(`/admin/users/${userId}`);
   };
@@ -144,7 +194,6 @@ export default function AdminUsers() {
     setUsers(prev => prev.filter(u => u.id !== userId));
   };
 
-  // Handlers para modales del menú
   const handleChangeRole = (newRole: ExtendedUserWithProfile['role']) => {
     if (!selectedUser) return;
     setUsers(prev => prev.map(u => u.id === selectedUser.id ? { ...u, role: newRole } : u));
@@ -169,7 +218,7 @@ export default function AdminUsers() {
     setSelectedUser(null);
   };
 
-  // Funciones de utilidad
+  // Funciones de utilidad (sin cambios)
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin': return 'bg-red-100 text-red-800 border-red-200';
@@ -196,6 +245,7 @@ export default function AdminUsers() {
       case 'active': return 'bg-green-100 text-green-800 border-green-200';
       case 'inactive': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'suspended': return 'bg-red-100 text-red-800 border-red-200';
+      case 'deleted': return 'bg-gray-100 text-gray-800 border-gray-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
@@ -234,7 +284,7 @@ export default function AdminUsers() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
+      {/* Header y Estadísticas (sin cambios) */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
@@ -255,7 +305,6 @@ export default function AdminUsers() {
         </div>
       </div>
 
-      {/* Estadísticas */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="card p-6 hover-lift">
@@ -316,7 +365,7 @@ export default function AdminUsers() {
         </div>
       )}
 
-      {/* Filtros y búsqueda */}
+      {/* Filtros y búsqueda (sin cambios) */}
       <div className="card p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
           <div className="flex items-center space-x-4 flex-1">
@@ -324,7 +373,7 @@ export default function AdminUsers() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Buscar por nombre, email, habilidades..."
+                placeholder="Buscar por nombre, email, equipo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
@@ -371,7 +420,7 @@ export default function AdminUsers() {
         )}
       </div>
 
-      {/* Tabla */}
+      {/* Tabla (ACTUALIZADA con Equipo) */}
       <div className="card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -380,8 +429,7 @@ export default function AdminUsers() {
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Usuario</th>
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Rol</th>
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Estado</th>
-                <th className="text-left py-4 px-6 font-semibold text-slate-700">Ubicación</th>
-                <th className="text-left py-4 px-6 font-semibold text-slate-700">Habilidades</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-700">Equipo</th> {/* Nueva columna */}
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Último Login</th>
                 <th className="text-center py-4 px-6 font-semibold text-slate-700">Acciones</th>
               </tr>
@@ -389,6 +437,7 @@ export default function AdminUsers() {
             <tbody className="divide-y divide-slate-200">
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-slate-50 transition-colors">
+                  {/* Columna Usuario */}
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
@@ -412,48 +461,32 @@ export default function AdminUsers() {
                     </div>
                   </td>
 
+                  {/* Columna Rol */}
                   <td className="py-4 px-6">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(user.role)}`}>
                       {getRoleLabel(user.role)}
                     </span>
                   </td>
 
+                  {/* Columna Estado */}
                   <td className="py-4 px-6">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(user.status)}`}>
                       {getStatusLabel(user.status)}
                     </span>
                   </td>
 
-                  <td className="py-4 px-6">
-                    {user.profile && (
-                      <div className="text-sm">
-                        <p className="text-slate-800 flex items-center">
-                          <MapPin className="w-3 h-3 mr-1" />
-                          {user.profile.city}, {user.profile.country}
-                        </p>
-                        <p className="text-xs text-slate-500">{user.profile.timezone}</p>
-                      </div>
-                    )}
-                  </td>
-
+                  {/* Columna Equipo (TEAM) */}
                   <td className="py-4 px-6">
                     <div className="text-sm">
-                      <p className="text-slate-800 line-clamp-2">
-                        {(() => {
-                          const skills = user.profile?.skills;
-                          if (!skills?.length) return 'Sin habilidades';
-                          if (skills.length <= 2) return skills.map(s => s.name).join(', ');
-                          return `${skills.slice(0, 2).map(s => s.name).join(', ')} +${skills.length - 2}`;
-                        })()}
+                      <p className="text-slate-800 flex items-center">
+                        <Briefcase className="w-3 h-3 mr-1 text-slate-500" />
+                        {/* Se accede a la propiedad inyectada usando 'as any' */}
+                        {(user.profile as any)?.team_name || 'N/A'}
                       </p>
-                      {user.profile?.university && (
-                        <p className="text-xs text-slate-500 mt-1">
-                          📚 {user.profile.university}
-                        </p>
-                      )}
                     </div>
                   </td>
 
+                  {/* Columna Último Login */}
                   <td className="py-4 px-6">
                     <div className="text-sm">
                       {user.last_login ? (
@@ -470,9 +503,9 @@ export default function AdminUsers() {
                     </div>
                   </td>
 
+                  {/* Columna Acciones */}
                   <td className="py-4 px-6">
                     <div className="flex items-center justify-center space-x-2">
-                      {/* Botón para ver perfil completo */}
                       <button
                         onClick={() => handleViewUser(user.id)}
                         className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
@@ -481,7 +514,6 @@ export default function AdminUsers() {
                         <Eye className="w-4 h-4" />
                       </button>
 
-                      {/* Menú de tres puntos */}
                       <div className="relative">
                         <button
                           onClick={() => setShowActions(showActions === user.id ? null : user.id)}
@@ -523,7 +555,7 @@ export default function AdminUsers() {
         )}
       </div>
 
-      {/* Modales del menú */}
+      {/* Modales del menú (sin cambios) */}
       {showChangeRole && selectedUser && (
         <ChangeRoleModal
           user={selectedUser}

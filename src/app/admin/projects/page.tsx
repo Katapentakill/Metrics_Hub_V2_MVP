@@ -1,4 +1,4 @@
-// UBICACIÓN: src/app/admin/projects/page.tsx
+// src/app/admin/projects/page.tsx
 // Este archivo REEMPLAZA tu page.tsx actual con las nuevas mejoras
 
 'use client';

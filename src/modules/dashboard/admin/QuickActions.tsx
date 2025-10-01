@@ -1,4 +1,4 @@
-// src/features/admin/QuickActions.tsx
+// src/modules/dashboard/admin/QuickActions.tsx
 'use client';
 
 import { 
@@ -10,7 +10,7 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  BarChart3
+  BarChart3 // Se mantiene si se usa en otro lugar, pero no es necesario aquí.
 } from 'lucide-react';
 
 export default function QuickActions() {
@@ -50,7 +50,7 @@ export default function QuickActions() {
       icon: Clock,
       color: 'text-yellow-600',
       bgColor: 'bg-yellow-50',
-      action: '/admin/applications'
+      action: '/admin/recruitment/candidate-management/tracker'
     },
     {
       title: '3 Proyectos con tareas bloqueadas',
@@ -70,6 +70,8 @@ export default function QuickActions() {
     }
   ];
 
+  /*
+  // El arreglo systemActions fue eliminado
   const systemActions = [
     {
       title: 'Enviar Notificación Global',
@@ -90,6 +92,7 @@ export default function QuickActions() {
       action: 'advanced-metrics'
     }
   ];
+  */
 
   return (
     <div className="space-y-6">
@@ -139,59 +142,25 @@ export default function QuickActions() {
         </div>
       </div>
 
-      {/* Acciones del sistema */}
+      {/* // La sección de Acciones del sistema fue eliminada 
+      
       <div className="card p-6">
         <h3 className="text-lg font-semibold text-slate-800 mb-4">Sistema</h3>
         <div className="space-y-2">
           {systemActions.map((action, index) => (
-            <button
-              key={index}
-              onClick={() => handleAction(action.action)}
-              className="w-full flex items-center space-x-3 p-3 hover:bg-slate-50 rounded-lg transition-colors text-left"
-            >
-              <action.icon className="w-4 h-4 text-slate-500" />
-              <div>
-                <p className="text-sm font-medium text-slate-700">{action.title}</p>
-                <p className="text-xs text-slate-500">{action.description}</p>
-              </div>
-            </button>
+            // ... (código de acciones del sistema)
           ))}
         </div>
       </div>
+      */}
 
-      {/* Estado del servidor */}
+      {/* // La sección de Estado del servidor fue eliminada
+      
       <div className="card p-6">
         <h3 className="text-lg font-semibold text-slate-800 mb-4">Estado del Servidor</h3>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">CPU</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-16 bg-slate-200 rounded-full h-2">
-                <div className="h-2 rounded-full bg-green-500" style={{ width: '45%' }} />
-              </div>
-              <span className="text-xs text-slate-500">45%</span>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">Memoria</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-16 bg-slate-200 rounded-full h-2">
-                <div className="h-2 rounded-full bg-blue-500" style={{ width: '67%' }} />
-              </div>
-              <span className="text-xs text-slate-500">67%</span>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">Base de Datos</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-xs text-green-600">Conectada</span>
-            </div>
-          </div>
-        </div>
+        // ... (código de estado del servidor)
       </div>
+      */}
     </div>
   );
 }

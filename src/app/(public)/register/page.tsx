@@ -1,3 +1,4 @@
+// src/app/(public)/register/page.tsx
 'use client';
 
 import { useGuestGuard } from '@/lib/auth';
@@ -11,8 +12,8 @@ export default function RegisterPage() {
       {/* Fondo SVG decorativo */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%2316a34a%22%20fill-opacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%224%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40 pointer-events-none"></div>
 
-      {/* Contenido principal */}
-      <div className="relative container mx-auto max-w-md z-10">
+      {/* Contenido principal - CAMBIO AQUÍ: Se eliminó max-w-md */}
+      <div className="relative container mx-auto z-10">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-living-green-500 to-living-green-600 rounded-2xl shadow-lg mb-4">
             <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">

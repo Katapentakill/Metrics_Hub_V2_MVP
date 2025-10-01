@@ -1,4 +1,4 @@
-// src/features/admin/SystemHealth.tsx
+// src/modules/dashboard/admin/SystemHealth.tsx
 'use client';
 
 import { 

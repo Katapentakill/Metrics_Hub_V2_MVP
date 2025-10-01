@@ -1,3 +1,4 @@
+// src/components/layout/Public/FooterPublic.tsx
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 

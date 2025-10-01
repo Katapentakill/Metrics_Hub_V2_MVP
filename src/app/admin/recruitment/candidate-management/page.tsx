@@ -1,5 +1,3 @@
-//src/app/admin/recruitment/candidate-management/page.tsx
-
 // src/app/admin/recruitment/candidate-management/page.tsx
 import Link from 'next/link';
 import { Briefcase, UserPlus, Users, MessageCircle, BarChart, BookOpen, Search } from 'lucide-react';

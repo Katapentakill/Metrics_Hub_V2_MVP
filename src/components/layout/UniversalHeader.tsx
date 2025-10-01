@@ -1,3 +1,4 @@
+// src/components/layout/UniversalHeader.tsx
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -80,7 +81,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
       { href: '/admin/documents', label: 'Documentos', icon: FileText },
       { href: '/admin/evaluations', label: 'Evaluaciones', icon: ClipboardList },
       { href: '/admin/recruitment', label: 'Reclutamiento', icon: UserPlus },
-      { href: '/admin/settings', label: 'Configuración', icon: Settings },
+
     ],
     notifications: [
       { type: 'blue', title: 'Nuevo usuario registrado', description: 'María González se registró como voluntaria' },
@@ -103,7 +104,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
       { href: '/hr/documents', label: 'Documentos', icon: FileText },
       { href: '/hr/evaluations', label: 'Evaluaciones', icon: ClipboardList },
       { href: '/hr/recruitment', label: 'Reclutamiento', icon: UserPlus },
-      { href: '/hr/settings', label: 'Configuración', icon: Settings },
+
     ],
     notifications: [
       { type: 'blue', title: 'Nueva solicitud de voluntario', description: 'Ana López completó su aplicación' },
@@ -126,7 +127,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
       { href: '/lead/documents', label: 'Documentos', icon: FileText },
       { href: '/lead/evaluations', label: 'Evaluaciones', icon: ClipboardList },
       { href: '/lead/recruitment', label: 'Reclutamiento', icon: UserPlus },
-      { href: '/lead/settings', label: 'Configuración', icon: Settings },
+
     ],
     notifications: [
       { type: 'blue', title: 'Nueva tarea asignada', description: 'Revisión de presupuesto Q4' },
@@ -148,7 +149,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
       { href: '/volunteer/documents', label: 'Documentos', icon: FileText },
       { href: '/volunteer/evaluations', label: 'Mi Rendimiento', icon: Award },
       { href: '/volunteer/recruitment', label: 'Mi Proceso', icon: UserPlus },
-      { href: '/volunteer/settings', label: 'Configuración', icon: Settings },
+
     ],
     notifications: [
       { type: 'emerald', title: 'Nueva tarea asignada', description: 'Se te asignó una nueva tarea en el proyecto Educación Comunitaria', time: 'Hace 2 horas' },

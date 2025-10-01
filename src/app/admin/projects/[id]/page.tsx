@@ -1,5 +1,4 @@
-// UBICACIÓN: src/app/admin/projects/[id]/page.tsx
-// Página del proyecto CON modales funcionales para Configurar y Editar
+// src/app/admin/projects/[id]/page.tsx
 
 'use client';
 

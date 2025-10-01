@@ -1,3 +1,4 @@
+// src/modules/dashboard/config/dashboardConfig.tsx
 import { 
   Users, 
   FolderOpen, 
@@ -101,39 +102,7 @@ const adminConfig = {
       }
     ]
   },
-  quickActions: {
-    title: "Acciones Rápidas de Administración",
-    actions: [
-      {
-        icon: "👥",
-        title: "Gestionar Usuarios",
-        subtitle: "Ver y editar usuarios",
-        bgColor: "bg-blue-50",
-        hoverColor: "hover:bg-blue-100"
-      },
-      {
-        icon: "📊",
-        title: "Reportes del Sistema",
-        subtitle: "Métricas y estadísticas",
-        bgColor: "bg-green-50",
-        hoverColor: "hover:bg-green-100"
-      },
-      {
-        icon: "⚙️",
-        title: "Configuración",
-        subtitle: "Ajustes del sistema",
-        bgColor: "bg-purple-50",
-        hoverColor: "hover:bg-purple-100"
-      },
-      {
-        icon: "🔧",
-        title: "Mantenimiento",
-        subtitle: "Herramientas de sistema",
-        bgColor: "bg-orange-50",
-        hoverColor: "hover:bg-orange-100"
-      }
-    ]
-  }
+  
 };
 
 // Configuración para HR

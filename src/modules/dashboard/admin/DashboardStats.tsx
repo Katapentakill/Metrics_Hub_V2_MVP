@@ -1,4 +1,4 @@
-// src/features/admin/DashboardStats.tsx
+// src/modules/dashboard/admin/DashboardStats.tsx
 'use client';
 
 import { BarChart3, PieChart, TrendingUp, Users, Calendar } from 'lucide-react';
@@ -129,22 +129,8 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
           </div>
         </div>
       </div>
+      
 
-      {/* Métricas de rendimiento */}
-      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200">
-        <div className="text-center">
-          <p className="text-2xl font-bold text-emerald-600">
-            {Math.round((data.completedTasks / data.totalTasks) * 100)}%
-          </p>
-          <p className="text-xs text-slate-600">Tasa de Completación</p>
-        </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold text-blue-600">
-            {Math.round((data.activeUsers / data.totalUsers) * 100)}%
-          </p>
-          <p className="text-xs text-slate-600">Usuarios Activos</p>
-        </div>
-      </div>
     </div>
   );
 }

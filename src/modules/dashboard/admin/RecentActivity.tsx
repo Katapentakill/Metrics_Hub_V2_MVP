@@ -1,4 +1,4 @@
-// src/features/admin/RecentActivity.tsx
+// src/modules/dashboard/admin/RecentActivity.tsx
 'use client';
 
 import { 
@@ -195,12 +195,7 @@ export default function RecentActivity() {
 
       {/* Acciones rápidas desde actividad */}
       <div className="mt-4 flex flex-wrap gap-2">
-        <button className="px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
-          Filtrar por usuario
-        </button>
-        <button className="px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
-          Solo proyectos
-        </button>
+
         <button className="px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
           Exportar log
         </button>

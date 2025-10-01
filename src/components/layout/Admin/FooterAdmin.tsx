@@ -1,6 +1,4 @@
-// ===============================
-// FOOTER ADMIN
-// ===============================
+// src/components/layout/Admin/FooterAdmin.tsx
 import { Shield, Database, Users, Settings, BarChart3, AlertCircle, MessageSquare, FileText, UserPlus, ClipboardList } from 'lucide-react';
 
 export function FooterAdmin() {
