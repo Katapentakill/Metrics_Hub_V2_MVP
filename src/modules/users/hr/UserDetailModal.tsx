@@ -1,4 +1,4 @@
-// src/features/admin/UserDetailModal.tsx
+// src/modules/users/hr/UserDetailModal.tsx
 'use client';
 
 import React from 'react';

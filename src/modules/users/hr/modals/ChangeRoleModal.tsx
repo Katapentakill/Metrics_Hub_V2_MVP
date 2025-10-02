@@ -1,3 +1,4 @@
+// src/modules/users/hr/modals/ChangeRoleModal.tsx
 import React, { useState } from 'react';
 import { ExtendedUserWithProfile } from '@/lib/types';
 

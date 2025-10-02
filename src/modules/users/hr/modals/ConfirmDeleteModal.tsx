@@ -1,3 +1,4 @@
+// src/modules/users/hr/modals/ConfirmDeleteModal.tsx
 import React from 'react';
 
 type Props = {

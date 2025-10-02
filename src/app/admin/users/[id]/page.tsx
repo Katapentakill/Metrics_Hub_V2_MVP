@@ -1,5 +1,6 @@
+// Ubicación: /pages/admin/users/[id]/page.tsx o /components/admin/users/UserProfileAdminPage.tsx
+// Código completo con sección de currículum funcional
 // src/app/admin/users/[id]/page.tsx
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -72,11 +73,9 @@ export default function UserProfileAdminPage() {
       setUser(foundUser);
 
       // Usar proyectos mock centralizados
-
-      // Usar actividades mock centralizadas
-
-      // Usar datos mock centralizados
       setProjects(mockUserProjects);
+      
+      // Usar actividades mock centralizadas
       setActivities(mockUserActivities.slice(0, 5));
       
       // Usar datos de CV mock centralizados con fallback
@@ -153,7 +152,7 @@ export default function UserProfileAdminPage() {
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin': return 'bg-red-100 text-red-800 border-red-200';
-      case 'hr': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'admin': return 'bg-purple-100 text-purple-800 border-purple-200';
       case 'lead': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
       case 'volunteer': return 'bg-blue-100 text-blue-800 border-blue-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
@@ -395,7 +394,28 @@ export default function UserProfileAdminPage() {
                 </div>
               )}
 
- 
+              {/* Habilidades */}
+              {user.profile?.skills && user.profile.skills.length > 0 && (
+                <div className="card p-6">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-6 flex items-center">
+                    <Star className="w-5 h-5 mr-2 text-emerald-600" />
+                    Habilidades ({user.profile.skills.length})
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {user.profile.skills.map((skill, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg hover:shadow-sm transition-shadow"
+                      >
+                        <span className="font-medium text-sm mr-2">{skill.name}</span>
+                        <span className="text-xs text-slate-500 bg-white px-2 py-1 rounded-full">
+                          {skill.level}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </>
           )}
 
@@ -475,7 +495,7 @@ export default function UserProfileAdminPage() {
                           <ul className="space-y-1">
                             {exp.achievements.map((achievement, index) => (
                               <li key={index} className="text-sm text-slate-600 flex items-start">
-                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-3 flex-sadminink-0"></span>
                                 {achievement}
                               </li>
                             ))}
@@ -662,7 +682,7 @@ export default function UserProfileAdminPage() {
               <div className="space-y-4">
                 {activities.map((activity) => (
                   <div key={activity.id} className="flex items-start space-x-4 p-4 bg-slate-50 rounded-lg">
-                    <div className="flex-shrink-0 mt-1">
+                    <div className="flex-sadminink-0 mt-1">
                       {getActivityIcon(activity.type)}
                     </div>
                     <div className="flex-1">
@@ -927,7 +947,10 @@ export default function UserProfileAdminPage() {
           <div className="card p-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-4">Estadísticas</h3>
             <div className="space-y-4">
-
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Habilidades</span>
+                <span className="font-semibold text-slate-800">{user.profile?.skills?.length || 0}</span>
+              </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-600">Idiomas</span>
                 <span className="font-semibold text-slate-800">{user.profile?.languages?.length || 0}</span>

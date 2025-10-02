@@ -1,3 +1,4 @@
+// src/modules/users/hr/modals/ResetPasswordModal.tsx
 import React, { useState } from 'react';
 
 type Props = {

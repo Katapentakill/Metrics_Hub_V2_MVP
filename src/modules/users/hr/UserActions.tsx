@@ -1,3 +1,4 @@
+// src/modules/users/hr/UserActions.tsx
 import React from 'react';
 import { 
   Pencil, Mail, KeyRound, Shield, UserX, Download, Trash2 

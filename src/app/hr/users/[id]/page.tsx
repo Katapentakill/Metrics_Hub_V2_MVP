@@ -1,6 +1,6 @@
 // Ubicación: /pages/admin/users/[id]/page.tsx o /components/admin/users/UserProfileAdminPage.tsx
 // Código completo con sección de currículum funcional
-
+// src/app/hr/users/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';

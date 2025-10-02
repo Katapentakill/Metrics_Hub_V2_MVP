@@ -1,4 +1,4 @@
-// src/features/admin/users/UserFilters.tsx
+// src/modules/users/hr/UserFilters.tsx
 'use client';
 
 import { useState } from 'react';
