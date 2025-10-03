@@ -45,6 +45,14 @@ export default function QuickActions() {
 
   const pendingTasks = [
     {
+      title: '8 Entrevistas programadas hoy',
+      description: 'Gestión de entrevistas requiere supervisión',
+      icon: Clock,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50',
+      action: '/admin/recruitment/evaluation/interview-management'
+    },
+    {
       title: '12 Aplicaciones por revisar',
       description: 'Candidatos esperando evaluación inicial',
       icon: Clock,

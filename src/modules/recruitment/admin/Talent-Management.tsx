@@ -1,25 +1,58 @@
-//  src/modules/recruitment/admin/Talent-Management.tsx// src/modules/recruitment/admin/Talent-Management.tsx
-import Link from 'next/link';
+// src/modules/recruitment/admin/Talent-Management.tsx
 import {
   Users,
   Briefcase,
-  Sliders,
   BarChart,
   ClipboardCheck,
-  CheckCircle,
   FileText,
-  Lock,
-  MessageSquare,
   Cog,
   Shield,
   Handshake,
   UserCheck,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import AdminBreadcrumb from './components/AdminBreadcrumb';
+import AdminSectionCard from './components/AdminSectionCard';
+import AdminDashboardStats from './components/AdminDashboardStats';
+
+// Mock data for dashboard stats
+const dashboardStats = [
+  {
+    title: 'Vacantes Activas',
+    value: 24,
+    change: { value: 12, type: 'increase' as const, period: 'mes anterior' },
+    icon: Briefcase,
+    color: 'text-blue-600',
+  },
+  {
+    title: 'Candidatos en Proceso',
+    value: 156,
+    change: { value: 8, type: 'increase' as const, period: 'semana anterior' },
+    icon: Users,
+    color: 'text-purple-600',
+  },
+  {
+    title: 'Contrataciones del Mes',
+    value: 8,
+    change: { value: -5, type: 'decrease' as const, period: 'mes anterior' },
+    icon: UserCheck,
+    color: 'text-green-600',
+  },
+  {
+    title: 'Tiempo Promedio de Contratación',
+    value: '18 días',
+    change: { value: -12, type: 'decrease' as const, period: 'trimestre anterior' },
+    icon: Clock,
+    color: 'text-orange-600',
+  },
+];
 
 const sections = [
   {
     category: 'Adquisición de Talento',
+    priority: 'high' as const,
     items: [
       {
         title: 'Gestión de Vacantes',
@@ -27,6 +60,12 @@ const sections = [
         href: '/admin/recruitment/job-openings',
         icon: Briefcase,
         color: 'text-blue-600',
+        badge: { status: 'active' as const, text: '24 Activas' },
+        stats: [
+          { label: 'Pendientes', value: '12' },
+          { label: 'Publicadas', value: '24' },
+        ],
+        priority: 'high' as const,
       },
       {
         title: 'Gestión de Candidatos',
@@ -34,6 +73,12 @@ const sections = [
         href: '/admin/recruitment/candidate-management',
         icon: Users,
         color: 'text-purple-600',
+        badge: { status: 'info' as const, text: '156 En Proceso' },
+        stats: [
+          { label: 'Nuevos', value: '42' },
+          { label: 'En Revisión', value: '114' },
+        ],
+        priority: 'high' as const,
       },
       {
         title: 'Evaluación y Selección',
@@ -41,6 +86,16 @@ const sections = [
         href: '/admin/recruitment/evaluation',
         icon: UserCheck,
         color: 'text-green-600',
+        badge: { status: 'warning' as const, text: '8 Pendientes' },
+        stats: [
+          { label: 'Entrevistas', value: '23' },
+          { label: 'Evaluaciones', value: '15' },
+        ],
+        priority: 'high' as const,
+        quickActions: [
+          { label: 'Gestionar Entrevistas', href: '/admin/recruitment/evaluation/interview-management' },
+          { label: 'Ver Calendario', href: '/admin/recruitment/evaluation/interview-management?view=calendar' }
+        ]
       },
       {
         title: 'Ofertas y Contratación',
@@ -48,11 +103,18 @@ const sections = [
         href: '/admin/recruitment/offers-hiring',
         icon: Handshake,
         color: 'text-orange-600',
+        badge: { status: 'success' as const, text: '5 Ofertas Enviadas' },
+        stats: [
+          { label: 'Aceptadas', value: '3' },
+          { label: 'Pendientes', value: '2' },
+        ],
+        priority: 'medium' as const,
       },
     ],
   },
   {
     category: 'Análisis y Control',
+    priority: 'medium' as const,
     items: [
       {
         title: 'Reportes y Analíticas',
@@ -60,6 +122,12 @@ const sections = [
         href: '/admin/recruitment/analytics',
         icon: BarChart,
         color: 'text-red-600',
+        badge: { status: 'info' as const, text: 'Actualizado' },
+        stats: [
+          { label: 'Reportes', value: '12' },
+          { label: 'Métricas', value: '45' },
+        ],
+        priority: 'low' as const,
       },
       {
         title: 'Auditoría y Seguridad',
@@ -67,67 +135,76 @@ const sections = [
         href: '/admin/recruitment/audits',
         icon: Shield,
         color: 'text-slate-600',
+        badge: { status: 'success' as const, text: 'Compliant' },
+        stats: [
+          { label: 'Logs', value: '1.2k' },
+          { label: 'Alertas', value: '0' },
+        ],
+        priority: 'low' as const,
       },
     ],
   },
-  {
-    category: 'Configuración del Sistema',
-    items: [
-      {
-        title: 'Usuarios y Permisos',
-        description: 'Crea, edita y gestiona las cuentas de usuario y define los roles de acceso para todo el equipo.',
-        href: '/admin/recruitment/users-permissions',
-        icon: Cog,
-        color: 'text-indigo-600',
-      },
-      {
-        title: 'Flujos de Aprobación',
-        description: 'Personaliza los pasos de aprobación de vacantes para alinear los procesos de reclutamiento.',
-        href: '/admin/recruitment/approval-flows',
-        icon: ClipboardCheck,
-        color: 'text-cyan-600',
-      },
-      {
-        title: 'Plantillas y Contenido',
-        description: 'Crea y administra plantillas reutilizables para correos electrónicos, ofertas y descripciones de puestos.',
-        href: '/admin/recruitment/templates',
-        icon: FileText,
-        color: 'text-lime-600',
-      },
-    ],
-  },
+  
 ];
 
 export default function TalentManagementAdminPage() {
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Panel de Administración de Talent Management</h1>
-      <p className="text-gray-600 mb-10">
-        Bienvenido al centro de control. Utiliza estas herramientas para supervisar, analizar y personalizar el sistema de gestión de talento para toda la organización.
-      </p>
-
-      {sections.map((section) => (
-        <div key={section.category} className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">{section.category}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {section.items.map((item) => (
-              <Link key={item.title} href={item.href}>
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardHeader>
-                    <div className={`flex items-center gap-3 ${item.color}`}>
-                      <item.icon className="w-6 h-6" />
-                      <CardTitle>{item.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-500">{item.description}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <div className="p-8 max-w-7xl mx-auto">
+        <AdminBreadcrumb
+          items={[
+            { label: 'Recruitment', href: '/admin/recruitment' },
+            { label: 'Talent Management' }
+          ]}
+        />
+        
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg">
+              <Users className="w-8 h-8" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900">Panel de Administración</h1>
+              <p className="text-xl text-gray-600">Talent Management</p>
+            </div>
           </div>
+          <p className="text-gray-600 text-lg leading-relaxed max-w-4xl">
+            Bienvenido al centro de control. Utiliza estas herramientas para supervisar, analizar y personalizar
+            el sistema de gestión de talento para toda la organización.
+          </p>
         </div>
-      ))}
+
+        <AdminDashboardStats stats={dashboardStats} />
+
+        {sections.map((section) => (
+          <div key={section.category} className="mb-12">
+            <div className="flex items-center gap-3 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900">{section.category}</h2>
+              {section.priority === 'high' && (
+                <div className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
+                  <AlertTriangle className="w-4 h-4" />
+                  Alta Prioridad
+                </div>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+              {section.items.map((item) => (
+                <AdminSectionCard
+                  key={item.title}
+                  title={item.title}
+                  description={item.description}
+                  href={item.href}
+                  icon={item.icon}
+                  color={item.color}
+                  badge={item.badge}
+                  stats={item.stats}
+                  priority={item.priority}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

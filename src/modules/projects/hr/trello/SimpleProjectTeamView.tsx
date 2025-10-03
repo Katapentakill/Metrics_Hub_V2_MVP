@@ -1,4 +1,3 @@
-// src/modules/projects/hr/trello/SimpleProjectTeamView.tsx
 // UBICACIÓN: src/modules/projects/hr/trello/SimpleProjectTeamView.tsx
 // Vista simple del equipo del proyecto - solo miembros
 
