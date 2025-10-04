@@ -3,7 +3,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   ArrowLeft,
@@ -79,17 +79,7 @@ export default function ProfilePage({ allowedRoles }: ProfilePageProps) {
     motivation: ''
   });
 
-  useEffect(() => {
-    const sessionData = getAuthSession();
-    if (!sessionData || !allowedRoles.includes(sessionData.role)) {
-      router.push('/login');
-      return;
-    }
-    setSession(sessionData);
-    loadUserProfile();
-  }, [router, allowedRoles]);
-
-  const loadUserProfile = async () => {
+  const loadUserProfile = useCallback(async () => {
     try {
       setIsLoading(true);
       await new Promise(resolve => setTimeout(resolve, 800));
@@ -121,7 +111,17 @@ export default function ProfilePage({ allowedRoles }: ProfilePageProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [session]);
+
+  useEffect(() => {
+    const sessionData = getAuthSession();
+    if (!sessionData || !allowedRoles.includes(sessionData.role)) {
+      router.push('/login');
+      return;
+    }
+    setSession(sessionData);
+    loadUserProfile();
+  }, [router, allowedRoles, loadUserProfile]);
 
   const handleSave = async () => {
     setIsSaving(true);

@@ -263,7 +263,7 @@ export default function AdminOnboardingManagementPage() {
             key={candidate.id} 
             className="hover:shadow-lg transition-shadow duration-200 cursor-pointer h-full flex flex-col"
           >
-            <CardHeader className="pb-2">
+            <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <User className="w-5 h-5 text-purple-600" />
@@ -278,7 +278,7 @@ export default function AdminOnboardingManagementPage() {
                 {getStatusBadge(candidate.status)}
               </div>
             </CardHeader>
-            <CardContent className="space-y-4 pt-4 flex-1 flex flex-col justify-between">
+            <CardContent>
                 <div>
                     <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                         <FileText className="h-4 w-4 text-gray-500" />

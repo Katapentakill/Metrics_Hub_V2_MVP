@@ -11,10 +11,10 @@ export interface DashboardData {
   completed_tasks: number;
   pending_tasks: number;
   overdue_tasks: number;
-  recent_activity: ActivityItem[];
+  recent_activity: DashboardActivityItem[];
 }
 
-export interface ActivityItem {
+export interface DashboardActivityItem {
   id: string;
   type: 'user' | 'task' | 'project' | 'system' | 'application' | 'evaluation';
   title: string;

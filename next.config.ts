@@ -2,11 +2,11 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuración de internacionalización (i18n)
-  i18n: {
-    locales: ['es', 'en'], // Idiomas soportados
-    defaultLocale: 'es',  // Idioma por defecto (el que usarán las rutas sin prefijo)
-  },
+  // Configuración de internacionalización (i18n) - NO COMPATIBLE CON APP ROUTER
+  // i18n: {
+  //   locales: ['es', 'en'], // Idiomas soportados
+  //   defaultLocale: 'es',  // Idioma por defecto (el que usarán las rutas sin prefijo)
+  // },
   //... otras configuraciones
 };
 

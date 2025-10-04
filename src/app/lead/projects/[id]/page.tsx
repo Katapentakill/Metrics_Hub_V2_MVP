@@ -102,7 +102,7 @@ export default function LeadProjectDetailPage() {
     };
 
     loadProject();
-  }, [id, router, user?.userId]);
+  }, [id, router, user]);
 
   // Handlers
   const handleConfigSave = () => {

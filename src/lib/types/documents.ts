@@ -3,7 +3,7 @@ import { User } from "../types";
 export interface MockDocument {
     id: string;
     name: string;
-    type: 'company-library' | 'policies-guides' | 'hiring-onboarding' | 'employee-management' | 'termination' | 'volunteer-submissions'| 'volunteer-reference';
+    type: 'company-library' | 'policies-guides' | 'hiring-onboarding' | 'employee-management' | 'termination' | 'volunteer-submissions'| 'volunteer-reference' | 'volunteer-termination';
     status: 'draft' | 'published' | 'in-review' | 'approved' | 'completed' | 'verified' | 'filed' | 'signed' | 'sent' | 'submitted';
     uploadDate: string;
     lastModifiedDate: string;
@@ -39,7 +39,7 @@ export interface MockDocument {
       canEdit: true,
       canDelete: true,
       canApprove: true,
-      allowedTypes: ['company-library', 'policies-guides', 'hiring-onboarding', 'employee-management', 'termination', 'volunteer-submissions', 'volunteer-reference'],
+      allowedTypes: ['company-library', 'policies-guides', 'hiring-onboarding', 'employee-management', 'termination', 'volunteer-submissions', 'volunteer-reference', 'volunteer-termination'],
     },
     lead: {
       canView: true,

@@ -4,11 +4,12 @@
 import CandidateDetailView from '@/modules/recruitment/admin/CandidateDetailView';
 
 interface CandidatePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function CandidatePage({ params }: CandidatePageProps) {
-  return <CandidateDetailView candidateId={params.id} />;
+export default async function CandidatePage({ params }: CandidatePageProps) {
+  const { id } = await params;
+  return <CandidateDetailView candidateId={id} />;
 }

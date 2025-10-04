@@ -34,8 +34,8 @@ export default function RecruitmentTracker() {
     volunteerType: 'all',
   });
 
-  const permissions = ROLE_PERMISSIONS.lead_project;
-  const config = TABLE_CONFIG.lead_project;
+  const permissions = ROLE_PERMISSIONS.lead;
+  const config = TABLE_CONFIG.lead;
 
   const handleDelete = (id: string) => {
     setCandidates((prev) => prev.filter((c) => c.id !== id));

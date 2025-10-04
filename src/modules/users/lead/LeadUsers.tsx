@@ -1,7 +1,7 @@
 // modules/users/lead/LeadUsers.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Users, 
@@ -45,7 +45,6 @@ export default function LeadUsers() {
   const [showContactVolunteer, setShowContactVolunteer] = useState(false);
 
   useEffect(() => { loadUsers(); }, []);
-  useEffect(() => { filterUsers(); }, [users, searchTerm, selectedSkillCategory, selectedAvailability, advFilters]);
 
   const loadUsers = async () => {
     try {
@@ -93,7 +92,7 @@ export default function LeadUsers() {
     }
   };
 
-  const filterUsers = () => {
+  const filterUsers = useCallback(() => {
     let filtered = [...users];
     const q = searchTerm.toLowerCase();
 
@@ -147,7 +146,9 @@ export default function LeadUsers() {
     }
 
     setFilteredUsers(filtered);
-  };
+  }, [users, searchTerm, selectedSkillCategory, selectedAvailability, advFilters]);
+
+  useEffect(() => { filterUsers(); }, [users, searchTerm, selectedSkillCategory, selectedAvailability, advFilters, filterUsers]);
 
   // Navegación a página de detalle
   const handleViewUser = (userId: string) => {

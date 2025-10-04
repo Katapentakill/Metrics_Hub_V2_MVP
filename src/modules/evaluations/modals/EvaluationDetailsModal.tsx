@@ -79,11 +79,11 @@ export default function EvaluationDetailsModal({
       // Datos simulados completos
       const mockDetails: EvaluationDetails = {
         overall_score: evaluation.evaluation.overall_score || 4.2,
-        completion_date: evaluation.evaluation.completed_at || new Date().toISOString(),
+        completion_date: evaluation.evaluation.completed_date || new Date().toISOString(),
         period: evaluation.period?.name || 'Q3 2024',
         evaluator: evaluation.evaluator?.name || 'Ana García',
         evaluated_user: evaluation.evaluatedUser?.name || 'Usuario',
-        project_context: evaluation.evaluation.project_name || 'Evaluación general',
+        project_context: 'Evaluación general',
         type: evaluation.evaluation.type,
         status: evaluation.evaluation.status,
         criteria_scores: {

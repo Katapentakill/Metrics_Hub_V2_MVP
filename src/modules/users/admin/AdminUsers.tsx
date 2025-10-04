@@ -1,7 +1,7 @@
 // src/modules/users/admin/AdminUsers.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Users, 
@@ -55,7 +55,6 @@ export default function AdminUsers() {
   const [showExport, setShowExport] = useState(false);
 
   useEffect(() => { loadUsers(); }, []);
-  useEffect(() => { filterUsers(); }, [users, searchTerm, selectedRole, selectedStatus, advFilters]);
 
   const loadUsers = async () => {
     try {
@@ -97,7 +96,7 @@ export default function AdminUsers() {
     }
   };
 
-  const filterUsers = () => {
+  const filterUsers = useCallback(() => {
     let filtered = [...users];
     const q = searchTerm.toLowerCase();
 
@@ -126,7 +125,9 @@ export default function AdminUsers() {
     }
 
     setFilteredUsers(filtered);
-  };
+  }, [users, searchTerm, selectedRole, selectedStatus, advFilters]);
+
+  useEffect(() => { filterUsers(); }, [users, searchTerm, selectedRole, selectedStatus, advFilters, filterUsers]);
 
   // Navegación a páginas dedicadas
   const handleViewUser = (userId: string) => {

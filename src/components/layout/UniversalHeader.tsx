@@ -3,6 +3,8 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Settings, 
   Users, 
@@ -279,7 +281,7 @@ export default function UniversalHeader({
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
               <div className={`flex items-center justify-center w-10 h-10 bg-gradient-to-br ${config.gradient} rounded-xl shadow-lg`}>
                 <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center">
                   <div className="w-2.5 h-2.5 bg-living-green-500 rounded-sm"></div>
@@ -289,7 +291,7 @@ export default function UniversalHeader({
                 <h1 className="text-xl font-bold text-gradient">{config.title}</h1>
                 <p className="text-xs text-muted -mt-1">{config.subtitle}</p>
               </div>
-            </a>
+            </Link>
 
             {/* Navegación de escritorio */}
             <nav className="hidden md:flex items-center gap-8">
@@ -478,7 +480,7 @@ export default function UniversalHeader({
                 {/* Avatar */}
                 <div className={`w-8 h-8 bg-gradient-to-br ${config.gradient} rounded-full flex items-center justify-center flex-shrink-0`}>
                   {session?.avatar ? (
-                    <img src={session.avatar} alt={session.name} className="w-8 h-8 rounded-full object-cover" />
+                    <Image src={session.avatar} alt={session.name} className="w-8 h-8 rounded-full object-cover" width={32} height={32} />
                   ) : (
                     <User className="w-4 h-4 text-white" />
                   )}

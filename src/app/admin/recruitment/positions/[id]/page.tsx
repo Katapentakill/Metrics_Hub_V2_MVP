@@ -4,11 +4,12 @@
 import PositionDetailView from '@/modules/recruitment/admin/PositionDetailView';
 
 interface PositionPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function PositionPage({ params }: PositionPageProps) {
-  return <PositionDetailView positionId={params.id} />;
+export default async function PositionPage({ params }: PositionPageProps) {
+  const { id } = await params;
+  return <PositionDetailView positionId={id} />;
 }

@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { Folder, Search, Plus, BarChart3, Grid } from 'lucide-react';
 
 import type {
@@ -71,12 +71,7 @@ export default function HrProjectsPage() {
     }
   }, [isLoading, projects, users]);
 
-  // Aplicar filtros cuando cambien
-  useEffect(() => { 
-    applyFilters(); 
-  }, [views, searchTerm, advancedFilters]);
-
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let data = [...views];
 
     // Búsqueda por texto
@@ -190,7 +185,12 @@ export default function HrProjectsPage() {
     }
 
     setFiltered(data);
-  };
+  }, [views, searchTerm, advancedFilters]);
+
+  // Aplicar filtros cuando cambien
+  useEffect(() => { 
+    applyFilters(); 
+  }, [views, searchTerm, advancedFilters, applyFilters]);
 
   // Handlers de acciones
   const onEdit = (v: ProjectView) => { setSelected(v); setShowEdit(true); };

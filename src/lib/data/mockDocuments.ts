@@ -1,5 +1,5 @@
 // src/lib/data/mockDocuments.ts
-import { MockDocument } from '@/lib/types';
+import { MockDocument } from '@/lib/types/documents';
 
 
 // Documentos de ejemplo para todo el sistema

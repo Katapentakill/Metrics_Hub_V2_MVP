@@ -3,7 +3,7 @@
 // src/app/hr/users/[id]/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { 
   ArrowLeft, 
@@ -55,11 +55,7 @@ export default function UserProfileAdminPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 
-  useEffect(() => {
-    loadUserData();
-  }, [userId]);
-
-  const loadUserData = async () => {
+  const loadUserData = useCallback(async () => {
     try {
       // Simular carga de datos
       await new Promise(resolve => setTimeout(resolve, 800));
@@ -86,7 +82,11 @@ export default function UserProfileAdminPage() {
       console.error('Error loading user data:', error);
       setIsLoading(false);
     }
-  };
+  }, [userId, router]);
+
+  useEffect(() => {
+    loadUserData();
+  }, [userId, loadUserData]);
 
   if (isLoading) {
     return (

@@ -3,7 +3,7 @@
 
 import { 
   DashboardData, 
-  ActivityItem, 
+  DashboardActivityItem, 
   HRDashboardData, 
   RecentHire, 
   PendingApplication, 

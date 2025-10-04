@@ -1,7 +1,7 @@
 // pages/lead/users/[id]/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { 
   ArrowLeft, 
@@ -43,11 +43,7 @@ export default function LeadUserProfilePage() {
   const [showRequestVolunteer, setShowRequestVolunteer] = useState(false);
   const [showContactVolunteer, setShowContactVolunteer] = useState(false);
 
-  useEffect(() => {
-    loadUserData();
-  }, [userId]);
-
-  const loadUserData = async () => {
+  const loadUserData = useCallback(async () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
       
@@ -67,7 +63,11 @@ export default function LeadUserProfilePage() {
       console.error('Error loading user data:', error);
       setIsLoading(false);
     }
-  };
+  }, [userId, router]);
+
+  useEffect(() => {
+    loadUserData();
+  }, [userId, loadUserData]);
 
   if (isLoading) {
     return (

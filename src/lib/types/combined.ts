@@ -15,33 +15,8 @@ export interface LanguageWithLevel extends Language {
   level?: string;
 }
 
-// Tipo extendido para uso en frontend con arrays simplificados
-export interface ExtendedUserWithProfile extends User {
-  profile?: UserProfile & {
-    // Arrays simplificados para habilidades e idiomas
-    skills?: SimpleSkill[];
-    languages?: SimpleLanguage[];
-    certifications?: string[];
-  };
-}
-
 // Tipos para estadísticas y reportes
-export interface UserStats {
-  total: number;
-  active: number;
-  inactive: number;
-  suspended: number;
-  deleted: number;
-  byRole: {
-    admin: number;
-    hr: number;
-    lead: number;
-    volunteer: number;
-    unassigned: number;
-  };
-  byCountry: Record<string, number>;
-  bySkillCategory: Record<string, number>;
-}
+// UserStats se importa desde users.ts para evitar duplicación
 
 // Tipos para matching inteligente
 export interface MatchingScore {

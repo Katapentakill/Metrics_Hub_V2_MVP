@@ -207,11 +207,11 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
       )}
 
       {/* Acciones rápidas específicas del rol */}
-      {config.quickActions && (
+      {(config as any).quickActions && (
         <div className="card p-6">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">{config.quickActions.title}</h3>
+          <h3 className="text-lg font-semibold text-slate-800 mb-4">{(config as any).quickActions.title}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {config.quickActions.actions.map((action, index) => (
+            {(config as any).quickActions.actions.map((action: any, index: number) => (
               <button key={index} className={`p-4 ${action.bgColor} hover:${action.hoverColor} rounded-lg transition-colors text-center hover-lift`}>
                 <div className="text-2xl mb-2">{action.icon}</div>
                 <p className="text-sm font-medium text-slate-800">{action.title}</p>

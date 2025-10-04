@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { 
   ArrowLeft, 
@@ -34,11 +34,7 @@ export default function VolunteerProjectDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'team' | 'tasks' | 'files'>('overview');
 
-  useEffect(() => {
-    loadProjectData();
-  }, [params.id]);
-
-  const loadProjectData = async () => {
+  const loadProjectData = useCallback(async () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
       
@@ -67,7 +63,11 @@ export default function VolunteerProjectDetailPage() {
       console.error('Error loading project:', error);
       setIsLoading(false);
     }
-  };
+  }, [params.id, router, user?.userId]);
+
+  useEffect(() => {
+    loadProjectData();
+  }, [params.id, loadProjectData]);
 
   if (isLoading) {
     return (
