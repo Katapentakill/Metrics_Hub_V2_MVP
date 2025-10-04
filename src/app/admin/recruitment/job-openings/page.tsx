@@ -305,7 +305,7 @@ export default function AdminJobOpeningsPage() {
   };
   
   const filteredAndSortedPublishedJobs = useMemo(() => {
-    let filteredList = publishedJobsList.filter(job => {
+    const filteredList = publishedJobsList.filter(job => {
       if (publishedFilterStatus !== 'all' && job.status !== publishedFilterStatus) return false;
       if (publishedFilterDepartment !== 'all' && job.department !== publishedFilterDepartment) return false;
       
