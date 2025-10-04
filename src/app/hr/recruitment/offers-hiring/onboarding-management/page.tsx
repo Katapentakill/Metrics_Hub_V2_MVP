@@ -1,4 +1,4 @@
-// src/app/admin/recruitment/offers-hiring/onboarding-management/page.tsx
+// src/app/hr/recruitment/offers-hiring/onboarding-management/page.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   );
 };
 
-// Reemplazo simplificado para '@/modules/recruitment/admin/components/AdminPageLayout'
+// Reemplazo simplificado para '@/modules/recruitment/hr/components/AdminPageLayout'
 interface AdminPageLayoutProps {
   title: string;
   subtitle: string;
@@ -199,8 +199,8 @@ export default function OnboardingManagementPage() {
       icon={UserCheck}
       iconGradient="bg-gradient-to-br from-purple-500 to-indigo-600"
       breadcrumbItems={[
-        { label: 'Recruitment', href: '/admin/recruitment' },
-        { label: 'Oferta y Contratación', href: '/admin/recruitment/offers-hiring' },
+        { label: 'Recruitment', href: '/hr/recruitment' },
+        { label: 'Oferta y Contratación', href: '/hr/recruitment/offers-hiring' },
         { label: 'Onboarding' }
       ]}
       headerActions={
