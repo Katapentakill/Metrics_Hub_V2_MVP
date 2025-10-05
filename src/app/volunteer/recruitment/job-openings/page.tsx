@@ -1,4 +1,3 @@
-// src/app/volunteer/recruitment/job-openings/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -751,7 +750,7 @@ export default function VolunteerRecruitmentSystem() {
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-green bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
+              <div className="bg-green-600 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
                 <div className="flex items-center gap-2 mb-1">
                   <Briefcase className="w-5 h-5" />
                   <span className="font-bold text-2xl">{stats.total}</span>
@@ -759,7 +758,7 @@ export default function VolunteerRecruitmentSystem() {
                 <p className="text-sm text-green-200">Vacantes Activas</p>
               </div>
               
-              <div className="bg-green bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
+              <div className="bg-green-600 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
                 <div className="flex items-center gap-2 mb-1">
                   <Zap className="w-5 h-5" />
                   <span className="font-bold text-2xl">{stats.urgent}</span>
@@ -767,7 +766,7 @@ export default function VolunteerRecruitmentSystem() {
                 <p className="text-sm text-green-200">Urgentes</p>
               </div>
               
-              <div className="bg-green bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
+              <div className="bg-green-600 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
                 <div className="flex items-center gap-2 mb-1">
                   <Users className="w-5 h-5" />
                   <span className="font-bold text-2xl">{stats.applications}</span>
@@ -879,7 +878,7 @@ export default function VolunteerRecruitmentSystem() {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="font-bold text-xl group-hover:text-green-600 transition-colors mb-2">
+                      <h3 className="font-bold text-xl text-gray-900 mb-2">
                         {job.title}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
