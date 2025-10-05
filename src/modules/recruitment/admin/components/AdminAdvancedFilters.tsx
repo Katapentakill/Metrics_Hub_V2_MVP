@@ -1,4 +1,4 @@
-// src/modules/recruitment/admin/components/AdminAdvancedFilters.tsx
+// src/modules/recruitment/hr/components/AdminAdvancedFilters.tsx
 import { useState } from 'react';
 import { Filter, X, Calendar, Users, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';

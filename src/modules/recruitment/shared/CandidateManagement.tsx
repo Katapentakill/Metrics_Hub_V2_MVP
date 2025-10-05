@@ -116,7 +116,7 @@ export default function CandidateManagement({
     return (
       <div className="flex justify-center items-center h-64">
         <p className="text-xl text-slate-500">
-          {texts.noData[userRole === 'lead' ? 'lead_project' : userRole]}
+          {texts.noData[userRole]}
         </p>
       </div>
     );
@@ -127,7 +127,7 @@ export default function CandidateManagement({
       {/* Header dinámico */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">
-          {title || texts.pageTitle[userRole === 'lead' ? 'lead_project' : userRole]}
+          {title || texts.pageTitle[userRole]}
         </h1>
         {permissions.canCreate && (
           <Button>

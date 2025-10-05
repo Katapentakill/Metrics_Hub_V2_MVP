@@ -32,7 +32,7 @@ const emptyMessages = {
 };
 
 export function EmptyState({ userRole, onAddCandidate, canAdd = false }: EmptyStateProps) {
-  const message = emptyMessages[userRole === 'lead' ? 'lead_project' : userRole];
+  const message = emptyMessages[userRole];
 
   return (
     <div className="flex flex-col items-center justify-center h-64 text-center">

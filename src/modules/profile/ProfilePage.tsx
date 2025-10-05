@@ -79,12 +79,13 @@ export default function ProfilePage({ allowedRoles }: ProfilePageProps) {
     motivation: ''
   });
 
-  const loadUserProfile = useCallback(async () => {
+  const loadUserProfile = useCallback(async (sessionData: any) => {
+    setSession(sessionData);
     try {
       setIsLoading(true);
       await new Promise(resolve => setTimeout(resolve, 800));
-      
-      const profileData = getProfileDataByRole(session?.role, session);
+
+      const profileData = getProfileDataByRole(sessionData?.role, sessionData);
       setUser(profileData.user);
       setProjects(profileData.projects);
       setActivities(profileData.activities);
@@ -111,7 +112,7 @@ export default function ProfilePage({ allowedRoles }: ProfilePageProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [session]);
+  }, [setUser, setProjects, setActivities, setCvData, setEditForm]);
 
   useEffect(() => {
     const sessionData = getAuthSession();
@@ -119,8 +120,7 @@ export default function ProfilePage({ allowedRoles }: ProfilePageProps) {
       router.push('/login');
       return;
     }
-    setSession(sessionData);
-    loadUserProfile();
+    loadUserProfile(sessionData);
   }, [router, allowedRoles, loadUserProfile]);
 
   const handleSave = async () => {

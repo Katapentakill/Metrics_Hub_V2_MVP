@@ -3,293 +3,320 @@
 'use client';
 
 import { useState } from 'react';
-import { getMockRecruitmentData, MockCandidate } from '@/lib/data/mockRecruitmentData';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
   Mail,
   Phone,
   Globe,
   FileText,
   User,
-  CheckCircle2,
+  CheckCircle,
   AlertCircle,
   Clock,
   Calendar,
   Download,
   Upload,
   MessageCircle,
-  Briefcase
+  Briefcase,
+  Sparkles
 } from 'lucide-react';
 
-// Simula al único candidato del voluntario
-const mockVolunteerData = getMockRecruitmentData(1)[0];
+const mockCandidate = {
+  name: 'María González',
+  email: 'maria.gonzalez@email.com',
+  phone: '+1 (555) 123-4567',
+  timezone: 'EST (UTC-5)',
+  appliedRole: 'Asistente de Marketing Digital',
+  team: 'Marketing',
+  volunteerType: 'Tiempo Parcial',
+  applicationStatus: 'En Proceso',
+  hrInterviewDate: new Date('2025-09-18'),
+  pmInterviewDate: null,
+  interviewAssigned: 'Juan Pérez'
+};
 
-export default function VolunteerApplicationStatusPage() {
-  const [candidate] = useState<MockCandidate>(mockVolunteerData);
+const processSteps = [
+  { title: 'Aplicación Enviada', status: 'completed', date: '10/09/2025' },
+  { title: 'Revisión de Documentos', status: 'completed', date: '12/09/2025' },
+  { title: 'Entrevista Inicial', status: 'current', date: '18/09/2025' },
+  { title: 'Entrevista Técnica', status: 'pending', date: '25/09/2025' },
+  { title: 'Decisión Final', status: 'pending', date: '30/09/2025' }
+];
 
-  const getInterviewStatus = (date: Date | null) => {
-    if (date) {
-      return `${new Date(date).toLocaleDateString('es-ES')} a las ${new Date(date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
-    }
-    return 'Por programar';
-  };
+const documents = [
+  { name: 'Curriculum Vitae', status: 'completed', file: 'CV_Maria_Gonzalez.pdf' },
+  { name: 'Estado CPT/OPT', status: 'pending', file: null },
+  { name: 'Referencias', status: 'under_review', file: 'Referencias.pdf' }
+];
 
-  // Pasos simplificados
-  const processSteps = [
-    { title: 'Aplicación Enviada', status: 'completed', date: '10/09/2025' },
-    { title: 'Revisión de Documentos', status: 'completed', date: '12/09/2025' },
-    { title: 'Entrevista Inicial', status: 'current', date: '18/09/2025' },
-    { title: 'Entrevista Técnica', status: 'pending', date: '25/09/2025' },
-    { title: 'Decisión Final', status: 'pending', date: '30/09/2025' }
-  ];
+const getInterviewStatus = (date: Date | null) => {
+  if (date) {
+    return `${date.toLocaleDateString('es-ES')} a las ${date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+  }
+  return 'Por programar';
+};
 
-  // Documentos simplificados
-  const documents = [
-    { name: 'Curriculum Vitae', status: 'completed', file: 'CV_Maria_Gonzalez.pdf' },
-    { name: 'Estado CPT/OPT', status: 'pending', file: null },
-    { name: 'Referencias', status: 'under_review', file: 'Referencias.pdf' }
-  ];
-
+export default function VolunteerApplicationStatus() {
+  const [candidate] = useState(mockCandidate);
   const progress = 60;
 
   return (
-    <div className="space-y-6">
-      {/* Header simplificado */}
-      <div className="bg-purple-600 rounded-xl p-6 text-white">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold mb-2">Estado de mi Solicitud</h1>
-            <div className="flex items-center gap-2 mb-1">
-              <Briefcase className="w-4 h-4" />
-              <span>{candidate.appliedRole}</span>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        
+        {/* Header */}
+        <div className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl p-8 text-white shadow-xl">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <h1 className="text-3xl font-bold">Estado de mi Solicitud</h1>
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <Briefcase className="w-5 h-5" />
+                <span className="text-xl font-semibold">{candidate.appliedRole}</span>
+              </div>
+              <p className="text-green-200">Equipo {candidate.team}</p>
             </div>
-            <p className="text-purple-200">Equipo {candidate.team}</p>
+
+            <div className="text-center bg-green-500 bg-opacity-20 backdrop-blur-sm rounded-xl p-6 border border-white border-opacity-30">
+              <div className="text-4xl font-bold mb-1">{progress}%</div>
+              <p className="text-sm text-green-200">Completado</p>
+            </div>
           </div>
           
-          <div className="text-center">
-            <div className="text-3xl font-bold">{progress}%</div>
-            <p className="text-sm text-purple-200">Completado</p>
+          <div className="flex items-center gap-3">
+            <span className="bg-green-500 bg-opacity-20 px-4 py-2 rounded-full text-sm font-semibold">
+              {candidate.applicationStatus}
+            </span>
+            <div className="flex-1 bg-white bg-opacity-20 rounded-full h-3">
+              <div 
+                className="bg-white h-3 rounded-full transition-all"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
         </div>
-        
-        <div className="mt-4">
-          <span className="bg-white/20 px-3 py-1 rounded-full text-sm">
-            {candidate.applicationStatus}
-          </span>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Información personal */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5" />
-                Mi Información
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="text-center pb-4 border-b">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <span className="text-white text-lg font-bold">MG</span>
-                </div>
-                <h3 className="font-semibold">María González</h3>
-                <p className="text-sm text-gray-600">{candidate.volunteerType}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Info Personal */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
+                <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                  <User className="w-5 h-5 text-green-600" />
+                  Mi Información
+                </h3>
               </div>
-              
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-gray-500" />
-                  <span>{candidate.email}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-gray-500" />
-                  <span>{candidate.phone}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-gray-500" />
-                  <span>{candidate.timezone}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Documentos */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Documentos
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {documents.map((doc, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                  <div className="flex items-center gap-2">
-                    {doc.status === 'completed' ? 
-                      <CheckCircle2 className="w-4 h-4 text-green-500" /> :
-                      doc.status === 'under_review' ?
-                      <Clock className="w-4 h-4 text-blue-500" /> :
-                      <AlertCircle className="w-4 h-4 text-yellow-500" />
-                    }
-                    <div>
-                      <p className="text-sm font-medium">{doc.name}</p>
-                      {doc.file && <p className="text-xs text-gray-600">{doc.file}</p>}
-                    </div>
+              <div className="p-6">
+                <div className="text-center pb-6 border-b border-gray-200 mb-4">
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                    <span className="text-white text-2xl font-bold">MG</span>
                   </div>
-                  
-                  {doc.file ? (
-                    <Button size="sm" variant="outline">
-                      <Download className="w-4 h-4" />
-                    </Button>
-                  ) : (
-                    <Button size="sm">
-                      <Upload className="w-4 h-4" />
-                    </Button>
-                  )}
+                  <h3 className="font-bold text-lg text-gray-900">{candidate.name}</h3>
+                  <p className="text-sm text-gray-600">{candidate.volunteerType}</p>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+                
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <Mail className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-700">{candidate.email}</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <Phone className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-700">{candidate.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <Globe className="w-4 h-4 text-gray-400" />
+                    <span className="text-gray-700">{candidate.timezone}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        {/* Progreso y entrevistas */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Timeline simplificado */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Progreso del Proceso</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {processSteps.map((step, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      step.status === 'completed' ? 'bg-green-100 text-green-600' :
-                      step.status === 'current' ? 'bg-blue-100 text-blue-600' :
-                      'bg-gray-100 text-gray-600'
-                    }`}>
-                      {step.status === 'completed' ? 
-                        <CheckCircle2 className="w-4 h-4" /> :
-                        step.status === 'current' ?
-                        <Clock className="w-4 h-4" /> :
-                        <div className="w-2 h-2 rounded-full bg-gray-400" />
+            {/* Documentos */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
+                <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-green-600" />
+                  Documentos
+                </h3>
+              </div>
+              <div className="p-4 space-y-3">
+                {documents.map((doc, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 border-2 border-gray-200 rounded-lg hover:border-green-300 transition-colors">
+                    <div className="flex items-center gap-3">
+                      {doc.status === 'completed' ? 
+                        <CheckCircle className="w-5 h-5 text-green-500" /> :
+                        doc.status === 'under_review' ?
+                        <Clock className="w-5 h-5 text-blue-500" /> :
+                        <AlertCircle className="w-5 h-5 text-yellow-500" />
                       }
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">{doc.name}</p>
+                        {doc.file && <p className="text-xs text-gray-500">{doc.file}</p>}
+                      </div>
                     </div>
                     
-                    <div className="flex-1">
-                      <p className={`font-medium ${step.status === 'current' ? 'text-blue-600' : ''}`}>
-                        {step.title}
-                      </p>
-                      <p className="text-sm text-gray-600">{step.date}</p>
-                    </div>
+                    {doc.file ? (
+                      <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <Download className="w-4 h-4 text-gray-600" />
+                      </button>
+                    ) : (
+                      <button className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                        <Upload className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Entrevistas */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Entrevista RR.HH.</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    {candidate.hrInterviewDate ? (
-                      <CheckCircle2 className="w-4 h-4 text-green-500" />
-                    ) : (
-                      <Clock className="w-4 h-4 text-yellow-500" />
-                    )}
-                    <span className="text-sm">
-                      {candidate.hrInterviewDate ? 'Completada' : 'Pendiente'}
-                    </span>
-                  </div>
-                  
-                  <p className="text-sm text-gray-600">
-                    {getInterviewStatus(candidate.hrInterviewDate)}
-                  </p>
-                  
-                  <Button size="sm" className="w-full">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    {candidate.hrInterviewDate ? 'Ver Detalles' : 'Programar'}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Entrevista Técnica</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    {candidate.pmInterviewDate ? (
-                      <CheckCircle2 className="w-4 h-4 text-green-500" />
-                    ) : (
-                      <Clock className="w-4 h-4 text-yellow-500" />
-                    )}
-                    <span className="text-sm">
-                      {candidate.pmInterviewDate ? 'Programada' : 'Por programar'}
-                    </span>
-                  </div>
-                  
-                  <p className="text-sm text-gray-600">
-                    {getInterviewStatus(candidate.pmInterviewDate)}
-                  </p>
-                  
-                  {candidate.interviewAssigned && (
-                    <p className="text-xs text-gray-500">
-                      Entrevistador: {candidate.interviewAssigned}
-                    </p>
-                  )}
-                  
-                  <Button size="sm" className="w-full">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Programar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            </div>
           </div>
 
-          {/* Comunicaciones simplificadas */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageCircle className="w-5 h-5" />
-                Comunicaciones Recientes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <p className="text-sm font-medium">Confirmación de postulación</p>
-                  <p className="text-xs text-gray-600">15/09/2025 - Correo enviado</p>
-                </div>
-                
-                <div className="p-3 bg-green-50 rounded-lg">
-                  <p className="text-sm font-medium">CV aprobado</p>
-                  <p className="text-xs text-gray-600">16/09/2025 - Documento revisado</p>
-                </div>
-                
-                <div className="p-3 bg-yellow-50 rounded-lg">
-                  <p className="text-sm font-medium">Programación de entrevista</p>
-                  <p className="text-xs text-gray-600">17/09/2025 - Pendiente de respuesta</p>
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Timeline */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
+                <h3 className="font-bold text-gray-900">Progreso del Proceso</h3>
+              </div>
+              <div className="p-6">
+                <div className="space-y-6">
+                  {processSteps.map((step, index) => (
+                    <div key={index} className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        step.status === 'completed' ? 'bg-green-100 text-green-600' :
+                        step.status === 'current' ? 'bg-blue-100 text-blue-600' :
+                        'bg-gray-100 text-gray-400'
+                      }`}>
+                        {step.status === 'completed' ? 
+                          <CheckCircle className="w-5 h-5" /> :
+                          step.status === 'current' ?
+                          <Clock className="w-5 h-5" /> :
+                          <div className="w-3 h-3 rounded-full bg-gray-400" />
+                        }
+                      </div>
+                      
+                      <div className="flex-1">
+                        <p className={`font-semibold ${step.status === 'current' ? 'text-blue-600' : 'text-gray-900'}`}>
+                          {step.title}
+                        </p>
+                        <p className="text-sm text-gray-600">{step.date}</p>
+                      </div>
+
+                      {step.status === 'current' && (
+                        <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
+                          En Progreso
+                        </span>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-              
-              <Button className="w-full mt-4" variant="outline">
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Contactar Equipo
-              </Button>
-            </CardContent>
-          </Card>
+            </div>
+
+            {/* Entrevistas */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
+                  <h3 className="font-bold text-gray-900">Entrevista RR.HH.</h3>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      {candidate.hrInterviewDate ? (
+                        <CheckCircle className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Clock className="w-5 h-5 text-yellow-500" />
+                      )}
+                      <span className="text-sm font-semibold">
+                        {candidate.hrInterviewDate ? 'Completada' : 'Pendiente'}
+                      </span>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600">
+                      {getInterviewStatus(candidate.hrInterviewDate)}
+                    </p>
+                    
+                    <button className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      {candidate.hrInterviewDate ? 'Ver Detalles' : 'Programar'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
+                  <h3 className="font-bold text-gray-900">Entrevista Técnica</h3>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      {candidate.pmInterviewDate ? (
+                        <CheckCircle className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Clock className="w-5 h-5 text-yellow-500" />
+                      )}
+                      <span className="text-sm font-semibold">
+                        {candidate.pmInterviewDate ? 'Programada' : 'Por programar'}
+                      </span>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600">
+                      {getInterviewStatus(candidate.pmInterviewDate)}
+                    </p>
+                    
+                    {candidate.interviewAssigned && (
+                      <p className="text-xs text-gray-500 p-2 bg-gray-50 rounded">
+                        Entrevistador: <span className="font-semibold">{candidate.interviewAssigned}</span>
+                      </p>
+                    )}
+                    
+                    <button className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      Programar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Comunicaciones */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
+                <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5 text-green-600" />
+                  Comunicaciones Recientes
+                </h3>
+              </div>
+              <div className="p-6">
+                <div className="space-y-3 mb-4">
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-sm font-semibold text-gray-900">Confirmación de postulación</p>
+                    <p className="text-xs text-gray-600 mt-1">15/09/2025 - Correo enviado</p>
+                  </div>
+                  
+                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm font-semibold text-gray-900">CV aprobado</p>
+                    <p className="text-xs text-gray-600 mt-1">16/09/2025 - Documento revisado</p>
+                  </div>
+                  
+                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-sm font-semibold text-gray-900">Programación de entrevista</p>
+                    <p className="text-xs text-gray-600 mt-1">17/09/2025 - Pendiente de respuesta</p>
+                  </div>
+                </div>
+                
+                <button className="w-full px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 border-2 border-gray-200">
+                  <MessageCircle className="w-4 h-4" />
+                  Contactar Equipo
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
