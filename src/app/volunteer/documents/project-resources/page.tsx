@@ -674,7 +674,7 @@ export default function VolunteerProjectResourcesPage() {
   const [viewMode, setViewMode] = useState('minimalist');
   const [sortBy, setSortBy] = useState('lastAccessed');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [filters, setFilters] = useState({ search: '', showFavorites: false, tags: [] });
+  const [filters, setFilters] = useState<FilterState>({ search: '', showFavorites: false, tags: [] });
   const [showFilters, setShowFilters] = useState(false);
   const [showTabSettings, setShowTabSettings] = useState(false);
   const [visibleTabs, setVisibleTabs] = useState(['Tools', 'Branding', 'Security', 'Documentation', 'Analytics', 'UX/UI', 'Marketing']);
@@ -781,7 +781,7 @@ export default function VolunteerProjectResourcesPage() {
     
     const allTabs = [...tabs, ...customTabs];
     return allTabs.filter(tab => tab.id === 'All' || visibleTabs.includes(tab.id));
-  }, [visibleTabs, customCategories]);
+  }, [visibleTabs, customCategories, availableIcons]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">

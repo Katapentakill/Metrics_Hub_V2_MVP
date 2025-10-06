@@ -79,8 +79,8 @@ const mockProjectResources = [
     name: 'Manual de Herramientas del Proyecto',
     description: 'Guía de uso para las principales herramientas de software del equipo, incluyendo Jira y Figma.',
     link: 'https://docs.google.com/document/d/res1_tools',
-    type: 'doc',
-    category: 'Tools',
+    type: 'doc' as const,
+    category: 'Tools' as const,
     lastAccessed: new Date('2025-10-01T10:00:00'),
     isFavorite: true,
     accessCount: 45,
@@ -91,8 +91,8 @@ const mockProjectResources = [
     name: 'Guía de Estilo de la Marca',
     description: 'Lineamientos oficiales para el uso de la marca, colores y tipografía del proyecto Alpha.',
     link: 'https://docs.google.com/document/d/res2_styleguide',
-    type: 'pdf',
-    category: 'Branding',
+    type: 'pdf' as const,
+    category: 'Branding' as const,
     lastAccessed: new Date('2025-09-28T14:30:00'),
     isFavorite: false,
     accessCount: 88,
@@ -103,8 +103,8 @@ const mockProjectResources = [
     name: 'Procedimientos de Seguridad y Datos',
     description: 'Protocolos obligatorios para la gestión de datos sensibles.',
     link: 'https://docs.google.com/document/d/res3_security',
-    type: 'doc',
-    category: 'Security',
+    type: 'doc' as const,
+    category: 'Security' as const,
     lastAccessed: new Date('2025-10-03T09:15:00'),
     isFavorite: true,
     accessCount: 62,
@@ -115,8 +115,8 @@ const mockProjectResources = [
     name: 'Plan de Comunicación Semanal (Q4)',
     description: 'Hoja de cálculo para el seguimiento y planificación de comunicaciones.',
     link: 'https://docs.google.com/spreadsheets/d/res4_comms',
-    type: 'sheet',
-    category: 'Documentation',
+    type: 'sheet' as const,
+    category: 'Documentation' as const,
     lastAccessed: new Date('2025-10-03T11:45:00'),
     isFavorite: false,
     accessCount: 21,
@@ -127,8 +127,8 @@ const mockProjectResources = [
     name: 'Presentación de Avance del Proyecto',
     description: 'Presentación clave para la próxima reunión con los stakeholders.',
     link: 'https://docs.google.com/presentation/d/res5_status',
-    type: 'slide',
-    category: 'Documentation',
+    type: 'slide' as const,
+    category: 'Documentation' as const,
     lastAccessed: new Date('2025-09-20T16:00:00'),
     isFavorite: true,
     accessCount: 30,
@@ -139,8 +139,8 @@ const mockProjectResources = [
     name: 'Dashboard de Métricas del Proyecto',
     description: 'Panel analítico con KPIs principales y métricas de rendimiento del equipo.',
     link: 'https://docs.google.com/spreadsheets/d/res6_analytics',
-    type: 'sheet',
-    category: 'Analytics',
+    type: 'sheet' as const,
+    category: 'Analytics' as const,
     lastAccessed: new Date('2025-10-02T14:20:00'),
     isFavorite: true,
     accessCount: 72,
@@ -151,8 +151,8 @@ const mockProjectResources = [
     name: 'Wireframes y Prototipos UI',
     description: 'Diseños de interfaz y flujos de usuario para la nueva plataforma.',
     link: 'https://www.figma.com/file/ux-ui-wireframes',
-    type: 'other',
-    category: 'UX/UI',
+    type: 'other' as const,
+    category: 'UX/UI' as const,
     lastAccessed: new Date('2025-10-04T09:30:00'),
     isFavorite: false,
     accessCount: 56,
@@ -163,8 +163,8 @@ const mockProjectResources = [
     name: 'Estrategia de Marketing Q4 2025',
     description: 'Plan de marketing y campañas para el último trimestre del año.',
     link: 'https://docs.google.com/presentation/d/res8_marketing',
-    type: 'slide',
-    category: 'Marketing',
+    type: 'slide' as const,
+    category: 'Marketing' as const,
     lastAccessed: new Date('2025-09-30T16:45:00'),
     isFavorite: true,
     accessCount: 41,
@@ -175,8 +175,8 @@ const mockProjectResources = [
     name: 'Guía de Investigación de Usuarios',
     description: 'Metodologías y plantillas para realizar investigación UX efectiva.',
     link: 'https://docs.google.com/document/d/res9_ux_research',
-    type: 'doc',
-    category: 'UX/UI',
+    type: 'doc' as const,
+    category: 'UX/UI' as const,
     lastAccessed: new Date('2025-09-25T11:00:00'),
     isFavorite: false,
     accessCount: 38,
@@ -187,8 +187,8 @@ const mockProjectResources = [
     name: 'Reporte de Análisis de Datos Mensuales',
     description: 'Informe detallado con análisis de datos y tendencias del mes.',
     link: 'https://docs.google.com/document/d/res10_data_analysis',
-    type: 'pdf',
-    category: 'Analytics',
+    type: 'pdf' as const,
+    category: 'Analytics' as const,
     lastAccessed: new Date('2025-10-01T08:15:00'),
     isFavorite: false,
     accessCount: 52,
@@ -674,7 +674,7 @@ export default function VolunteerProjectResourcesPage() {
   const [viewMode, setViewMode] = useState('minimalist');
   const [sortBy, setSortBy] = useState('lastAccessed');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [filters, setFilters] = useState({ search: '', showFavorites: false, tags: [] });
+  const [filters, setFilters] = useState<FilterState>({ search: '', showFavorites: false, tags: [] });
   const [showFilters, setShowFilters] = useState(false);
   const [showTabSettings, setShowTabSettings] = useState(false);
   const [visibleTabs, setVisibleTabs] = useState(['Tools', 'Branding', 'Security', 'Documentation', 'Analytics', 'UX/UI', 'Marketing']);
@@ -781,7 +781,7 @@ export default function VolunteerProjectResourcesPage() {
     
     const allTabs = [...tabs, ...customTabs];
     return allTabs.filter(tab => tab.id === 'All' || visibleTabs.includes(tab.id));
-  }, [visibleTabs, customCategories]);
+  }, [visibleTabs, customCategories, availableIcons]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">

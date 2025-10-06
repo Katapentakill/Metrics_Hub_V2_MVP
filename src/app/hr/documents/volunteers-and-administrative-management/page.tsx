@@ -127,7 +127,12 @@ const getFileIcon = (type: string) => {
   }
 };
 
-const StatsCard = ({ icon: Icon, label, value, trend }: any) => (
+const StatsCard = ({ icon: Icon, label, value, trend }: { 
+  icon: React.ComponentType<{ className?: string }>; 
+  label: string; 
+  value: string | number; 
+  trend?: string; 
+}) => (
   <div className="group relative bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:shadow-xl hover:border-blue-200 transition-all duration-300">
     <div className="flex items-center justify-between mb-3">
       <div className="p-2.5 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100">
@@ -145,7 +150,12 @@ const StatsCard = ({ icon: Icon, label, value, trend }: any) => (
   </div>
 );
 
-const DocumentCard = ({ doc, onToggleFavorite, onEdit, onDelete }: any) => (
+const DocumentCard = ({ doc, onToggleFavorite, onEdit, onDelete }: {
+  doc: Document;
+  onToggleFavorite: (id: string) => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+}) => (
   <div className="group bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-2xl transition-all duration-300 overflow-hidden">
     <div className="relative p-5 border-b border-gray-100">
       <div className="flex items-start justify-between">

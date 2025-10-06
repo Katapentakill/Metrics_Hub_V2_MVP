@@ -193,7 +193,7 @@ export default function AdminJobOpeningsPage() {
   const [openActionMenuId, setOpenActionMenuId] = useState<number | null>(null);
 
 
-  const tabs: Array<{ id: TabId; label: string; icon: any; count: number; color: string }> = [
+  const tabs: Array<{ id: TabId; label: string; icon: React.ComponentType<{ className?: string }>; count: number; color: string }> = [
     {
       id: 'requested',
       label: 'Vacantes Solicitadas',
@@ -305,7 +305,7 @@ export default function AdminJobOpeningsPage() {
   };
   
   const filteredAndSortedPublishedJobs = useMemo(() => {
-    let filteredList = publishedJobsList.filter(job => {
+    const filteredList = publishedJobsList.filter(job => {
       if (publishedFilterStatus !== 'all' && job.status !== publishedFilterStatus) return false;
       if (publishedFilterDepartment !== 'all' && job.department !== publishedFilterDepartment) return false;
       

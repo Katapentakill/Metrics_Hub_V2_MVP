@@ -34,8 +34,8 @@ export default function RecruitmentTracker() {
     volunteerType: 'all',
   });
 
-  const permissions = ROLE_PERMISSIONS.lead_project;
-  const config = TABLE_CONFIG.lead_project;
+  const permissions = ROLE_PERMISSIONS.lead;
+  const config = TABLE_CONFIG.lead;
 
   const handleDelete = (id: string) => {
     setCandidates((prev) => prev.filter((c) => c.id !== id));
@@ -43,7 +43,7 @@ export default function RecruitmentTracker() {
   };
 
   // The admin has full CRUD, so the update function is necessary.
-  const handleUpdate = (candidateId: string, field: keyof MockCandidate, value: any) => {
+  const handleUpdate = (candidateId: string, field: keyof MockCandidate, value: string | number | boolean) => {
     setCandidates(prev =>
       prev.map(c => {
         if (c.id === candidateId) {
