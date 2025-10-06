@@ -4,17 +4,19 @@ import { faker } from '@faker-js/faker';
 export type CandidateStatus =
   | 'Application Received'
   | 'Application Accepted'
-  | 'Accepted by HR'
-  | 'Rejected by HR'
-  | 'Accepted by PM'
-  | 'Rejected by PM'
-  | 'Rejected by Candidate'
-  | 'Accepted by Candidate'
-  | 'Onboard'
   | 'HR Review'
-  | 'Interview Scheduled'
-  | 'Interview Completed'
-  | 'Offer Sent';
+  | 'HR Interview Scheduled'
+  | 'HR Interview Completed'
+  | 'Accepted by HR'
+  | 'PM Interview Scheduled'
+  | 'PM Interview Completed'
+  | 'Accepted by PM'
+  | 'Accepted by Candidate'
+  | 'Offer Sent'
+  | 'Onboard'
+  | 'Rejected by HR'
+  | 'Rejected by PM'
+  | 'Rejected by Candidate';
 
 export type ToDoTask =
   | 'HR Review'
@@ -118,8 +120,10 @@ export const getMockRecruitmentData = (count: number = 20): MockCandidate[] => {
     'Accepted by Candidate',
     'Onboard',
     'HR Review',
-    'Interview Scheduled',
-    'Interview Completed',
+    'HR Interview Scheduled',
+    'HR Interview Completed',
+    'PM Interview Scheduled',
+    'PM Interview Completed',
     'Offer Sent',
   ];
 

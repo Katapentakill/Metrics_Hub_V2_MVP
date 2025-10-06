@@ -171,14 +171,14 @@ export const DEFAULT_TEXTS = {
   noData: {
     admin: 'No candidates in the system.',
     hr: 'No candidates in the onboarding tracker.',
-    lead_project: 'No candidates assigned to your projects.',
+    lead: 'No candidates assigned to your projects.',
     volunteer: 'Your application is not found.',
     unassigned: 'Access not permitted.',
   },
   pageTitle: {
     admin: 'Recruitment Overview (Admin)',
     hr: 'Recruitment Tracker (HR)',
-    lead_project: 'Onboarding Dashboard (Project Lead)',
+    lead: 'Onboarding Dashboard (Project Lead)',
     volunteer: 'My Application Status',
     unassigned: 'No Access',
   },

@@ -28,6 +28,7 @@ const documentTypes = [
 const getFileIcon = (fileName: string) => {
   const ext = fileName.split('.').pop()?.toLowerCase();
   if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext || '')) {
+    // eslint-disable-next-line jsx-a11y/alt-text
     return <Image className="w-5 h-5 text-purple-500" />;
   }
   if (ext === 'pdf') {

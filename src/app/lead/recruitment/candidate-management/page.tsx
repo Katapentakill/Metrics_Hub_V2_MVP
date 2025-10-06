@@ -99,7 +99,7 @@ export default function RecruitmentTracker() {
     return (
       <div className="flex justify-center items-center h-64">
         <p className="text-xl text-slate-500">
-          {DEFAULT_TEXTS.noData.lead_project}
+          {DEFAULT_TEXTS.noData.lead}
         </p>
       </div>
     );

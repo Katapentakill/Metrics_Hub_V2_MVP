@@ -17,7 +17,7 @@ const emptyMessages = {
     title: 'No candidates in pipeline',
     description: 'Start by adding new candidates to begin the recruitment process.',
   },
-  lead_project: {
+  lead: {
     title: 'No candidates assigned',
     description: 'No candidates have been assigned to your projects yet.',
   },

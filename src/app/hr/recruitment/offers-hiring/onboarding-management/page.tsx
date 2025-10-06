@@ -103,11 +103,11 @@ const Card: React.FC<{ className?: string; children: React.ReactNode }> = ({ cla
     {children}
   </div>
 );
-const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pb-2">{children}</div>;
+const CardHeader: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => <div className={`p-5 pb-2 ${className || ''}`}>{children}</div>;
 const CardTitle: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
   <h3 className={`text-xl font-bold text-gray-900 ${className}`}>{children}</h3>
 );
-const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pt-0">{children}</div>;
+const CardContent: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => <div className={`p-5 pt-0 ${className || ''}`}>{children}</div>;
 
 
 // --- Types and Mock Data ---

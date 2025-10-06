@@ -761,16 +761,16 @@ export default function VolunteerProjectResourcesPage() {
 
   const isFilterActive = filters.search || filters.showFavorites || filters.tags.length > 0;
 
-  const availableIcons = [
-    { name: 'Briefcase', component: Briefcase },
-    { name: 'FileText', component: FileText },
-    { name: 'Star', component: Star },
-    { name: 'TrendingUp', component: TrendingUp },
-    { name: 'Image', component: Image },
-    { name: 'Files', component: Files }
-  ];
-
   const visibleTabsList = useMemo(() => {
+    const availableIcons = [
+      { name: 'Briefcase', component: Briefcase },
+      { name: 'FileText', component: FileText },
+      { name: 'Star', component: Star },
+      { name: 'TrendingUp', component: TrendingUp },
+      { name: 'Image', component: Image },
+      { name: 'Files', component: Files }
+    ];
+
     const customTabs = customCategories.map(cat => ({
       id: cat.id,
       label: cat.label,
@@ -781,7 +781,7 @@ export default function VolunteerProjectResourcesPage() {
     
     const allTabs = [...tabs, ...customTabs];
     return allTabs.filter(tab => tab.id === 'All' || visibleTabs.includes(tab.id));
-  }, [visibleTabs, customCategories, availableIcons]);
+  }, [visibleTabs, customCategories]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
