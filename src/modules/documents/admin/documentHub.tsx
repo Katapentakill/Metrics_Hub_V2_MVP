@@ -75,7 +75,7 @@ const sections: SectionConfig[] = [
   },
   {
     title: 'Volunteer Submissions',
-    description: 'Documentos personales, certificaciones y materiales enviados por voluntarios.',
+    description: 'Documentos personales, certificaciones y materiales enviados por voluntarios, CPT/OPT.',
     href: '/admin/documents/volunteer-submissions',
     icon: Users,
     gradient: 'from-purple-500 to-purple-600',

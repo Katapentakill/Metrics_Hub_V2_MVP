@@ -65,9 +65,9 @@ const sections: SectionConfig[] = [
     stats: { label: 'Documents', value: 120, subValue: '+10 this week' },
   },
   {
-    title: 'Volunteers and Administrative Management',
-    description: 'Documentos para gestionar la relación y las tareas administrativas de los voluntarios actuales.',
-    href: '/hr/documents/volunteers-and-administrative-management',
+    title: 'Volunteer Submissions for Approval',
+    description: 'Documentos personales, certificaciones y materiales enviados por voluntarios, CPT/OPT',
+    href: '/hr/documents/volunteer-submissions',
     icon: Shield,
     gradient: 'from-green-500 to-green-600',
     bgHover: 'hover:bg-green-50',
