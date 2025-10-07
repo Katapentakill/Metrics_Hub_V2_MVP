@@ -1,4 +1,4 @@
-// src/app/lead/recruitment/candidate-management/RecruitmentTracker/page.tsx
+// src/app/lead/recruitment/candidate-management/page.tsx
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -17,35 +17,44 @@ import {
   AVAILABLE_ROLES,
   VOLUNTEER_TYPES,
 } from '@/modules/recruitment/shared/constants';
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline';
+import { 
+  BarChart, 
+  Users, 
+  Clock, 
+  CheckCircle, 
+  AlertTriangle,
+  Download,
+  RefreshCw,
+  Plus,
+  Search
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import AdminPageLayout from '@/modules/recruitment/hr/components/AdminPageLayout';
+import AdminDashboardStats from '@/modules/recruitment/hr/components/AdminDashboardStats';
 import { CandidateRow } from '@/modules/recruitment/shared/CandidateRow';
 
-const initialMockData = getMockRecruitmentData(25);
-const mockLeadTeam = 'Vitalink'; // Simula el equipo del líder
+// FILTRO PRINCIPAL: Solo candidatos del team Vitalink
+const TEAM_FILTER = 'Vitalink';
 
-export default function RecruitmentTracker() {
+const initialMockData = getMockRecruitmentData(30).filter(
+  candidate => candidate.team === TEAM_FILTER
+);
+
+export default function LeadRecruitmentTrackerPage() {
+  const [candidates, setCandidates] = useState<MockCandidate[]>(initialMockData);
   const [filters, setFilters] = useState({
     search: '',
     status: 'all',
     role: 'all',
     volunteerType: 'all',
   });
-  
+
+  // Lead permissions - limited to their team
   const permissions = ROLE_PERMISSIONS.lead;
   const config = TABLE_CONFIG.lead;
-  
-  // Filtra los datos iniciales por el equipo del líder
-  const myTeamCandidates = useMemo(() => {
-    return initialMockData.filter(candidate => candidate.team === mockLeadTeam);
-  }, []);
-
-  const [candidates, setCandidates] = useState<MockCandidate[]>(myTeamCandidates);
 
   const handleDelete = (id: string) => {
-    // La lógica de eliminación permanece, aunque el líder no tiene permiso para borrar
     setCandidates((prev) => prev.filter((c) => c.id !== id));
     console.log(`Candidate with ID ${id} deleted.`);
   };
@@ -55,6 +64,7 @@ export default function RecruitmentTracker() {
       prev.map(c => {
         if (c.id === candidateId) {
           const updatedCandidate = { ...c, [field]: value };
+          // Auto-set CPT/OPT status for Regular volunteers
           if (field === 'volunteerType' && value === 'Regular') {
             updatedCandidate.cptOptStatus = 'No Required';
           }
@@ -71,7 +81,7 @@ export default function RecruitmentTracker() {
   };
 
   const filteredCandidates = useMemo(() => {
-    let result = myTeamCandidates;
+    let result = candidates;
 
     if (filters.search) {
       result = result.filter(c =>
@@ -93,104 +103,248 @@ export default function RecruitmentTracker() {
     }
 
     return result;
-  }, [myTeamCandidates, filters]);
+  }, [candidates, filters]);
+
+  // Calculate statistics for dashboard (only Vitalink candidates)
+  const trackerStats = [
+    {
+      title: 'Total Candidatos Vitalink',
+      value: candidates.length,
+      change: { value: 15, type: 'increase' as const, period: 'mes anterior' },
+      icon: Users,
+      color: 'text-blue-600',
+    },
+    {
+      title: 'En Proceso',
+      value: candidates.filter(c => ['HR Review', 'HR Interview Scheduled', 'HR Interview Completed', 'PM Interview Scheduled', 'PM Interview Completed'].includes(c.applicationStatus)).length,
+      change: { value: 8, type: 'increase' as const, period: 'semana anterior' },
+      icon: Clock,
+      color: 'text-orange-600',
+    },
+    {
+      title: 'Aprobados',
+      value: candidates.filter(c => ['Accepted by HR', 'Accepted by PM', 'Accepted by Candidate', 'Onboard'].includes(c.applicationStatus)).length,
+      change: { value: 25, type: 'increase' as const, period: 'mes anterior' },
+      icon: CheckCircle,
+      color: 'text-green-600',
+    },
+    {
+      title: 'Requieren Atención',
+      value: candidates.filter(c => ['Application Received', 'Offer Sent'].includes(c.applicationStatus)).length,
+      change: { value: -10, type: 'decrease' as const, period: 'semana anterior' },
+      icon: AlertTriangle,
+      color: 'text-red-600',
+    },
+  ];
+
+  const handleRefresh = () => {
+    console.log('Refreshing Vitalink tracker data...');
+    // Implement refresh logic
+  };
+
+  const handleExport = () => {
+    console.log('Exporting Vitalink tracker data...');
+    // Implement export logic
+  };
+
+  const headerActions = (
+    <>
+      <Button variant="outline" onClick={handleRefresh}>
+        <RefreshCw className="mr-2 h-4 w-4" />
+        Actualizar
+      </Button>
+      <Button variant="outline" onClick={handleExport}>
+        <Download className="mr-2 h-4 w-4" />
+        Exportar
+      </Button>
+      <Button size="lg" className="shadow-lg">
+        <Plus className="mr-2 h-5 w-5" />
+        Agregar Candidato
+      </Button>
+    </>
+  );
 
   if (candidates.length === 0) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-xl text-slate-500">
-          {DEFAULT_TEXTS.noData.lead}
-        </p>
-      </div>
+      <AdminPageLayout
+        title="Seguimiento de Candidatos - Vitalink"
+        subtitle="Panel de Lead Project"
+        description="Visualiza y gestiona el progreso de los candidatos del equipo Vitalink."
+        icon={BarChart}
+        iconGradient="bg-gradient-to-br from-indigo-500 to-purple-600"
+        breadcrumbItems={[
+          { label: 'Recruitment', href: '/lead/recruitment' },
+          { label: 'Candidate Management', href: '/lead/recruitment/candidate-management' },
+          { label: 'Vitalink Team' }
+        ]}
+        headerActions={headerActions}
+      >
+        <div className="flex justify-center items-center h-64">
+          <div className="text-center">
+            <p className="text-xl text-slate-500 mb-2">
+              No hay candidatos del equipo Vitalink en este momento
+            </p>
+            <p className="text-sm text-slate-400">
+              Los candidatos asignados a Vitalink aparecerán aquí
+            </p>
+          </div>
+        </div>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Seguimiento de Candidatos de mi Equipo</h1>
-      <p className="text-gray-600 mb-10">
-        Este panel te permite visualizar el progreso de los candidatos de tu equipo y gestionar el flujo de reclutamiento de forma centralizada.
-      </p>
-      
+    <AdminPageLayout
+      title="Seguimiento de Candidatos - Vitalink"
+      subtitle="Panel de Lead Project"
+      description="Visualiza y gestiona el progreso de los candidatos del equipo Vitalink. Monitorea estados y realiza seguimiento del proceso de reclutamiento."
+      icon={BarChart}
+      iconGradient="bg-gradient-to-br from-indigo-500 to-purple-600"
+      breadcrumbItems={[
+        { label: 'Recruitment', href: '/lead/recruitment' },
+        { label: 'Candidate Management', href: '/lead/recruitment/candidate-management' },
+        { label: 'Vitalink Team' }
+      ]}
+      headerActions={headerActions}
+    >
+      {/* Team Indicator Badge */}
+      <div className="mb-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-4 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold">Equipo Vitalink</h3>
+            <p className="text-sm text-indigo-100">
+              Mostrando solo candidatos asignados a tu equipo
+            </p>
+          </div>
+          <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-md">
+            <span className="text-2xl font-bold">{candidates.length}</span>
+            <span className="text-sm ml-2">candidatos</span>
+          </div>
+        </div>
+      </div>
+
+      <AdminDashboardStats stats={trackerStats} />
+
+      {/* Filters Section */}
       {config.showFilters && (
-        <div className="flex flex-wrap gap-4 mb-6 items-center">
-          <div className="relative flex-grow min-w-[200px]">
-            <label htmlFor="search" className="sr-only">Search</label>
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <MagnifyingGlassIcon className="h-5 w-5 text-slate-400" />
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Filtros de Búsqueda</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Search Field */}
+            <div className="relative">
+              <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                Buscar Candidato
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  type="text"
+                  name="search"
+                  id="search"
+                  placeholder={DEFAULT_TEXTS.searchPlaceholder}
+                  onChange={handleFilterChange}
+                  className="pl-10"
+                />
+              </div>
             </div>
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder={DEFAULT_TEXTS.searchPlaceholder}
-              onChange={handleFilterChange}
-              className="block w-full rounded-md border-slate-300 bg-white pl-10 py-2 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            />
-          </div>
 
-          <div className="min-w-[150px]">
-            <label htmlFor="status" className="sr-only">Status</label>
-            <select
-              name="status"
-              id="status"
-              onChange={handleFilterChange}
-              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
-            >
-              <option value="all">All Statuses</option>
-              {CANDIDATE_STATUSES.map(s => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
+            {/* Status Filter */}
+            <div>
+              <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                Estado
+              </label>
+              <select
+                name="status"
+                id="status"
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+              >
+                <option value="all">Todos los Estados</option>
+                {CANDIDATE_STATUSES.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
 
-          <div className="min-w-[150px]">
-            <label htmlFor="role" className="sr-only">Role</label>
-            <select
-              name="role"
-              id="role"
-              onChange={handleFilterChange}
-              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
-            >
-              <option value="all">All Roles</option>
-              {AVAILABLE_ROLES.map(r => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-          </div>
+            {/* Role Filter */}
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                Rol
+              </label>
+              <select
+                name="role"
+                id="role"
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+              >
+                <option value="all">Todos los Roles</option>
+                {AVAILABLE_ROLES.map(r => (
+                  <option key={r} value={r}>{r}</option>
+                ))}
+              </select>
+            </div>
 
-          <div className="min-w-[150px]">
-            <label htmlFor="volunteerType" className="sr-only">Volunteer Type</label>
-            <select
-              name="volunteerType"
-              id="volunteerType"
-              onChange={handleFilterChange}
-              className="rounded-md border-slate-300 bg-white py-2 pl-3 pr-10 text-sm text-slate-700 focus:border-indigo-500 focus:ring-indigo-500"
-            >
-              <option value="all">All Types</option>
-              {VOLUNTEER_TYPES.map(vt => (
-                <option key={vt} value={vt}>{vt}</option>
-              ))}
-            </select>
+            {/* Volunteer Type Filter */}
+            <div>
+              <label htmlFor="volunteerType" className="block text-sm font-medium text-gray-700 mb-2">
+                Tipo de Voluntario
+              </label>
+              <select
+                name="volunteerType"
+                id="volunteerType"
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+              >
+                <option value="all">Todos los Tipos</option>
+                {VOLUNTEER_TYPES.map(vt => (
+                  <option key={vt} value={vt}>{vt}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
+          {/* Results Summary */}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <p className="text-sm text-gray-600">
+              Mostrando <span className="font-medium">{filteredCandidates.length}</span> de <span className="font-medium">{candidates.length}</span> candidatos de Vitalink
+            </p>
           </div>
         </div>
       )}
 
+      {/* Candidates Table */}
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">Lista de Candidatos - Vitalink</h3>
+          <p className="text-sm text-gray-600 mt-1">
+            Gestiona el estado y progreso de cada candidato de tu equipo
+          </p>
+        </div>
+        
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-200">
-            <thead className="bg-slate-50">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Candidato
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Estado
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Rol Aplicado
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Tipo
+                </th>
                 {config.showActions && (
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
                 )}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-slate-200">
+            <tbody className="bg-white divide-y divide-gray-200">
               {filteredCandidates.map((candidate) => (
                 <CandidateRow
                   key={candidate.id}
@@ -206,6 +360,8 @@ export default function RecruitmentTracker() {
           </table>
         </div>
       </div>
-    </div>
+
+      
+    </AdminPageLayout>
   );
 }
