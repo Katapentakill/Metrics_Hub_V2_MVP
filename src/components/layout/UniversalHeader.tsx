@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -593,7 +594,10 @@ export default function UniversalHeader({
                 {/* APLICACIÓN DEL COLOR DEL AVATAR BASADO EN EL ROL */}
                 <div className={`w-8 h-8 bg-gradient-to-br ${avatarGradientClass} rounded-full flex items-center justify-center flex-shrink-0`}>
                   {session?.avatar ? (
-                    <img src={session.avatar} alt={session.name} className="w-8 h-8 rounded-full object-cover" />
+                    <>
+                      {console.log('session.avatar:', session.avatar)}
+                      <Image src={session.avatar} alt={session.name} width={32} height={32} className="rounded-full object-cover" />
+                    </>
                   ) : (
                     <User className="w-4 h-4 text-white" />
                   )}

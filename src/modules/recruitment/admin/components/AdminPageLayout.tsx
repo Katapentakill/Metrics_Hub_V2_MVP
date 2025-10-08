@@ -15,6 +15,7 @@ interface AdminPageLayoutProps {
   breadcrumbItems: BreadcrumbItem[];
   children: React.ReactNode;
   headerActions?: React.ReactNode;
+  iconGradient?: string;
 }
 
 export default function AdminPageLayout({

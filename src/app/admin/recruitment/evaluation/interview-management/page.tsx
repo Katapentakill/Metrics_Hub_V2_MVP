@@ -91,13 +91,14 @@ const getTypeIcon = (type: string) => {
 };
 
 export default function InterviewManagementPage() {
+  console.log('iconGradient:', "bg-gradient-to-br from-green-500 to-blue-600");
   return (
     <AdminPageLayout
       title="Gestión de Entrevistas"
       subtitle="Panel de Control"
       description="Supervisa y coordina todas las entrevistas programadas por el equipo. Gestiona horarios, confirma asistencias y mantén un seguimiento completo del proceso de evaluación."
       icon={CalendarCheck}
-      iconGradient="bg-gradient-to-br from-green-500 to-blue-600"
+      iconGradient= "bg-gradient-to-br from-green-500 to-blue-600"
       breadcrumbItems={[
         { label: 'Recruitment', href: '/admin/recruitment' },
         { label: 'Evaluación', href: '/admin/recruitment/evaluation' },

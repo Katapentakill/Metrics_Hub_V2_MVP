@@ -165,7 +165,6 @@ export default function AdminRecruitmentTrackerPage() {
         subtitle="Panel de Administración"
         description="Visualiza y gestiona el progreso detallado de todos los candidatos en el sistema de reclutamiento."
         icon={BarChart}
-        iconGradient="bg-gradient-to-br from-teal-500 to-teal-600"
         breadcrumbItems={[
           { label: 'Recruitment', href: '/admin/recruitment' },
           { label: 'Candidate Management', href: '/admin/recruitment/candidate-management' },
@@ -188,7 +187,6 @@ export default function AdminRecruitmentTrackerPage() {
       subtitle="Panel de Administración"
       description="Visualiza y gestiona el progreso detallado de todos los candidatos. Edita estados, actualiza información y realiza seguimiento paso a paso del proceso de reclutamiento."
       icon={BarChart}
-      iconGradient="bg-gradient-to-br from-teal-500 to-teal-600"
       breadcrumbItems={[
         { label: 'Recruitment', href: '/admin/recruitment' },
         { label: 'Candidate Management', href: '/admin/recruitment/candidate-management' },

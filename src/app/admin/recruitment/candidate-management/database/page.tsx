@@ -224,7 +224,6 @@ export default function AdminCandidateDatabasePage() {
       subtitle="Panel de Administración"
       description="Accede a un repositorio completo con todos los perfiles de candidatos en la historia de la organización. Busca, filtra y gestiona información detallada de cada candidato."
       icon={Search}
-      iconGradient="bg-gradient-to-br from-emerald-500 to-emerald-600"
       breadcrumbItems={[
         { label: 'Recruitment', href: '/admin/recruitment' },
         { label: 'Candidate Management', href: '/admin/recruitment/candidate-management' },
