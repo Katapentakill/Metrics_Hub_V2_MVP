@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation'; // Original failing import
+import { useRouter, usePathname } from 'next/navigation'; 
 
 
 import { 
@@ -42,10 +42,12 @@ interface SessionData {
   avatar?: string;
 }
 
+// MODIFICACIÓN: Agregar 'submenu' opcional
 interface NavigationItem {
   href: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
+  submenu?: NavigationItem[]; 
 }
 
 interface Notification {
@@ -66,6 +68,98 @@ interface RoleConfig {
   notifications: Notification[];
 }
 
+// **CONFIGURACIÓN DE SUBMENÚS DE DOCUMENTOS**
+const DOCUMENT_SUBMENUS: Record<Exclude<UserRole, 'volunteer'>, NavigationItem[]> & { volunteer: NavigationItem[] } = {
+    admin: [
+        { href: '/admin/documents/company-library', label: 'Company Library', icon: FolderOpen },
+        { href: '/admin/documents/policies-guides', label: 'Policies & Guides', icon: FileText },
+        { href: '/admin/documents/volunteer-submissions', label: 'Volunteer Submissions', icon: UserPlus },
+        { href: '/admin/documents/management', label: 'Document Management', icon: Settings },
+    ],
+    hr: [
+        { href: '/hr/documents/hiring-and-onboarding', label: 'Hiring and Onboarding', icon: UserPlus },
+        { href: '/hr/documents/volunteer-submissions', label: 'Volunteer Submissions for Approval', icon: UserCheck },
+        { href: '/hr/documents/volunteer-documents', label: 'Volunteer Documents', icon: FileText },
+        { href: '/hr/documents/policies-guides', label: 'Policies & Guides', icon: FileText },
+        { href: '/hr/documents/volunteer-termination', label: 'Volunteer Termination', icon: X },
+        { href: '/hr/documents/company-library', label: 'Company Library', icon: FolderOpen },
+    ],
+    lead: [
+        { href: '/lead/documents/candidate-files', label: 'Documentos de Candidatos', icon: User },
+        { href: '/lead/documents/project-resources', label: 'Guías y Recursos del Proyecto', icon: FolderOpen },
+        { href: '/lead/documents/team-library', label: 'Biblioteca del Equipo', icon: FolderOpen },
+    ],
+    volunteer: [
+        { href: '/volunteer/documents/my-application-files', label: 'Mis Documentos de Postulación', icon: UserCheck },
+        { href: '/volunteer/documents/signed-documents', label: 'Documentos Firmados', icon: FileText },
+        { href: '/volunteer/documents/project-resources', label: 'Guías y Recursos del Proyecto', icon: FolderOpen },
+        { href: '/volunteer/documents/upload', label: 'Subir Nuevos Documentos', icon: UserPlus },
+    ]
+};
+
+// **NUEVA CONFIGURACIÓN DE SUBMENÚS DE RECLUTAMIENTO**
+const RECRUITMENT_SUBMENUS: Record<Exclude<UserRole, 'volunteer'>, NavigationItem[]> = {
+    admin: [
+        { href: '/admin/recruitment/job-openings', label: 'Gestión de Vacantes', icon: FolderOpen },
+        { href: '/admin/recruitment/candidate-management', label: 'Gestión de Candidatos', icon: Users },
+        { href: '/admin/recruitment/evaluation', label: 'Evaluación y Selección', icon: Award },
+        { href: '/admin/recruitment/offers-hiring', label: 'Ofertas y Contratación', icon: UserCheck },
+        { href: '/admin/recruitment/analytics', label: 'Reportes y Analíticas', icon: BarChart3 },
+        { href: '/admin/recruitment/audits', label: 'Auditoría y Seguridad', icon: Shield },
+    ],
+    hr: [
+        { href: '/hr/recruitment/job-openings', label: 'Gestión de Vacantes', icon: FolderOpen },
+        { href: '/hr/recruitment/candidate-management', label: 'Gestión de Candidatos', icon: Users },
+        { href: '/hr/recruitment/evaluation', label: 'Evaluación y Selección', icon: Award },
+        { href: '/hr/recruitment/offers-hiring', label: 'Ofertas y Contratación', icon: UserCheck },
+        { href: '/hr/recruitment/analytics', label: 'Reportes y Analíticas', icon: BarChart3 },
+    ],
+    lead: [
+        { href: '/lead/recruitment/job-openings', label: 'Mis Vacantes', icon: FolderOpen },
+        { href: '/lead/recruitment/candidate-management', label: 'Mis Candidatos', icon: Users },
+    ],
+};
+
+
+const getRoleNavigation = (role: UserRole): NavigationItem[] => {
+    const baseNav: NavigationItem[] = [
+      { href: `/${role}/dashboard`, label: 'Dashboard', icon: BarChart3 },
+      // Modificado para usar el label específico de cada rol
+      { 
+        href: `/${role}/users`, 
+        label: role === 'admin' ? 'Usuarios' : role === 'hr' ? 'Voluntarios' : 'Mi Equipo', 
+        icon: Users 
+      }, 
+      { href: `/${role}/projects`, label: 'Proyectos', icon: FolderOpen },
+      { href: `/${role}/communications`, label: 'Comunicaciones', icon: MessageSquare },
+      { 
+        href: `/${role}/documents`, 
+        label: 'Documentos', 
+        icon: FileText,
+        submenu: DOCUMENT_SUBMENUS[role] // INYECCIÓN DEL SUBMENÚ DE DOCUMENTOS
+      },
+      { 
+        href: `/${role}/evaluations`, 
+        label: role === 'volunteer' ? 'Mi Rendimiento' : 'Evaluaciones', 
+        icon: Award 
+      }, 
+      { 
+        href: `/${role}/recruitment`, 
+        label: role === 'volunteer' ? 'Mi Proceso' : 'Reclutamiento', 
+        icon: UserPlus,
+        // INYECCIÓN CONDICIONAL DEL SUBMENÚ DE RECLUTAMIENTO
+        submenu: role !== 'volunteer' ? RECRUITMENT_SUBMENUS[role as Exclude<UserRole, 'volunteer'>] : undefined
+      },
+    ];
+
+    // Para el voluntario, el enlace de usuarios/equipo no existe en su navegación base
+    if (role === 'volunteer') {
+        return baseNav.filter(item => item.label !== 'Mi Equipo' && item.href !== '/volunteer/users'); 
+    }
+    return baseNav;
+}
+
+
 const roleConfigs: Record<UserRole, RoleConfig> = {
   admin: {
     icon: Shield,
@@ -74,15 +168,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
     title: 'Living Stones',
     subtitle: 'Panel de Administración',
     searchPlaceholder: 'Buscar usuarios, proyectos...',
-    navigation: [
-      { href: '/admin/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/admin/users', label: 'Usuarios', icon: Users }, // Admin usa 'Usuarios'
-      { href: '/admin/projects', label: 'Proyectos', icon: FolderOpen },
-      { href: '/admin/communications', label: 'Comunicaciones', icon: MessageSquare },
-      { href: '/admin/documents', label: 'Documentos', icon: FileText },
-      { href: '/admin/evaluations', label: 'Evaluaciones', icon: Award }, 
-      { href: '/admin/recruitment', label: 'Reclutamiento', icon: UserPlus },
-    ],
+    navigation: getRoleNavigation('admin'),
     notifications: [
       { type: 'blue', title: 'Nuevo usuario registrado', description: 'María González se registró como voluntaria' },
       { type: 'yellow', title: 'Proyecto requiere atención', description: 'EcoVerde tiene tareas bloqueadas' },
@@ -96,15 +182,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
     title: 'Living Stones',
     subtitle: 'Recursos Humanos',
     searchPlaceholder: 'Buscar voluntarios, evaluaciones...',
-    navigation: [
-      { href: '/hr/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/hr/users', label: 'Voluntarios', icon: Users }, // CAMBIO: HR usa 'Voluntarios'
-      { href: '/hr/projects', label: 'Proyectos', icon: FolderOpen },
-      { href: '/hr/communications', label: 'Comunicaciones', icon: MessageSquare },
-      { href: '/hr/documents', label: 'Documentos', icon: FileText },
-      { href: '/hr/evaluations', label: 'Evaluaciones', icon: Award }, 
-      { href: '/hr/recruitment', label: 'Reclutamiento', icon: UserPlus },
-    ],
+    navigation: getRoleNavigation('hr'),
     notifications: [
       { type: 'blue', title: 'Nueva solicitud de voluntario', description: 'Ana López completó su aplicación' },
       { type: 'yellow', title: 'Evaluación vencida', description: '12 evaluaciones de Q4 pendientes' },
@@ -118,15 +196,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
     title: 'Living Stones',
     subtitle: 'Líder de Proyecto',
     searchPlaceholder: 'Buscar proyectos, tareas...',
-    navigation: [
-      { href: '/lead/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/lead/users', label: 'Mi Equipo', icon: Users }, // CAMBIO: Lead usa 'Mi Equipo'
-      { href: '/lead/projects', label: 'Proyectos', icon: FolderOpen },
-      { href: '/lead/communications', label: 'Comunicaciones', icon: MessageSquare },
-      { href: '/lead/documents', label: 'Documentos', icon: FileText },
-      { href: '/lead/evaluations', label: 'Evaluaciones', icon: Award }, 
-      { href: '/lead/recruitment', label: 'Reclutamiento', icon: UserPlus },
-    ],
+    navigation: getRoleNavigation('lead'),
     notifications: [
       { type: 'blue', title: 'Nueva tarea asignada', description: 'Revisión de presupuesto Q4' },
       { type: 'yellow', title: 'Milestone próximo', description: 'Entrega proyecto EcoVerde mañana' },
@@ -140,14 +210,7 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
     title: 'Living Stones',
     subtitle: 'Panel de Voluntario',
     searchPlaceholder: 'Buscar proyectos, tareas...',
-    navigation: [
-      { href: '/volunteer/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/volunteer/projects', label: 'Proyectos', icon: FolderOpen },
-      { href: '/volunteer/communications', label: 'Comunicaciones', icon: MessageSquare },
-      { href: '/volunteer/documents', label: 'Documentos', icon: FileText },
-      { href: '/volunteer/evaluations', label: 'Mi Rendimiento', icon: Award }, 
-      { href: '/volunteer/recruitment', label: 'Mi Proceso', icon: UserPlus },
-    ],
+    navigation: getRoleNavigation('volunteer'),
     notifications: [
       { type: 'emerald', title: 'Nueva tarea asignada', description: 'Se te asignó una nueva tarea en el proyecto Educación Comunitaria', time: 'Hace 2 horas' },
       { type: 'yellow', title: 'Evaluación completada', description: 'Recibiste una evaluación de 5 estrellas', time: 'Hace 1 día' },
@@ -174,7 +237,7 @@ const NOTIFICATION_COLORS: Record<NotificationType, { bg: string; text: string; 
     emerald: { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-400', time: 'text-emerald-500' },
 };
 
-// **CONSTANTE DE MAPEO DE GRADIENTES PARA AVATAR POR ROL (MODIFICADA)**
+// **CONSTANTE DE MAPEO DE GRADIENTES PARA AVATAR POR ROL**
 const AVATAR_GRADIENTS: Record<UserRole, string> = {
   admin: 'from-green-700 to-green-800',    // Admin: verde más oscuro
   hr: 'from-green-600 to-green-700',       // HR: un poco menos oscuro
@@ -205,6 +268,63 @@ const NotificationItem: React.FC<{ notification: Notification }> = ({ notificati
     );
 };
 
+// --- Nuevo Componente de Submenú para Sidebar (Desktop) ---
+
+interface SubmenuProps {
+    item: NavigationItem;
+    sidebarCollapsed: boolean;
+    isActive: (href: string) => boolean;
+}
+
+const Submenu: React.FC<SubmenuProps> = ({ item, sidebarCollapsed, isActive }) => {
+    // Usamos el estado local para manejar la apertura/cierre del submenú
+    // Se inicializa abierto si la ruta actual es parte del submenú
+    const isSubmenuActive = isActive(item.href);
+    const [isOpen, setIsOpen] = useState(isSubmenuActive);
+
+    useEffect(() => {
+        // Asegura que el submenú se abra automáticamente si la ruta actual es activa (útil en la carga inicial)
+        if (isSubmenuActive) {
+            setIsOpen(true);
+        }
+    }, [isSubmenuActive]);
+    
+    // Si el sidebar está colapsado, el submenú se oculta y no se puede abrir/cerrar.
+    if (sidebarCollapsed) return null;
+
+    return (
+        <div className="flex flex-col space-y-1 mt-1">
+            {/* El botón principal de Documentos/Recruitment es un toggle */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`flex items-center space-x-3 px-3 py-3 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full text-left ${isSubmenuActive ? 'bg-slate-100 font-semibold' : ''}`}
+            >
+                <item.icon className={`w-5 h-5 text-emerald-500 flex-shrink-0`} />
+                <span className="flex-grow font-medium">{item.label}</span>
+                <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
+            </button>
+            
+            {/* Lista de Submenú */}
+            {isOpen && (
+                <div className="flex flex-col pl-6 space-y-1 border-l border-slate-200 ml-5">
+                    {item.submenu?.map(subItem => (
+                        <ActiveLink
+                            key={subItem.href}
+                            href={subItem.href}
+                            // Usamos una clase de ActiveLink más sutil para los submenús
+                            className="flex items-center px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-lg transition-colors w-full"
+                        >
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mr-3 flex-shrink-0"></span>
+                            <span>{subItem.label}</span>
+                        </ActiveLink>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+
 // --- Universal Header (Principal) ---
 
 interface UniversalHeaderProps {
@@ -218,12 +338,18 @@ export default function UniversalHeader({
 }: UniversalHeaderProps) {
   // Use the mocked useRouter
   const router = useRouter(); 
+  // FIX: usar usePathname para obtener la ruta actual (pathname)
+  const pathname = usePathname();
+  
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false); 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false); 
   const [notificationCount] = useState(3);
+  
+  // Estado para submenú móvil (Documentos)
+  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(null); 
   
   // Refs para cerrar menús al hacer clic fuera
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -238,15 +364,38 @@ export default function UniversalHeader({
 
   const IconComponent = config.icon;
 
+  // Lógica para determinar si una ruta es activa (necesario para el sidebar y submenú)
+  const isLinkActive = useCallback((href: string) => {
+    // FIX: Usar 'pathname' en lugar de 'router.pathname'
+    const currentPath = pathname; 
+    
+    // Si la ruta del link es un prefijo de la ruta actual, se considera activo (para Documentos/Reclutamiento)
+    if (currentPath.startsWith(href)) {
+        return true;
+    }
+    return false;
+  }, [pathname]); // FIX: La dependencia es 'pathname'
+
+
   // Lógica de carga de sesión y manejo de clics fuera
   useEffect(() => {
     if (userRole !== 'public') {
       const sessionData = localStorage.getItem('auth_session');
       if (sessionData) {
         const parsedSession = JSON.parse(sessionData);
+        // Validación mejorada para prevenir errores si el rol no existe
         if (roleConfigs[parsedSession.role as UserRole]) {
           setSession(parsedSession);
         }
+      } else {
+         // Simular una sesión si no existe para la demostración del sidebar
+         setSession({
+            userId: '1',
+            email: 'user@example.com',
+            name: 'Nombre Usuario',
+            role: userRole as UserRole,
+            avatar: undefined
+         });
       }
     }
     
@@ -525,39 +674,94 @@ export default function UniversalHeader({
         }`}
       >
         <nav className="flex flex-col h-full p-3 space-y-1 overflow-y-auto">
-          {config.navigation.map((item) => (
-            <ActiveLink 
-              key={item.href} 
-              href={item.href} 
-              className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} px-3 py-3 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors group`}
-            >
-              <item.icon className={`w-5 h-5 text-emerald-500 ${sidebarCollapsed ? '' : 'flex-shrink-0'}`} />
-              {!sidebarCollapsed && <span className="font-medium">{item.label}</span>}
-              {sidebarCollapsed && (
-                <span className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                  {item.label}
-                </span>
-              )}
-            </ActiveLink>
-          ))}
+          {config.navigation.map((item) => {
+            // Si el ítem tiene submenú y el sidebar NO está colapsado, renderiza el componente Submenu
+            if (item.submenu && item.submenu.length > 0 && !sidebarCollapsed) {
+                return (
+                    <Submenu 
+                        key={item.href} 
+                        item={item} 
+                        sidebarCollapsed={sidebarCollapsed}
+                        isActive={isLinkActive}
+                    />
+                );
+            }
+            
+            // Si el ítem NO tiene submenú, o si el sidebar está colapsado, renderiza el ActiveLink normal
+            return (
+                <ActiveLink 
+                  key={item.href} 
+                  href={item.href} 
+                  className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} px-3 py-3 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors group`}
+                  // Si tiene submenú pero está colapsado, debe ser un link simple
+                  onClick={item.submenu && sidebarCollapsed ? undefined : undefined}
+                >
+                  <item.icon className={`w-5 h-5 text-emerald-500 ${sidebarCollapsed ? '' : 'flex-shrink-0'}`} />
+                  {!sidebarCollapsed && <span className="font-medium">{item.label}</span>}
+                  {sidebarCollapsed && (
+                    <span className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                      {item.label}
+                    </span>
+                  )}
+                </ActiveLink>
+            );
+          })}
         </nav>
       </aside>
       
-      {/* Navegación Móvil para usuarios autenticados */}
+      {/* Navegación Móvil para usuarios autenticados (REFRACTORIZADO PARA SUBMENÚ) */}
       {showMobileMenu && (
         <nav className="lg:hidden fixed inset-0 top-16 bg-white/95 backdrop-blur-sm p-4 border-t border-slate-200 z-40 overflow-y-auto animate-in slide-in-from-top-1 duration-300">
             <div className="space-y-2">
-                {config.navigation.map((item) => (
-                    <ActiveLink 
-                        key={item.href} 
-                        href={item.href} 
-                        className="flex items-center space-x-3 p-3 text-base text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full"
-                        onClick={() => setShowMobileMenu(false)} // Cierra el menú al hacer clic
-                    >
-                        <item.icon className="w-5 h-5 text-emerald-500" />
-                        <span className="font-medium">{item.label}</span>
-                    </ActiveLink>
-                ))}
+                {config.navigation.map((item) => {
+                    const hasSubmenu = item.submenu && item.submenu.length > 0;
+                    const isSubmenuOpen = mobileSubmenuOpen === item.href;
+
+                    if (hasSubmenu) {
+                        return (
+                            <div key={item.href}>
+                                <button
+                                    onClick={() => setMobileSubmenuOpen(isSubmenuOpen ? null : item.href)}
+                                    className={`flex items-center space-x-3 p-3 text-base text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full justify-between ${isLinkActive(item.href) ? 'bg-slate-100 font-semibold' : ''}`}
+                                >
+                                    <div className="flex items-center space-x-3">
+                                        <item.icon className="w-5 h-5 text-emerald-500" />
+                                        <span className="font-medium">{item.label}</span>
+                                    </div>
+                                    <ChevronDown className={`w-5 h-5 text-slate-500 transition-transform duration-200 ${isSubmenuOpen ? 'rotate-180' : 'rotate-0'}`} />
+                                </button>
+                                {isSubmenuOpen && (
+                                    <div className="flex flex-col pl-4 mt-1 space-y-1">
+                                        {item.submenu?.map(subItem => (
+                                            <ActiveLink 
+                                                key={subItem.href} 
+                                                href={subItem.href} 
+                                                className="flex items-center p-3 pl-8 text-sm text-slate-600 hover:bg-slate-50 rounded-lg transition-colors w-full"
+                                                onClick={() => setShowMobileMenu(false)} // Cierra el menú al hacer clic
+                                            >
+                                                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mr-3 flex-shrink-0"></span>
+                                                <span>{subItem.label}</span>
+                                            </ActiveLink>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    }
+
+                    // Enlaces sin submenú
+                    return (
+                        <ActiveLink 
+                            key={item.href} 
+                            href={item.href} 
+                            className="flex items-center space-x-3 p-3 text-base text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full"
+                            onClick={() => setShowMobileMenu(false)} // Cierra el menú al hacer clic
+                        >
+                            <item.icon className="w-5 h-5 text-emerald-500" />
+                            <span className="font-medium">{item.label}</span>
+                        </ActiveLink>
+                    );
+                })}
             </div>
             <hr className="my-4 border-slate-100" />
             <div className="flex flex-col space-y-2">
@@ -581,6 +785,7 @@ export default function UniversalHeader({
 
       {/* Spacers: para headers fijos Y para el sidebar (Desktop) */}
       {isFixed && <div className="h-16"></div>}
+      {/* Espaciador del contenido principal, movido fuera del div fixed/relative, idealmente en el Layout */}
       <div className={`hidden lg:block ${sidebarCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 flex-shrink-0`}></div>
     </>
   );
