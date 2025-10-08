@@ -1,17 +1,15 @@
-// src/components/layout/UniversalHeader.tsx
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation'; // Original failing import
+
+
 import { 
   Settings, 
   Users, 
   BarChart3, 
   FileText, 
   Bell, 
-  Search, // Se mantiene importado por si se añade la búsqueda en otro lugar
   ChevronDown,
   LogOut,
   User,
@@ -21,14 +19,14 @@ import {
   Heart,
   MessageSquare,
   UserPlus,
-  ClipboardList,
-  Calendar,
-  Award,
+  Award, 
   FolderOpen,
   Menu, 
   X
 } from 'lucide-react';
-import ActiveLink from '../ActiveLink'; 
+import ActiveLink from '../ActiveLink'; // Original failing import
+
+
 
 // --- Tipos y Configuración ---
 
@@ -77,13 +75,12 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
     searchPlaceholder: 'Buscar usuarios, proyectos...',
     navigation: [
       { href: '/admin/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/admin/users', label: 'Usuarios', icon: Users },
+      { href: '/admin/users', label: 'Usuarios', icon: Users }, // Admin usa 'Usuarios'
       { href: '/admin/projects', label: 'Proyectos', icon: FolderOpen },
       { href: '/admin/communications', label: 'Comunicaciones', icon: MessageSquare },
       { href: '/admin/documents', label: 'Documentos', icon: FileText },
-      { href: '/admin/evaluations', label: 'Evaluaciones', icon: ClipboardList },
+      { href: '/admin/evaluations', label: 'Evaluaciones', icon: Award }, 
       { href: '/admin/recruitment', label: 'Reclutamiento', icon: UserPlus },
-
     ],
     notifications: [
       { type: 'blue', title: 'Nuevo usuario registrado', description: 'María González se registró como voluntaria' },
@@ -93,20 +90,19 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
   },
   hr: {
     icon: UserCheck,
-    gradient: 'from-blue-500 to-indigo-600',
-    focusRing: 'focus:ring-blue-500/20 focus:border-blue-500',
+    gradient: 'from-emerald-500 to-emerald-600',
+    focusRing: 'focus:ring-emerald-500/20 focus:border-emerald-500',
     title: 'Living Stones',
     subtitle: 'Recursos Humanos',
     searchPlaceholder: 'Buscar voluntarios, evaluaciones...',
     navigation: [
       { href: '/hr/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/hr/users', label: 'Usuarios', icon: Users },
+      { href: '/hr/users', label: 'Voluntarios', icon: Users }, // CAMBIO: HR usa 'Voluntarios'
       { href: '/hr/projects', label: 'Proyectos', icon: FolderOpen },
       { href: '/hr/communications', label: 'Comunicaciones', icon: MessageSquare },
       { href: '/hr/documents', label: 'Documentos', icon: FileText },
-      { href: '/hr/evaluations', label: 'Evaluaciones', icon: ClipboardList },
+      { href: '/hr/evaluations', label: 'Evaluaciones', icon: Award }, 
       { href: '/hr/recruitment', label: 'Reclutamiento', icon: UserPlus },
-
     ],
     notifications: [
       { type: 'blue', title: 'Nueva solicitud de voluntario', description: 'Ana López completó su aplicación' },
@@ -116,20 +112,19 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
   },
   lead: {
     icon: Star,
-    gradient: 'from-purple-500 to-violet-600',
-    focusRing: 'focus:ring-purple-500/20 focus:border-purple-500',
+    gradient: 'from-emerald-500 to-emerald-600',
+    focusRing: 'focus:ring-emerald-500/20 focus:border-emerald-500',
     title: 'Living Stones',
     subtitle: 'Líder de Proyecto',
     searchPlaceholder: 'Buscar proyectos, tareas...',
     navigation: [
       { href: '/lead/dashboard', label: 'Dashboard', icon: BarChart3 },
-      { href: '/lead/users', label: 'Usuarios', icon: Users },
+      { href: '/lead/users', label: 'Mi Equipo', icon: Users }, // CAMBIO: Lead usa 'Mi Equipo'
       { href: '/lead/projects', label: 'Proyectos', icon: FolderOpen },
       { href: '/lead/communications', label: 'Comunicaciones', icon: MessageSquare },
       { href: '/lead/documents', label: 'Documentos', icon: FileText },
-      { href: '/lead/evaluations', label: 'Evaluaciones', icon: ClipboardList },
+      { href: '/lead/evaluations', label: 'Evaluaciones', icon: Award }, 
       { href: '/lead/recruitment', label: 'Reclutamiento', icon: UserPlus },
-
     ],
     notifications: [
       { type: 'blue', title: 'Nueva tarea asignada', description: 'Revisión de presupuesto Q4' },
@@ -139,8 +134,8 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
   },
   volunteer: {
     icon: Heart,
-    gradient: 'from-pink-500 to-rose-600', 
-    focusRing: 'focus:ring-pink-500/20 focus:border-pink-500',
+    gradient: 'from-emerald-500 to-emerald-600',
+    focusRing: 'focus:ring-emerald-500/20 focus:border-emerald-500',
     title: 'Living Stones',
     subtitle: 'Panel de Voluntario',
     searchPlaceholder: 'Buscar proyectos, tareas...',
@@ -149,9 +144,8 @@ const roleConfigs: Record<UserRole, RoleConfig> = {
       { href: '/volunteer/projects', label: 'Proyectos', icon: FolderOpen },
       { href: '/volunteer/communications', label: 'Comunicaciones', icon: MessageSquare },
       { href: '/volunteer/documents', label: 'Documentos', icon: FileText },
-      { href: '/volunteer/evaluations', label: 'Mi Rendimiento', icon: Award },
+      { href: '/volunteer/evaluations', label: 'Mi Rendimiento', icon: Award }, 
       { href: '/volunteer/recruitment', label: 'Mi Proceso', icon: UserPlus },
-
     ],
     notifications: [
       { type: 'emerald', title: 'Nueva tarea asignada', description: 'Se te asignó una nueva tarea en el proyecto Educación Comunitaria', time: 'Hace 2 horas' },
@@ -177,6 +171,14 @@ const NOTIFICATION_COLORS: Record<NotificationType, { bg: string; text: string; 
     yellow: { bg: 'bg-yellow-50', text: 'text-yellow-800', border: 'border-yellow-400', time: 'text-yellow-500' },
     green: { bg: 'bg-green-50', text: 'text-green-800', border: 'border-green-400', time: 'text-green-500' },
     emerald: { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-400', time: 'text-emerald-500' },
+};
+
+// **CONSTANTE DE MAPEO DE GRADIENTES PARA AVATAR POR ROL (MODIFICADA)**
+const AVATAR_GRADIENTS: Record<UserRole, string> = {
+  admin: 'from-green-700 to-green-800',    // Admin: verde más oscuro
+  hr: 'from-green-600 to-green-700',       // HR: un poco menos oscuro
+  lead: 'from-green-500 to-green-600',      // Lead: verde medio
+  volunteer: 'from-green-400 to-green-500', // Volunteer: verde más claro
 };
 
 // --- Componente de Notificación ---
@@ -213,18 +215,19 @@ export default function UniversalHeader({
   userRole = 'public', 
   isFixed = true 
 }: UniversalHeaderProps) {
-  const router = useRouter();
+  // Use the mocked useRouter
+  const router = useRouter(); 
   const [session, setSession] = useState<SessionData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false); 
-  const [showNavMenu, setShowNavMenu] = useState(false); // <--- NUEVO ESTADO DE MENÚ AGRUPADOR
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false); 
   const [notificationCount] = useState(3);
   
   // Refs para cerrar menús al hacer clic fuera
   const userMenuRef = useRef<HTMLDivElement>(null);
   const notifMenuRef = useRef<HTMLDivElement>(null);
-  const navMenuRef = useRef<HTMLDivElement>(null); // <--- NUEVA REFERENCIA DE MENÚ AGRUPADOR
+  const sidebarRef = useRef<HTMLDivElement>(null); 
   
   const config = useMemo(() => 
     userRole === 'public' 
@@ -253,9 +256,6 @@ export default function UniversalHeader({
       if (notifMenuRef.current && !notifMenuRef.current.contains(event.target as Node)) {
         setShowNotifications(false);
       }
-      if (navMenuRef.current && !navMenuRef.current.contains(event.target as Node)) { // <--- CERRAR MENÚ AGRUPADOR
-        setShowNavMenu(false);
-      }
     };
 
     document.addEventListener('mousedown', handleOutsideClick);
@@ -274,6 +274,7 @@ export default function UniversalHeader({
     }
   }, [session, userRole, router]);
 
+
   // --- Header Público ---
   if (userRole === 'public') {
     return (
@@ -281,7 +282,7 @@ export default function UniversalHeader({
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3">
+            <a href="/" className="flex items-center gap-3">
               <div className={`flex items-center justify-center w-10 h-10 bg-gradient-to-br ${config.gradient} rounded-xl shadow-lg`}>
                 <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center">
                   <div className="w-2.5 h-2.5 bg-living-green-500 rounded-sm"></div>
@@ -291,7 +292,7 @@ export default function UniversalHeader({
                 <h1 className="text-xl font-bold text-gradient">{config.title}</h1>
                 <p className="text-xs text-muted -mt-1">{config.subtitle}</p>
               </div>
-            </Link>
+            </a>
 
             {/* Navegación de escritorio */}
             <nav className="hidden md:flex items-center gap-8">
@@ -336,21 +337,39 @@ export default function UniversalHeader({
 
   // --- Header para Usuarios Autenticados ---
   const isVolunteer = userRole === 'volunteer';
-  const headerClass = isVolunteer 
-    ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/60 shadow-sm' 
-    : 'nav-header';
+  const headerClass = isFixed 
+    ? (isVolunteer ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/60 shadow-sm' : 'nav-header')
+    : 'relative bg-white border-b border-slate-200/60 shadow-sm'; // Clase para relativo si isFixed=false
+    
   const titleClass = isVolunteer ? 'text-slate-800' : 'text-gradient';
   const subtitleClass = isVolunteer ? 'text-slate-500' : 'text-muted';
 
+  // Degradado para el icono principal del logo (basado en el rol, pero blanco o esmeralda)
+  const mainIconClass = isVolunteer ? 'text-white' : 'text-emerald-500';
+  
+  // **LÓGICA ACTUALIZADA: Seleccionar el degradado del Avatar basado en el rol**
+  const avatarGradientClass = AVATAR_GRADIENTS[userRole as UserRole] || 'from-slate-400 to-slate-500';
+
   return (
     <>
+      {/* Header Superior */}
       <header className={`${isFixed ? 'fixed' : 'relative'} top-0 left-0 right-0 z-50 ${headerClass} px-4 md:px-6 py-3 h-16 transition-all duration-300`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-full">
-          {/* Logo y título */}
-          <div className="flex items-center space-x-6">
+        {/* Este contenedor ocupa el 100% del ancho y alinea el contenido a los extremos */}
+        <div className="flex items-center justify-between h-full w-full"> 
+          
+          {/* 1. SECCIÓN IZQUIERDA: Colapsar Sidebar y Logo */}
+          <div className="flex items-center space-x-3 flex-shrink-0">
+            <button
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="hidden lg:flex p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              aria-label="Toggle sidebar"
+            >
+              <Menu className="w-5 h-5 text-slate-600" />
+            </button>
+
             <a href={`/${userRole}/dashboard`} className="flex items-center space-x-3">
               <div className={`w-9 h-9 bg-gradient-to-br ${config.gradient} rounded-xl flex items-center justify-center`}>
-                <IconComponent className="w-5 h-5 text-white" />
+                <IconComponent className={`w-5 h-5 ${mainIconClass}`} />
               </div>
               <div>
                 <h1 className={`text-lg font-bold ${titleClass}`}>
@@ -363,77 +382,21 @@ export default function UniversalHeader({
             </a>
           </div>
 
-          {/* Navegación principal (AGRUPADA) */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {/* 1. Ítems Principales (Mostrar los primeros 4) */}
-            {config.navigation.slice(0, 4).map((item) => (
-              <ActiveLink 
-                key={item.href} 
-                href={item.href} 
-                className="nav-link px-3 py-2 rounded-lg text-sm"
-              >
-                <item.icon className="w-4 h-4 inline mr-2" />
-                {item.label}
-              </ActiveLink>
-            ))}
+          {/* 2. ESPACIO CENTRAL (VACÍO) */}
+          <div className="flex-grow">
+            {/* Permite que las secciones laterales se separen a los extremos. */}
+          </div>
 
-            {/* 2. Dropdown para ítems Adicionales (Si hay más de 4) */}
-            {config.navigation.length > 4 && (
-                <div className="relative" ref={navMenuRef}>
-                    <button
-                        onClick={() => {
-                            setShowNavMenu(prev => !prev);
-                            setShowUserMenu(false); // Cerrar menú de usuario
-                            setShowNotifications(false); // Cerrar notificaciones
-                        }}
-                        className={`nav-link px-3 py-2 rounded-lg text-sm flex items-center transition-colors 
-                                   ${showNavMenu ? 'bg-slate-100 text-slate-800' : 'text-slate-600 hover:bg-slate-100'}`}
-                        aria-expanded={showNavMenu}
-                    >
-                        <Menu className="w-4 h-4 inline mr-2 text-slate-500" />
-                        Más
-                        <ChevronDown className={`w-4 h-4 ml-1 text-slate-500 transition-transform duration-200 ${showNavMenu ? 'rotate-180' : 'rotate-0'}`} />
-                    </button>
 
-                    {showNavMenu && (
-                        <div className="absolute left-0 top-12 w-60 bg-white rounded-xl shadow-2xl border border-slate-200 p-2 z-50 origin-top-left animate-in fade-in-0 zoom-in-95 duration-200">
-                            <div className="py-1 space-y-1">
-                                {config.navigation.slice(4).map((item) => (
-                                    <ActiveLink 
-                                        key={item.href} 
-                                        href={item.href} 
-                                        className="flex items-center space-x-3 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full text-left"
-                                        onClick={() => setShowNavMenu(false)} // Cerrar al seleccionar un enlace
-                                    >
-                                        <item.icon className="w-4 h-4 text-slate-500" />
-                                        <span className="font-medium">{item.label}</span>
-                                    </ActiveLink>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </div>
-            )}
-          </nav>
-
-          {/* Acciones del usuario */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* 3. SECCIÓN DERECHA: Acciones del usuario (Notificaciones y Menú de Usuario) */}
+          <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
             
-            {/* EL BUSCADOR HA SIDO ELIMINADO PARA LIBERAR ESPACIO. 
-            {config.searchPlaceholder && (
-              <div className="hidden lg:block relative">
-                ... Buscador ...
-              </div>
-            )}
-            */}
-
             {/* Notificaciones */}
             <div className="relative" ref={notifMenuRef}>
               <button
                 onClick={() => {
                     setShowNotifications(prev => !prev);
                     setShowUserMenu(false); 
-                    setShowNavMenu(false); // Cerrar menú de navegación
                 }}
                 className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors"
                 aria-label="Notificaciones"
@@ -466,21 +429,21 @@ export default function UniversalHeader({
               )}
             </div>
 
-            {/* Menú de usuario */}
+            {/* Menú de usuario (Dropdown pegado a la derecha) */}
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => {
                     setShowUserMenu(prev => !prev);
                     setShowNotifications(false); 
-                    setShowNavMenu(false); // Cerrar menú de navegación
                 }}
                 className="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-slate-100 transition-colors"
                 aria-label="Menú de usuario"
               >
                 {/* Avatar */}
-                <div className={`w-8 h-8 bg-gradient-to-br ${config.gradient} rounded-full flex items-center justify-center flex-shrink-0`}>
+                {/* APLICACIÓN DEL COLOR DEL AVATAR BASADO EN EL ROL */}
+                <div className={`w-8 h-8 bg-gradient-to-br ${avatarGradientClass} rounded-full flex items-center justify-center flex-shrink-0`}>
                   {session?.avatar ? (
-                    <Image src={session.avatar} alt={session.name} className="w-8 h-8 rounded-full object-cover" width={32} height={32} />
+                    <img src={session.avatar} alt={session.name} className="w-8 h-8 rounded-full object-cover" />
                   ) : (
                     <User className="w-4 h-4 text-white" />
                   )}
@@ -497,7 +460,8 @@ export default function UniversalHeader({
                 <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : 'rotate-0'}`} />
               </button>
 
-              {showUserMenu && (
+              
+            {showUserMenu && (
                 <div className="absolute right-0 top-12 w-60 bg-white rounded-xl shadow-2xl border border-slate-200 p-2 z-50 origin-top-right animate-in fade-in-0 zoom-in-95 duration-200">
                   <div className="px-3 py-2 border-b border-slate-100 mb-1">
                     <p className="text-sm font-semibold text-slate-800 truncate">{session?.name}</p>
@@ -508,7 +472,8 @@ export default function UniversalHeader({
                       onClick={handleProfileClick}
                       className="flex items-center space-x-3 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full text-left"
                     >
-                      <User className="w-4 h-4 text-slate-500" />
+                      {/* Corregido: Usar text-emerald-500 */}
+                      <User className="w-4 h-4 text-emerald-500" />
                       <span className="font-medium">Mi Perfil</span>
                     </button>
                     <button
@@ -518,7 +483,8 @@ export default function UniversalHeader({
                       }}
                       className="flex items-center space-x-3 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full text-left"
                     >
-                      <Settings className="w-4 h-4 text-slate-500" />
+                      {/* Corregido: Usar text-emerald-500 */}
+                      <Settings className="w-4 h-4 text-emerald-500" />
                       <span className="font-medium">Configuración</span>
                     </button>
                     <hr className="my-1 border-slate-100" />
@@ -540,7 +506,6 @@ export default function UniversalHeader({
                     setShowMobileMenu(prev => !prev);
                     setShowUserMenu(false); 
                     setShowNotifications(false);
-                    setShowNavMenu(false); // Cerrar menú de navegación
                 }}
                 className="lg:hidden p-2 ml-2 text-slate-600 hover:bg-slate-100 transition-colors rounded-lg"
                 aria-label="Menú de Navegación"
@@ -550,6 +515,32 @@ export default function UniversalHeader({
           </div>
         </div>
       </header>
+      
+      {/* --- SIDEBAR IZQUIERDO (Desktop) --- */}
+      <aside 
+        ref={sidebarRef}
+        className={`hidden lg:block fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white border-r border-slate-200 shadow-sm transition-all duration-300 z-40 ${
+          sidebarCollapsed ? 'w-20' : 'w-64'
+        }`}
+      >
+        <nav className="flex flex-col h-full p-3 space-y-1 overflow-y-auto">
+          {config.navigation.map((item) => (
+            <ActiveLink 
+              key={item.href} 
+              href={item.href} 
+              className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} px-3 py-3 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition-colors group`}
+            >
+              <item.icon className={`w-5 h-5 text-emerald-500 ${sidebarCollapsed ? '' : 'flex-shrink-0'}`} />
+              {!sidebarCollapsed && <span className="font-medium">{item.label}</span>}
+              {sidebarCollapsed && (
+                <span className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                  {item.label}
+                </span>
+              )}
+            </ActiveLink>
+          ))}
+        </nav>
+      </aside>
       
       {/* Navegación Móvil para usuarios autenticados */}
       {showMobileMenu && (
@@ -562,7 +553,7 @@ export default function UniversalHeader({
                         className="flex items-center space-x-3 p-3 text-base text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full"
                         onClick={() => setShowMobileMenu(false)} // Cierra el menú al hacer clic
                     >
-                        <item.icon className="w-5 h-5" />
+                        <item.icon className="w-5 h-5 text-emerald-500" />
                         <span className="font-medium">{item.label}</span>
                     </ActiveLink>
                 ))}
@@ -573,7 +564,7 @@ export default function UniversalHeader({
                     onClick={() => { handleProfileClick(); setShowMobileMenu(false); }}
                     className="flex items-center space-x-3 p-3 text-base text-slate-700 hover:bg-slate-100 rounded-lg transition-colors w-full text-left"
                 >
-                    <User className="w-5 h-5" />
+                    <User className="w-5 h-5 text-emerald-500" />
                     <span className="font-medium">Mi Perfil</span>
                 </button>
                 <button
@@ -587,8 +578,9 @@ export default function UniversalHeader({
         </nav>
       )}
 
-      {/* Spacer para headers fijos */}
+      {/* Spacers: para headers fijos Y para el sidebar (Desktop) */}
       {isFixed && <div className="h-16"></div>}
+      <div className={`hidden lg:block ${sidebarCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 flex-shrink-0`}></div>
     </>
   );
 }

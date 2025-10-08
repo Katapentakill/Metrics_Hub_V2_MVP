@@ -4,7 +4,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Folder, Search, Plus, BarChart3, Grid } from 'lucide-react';
+import { FolderOpen, Search, Plus, BarChart3, Grid } from 'lucide-react';
 
 import type {
   Project,
@@ -238,7 +238,7 @@ export default function AdminProjectsPage() {
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-            <Folder className="w-8 h-8 mr-3 text-emerald-600" />
+            <FolderOpen className="w-8 h-8 mr-3 text-emerald-600" />
             Gestión de Proyectos
           </h1>
           <p className="text-muted mt-1">

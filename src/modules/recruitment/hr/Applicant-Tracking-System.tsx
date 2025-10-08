@@ -7,6 +7,7 @@ import {
   UserCheck,
   Clock,
   Handshake,
+  UserPlus,
 } from 'lucide-react';
 import AdminBreadcrumb from '../admin/components/AdminBreadcrumb';
 import AdminSectionCard from '../admin/components/AdminSectionCard';
@@ -96,12 +97,12 @@ export default function ApplicantTrackingSystem() {
 
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg">
-              <Users className="w-8 h-8" />
+            <div className="text-3xl font-bold text-slate-800 flex items-center">
+              <UserPlus className="w-8 h-8 mr-3 text-emerald-600" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">Sistema de Seguimiento de Candidatos (ATS)</h1>
-              <p className="text-xl text-gray-600">Recruitment</p>
+              <h1 className="text-3xl font-bold text-slate-800 flex items-center">Sistema de Seguimiento de Candidatos (ATS)</h1>
+              <p className="text-muted mt-1">Recruitment</p>
             </div>
           </div>
           <p className="text-gray-600 text-lg leading-relaxed max-w-4xl">

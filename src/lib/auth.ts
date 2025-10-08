@@ -7,7 +7,7 @@ const AUTH_KEY = 'auth_session';
 const ROLE_REDIRECTS = {
   admin: '/admin/dashboard',
   hr: '/hr/dashboard', 
-  lead: '/lead/projects',
+  lead: '/lead/dashboard',
   volunteer: '/volunteer/dashboard',
   unassigned: '/volunteer/dashboard'
 } as const;

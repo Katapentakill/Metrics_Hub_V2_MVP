@@ -7,17 +7,17 @@
   --living-green-200: #bbf7d0;
   --living-green-300: #86efac;
   --living-green-400: #4ade80;
-  --living-green-500: #22c55e; /* Verde principal más vibrante */
-  --living-green-600: #16a34a; /* Verde institucional original */
+  --living-green-500: #22c55e;
+  --living-green-600: #16a34a;
   --living-green-700: #15803d;
   --living-green-800: #166534;
   --living-green-900: #14532d;
   
-  /* Colores de fondo y texto para modo claro */
+  /* Colores de fondo y texto - SIEMPRE MODO CLARO */
   --background: #ffffff;
   --background-secondary: #f8fafc;
   --background-accent: #f1f5f9;
-  --background-glass: rgba(255, 255, 255, 0.85);
+  --background-glass: rgba(255, 255, 255, 0.95);
   --foreground: #0f172a;
   --foreground-secondary: #334155;
   --foreground-muted: #64748b;
@@ -37,49 +37,21 @@
   --gradient-primary: linear-gradient(135deg, var(--living-green-500), var(--living-green-600));
   --gradient-secondary: linear-gradient(135deg, #f1f5f9, #e2e8f0);
   --gradient-accent: linear-gradient(135deg, var(--living-green-50), var(--living-green-100));
-  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   
   /* Sombras modernas */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-glow: 0 0 0 1px var(--living-green-500), 0 0 20px rgba(34, 197, 94, 0.3);
-  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  
+  /* Altura del header - CONSISTENTE */
+  --header-height: 64px; /* 4rem = h-16 en Tailwind */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Colores para modo oscuro */
-    --background: #0f172a;
-    --background-secondary: #1e293b;
-    --background-accent: #334155;
-    --background-glass: rgba(15, 23, 42, 0.85);
-    --foreground: #f8fafc;
-    --foreground-secondary: #cbd5e1;
-    --foreground-muted: #94a3b8;
-    
-    /* Verde ajustado para modo oscuro */
-    --living-green-500: #34d399;
-    --living-green-600: #10b981;
-    
-    /* Bordes para modo oscuro */
-    --border-light: #334155;
-    --border-medium: #475569;
-    --border-dark: #64748b;
-    
-    /* Gradientes oscuros */
-    --gradient-secondary: linear-gradient(135deg, #1e293b, #334155);
-    --gradient-accent: linear-gradient(135deg, #0f172a, #1e293b);
-  }
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ELIMINADO: Media query de prefers-color-scheme: dark */
+/* La aplicación siempre usa modo claro con fondo blanco */
 
 /* Reset y estilos base */
 * {
@@ -88,10 +60,13 @@
 
 html {
   scroll-behavior: smooth;
+  /* Forzar fondo blanco siempre */
+  background: #ffffff;
 }
 
 body {
-  background: var(--background);
+  /* Forzar fondo blanco siempre */
+  background: #ffffff;
   color: var(--foreground);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
@@ -100,7 +75,116 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Estilos de botones modernos */
+/* ============================================
+   HEADER Y NAVEGACIÓN - SUPER MENÚ
+   ============================================ */
+
+/* Header principal - altura consistente */
+.nav-header {
+  background: var(--background-glass);
+  border-bottom: 1px solid var(--border-light);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  height: var(--header-height);
+  min-height: var(--header-height);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+/* Links de navegación con efectos */
+.nav-link {
+  position: relative;
+  color: var(--foreground-secondary);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--living-green-600);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link-active {
+  color: var(--living-green-600);
+  font-weight: 600;
+}
+
+.nav-link-active::after {
+  width: 100%;
+}
+
+/* Links de navegación móvil */
+.nav-link-mobile {
+  padding: 1rem;
+  color: var(--foreground-secondary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: block;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.nav-link-mobile:hover {
+  background: var(--background-accent);
+  color: var(--living-green-600);
+}
+
+/* Espaciado para contenido principal */
+main {
+  padding-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Mega Menu (Super Menú) específicos */
+.mega-menu-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.mega-menu-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.mega-menu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.05), transparent);
+  transition: left 0.5s;
+}
+
+.mega-menu-item:hover::before {
+  left: 100%;
+}
+
+/* ============================================
+   BOTONES MODERNOS
+   ============================================ */
+
 .btn-living {
   @apply px-6 py-3 font-semibold rounded-xl transition-all duration-300 
          focus:outline-none focus:ring-2 focus:ring-offset-2 
@@ -179,9 +263,12 @@ body {
          transform hover:scale-105;
 }
 
-/* Cards y contenedores con efectos glass */
+/* ============================================
+   CARDS Y CONTENEDORES
+   ============================================ */
+
 .card {
-  @apply rounded-2xl transition-all duration-300 hover:shadow-xl;
+  @apply rounded-2xl transition-all duration-300;
   background: var(--background-glass);
   border: 1px solid var(--border-light);
   backdrop-filter: blur(10px);
@@ -194,17 +281,12 @@ body {
   box-shadow: var(--shadow-xl);
 }
 
-.card-dark {
-  background: var(--background-secondary);
-  border: 1px solid var(--border-medium);
-}
-
 .card-glass {
   background: var(--background-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--shadow-lg);
 }
 
 .card-gradient {
@@ -212,85 +294,10 @@ body {
   border: 1px solid var(--living-green-200);
 }
 
-/* Efectos de brillo y glow */
-.glow-border {
-  @apply transition-all duration-300;
-  border: 1px solid var(--border-light);
-}
+/* ============================================
+   FORMULARIOS
+   ============================================ */
 
-.glow-border:hover {
-  border-color: var(--living-green-500);
-  box-shadow: var(--shadow-glow);
-}
-
-.glow-text {
-  color: var(--living-green-600);
-  text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
-}
-
-/* Headers y navegación - ARREGLADO */
-.nav-header {
-  @apply transition-all duration-300;
-  background: var(--background-glass);
-  border-bottom: 1px solid var(--border-light);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  height: 80px; /* Altura fija para el header */
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-}
-
-.nav-link {
-  @apply transition-all duration-300 relative;
-  color: var(--foreground-secondary);
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--gradient-primary);
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover {
-  color: var(--living-green-600);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-.nav-link-active {
-  color: var(--living-green-600);
-  font-weight: 600;
-}
-
-.nav-link-active::after {
-  width: 100%;
-}
-
-/* Espaciado correcto para contenido principal - NUEVO */
-.admin-main-content {
-  padding-top: 96px; /* 80px header + 16px extra */
-  min-height: calc(100vh - 80px);
-}
-
-.public-main-content {
-  padding-top: 88px; /* Para headers públicos */
-  min-height: calc(100vh - 80px);
-}
-
-.protected-main-content {
-  padding-top: 96px; /* Para headers protegidos */
-  min-height: calc(100vh - 80px);
-}
-
-/* Formularios modernos */
 .input-field {
   @apply border rounded-xl px-4 py-3 transition-all duration-300 
          focus:outline-none focus:ring-2 focus:ring-offset-2
@@ -308,67 +315,10 @@ body {
   border-color: var(--border-dark);
 }
 
-.input-error {
-  border-color: var(--error);
-}
+/* ============================================
+   BADGES Y TAGS
+   ============================================ */
 
-.input-error:focus {
-  border-color: var(--error);
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
-.input-group {
-  @apply relative;
-}
-
-.input-icon {
-  @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400;
-}
-
-.input-field.has-icon {
-  @apply pl-10;
-}
-
-/* Progress indicators con animaciones */
-.progress-bar {
-  @apply rounded-full overflow-hidden;
-  background: var(--background-accent);
-}
-
-.progress-fill {
-  @apply h-full transition-all duration-500 ease-out;
-  background: var(--gradient-primary);
-  position: relative;
-  overflow: hidden;
-}
-
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-image: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 50px 50px;
-  animation: move 2s linear infinite;
-}
-
-@keyframes move {
-  0% { background-position: 0 0; }
-  100% { background-position: 50px 50px; }
-}
-
-/* Badges y tags modernos */
 .badge {
   @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
          transition-all duration-200 hover:scale-105;
@@ -395,47 +345,10 @@ body {
          border border-red-200;
 }
 
-/* Timeline personalizado con efectos */
-.timeline-step-active {
-  @apply text-white relative;
-  background: var(--gradient-primary);
-  border: 2px solid var(--living-green-600);
-  box-shadow: var(--shadow-glow);
-}
+/* ============================================
+   EFECTOS DE TEXTO
+   ============================================ */
 
-.timeline-step-inactive {
-  @apply relative transition-all duration-300;
-  background: var(--background);
-  border: 2px solid var(--border-medium);
-  color: var(--foreground-muted);
-}
-
-.timeline-step-inactive:hover {
-  border-color: var(--living-green-300);
-  transform: scale(1.05);
-}
-
-.timeline-line {
-  border-left: 2px solid var(--border-light);
-  position: relative;
-}
-
-.timeline-line::before {
-  content: '';
-  position: absolute;
-  left: -2px;
-  top: 0;
-  width: 2px;
-  height: 0;
-  background: var(--gradient-primary);
-  transition: height 1s ease-out;
-}
-
-.timeline-line.animate::before {
-  height: 100%;
-}
-
-/* Efectos de texto */
 .text-gradient {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -456,81 +369,10 @@ body {
   color: var(--foreground-secondary);
 }
 
-/* Loading states */
-.loading-skeleton {
-  @apply animate-pulse rounded;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
+/* ============================================
+   ANIMACIONES
+   ============================================ */
 
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.spinner {
-  @apply inline-block animate-spin rounded-full border-2 border-solid;
-  border-color: var(--living-green-600);
-  border-right-color: transparent;
-}
-
-/* Tooltips */
-.tooltip {
-  @apply relative;
-}
-
-.tooltip::before {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  border-radius: 8px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 1000;
-}
-
-.tooltip:hover::before {
-  opacity: 1;
-}
-
-/* Responsive utilities */
-@media (max-width: 768px) {
-  .mobile-padding {
-    @apply px-4;
-  }
-  
-  .mobile-text {
-    @apply text-sm;
-  }
-  
-  .btn-living,
-  .btn-living-outline,
-  .btn-secondary {
-    @apply px-4 py-2 text-sm;
-  }
-  
-  /* Ajustes para header en móvil - ARREGLADO FINAL */
-  .nav-header {
-    height: 60px !important;
-    min-height: 60px !important;
-  }
-  
-  /* Ajustar main en móvil */
-  main {
-    padding-top: 60px !important;
-  }
-}
-
-/* Animaciones mejoradas */
 .fade-in {
   animation: fadeIn 0.6s ease-out;
 }
@@ -576,43 +418,96 @@ body {
   }
 }
 
-.bounce-in {
-  animation: bounceIn 0.6s ease-out;
+/* Animación de pulse para notificaciones */
+.animate-pulse-slow {
+  animation: pulseSlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes bounceIn {
-  0% { 
-    opacity: 0; 
-    transform: scale(0.3); 
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 1;
   }
-  50% { 
-    opacity: 1; 
-    transform: scale(1.05); 
-  }
-  70% { 
-    transform: scale(0.9); 
-  }
-  100% { 
-    opacity: 1; 
-    transform: scale(1); 
+  50% {
+    opacity: 0.7;
   }
 }
 
-/* Efectos de hover para contenedores */
-.hover-lift {
-  @apply transition-all duration-300;
+/* Animación para entrada de contenido */
+.animate-in {
+  animation: animateIn 0.3s ease-out;
 }
 
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.hover-glow:hover {
-  box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+/* Efectos de fade y zoom */
+.fade-in-0 {
+  animation: fadeIn0 0.2s ease-out;
 }
 
-/* Scrollbar personalizado moderno */
+@keyframes fadeIn0 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.zoom-in-95 {
+  animation: zoomIn95 0.2s ease-out;
+}
+
+@keyframes zoomIn95 {
+  from { transform: scale(0.95); }
+  to { transform: scale(1); }
+}
+
+.slide-in-from-top-1 {
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.loading-skeleton {
+  @apply animate-pulse rounded;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.spinner {
+  @apply inline-block animate-spin rounded-full border-2 border-solid;
+  border-color: var(--living-green-600);
+  border-right-color: transparent;
+}
+
+/* ============================================
+   SCROLLBAR PERSONALIZADO
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -633,7 +528,7 @@ body {
   background: var(--living-green-500);
 }
 
-/* Scrollbar personalizado para componentes específicos */
+/* Scrollbar delgado para componentes específicos */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
@@ -651,7 +546,45 @@ body {
   background: var(--border-dark);
 }
 
-/* Clases adicionales para texto truncado */
+/* ============================================
+   EFECTOS ESPECIALES
+   ============================================ */
+
+.hover-lift {
+  @apply transition-all duration-300;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.glow-border {
+  @apply transition-all duration-300;
+  border: 1px solid var(--border-light);
+}
+
+.glow-border:hover {
+  border-color: var(--living-green-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.backdrop-blur {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ============================================
+   UTILIDADES DE TEXTO
+   ============================================ */
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -666,308 +599,64 @@ body {
   overflow: hidden;
 }
 
-/* Animaciones adicionales para el admin */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ============================================
+   RESPONSIVE - MÓVIL
+   ============================================ */
 
-.animate-slide-down {
-  animation: slideDown 0.3s ease-out;
-}
-
-/* Efectos especiales para métricas */
-.metric-glow {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.metric-glow:hover {
-  box-shadow: 0 0 30px rgba(34, 197, 94, 0.2);
-}
-
-/* Estados de notificación con pulse */
-.notification-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Efectos adicionales para admin dashboard */
-.admin-card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.admin-card-hover:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-/* Indicadores de estado con brillo */
-.status-indicator {
-  position: relative;
-  overflow: hidden;
-}
-
-.status-indicator::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s;
-}
-
-.status-indicator:hover::before {
-  left: 100%;
-}
-
-/* Efectos de carga para métricas */
-.loading-bar {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading-shimmer 1.5s infinite;
-}
-
-@keyframes loading-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Mejoras para tooltips del admin */
-.admin-tooltip {
-  position: relative;
-}
-
-.admin-tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 6px 10px;
-  background: rgba(15, 23, 42, 0.9);
-  color: white;
-  border-radius: 6px;
-  font-size: 11px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s, transform 0.3s;
-  z-index: 1000;
-  margin-bottom: 5px;
-}
-
-.admin-tooltip::before {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: rgba(15, 23, 42, 0.9);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 1000;
-  margin-bottom: 1px;
-}
-
-.admin-tooltip:hover::after,
-.admin-tooltip:hover::before {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-2px);
-}
-
-/* Efectos de resaltado para datos importantes */
-.data-highlight {
-  position: relative;
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
-  border-left: 3px solid var(--living-green-500);
-  animation: highlight-pulse 3s ease-in-out infinite;
-}
-
-@keyframes highlight-pulse {
-  0%, 100% {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
-  }
-  50% {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.08));
-  }
-}
-
-/* Estilos para gráficos y barras de progreso mejoradas */
-.progress-enhanced {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(90deg, #f1f5f9, #e2e8f0);
-}
-
-.progress-enhanced::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-image: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.3) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.3) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 20px 20px;
-  animation: progress-stripes 1s linear infinite;
-}
-
-@keyframes progress-stripes {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 20px 20px;
-  }
-}
-
-/* Utilidades adicionales */
-.backdrop-blur {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.text-shadow {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.text-shadow-lg {
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Estados responsivos mejorados para admin */
-@media (max-width: 1024px) {
-  .admin-dashboard-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+@media (max-width: 768px) {
+  /* Ajustes de botones en móvil */
+  .btn-living,
+  .btn-living-outline,
+  .btn-secondary {
+    @apply px-4 py-2 text-sm;
   }
   
-  .admin-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+  /* Header más compacto en móvil */
+  :root {
+    --header-height: 64px;
+  }
+  
+  /* Mega menu en móvil ocupa toda la pantalla */
+  .mega-menu-mobile {
+    height: calc(100vh - var(--header-height));
+  }
+  
+  /* Reducir padding en cards */
+  .card {
+    @apply p-4;
+  }
+  
+  /* Texto más pequeño en móvil */
+  .mobile-text {
+    @apply text-sm;
   }
 }
 
 @media (max-width: 640px) {
-  .admin-stats-grid {
+  /* Grids a una columna en móvil pequeño */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
     grid-template-columns: 1fr;
   }
-  
-  .admin-header-nav {
-    display: none;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .nav-header,
+  .no-print {
+    display: none !important;
   }
   
-  .admin-search-bar {
-    width: 200px;
+  main {
+    padding-top: 0 !important;
   }
-}
-
-/* Efectos de entrada suave para contenido */
-.content-enter {
-  animation: contentEnter 0.6s ease-out;
-}
-
-@keyframes contentEnter {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+  
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mejoras para notificaciones y alertas */
-.alert-slide-in {
-  animation: alertSlideIn 0.4s ease-out;
-}
-
-@keyframes alertSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Estados de carga mejorados */
-.skeleton-pulse {
-  animation: skeletonPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes skeletonPulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-/* Mejoras específicas para búsqueda en header */
-.search-input {
-  position: relative;
-  z-index: 1;
-}
-
-.search-input input {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  transition: all 0.3s ease;
-}
-
-.search-input input:focus {
-  background: rgba(255, 255, 255, 1);
-  border-color: var(--living-green-500);
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  pointer-events: none;
 }

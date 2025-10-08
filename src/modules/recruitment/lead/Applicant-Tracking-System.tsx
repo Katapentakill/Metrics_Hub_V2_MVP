@@ -1,8 +1,8 @@
-// src/modules/recruitment/lead/ATS.tsx
-
+// src/modules/recruitment/lead/Applicant-Tracking-System.tsx
 import Link from 'next/link';
 import {
   Users,
+  UserPlus,
   Briefcase,
   BarChart,
   UserCheck,
@@ -79,9 +79,9 @@ export default function LeadATSPage() {
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg">
-                <Users className="w-8 h-8" />
-              </div>
+              <div className="text-3xl font-bold text-slate-800 flex items-center">
+              <UserPlus className="w-8 h-8 mr-3 text-emerald-600" />
+            </div>
               <div>
                 <h1 className="text-4xl font-bold text-gray-900">Sistema de Reclutamiento (Panel de Líder)</h1>
                 <p className="text-xl text-gray-600">Recruitment</p>

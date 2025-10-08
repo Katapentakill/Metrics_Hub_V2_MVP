@@ -1,3 +1,4 @@
+// src/app/page.tsx
 'use client'
 
 import { useEffect } from 'react'
@@ -15,7 +16,7 @@ export default function HomePage() {
       const redirectPaths = {
         admin: '/admin/dashboard',
         hr: '/hr/dashboard',
-        lead: '/lead/projects',
+        lead: '/lead/dashboard',
         volunteer: '/volunteer/dashboard',
         unassigned: '/volunteer/dashboard'
       }

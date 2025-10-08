@@ -1,3 +1,4 @@
+// src/modules/dashboard/UnifiedDashboard.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -5,7 +6,8 @@ import {
   Calendar, 
   Activity,
   AlertTriangle,
-  Award
+  Award,
+  BarChart3
 } from 'lucide-react';
 import { getAuthSession } from '@/lib/auth';
 import { 
@@ -40,7 +42,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
         setSession(sessionData);
 
         // Simular carga de datos
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
         // Cargar datos según el rol
         let dashboardData;
@@ -77,6 +79,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   }, [role]);
 
   if (isLoading) {
+    // Mantener la carga con ancho máximo y padding para centrar
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="space-y-6">
@@ -95,8 +98,9 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   }
 
   if (!data || !session) {
+    // Eliminar el estilo fijo para que ocupe todo el ancho disponible
     return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="py-8">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Acceso no autorizado</h2>
           <p className="text-slate-600">No tienes permisos para acceder a este dashboard.</p>
@@ -106,11 +110,13 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    // Aplicar las clases 'max-w-7xl mx-auto px-6' para replicar el ancho de carga 
+    // y darle un contenedor claro, similar a como se manejaría el padre del ProjectsDashboard.
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800">{config.title}</h1>
+          <h1 className="text-3xl font-bold text-slate-800 flex items-center"><BarChart3 className="w-8 h-8 mr-3 text-emerald-600" />{config.title}</h1>
           <p className="text-muted mt-1">{config.subtitle}</p>
         </div>
         <div className="flex items-center space-x-3">

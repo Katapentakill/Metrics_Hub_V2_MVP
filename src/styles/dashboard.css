@@ -1,0 +1,112 @@
+/* ------------------------------------------- */
+/* 1. Base Styles & Variables */
+/* ------------------------------------------- */
+:root {
+  --color-primary: #3b82f6; /* Tailwind blue-500 */
+  --color-primary-dark: #2563eb; /* Tailwind blue-600 */
+  --color-text-default: #1f2937; /* Tailwind gray-800 */
+  --color-text-muted: #6b7280; /* Tailwind gray-500 */
+  --color-bg-light: #f9fafb; /* Tailwind gray-50 */
+  --shadow-default: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Apply Inter font, if not already done globally */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ------------------------------------------- */
+/* 2. Layout and Containers */
+/* ------------------------------------------- */
+/* The dashboard-container provides a consistent maximum width and centering */
+.dashboard-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+
+/* ------------------------------------------- */
+/* 3. Card Styling */
+/* ------------------------------------------- */
+.card {
+  background-color: white;
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: var(--shadow-default);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e5e7eb; /* Subtle border */
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* ------------------------------------------- */
+/* 4. Button Styles */
+/* ------------------------------------------- */
+
+/* Shared base button style */
+.btn-base {
+    font-weight: 500;
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Outline Button (e.g., "Actualizar") */
+.btn-living-outline {
+  @extend .btn-base;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  background-color: white;
+}
+
+.btn-living-outline:hover {
+  background-color: #eff6ff; /* blue-50 */
+  border-color: var(--color-primary-dark);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  @extend .btn-base;
+  background-color: #f3f4f6; /* gray-100 */
+  color: var(--color-text-default);
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb; /* gray-200 */
+}
+
+
+/* ------------------------------------------- */
+/* 5. Utility Overrides */
+/* ------------------------------------------- */
+
+/* Override for text-muted class used in the component */
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+
+/* ------------------------------------------- */
+/* 6. Loading Skeleton */
+/* ------------------------------------------- */
+@keyframes loading {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.loading-skeleton {
+  background-color: #e5e7eb; /* gray-200 */
+  background-image: linear-gradient(
+    90deg,
+    #e5e7eb 0px,
+    #f3f4f6 40px,
+    #e5e7eb 80px
+  );
+  background-size: 200px 100%;
+  border-radius: 0.25rem;
+  animation: loading 1.5s infinite linear;
+}

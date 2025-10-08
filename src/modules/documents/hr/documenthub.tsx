@@ -288,12 +288,14 @@ export default function DocumentHub() {
         {/* Header Section */}
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-xl">
-              <FolderOpen className="w-10 h-10 text-white" />
-            </div>
+            {/* INICIO: Logo principal modificado a línea verde sin fondo */}
+            
+              <FileText className="w-8 h-8 mr-3 text-emerald-600" />
+            
+            {/* FIN: Logo principal modificado */}
             <div>
-              <h1 className="text-5xl font-bold text-gray-900 mb-1">HR Document Center</h1>
-              <p className="text-lg text-gray-600">
+              <h1 className="text-3xl font-bold text-slate-800 flex items-center">Document Center</h1>
+              <p className="text-muted mt-1">
                 Gestión centralizada de documentos organizacionales
               </p>
             </div>

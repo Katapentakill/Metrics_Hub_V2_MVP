@@ -108,12 +108,9 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
   // Filtrar comunicaciones basado en el rol
   const filteredCommunications = useMemo(() => {
     const filtered = communications.filter(comm => {
-      // Filtros específicos por rol
       if (!canViewAll) {
-        // Para roles no administrativos, solo mostrar comunicaciones publicadas
         if (comm.status !== 'published') return false;
         
-        // Filtrar por audiencia objetivo
         const roleAudiences = {
           'lead': ['all', 'coordinators', 'leads'],
           'volunteer': ['all', 'volunteers'],
@@ -124,7 +121,6 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
         if (!allowedAudiences.includes(comm.target_audience)) return false;
       }
       
-      // Filtros generales
       const matchesSearch = comm.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            comm.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            comm.author_name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -132,7 +128,6 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
       const matchesType = selectedType === 'all' || comm.type === selectedType;
       const matchesStatus = selectedStatus === 'all' || comm.status === selectedStatus;
       
-      // Filtro por fecha
       let matchesDate = true;
       if (selectedDateRange !== 'all') {
         const commDate = new Date(comm.created_at);
@@ -168,14 +163,13 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedCommunications = filteredCommunications.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = (page: number) => setCurrentPage(page);
 
   const handleCreateCommunication = (newCommunication: Partial<Communication>) => {
-    // Simular creación de comunicación
-    const communication: Communication = {
-      id: `comm_${Date.now()}`,
+    console.log("handleCreateCommunication called with:", newCommunication);
+    try {
+      const communication: Communication = {
+        id: `comm_${Date.now()}`,
       title: newCommunication.title || '',
       content: newCommunication.content || '',
       type: newCommunication.type || 'announcement',
@@ -199,27 +193,19 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
     };
 
     setCommunications(prev => [communication, ...prev]);
-    setStats(prev => ({
-      ...prev,
-      total_communications: prev.total_communications + 1
-    }));
-  };
+    setStats(prev => ({ ...prev, total_communications: prev.total_communications + 1 }));
+  } catch (error) {
+    console.error("Error in handleCreateCommunication:", error);
+  }
+};
 
-  const handleEditCommunication = (communication: Communication) => {
-    setCommunicationToEdit(communication);
-  };
-
-  const handleDeleteCommunication = (communication: Communication) => {
-    setCommunicationToDelete(communication);
-  };
+  const handleEditCommunication = (communication: Communication) => setCommunicationToEdit(communication);
+  const handleDeleteCommunication = (communication: Communication) => setCommunicationToDelete(communication);
 
   const confirmDelete = () => {
     if (communicationToDelete) {
       setCommunications(prev => prev.filter(c => c.id !== communicationToDelete.id));
-      setStats(prev => ({
-        ...prev,
-        total_communications: prev.total_communications - 1
-      }));
+      setStats(prev => ({ ...prev, total_communications: prev.total_communications - 1 }));
       setCommunicationToDelete(null);
     }
   };
@@ -271,14 +257,22 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Centro de Comunicaciones</h1>
+              {/* Título con ícono */}
+              <div className="text-3xl font-bold text-slate-800 flex items-center">
+                <MessageSquare className="w-8 h-8 mr-3 text-emerald-600" />
+                <h1 className="text-3xl font-bold text-gray-900">Centro de Comunicaciones</h1>
+              </div>
               <p className="text-gray-600 mt-2">
-                {userRole === 'admin' ? 'Gestiona todas las comunicaciones del sistema' :
-                 userRole === 'hr' ? 'Gestiona comunicaciones para recursos humanos' :
-                 userRole === 'lead' ? 'Comunicaciones para líderes de proyecto' :
-                 'Noticias y anuncios importantes'}
+                {userRole === 'admin'
+                  ? 'Gestiona todas las comunicaciones del sistema'
+                  : userRole === 'hr'
+                  ? 'Gestiona comunicaciones para recursos humanos'
+                  : userRole === 'lead'
+                  ? 'Comunicaciones para líderes de proyecto'
+                  : 'Noticias y anuncios importantes'}
               </p>
             </div>
+
             {canCreate && (
               <button
                 onClick={() => setShowCreateModal(true)}
@@ -445,168 +439,82 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
                           <Eye className="w-4 h-4" />
                           <span>{comm.read_count} vistas</span>
                         </div>
-                        {comm.likes_count > 0 && (
-                          <div className="flex items-center space-x-1">
-                            <Star className="w-4 h-4" />
-                            <span>{comm.likes_count} likes</span>
-                          </div>
-                        )}
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-2 ml-4">
-                      <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(comm.type)}`}>
-                        {comm.type}
-                      </span>
-                      {canViewAll && (
-                        <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(comm.status)}`}>
-                          {comm.status}
-                        </span>
+                    <div className="ml-4 flex-shrink-0 flex items-center space-x-2">
+                      {canEdit && (
+                        <button onClick={() => handleEditCommunication(comm)}>
+                          <Edit3 className="w-5 h-5 text-blue-600 hover:text-blue-800" />
+                        </button>
                       )}
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => setSelectedCommunication(comm)}
-                        className="flex items-center space-x-1 text-emerald-600 hover:text-emerald-700 text-sm font-medium"
-                      >
-                        <Eye className="w-4 h-4" />
-                        <span>Ver detalles</span>
+                      {canDelete && (
+                        <button onClick={() => handleDeleteCommunication(comm)}>
+                          <Trash2 className="w-5 h-5 text-red-600 hover:text-red-800" />
+                        </button>
+                      )}
+                      <button onClick={() => setSelectedCommunication(comm)}>
+                        <Eye className="w-5 h-5 text-gray-600 hover:text-gray-800" />
                       </button>
-                      
-                      {comm.comments_count > 0 && (
-                        <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-700 text-sm">
-                          <MessageSquare className="w-4 h-4" />
-                          <span>{comm.comments_count} comentarios</span>
-                        </button>
-                      )}
                     </div>
-                    
-                    {canEdit && (
-                      <div className="flex items-center space-x-2">
-                        <button 
-                          onClick={() => handleEditCommunication(comm)}
-                          className="p-1 text-gray-400 hover:text-gray-600"
-                          title="Editar"
-                        >
-                          <Edit3 className="w-4 h-4" />
-                        </button>
-                        {canDelete && (
-                          <button 
-                            onClick={() => handleDeleteCommunication(comm)}
-                            className="p-1 text-gray-400 hover:text-red-600"
-                            title="Eliminar"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        )}
-                      </div>
-                    )}
                   </div>
                 </div>
               );
             })}
           </div>
-          
+
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="px-6 py-4 border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-700">
-                  Mostrando {startIndex + 1} a {Math.min(startIndex + itemsPerPage, filteredCommunications.length)} de {filteredCommunications.length} resultados
-                </div>
-                
-                <div className="flex items-center space-x-2">
+            <div className="flex justify-end items-center space-x-2 p-4">
+              <button
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded-lg bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              >
+                <ChevronLeft className="w-4 h-4 inline" />
+              </button>
+              {[...Array(totalPages)].map((_, idx) => {
+                const page = idx + 1;
+                return (
                   <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-1 border rounded-lg ${page === currentPage ? 'bg-emerald-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    {page}
                   </button>
-                  
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => handlePageChange(page)}
-                      className={`px-3 py-1 text-sm rounded ${
-                        page === currentPage
-                          ? 'bg-emerald-600 text-white'
-                          : 'text-gray-600 hover:bg-gray-100'
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                  
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+                );
+              })}
+              <button
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded-lg bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              >
+                <ChevronRight className="w-4 h-4 inline" />
+              </button>
             </div>
           )}
         </div>
+      </div>
 
-        {/* Modals */}
+      {/* Modales */}
+      {showCreateModal && (
         <CreateCommunicationModal
           isOpen={showCreateModal}
           onClose={() => setShowCreateModal(false)}
           onSubmit={handleCreateCommunication}
           userRole={userRole}
         />
+      )}
 
+      {selectedCommunication && (
         <CommunicationDetailsModal
           communication={selectedCommunication}
-          isOpen={!!selectedCommunication}
+          isOpen={selectedCommunication !== null}
           onClose={() => setSelectedCommunication(null)}
-          onEdit={handleEditCommunication}
-          onDelete={handleDeleteCommunication}
           userRole={userRole}
         />
-
-        {/* Delete Confirmation Modal */}
-        {communicationToDelete && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="p-2 bg-red-100 rounded-lg">
-                  <AlertCircle className="w-5 h-5 text-red-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Confirmar eliminación</h3>
-                  <p className="text-sm text-gray-600">Esta acción no se puede deshacer</p>
-                </div>
-              </div>
-              
-              <p className="text-gray-700 mb-6">
-                ¿Estás seguro de que quieres eliminar la comunicación "{communicationToDelete.title}"?
-              </p>
-              
-              <div className="flex items-center justify-end space-x-3">
-                <button
-                  onClick={() => setCommunicationToDelete(null)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={confirmDelete}
-                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }

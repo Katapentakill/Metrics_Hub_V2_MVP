@@ -30,7 +30,7 @@ interface EvaluationDetailsModalProps {
   onDelete?: (evaluation: EvaluationView) => void;
   // Props para personalización por rol
   role?: 'admin' | 'hr' | 'lead' | 'volunteer';
-  theme?: 'blue' | 'purple' | 'emerald' | 'orange';
+  theme?: 'blue' | 'purple' | 'emerald' | 'orange' | 'green' | undefined;
 }
 
 // Datos completos que se pueden mostrar

@@ -53,7 +53,7 @@ interface HybridEvaluationsDashboardProps {
   loading?: boolean;
   // Props para personalización por rol
   role?: 'admin' | 'hr' | 'lead' | 'volunteer';
-  theme?: 'blue' | 'purple' | 'emerald' | 'orange';
+  theme?:  'green' | 'blue' | 'purple' | 'emerald' | 'orange'; // Temas de color predefinidos (solo 'green')
   // Props para configuración de navegación
   basePath?: string; // ej: '/admin', '/hr', '/lead'
 }
@@ -69,7 +69,7 @@ export default function HybridEvaluationsDashboard({
   allPeriods,
   loading = false,
   role = 'admin',
-  theme = 'blue',
+  theme = 'green', // Default 'green'
   basePath = '/admin'
 }: HybridEvaluationsDashboardProps) {
   const router = useRouter();
@@ -79,38 +79,16 @@ export default function HybridEvaluationsDashboard({
   const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationView | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Configuración de tema
+  // Configuración de tema (Simplificada ya que solo se acepta 'green')
   const getThemeConfig = () => {
-    switch (theme) {
-      case 'purple':
-        return {
-          header: 'from-purple-600 to-purple-700',
-          button: 'bg-white text-purple-600 hover:bg-purple-50',
-          tabActive: 'border-purple-500 bg-purple-50 text-purple-600',
-          focus: 'focus:ring-purple-500 focus:border-purple-500'
-        };
-      case 'emerald':
-        return {
-          header: 'from-emerald-600 to-emerald-700',
-          button: 'bg-white text-emerald-600 hover:bg-emerald-50',
-          tabActive: 'border-emerald-500 bg-emerald-50 text-emerald-600',
-          focus: 'focus:ring-emerald-500 focus:border-emerald-500'
-        };
-      case 'orange':
-        return {
-          header: 'from-orange-600 to-orange-700',
-          button: 'bg-white text-orange-600 hover:bg-orange-50',
-          tabActive: 'border-orange-500 bg-orange-50 text-orange-600',
-          focus: 'focus:ring-orange-500 focus:border-orange-500'
-        };
-      default: // blue
-        return {
-          header: 'from-blue-600 to-blue-700',
-          button: 'bg-white text-blue-600 hover:bg-blue-50',
-          tabActive: 'border-blue-500 bg-blue-50 text-blue-600',
-          focus: 'focus:ring-blue-500 focus:border-blue-500'
-        };
-    }
+    // Ya que 'theme' solo puede ser 'green' (o undefined, que se convierte a 'green' por defecto),
+    // el switch es innecesario.
+    return {
+      header: 'bg-transparent text-gray-900',
+      button: 'bg-green-600 text-white hover:bg-green-500',
+      tabActive: 'border-green-500 bg-green-50 text-green-600',
+      focus: 'focus:ring-green-500 focus:border-green-500'
+    };
   };
 
   const themeConfig = getThemeConfig();
@@ -198,11 +176,11 @@ export default function HybridEvaluationsDashboard({
   return (
     <div className="space-y-6">
       {/* Header Principal */}
-      <div className={`bg-gradient-to-r ${themeConfig.header} rounded-2xl p-8 text-white`}>
+      <div className={`bg-gradient-to-r ${themeConfig.header} rounded-2xl p-8 text-black mb-6`}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Centro de Evaluaciones</h1>
-            <p className={`${themeConfig.header.includes('purple') ? 'text-purple-100' : themeConfig.header.includes('emerald') ? 'text-emerald-100' : themeConfig.header.includes('orange') ? 'text-orange-100' : 'text-blue-100'} text-lg`}>
+            <h1 className="text-3xl font-bold text-slate-800 flex items-center"><Award className="w-6 h-6 mr-2 text-green-500" /> Centro de Evaluaciones</h1>
+            <p className="text-muted mt-1">
               Gestión integral del desempeño y desarrollo del talento
             </p>
           </div>
@@ -322,7 +300,7 @@ export default function HybridEvaluationsDashboard({
               </div>
 
               {/* Filtros específicos por tab */}
-              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-white transition-colors">
+              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-green-50 transition-colors">
                 <Filter className="w-4 h-4" />
                 <span>Filtros</span>
               </button>
