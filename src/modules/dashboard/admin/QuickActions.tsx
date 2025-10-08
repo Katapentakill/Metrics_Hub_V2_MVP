@@ -5,12 +5,9 @@ import {
   FolderPlus, 
   FileText, 
   Settings, 
-  Mail, 
-  Download,
-  AlertTriangle,
-  CheckCircle,
   Clock,
-  BarChart3 // Se mantiene si se usa en otro lugar, pero no es necesario aquí.
+  AlertTriangle,
+  CheckCircle
 } from 'lucide-react';
 
 export default function QuickActions() {
@@ -31,7 +28,7 @@ export default function QuickActions() {
       title: 'Generar Reporte',
       description: 'Crear reporte ejecutivo',
       icon: FileText,
-      color: 'bg-purple-500 hover:bg-purple-600',
+      color: 'bg-emerald-500 hover:bg-emerald-600',
       action: 'generate-report'
     },
     {
@@ -48,59 +45,39 @@ export default function QuickActions() {
       title: '8 Entrevistas programadas hoy',
       description: 'Gestión de entrevistas requiere supervisión',
       icon: Clock,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
+      color: 'text-emerald-700',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-400',
       action: '/admin/recruitment/evaluation/interview-management'
     },
     {
       title: '12 Aplicaciones por revisar',
       description: 'Candidatos esperando evaluación inicial',
       icon: Clock,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
+      color: 'text-slate-700',
+      bgColor: 'bg-gray-50',
+      borderColor: 'border-slate-300',
       action: '/admin/recruitment/candidate-management/tracker'
     },
     {
       title: '3 Proyectos con tareas bloqueadas',
       description: 'Requieren atención inmediata',
       icon: AlertTriangle,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
+      color: 'text-slate-700',
+      bgColor: 'bg-gray-50',
+      borderColor: 'border-slate-300',
       action: '/admin/projects?filter=blocked'
     },
     {
       title: '5 Evaluaciones completadas',
       description: 'Listas para revisión final',
       icon: CheckCircle,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
+      color: 'text-emerald-700',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-400',
       action: '/admin/evaluations?status=completed'
     }
   ];
-
-  /*
-  // El arreglo systemActions fue eliminado
-  const systemActions = [
-    {
-      title: 'Enviar Notificación Global',
-      description: 'Comunicar a todos los usuarios',
-      icon: Mail,
-      action: 'global-notification'
-    },
-    {
-      title: 'Exportar Base de Datos',
-      description: 'Descargar respaldo completo',
-      icon: Download,
-      action: 'export-database'
-    },
-    {
-      title: 'Métricas Avanzadas',
-      description: 'Ver analytics detallado',
-      icon: BarChart3,
-      action: 'advanced-metrics'
-    }
-  ];
-  */
 
   return (
     <div className="space-y-6">
@@ -131,15 +108,18 @@ export default function QuickActions() {
         <h3 className="text-lg font-semibold text-slate-800 mb-4">Requiere Atención</h3>
         <div className="space-y-3">
           {pendingTasks.map((task, index) => (
-            <div key={index} className={`p-4 ${task.bgColor} rounded-lg border-l-4 border-current`}>
+            <div 
+              key={index} 
+              className={`p-4 ${task.bgColor} rounded-lg border-l-4 ${task.borderColor} hover:shadow-md transition-shadow`}
+            >
               <div className="flex items-start space-x-3">
                 <task.icon className={`w-5 h-5 ${task.color} mt-0.5`} />
                 <div className="flex-1">
                   <p className={`font-medium text-sm ${task.color}`}>{task.title}</p>
-                  <p className="text-xs text-slate-600 mt-1">{task.description}</p>
+                  <p className="text-xs text-gray-600 mt-1">{task.description}</p>
                   <button 
                     onClick={() => window.location.href = task.action}
-                    className="text-xs text-slate-500 hover:text-slate-700 mt-2 underline"
+                    className="text-xs text-gray-600 hover:text-slate-800 mt-2 font-medium transition-colors"
                   >
                     Ver detalles →
                   </button>
@@ -149,26 +129,6 @@ export default function QuickActions() {
           ))}
         </div>
       </div>
-
-      {/* // La sección de Acciones del sistema fue eliminada 
-      
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Sistema</h3>
-        <div className="space-y-2">
-          {systemActions.map((action, index) => (
-            // ... (código de acciones del sistema)
-          ))}
-        </div>
-      </div>
-      */}
-
-      {/* // La sección de Estado del servidor fue eliminada
-      
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Estado del Servidor</h3>
-        // ... (código de estado del servidor)
-      </div>
-      */}
     </div>
   );
 }

@@ -78,8 +78,8 @@ export default function RecruitmentPipeline() {
             icon: FileText,
             count: 142,
             percentage: 100,
-            color: 'text-blue-600',
-            bgColor: 'bg-blue-50',
+            color: 'text-slate-600',
+            bgColor: 'bg-gray-50',
             averageTime: '1 día',
             conversionRate: 70,
             status: 'active'
@@ -91,8 +91,8 @@ export default function RecruitmentPipeline() {
             icon: Filter,
             count: 98,
             percentage: 69,
-            color: 'text-yellow-600',
-            bgColor: 'bg-yellow-50',
+            color: 'text-slate-600',
+            bgColor: 'bg-gray-50',
             averageTime: '3 días',
             conversionRate: 60,
             status: 'bottleneck'
@@ -104,8 +104,8 @@ export default function RecruitmentPipeline() {
             icon: Video,
             count: 59,
             percentage: 42,
-            color: 'text-purple-600',
-            bgColor: 'bg-purple-50',
+            color: 'text-emerald-600',
+            bgColor: 'bg-emerald-50',
             averageTime: '5 días',
             conversionRate: 75,
             status: 'optimal'
@@ -117,8 +117,8 @@ export default function RecruitmentPipeline() {
             icon: Users,
             count: 44,
             percentage: 31,
-            color: 'text-indigo-600',
-            bgColor: 'bg-indigo-50',
+            color: 'text-slate-600',
+            bgColor: 'bg-gray-50',
             averageTime: '7 días',
             conversionRate: 68,
             status: 'active'
@@ -130,8 +130,8 @@ export default function RecruitmentPipeline() {
             icon: CheckCircle,
             count: 30,
             percentage: 21,
-            color: 'text-orange-600',
-            bgColor: 'bg-orange-50',
+            color: 'text-emerald-600',
+            bgColor: 'bg-emerald-50',
             averageTime: '2 días',
             conversionRate: 80,
             status: 'optimal'
@@ -143,8 +143,8 @@ export default function RecruitmentPipeline() {
             icon: UserPlus,
             count: 24,
             percentage: 17,
-            color: 'text-green-600',
-            bgColor: 'bg-green-50',
+            color: 'text-emerald-600',
+            bgColor: 'bg-emerald-50',
             averageTime: '14 días',
             conversionRate: 95,
             status: 'optimal'
@@ -164,9 +164,9 @@ export default function RecruitmentPipeline() {
      */
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'bottleneck': return <AlertTriangle className="w-4 h-4 text-red-500" />;
-            case 'optimal': return <TrendingUp className="w-4 h-4 text-green-500" />;
-            default: return <Target className="w-4 h-4 text-blue-500" />;
+            case 'bottleneck': return <AlertTriangle className="w-4 h-4 text-slate-600" />;
+            case 'optimal': return <TrendingUp className="w-4 h-4 text-emerald-500" />;
+            default: return <Target className="w-4 h-4 text-slate-600" />;
         }
     };
 
@@ -175,9 +175,9 @@ export default function RecruitmentPipeline() {
      */
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'bottleneck': return 'border-red-200 bg-red-50';
-            case 'optimal': return 'border-green-200 bg-green-50';
-            default: return 'border-blue-200 bg-blue-50';
+            case 'bottleneck': return 'border-slate-200 bg-gray-50';
+            case 'optimal': return 'border-emerald-200 bg-emerald-50';
+            default: return 'border-slate-200 bg-gray-50';
         }
     };
 
@@ -204,32 +204,32 @@ export default function RecruitmentPipeline() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-                    <Target className="w-5 h-5 mr-2 text-indigo-600" />
+                    <Target className="w-5 h-5 mr-2 text-emerald-600" />
                     Pipeline de Reclutamiento
                 </h3>
-                <div className="flex items-center space-x-2 text-xs text-slate-500">
-                    <Clock className="w-4 h-4" />
+                <div className="flex items-center space-x-2 text-xs text-gray-600">
+                    <Clock className="w-4 h-4 text-slate-400" />
                     <span>Actualizado cada hora</span>
                 </div>
             </div>
 
             {/* Métricas generales */}
-            <div className="grid grid-cols-4 gap-4 p-4 bg-slate-50 rounded-lg">
+            <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-blue-600">{metrics.totalCandidates}</p>
-                    <p className="text-xs text-slate-600">Total Candidatos</p>
+                    <p className="text-2xl font-bold text-slate-600">{metrics.totalCandidates}</p>
+                    <p className="text-xs text-gray-600">Total Candidatos</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-green-600">{metrics.overallConversionRate}%</p>
-                    <p className="text-xs text-slate-600">Conversión General</p>
+                    <p className="text-2xl font-bold text-emerald-600">{metrics.overallConversionRate}%</p>
+                    <p className="text-xs text-gray-600">Conversión General</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-purple-600">{metrics.averageProcessTime}</p>
-                    <p className="text-xs text-slate-600">Tiempo Promedio</p>
+                    <p className="text-2xl font-bold text-slate-600">{metrics.averageProcessTime}</p>
+                    <p className="text-xs text-gray-600">Tiempo Promedio</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-orange-600">{metrics.activeProcesses}</p>
-                    <p className="text-xs text-slate-600">Procesos Activos</p>
+                    <p className="text-2xl font-bold text-emerald-600">{metrics.activeProcesses}</p>
+                    <p className="text-xs text-gray-600">Procesos Activos</p>
                 </div>
             </div>
 
@@ -246,21 +246,21 @@ export default function RecruitmentPipeline() {
                                             <stage.icon className={`w-5 h-5 ${stage.color}`} />
                                         </div>
                                         <div>
-                                            <h5 className="font-semibold text-slate-800 flex items-center">
-                                                {stage.name}
+                                            <h5 className="font-semibold text-slate-800 flex items-center space-x-2">
+                                                <span>{stage.name}</span>
                                                 {getStatusIcon(stage.status)}
                                             </h5>
-                                            <p className="text-xs text-slate-600">{stage.description}</p>
+                                            <p className="text-xs text-gray-600">{stage.description}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
                                         <p className="text-2xl font-bold text-slate-800">{stage.count}</p>
-                                        <p className="text-xs text-slate-500">{stage.percentage}% del total</p>
+                                        <p className="text-xs text-gray-600">{stage.percentage}% del total</p>
                                     </div>
                                 </div>
 
                                 {/* Barra de progreso */}
-                                <div className="w-full bg-slate-200 rounded-full h-2 mb-3">
+                                <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
                                     <div
                                         className={`h-2 rounded-full transition-all duration-500 ${stage.color.replace('text-', 'bg-')}`}
                                         style={{ width: `${stage.percentage}%` }}
@@ -268,20 +268,20 @@ export default function RecruitmentPipeline() {
                                 </div>
 
                                 {/* Métricas de la etapa */}
-                                <div className="flex items-center justify-between text-xs text-slate-600">
+                                <div className="flex items-center justify-between text-xs text-gray-600">
                                     <div className="flex space-x-4">
                                         <span className="flex items-center">
-                                            <Clock className="w-3 h-3 mr-1" />
+                                            <Clock className="w-3 h-3 mr-1 text-slate-400" />
                                             Promedio: {stage.averageTime}
                                         </span>
                                         <span className="flex items-center">
-                                            <TrendingUp className="w-3 h-3 mr-1" />
+                                            <TrendingUp className="w-3 h-3 mr-1 text-slate-400" />
                                             Conversión: {stage.conversionRate}%
                                         </span>
                                     </div>
                                     <button
                                         onClick={() => handleStageAction(stage.id, 'view_details')}
-                                        className="text-blue-600 hover:underline"
+                                        className="text-emerald-600 hover:text-emerald-700 font-medium"
                                     >
                                         Ver detalles →
                                     </button>
@@ -289,13 +289,13 @@ export default function RecruitmentPipeline() {
 
                                 {/* Alertas de la etapa */}
                                 {stage.status === 'bottleneck' && (
-                                    <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+                                    <div className="mt-3 p-2 bg-gray-100 border border-slate-300 rounded text-xs text-slate-700 font-medium">
                                         ⚠️ Cuello de botella detectado - Tiempo de procesamiento por encima del promedio
                                     </div>
                                 )}
 
                                 {stage.status === 'optimal' && (
-                                    <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded text-xs text-green-700">
+                                    <div className="mt-3 p-2 bg-emerald-50 border border-emerald-200 rounded text-xs text-emerald-700 font-medium">
                                         ✅ Funcionamiento óptimo - Métricas dentro de los objetivos
                                     </div>
                                 )}
@@ -315,25 +315,25 @@ export default function RecruitmentPipeline() {
             {/* Flujo semanal */}
             <div className="space-y-4">
                 <h4 className="text-sm font-medium text-slate-700 flex items-center">
-                    <Calendar className="w-4 h-4 mr-2" />
+                    <Calendar className="w-4 h-4 mr-2 text-slate-400" />
                     Flujo de las Últimas 4 Semanas
                 </h4>
                 <div className="grid grid-cols-4 gap-4">
                     {weeklyFlow.map((week) => (
-                        <div key={week.week} className="text-center p-3 bg-slate-50 rounded-lg">
+                        <div key={week.week} className="text-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                             <p className="text-sm font-semibold text-slate-800">{week.week}</p>
                             <div className="mt-2 space-y-1">
                                 <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-600">Aplicaciones:</span>
-                                    <span className="font-medium text-blue-600">{week.applications}</span>
+                                    <span className="text-gray-600">Aplicaciones:</span>
+                                    <span className="font-medium text-slate-700">{week.applications}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-600">Completados:</span>
-                                    <span className="font-medium text-green-600">{week.completed}</span>
+                                    <span className="text-gray-600">Completados:</span>
+                                    <span className="font-medium text-emerald-600">{week.completed}</span>
                                 </div>
-                                <div className="w-full bg-slate-200 rounded-full h-1 mt-2">
+                                <div className="w-full bg-gray-200 rounded-full h-1 mt-2">
                                     <div
-                                        className="h-1 bg-green-500 rounded-full"
+                                        className="h-1 bg-emerald-500 rounded-full"
                                         style={{ width: `${(week.completed / week.applications) * 100}%` }}
                                     ></div>
                                 </div>
@@ -347,25 +347,25 @@ export default function RecruitmentPipeline() {
             <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-200">
                 <button
                     onClick={() => handleStageAction('all', 'optimize')}
-                    className="px-3 py-1 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors"
+                    className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium"
                 >
                     Optimizar Pipeline
                 </button>
                 <button
                     onClick={() => handleStageAction('all', 'export_report')}
-                    className="px-3 py-1 text-xs bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors"
+                    className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium"
                 >
                     Exportar Reporte
                 </button>
                 <button
                     onClick={() => handleStageAction('all', 'set_alerts')}
-                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-700 rounded transition-colors"
+                    className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-slate-700 rounded transition-colors font-medium"
                 >
                     Configurar Alertas
                 </button>
                 <button
                     onClick={() => handleStageAction('bottleneck', 'resolve')}
-                    className="px-3 py-1 text-xs bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
+                    className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-slate-700 rounded transition-colors font-medium"
                 >
                     Resolver Cuellos de Botella
                 </button>

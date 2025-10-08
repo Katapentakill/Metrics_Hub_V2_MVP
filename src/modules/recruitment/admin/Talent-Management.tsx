@@ -18,35 +18,35 @@ import AdminBreadcrumb from './components/AdminBreadcrumb';
 import AdminSectionCard from './components/AdminSectionCard';
 import AdminDashboardStats from './components/AdminDashboardStats';
 
-// Mock data for dashboard stats
+// Mock data for dashboard stats - PALETA EMERALD
 const dashboardStats = [
   {
     title: 'Vacantes Activas',
     value: 24,
     change: { value: 12, type: 'increase' as const, period: 'mes anterior' },
     icon: Briefcase,
-    color: 'text-blue-600',
+    color: 'text-emerald-600',
   },
   {
     title: 'Candidatos en Proceso',
     value: 156,
     change: { value: 8, type: 'increase' as const, period: 'semana anterior' },
     icon: Users,
-    color: 'text-purple-600',
+    color: 'text-emerald-600',
   },
   {
     title: 'Contrataciones del Mes',
     value: 8,
     change: { value: -5, type: 'decrease' as const, period: 'mes anterior' },
     icon: UserCheck,
-    color: 'text-green-600',
+    color: 'text-emerald-600',
   },
   {
     title: 'Tiempo Promedio de Contratación',
     value: '18 días',
     change: { value: -12, type: 'decrease' as const, period: 'trimestre anterior' },
     icon: Clock,
-    color: 'text-orange-600',
+    color: 'text-slate-600',
   },
 ];
 
@@ -60,7 +60,7 @@ const sections = [
         description: 'Supervisa todas las solicitudes de vacantes, desde las que están en borrador hasta las publicadas.',
         href: '/admin/recruitment/job-openings',
         icon: Briefcase,
-        color: 'text-blue-600',
+        color: 'text-emerald-600',
         badge: { status: 'active' as const, text: '24 Activas' },
         stats: [
           { label: 'Pendientes', value: '12' },
@@ -73,7 +73,7 @@ const sections = [
         description: 'Visualiza el pipeline completo, la base de datos de candidatos y la comunicación de todo el equipo.',
         href: '/admin/recruitment/candidate-management',
         icon: Users,
-        color: 'text-purple-600',
+        color: 'text-emerald-600',
         badge: { status: 'info' as const, text: '156 En Proceso' },
         stats: [
           { label: 'Nuevos', value: '42' },
@@ -86,7 +86,7 @@ const sections = [
         description: 'Accede a las herramientas de evaluación, flujos de entrevistas y comentarios de los entrevistadores.',
         href: '/admin/recruitment/evaluation',
         icon: UserCheck,
-        color: 'text-green-600',
+        color: 'text-emerald-600',
         badge: { status: 'warning' as const, text: '8 Pendientes' },
         stats: [
           { label: 'Entrevistas', value: '23' },
@@ -103,7 +103,7 @@ const sections = [
         description: 'Monitorea el estado de las ofertas de empleo y el proceso de formalización de la contratación.',
         href: '/admin/recruitment/offers-hiring',
         icon: Handshake,
-        color: 'text-orange-600',
+        color: 'text-emerald-600',
         badge: { status: 'success' as const, text: '5 Ofertas Enviadas' },
         stats: [
           { label: 'Aceptadas', value: '3' },
@@ -122,7 +122,7 @@ const sections = [
         description: 'Obtén una visión estratégica con métricas clave y datos sobre la efectividad de los canales de reclutamiento.',
         href: '/admin/recruitment/analytics',
         icon: BarChart,
-        color: 'text-red-600',
+        color: 'text-slate-600',
         badge: { status: 'info' as const, text: 'Actualizado' },
         stats: [
           { label: 'Reportes', value: '12' },
@@ -166,7 +166,7 @@ export default function TalentManagementAdminPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-slate-800 flex items-center">Panel de Administración</h1>
-              <p className="text-muted mt-1">Talent Management</p>
+              <p className="text-gray-600 mt-1">Talent Management</p>
             </div>
           </div>
           <p className="text-gray-600 text-lg leading-relaxed max-w-4xl">
@@ -180,9 +180,9 @@ export default function TalentManagementAdminPage() {
         {sections.map((section) => (
           <div key={section.category} className="mb-12">
             <div className="flex items-center gap-3 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">{section.category}</h2>
+              <h2 className="text-2xl font-bold text-slate-800">{section.category}</h2>
               {section.priority === 'high' && (
-                <div className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
+                <div className="flex items-center gap-1 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">
                   <AlertTriangle className="w-4 h-4" />
                   Alta Prioridad
                 </div>

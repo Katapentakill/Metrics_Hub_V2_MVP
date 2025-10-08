@@ -79,28 +79,24 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   }, [role]);
 
   if (isLoading) {
-    // Mantener la carga con ancho máximo y padding para centrar
     return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="space-y-6">
-          <div className="loading-skeleton h-8 w-64"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="card p-6">
-                <div className="loading-skeleton h-6 w-20 mb-2"></div>
-                <div className="loading-skeleton h-8 w-16"></div>
-              </div>
-            ))}
-          </div>
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="loading-skeleton h-8 w-64"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="card p-6">
+              <div className="loading-skeleton h-6 w-20 mb-2"></div>
+              <div className="loading-skeleton h-8 w-16"></div>
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
   if (!data || !session) {
-    // Eliminar el estilo fijo para que ocupe todo el ancho disponible
     return (
-      <div className="py-8">
+      <div className="max-w-7xl mx-auto py-8">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Acceso no autorizado</h2>
           <p className="text-slate-600">No tienes permisos para acceder a este dashboard.</p>
@@ -110,46 +106,65 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   }
 
   return (
-    // Aplicar las clases 'max-w-7xl mx-auto px-6' para replicar el ancho de carga 
-    // y darle un contenedor claro, similar a como se manejaría el padre del ProjectsDashboard.
-    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 flex items-center"><BarChart3 className="w-8 h-8 mr-3 text-emerald-600" />{config.title}</h1>
-          <p className="text-muted mt-1">{config.subtitle}</p>
+          <h1 className="text-3xl font-bold text-slate-800 flex items-center">
+            <BarChart3 className="w-8 h-8 mr-3 text-emerald-600" />
+            {config.title}
+          </h1>
+          <p className="text-gray-600 mt-1">{config.subtitle}</p>
         </div>
         <div className="flex items-center space-x-3">
-          <div className="text-sm text-muted">
-            <Calendar className="w-4 h-4 inline mr-1" />
+          <div className="text-sm text-gray-600">
+            <Calendar className="w-4 h-4 inline mr-1 text-slate-400" />
             Última actualización: {new Date().toLocaleString('es-ES')}
           </div>
-          <button className="btn-living-outline px-4 py-2 text-sm">
-            <Activity className="w-4 h-4 mr-2" />
-            Actualizar
+          <button className="flex items-center space-x-2 px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 transition-colors">
+            <Activity className="w-4 h-4" />
+            <span>Actualizar</span>
           </button>
         </div>
       </div>
 
-      {/* Métricas principales */}
+      {/* Métricas principales - KPI Cards mejoradas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {config.metrics.map((metric, index) => (
-          <div key={index} className="card p-6 hover-lift">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted">{metric.label}</p>
-                <p className="text-3xl font-bold text-slate-800">
+          <div 
+            key={index} 
+            className="relative overflow-hidden bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-emerald-200 transition-all duration-300 group"
+          >
+            {/* Efecto de fondo gradiente sutil */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-50 to-transparent rounded-full -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div className="relative flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-600 mb-2">
+                  {metric.label}
+                </p>
+                <p className="text-3xl font-bold text-slate-800 mb-1">
                   {metric.getValue(data)}
                 </p>
                 {metric.getSubtitle && (
-                  <p className={`text-sm font-medium ${metric.subtitleColor || 'text-slate-500'}`}>
+                  <p className={`text-sm font-medium ${metric.subtitleColor || 'text-gray-600'}`}>
                     {metric.getSubtitle(data)}
                   </p>
                 )}
               </div>
-              <div className={`w-12 h-12 ${metric.iconBg} rounded-xl flex items-center justify-center`}>
-                <metric.icon className="w-6 h-6 text-white" />
+              
+              {/* Icono con efecto hover */}
+              <div className={`w-14 h-14 ${metric.iconBg} rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                <metric.icon className="w-7 h-7 text-white" />
               </div>
+            </div>
+
+            {/* Barra de progreso inferior opcional */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-100">
+              <div 
+                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-1000 ease-out"
+                style={{ width: '0%' }}
+              ></div>
             </div>
           </div>
         ))}
@@ -181,11 +196,11 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
         </div>
       )}
 
-      {/* Alertas específicas del rol - PALETA VERDE */}
+      {/* Alertas específicas del rol - PALETA EMERALD */}
       {config.alerts && (
         <div className="card p-6">
           <div className="flex items-center space-x-2 mb-4">
-            <AlertTriangle className="w-5 h-5 text-lime-500" />
+            <AlertTriangle className="w-5 h-5 text-emerald-600" />
             <h3 className="text-lg font-semibold text-slate-800">{config.alerts.title}</h3>
           </div>
           <div className="space-y-3">
@@ -200,11 +215,11 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
                   </p>
                 </div>
                 {alert.action ? (
-                  <button className="btn-secondary px-3 py-1 text-xs">
+                  <button className="px-3 py-1 text-xs border border-slate-200 rounded-lg text-gray-600 hover:text-gray-800 hover:bg-gray-50 transition-colors">
                     {alert.action}
                   </button>
                 ) : (
-                  <Award className="w-5 h-5 text-emerald-500" />
+                  <Award className="w-5 h-5 text-emerald-600" />
                 )}
               </div>
             ))}
@@ -218,10 +233,10 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
           <h3 className="text-lg font-semibold text-slate-800 mb-4">{(config as any).quickActions.title}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {(config as any).quickActions.actions.map((action: any, index: number) => (
-              <button key={index} className={`p-4 ${action.bgColor} hover:${action.hoverColor} rounded-lg transition-colors text-center hover-lift`}>
+              <button key={index} className={`p-4 ${action.bgColor} hover:${action.hoverColor} rounded-lg transition-all text-center hover:shadow-lg`}>
                 <div className="text-2xl mb-2">{action.icon}</div>
                 <p className="text-sm font-medium text-slate-800">{action.title}</p>
-                <p className="text-xs text-slate-500">{action.subtitle}</p>
+                <p className="text-xs text-gray-600">{action.subtitle}</p>
               </button>
             ))}
           </div>

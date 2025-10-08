@@ -20,19 +20,19 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600 bg-red-50';
-      case 'medium': return 'text-yellow-600 bg-yellow-50';
-      case 'low': return 'text-green-600 bg-green-50';
+      case 'high': return 'text-slate-700 bg-gray-100';
+      case 'medium': return 'text-slate-600 bg-gray-50';
+      case 'low': return 'text-gray-600 bg-gray-50';
       default: return 'text-gray-600 bg-gray-50';
     }
   };
 
   const getPriorityIcon = (priority: string) => {
     switch (priority) {
-      case 'high': return <AlertCircle className="w-4 h-4 text-red-500" />;
-      case 'medium': return <Clock className="w-4 h-4 text-yellow-500" />;
-      case 'low': return <CheckCircle className="w-4 h-4 text-green-500" />;
-      default: return <Target className="w-4 h-4 text-gray-500" />;
+      case 'high': return <AlertCircle className="w-4 h-4 text-slate-600" />;
+      case 'medium': return <Clock className="w-4 h-4 text-slate-500" />;
+      case 'low': return <CheckCircle className="w-4 h-4 text-emerald-500" />;
+      default: return <Target className="w-4 h-4 text-slate-500" />;
     }
   };
 
@@ -48,7 +48,7 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
     <div className="card p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-slate-800">Próximas Tareas</h2>
-        <button className="text-emerald-600 hover:text-emerald-700 text-sm font-medium">
+        <button className="text-emerald-600 hover:text-emerald-700 text-sm font-medium transition-colors">
           Ver todas
         </button>
       </div>
@@ -57,17 +57,17 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
         {upcomingTasks.map((task: any) => {
           const daysLeft = getDaysUntilDue(task.dueDate);
           return (
-            <div key={task.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+            <div key={task.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="flex-1">
                 <h3 className="font-medium text-slate-800">{task.title}</h3>
-                <p className="text-sm text-slate-600">{task.projectName}</p>
-                <div className="flex items-center space-x-4 mt-2 text-xs text-slate-500">
+                <p className="text-sm text-gray-600">{task.projectName}</p>
+                <div className="flex items-center space-x-4 mt-2 text-xs text-gray-600">
                   <span className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-1" />
+                    <Calendar className="w-3 h-3 mr-1 text-slate-400" />
                     Vence: {new Date(task.dueDate).toLocaleDateString()}
                   </span>
-                  <span className="flex items-center">
-                    <Clock className="w-3 h-3 mr-1" />
+                  <span className="flex items-center font-medium">
+                    <Clock className="w-3 h-3 mr-1 text-slate-400" />
                     {daysLeft > 0 ? `${daysLeft} días` : daysLeft === 0 ? 'Hoy' : 'Vencido'}
                   </span>
                 </div>
@@ -77,7 +77,7 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
                   {task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Media' : 'Baja'}
                 </span>
-                <button className="btn-living text-sm">
+                <button className="px-3 py-1 text-sm font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
                   Ver Detalles
                 </button>
               </div>
@@ -90,22 +90,22 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
       <div className="mt-6 pt-4 border-t border-slate-200">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <p className="text-lg font-semibold text-red-600">
+            <p className="text-lg font-semibold text-slate-700">
               {upcomingTasks.filter((t: any) => getDaysUntilDue(t.dueDate) <= 3).length}
             </p>
-            <p className="text-xs text-slate-600">Urgentes (≤3 días)</p>
+            <p className="text-xs text-gray-600">Urgentes (≤3 días)</p>
           </div>
           <div>
-            <p className="text-lg font-semibold text-yellow-600">
+            <p className="text-lg font-semibold text-slate-600">
               {upcomingTasks.filter((t: any) => getDaysUntilDue(t.dueDate) > 3 && getDaysUntilDue(t.dueDate) <= 7).length}
             </p>
-            <p className="text-xs text-slate-600">Próximas (≤7 días)</p>
+            <p className="text-xs text-gray-600">Próximas (≤7 días)</p>
           </div>
           <div>
-            <p className="text-lg font-semibold text-green-600">
+            <p className="text-lg font-semibold text-emerald-600">
               {upcomingTasks.filter((t: any) => t.priority === 'low').length}
             </p>
-            <p className="text-xs text-slate-600">Baja Prioridad</p>
+            <p className="text-xs text-gray-600">Baja Prioridad</p>
           </div>
         </div>
       </div>

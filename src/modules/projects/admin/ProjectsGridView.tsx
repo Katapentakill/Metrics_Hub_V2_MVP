@@ -1,5 +1,5 @@
 // UBICACIÓN: src/modules/projects/admin/ProjectsGridView.tsx
-// Este componente reemplaza la tabla tradicional con una vista de grid más visual
+// Vista de grid con paleta emerald-gray
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -30,12 +30,10 @@ export default function ProjectsGridView({
   const [sortBy, setSortBy] = useState<SortOption>('name');
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-  // Función para navegar al proyecto (al Kanban)
   const navigateToProject = (projectId: string) => {
     router.push(`/admin/projects/${projectId}`);
   };
 
-  // Función para ordenar proyectos
   const sortedProjects = [...projects].sort((a, b) => {
     switch (sortBy) {
       case 'name':
@@ -62,7 +60,6 @@ export default function ProjectsGridView({
   if (loading) {
     return (
       <div className="space-y-6">
-        {/* Header skeleton */}
         <div className="flex items-center justify-between">
           <div className="loading-skeleton h-8 w-48"></div>
           <div className="flex items-center space-x-2">
@@ -71,7 +68,6 @@ export default function ProjectsGridView({
           </div>
         </div>
         
-        {/* Grid skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="loading-skeleton h-80 rounded-2xl"></div>
@@ -86,27 +82,27 @@ export default function ProjectsGridView({
       {/* Header con controles */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold text-slate-800">
             Proyectos ({projects.length})
           </h2>
           
-          {/* Indicadores de estado */}
+          {/* Indicadores de estado - PALETA EMERALD */}
           <div className="flex items-center space-x-4 text-sm">
             <div className="flex items-center space-x-1">
               <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
-              <span className="text-gray-600">
+              <span className="text-gray-600 font-medium">
                 {projects.filter(p => p.project.status === 'active').length} Activos
               </span>
             </div>
             <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <span className="text-gray-600">
+              <div className="w-3 h-3 bg-slate-500 rounded-full"></div>
+              <span className="text-gray-600 font-medium">
                 {projects.filter(p => p.project.status === 'planning').length} En planificación
               </span>
             </div>
             <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-gray-600">
+              <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+              <span className="text-gray-600 font-medium">
                 {projects.filter(p => p.project.status === 'completed').length} Completados
               </span>
             </div>
@@ -119,7 +115,7 @@ export default function ProjectsGridView({
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+              className="appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
             >
               <option value="name">Ordenar por Nombre</option>
               <option value="status">Ordenar por Estado</option>
@@ -127,7 +123,7 @@ export default function ProjectsGridView({
               <option value="deadline">Ordenar por Fecha límite</option>
               <option value="team_size">Ordenar por Tamaño equipo</option>
             </select>
-            <SortDesc className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            <SortDesc className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
           
           {/* Selector de vista */}
@@ -137,7 +133,7 @@ export default function ProjectsGridView({
               className={`p-2 rounded-md transition-colors ${
                 viewMode === 'grid' 
                   ? 'bg-white text-emerald-600 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-gray-600 hover:text-slate-800'
               }`}
               title="Vista de tarjetas"
             >
@@ -148,7 +144,7 @@ export default function ProjectsGridView({
               className={`p-2 rounded-md transition-colors ${
                 viewMode === 'list' 
                   ? 'bg-white text-emerald-600 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-gray-600 hover:text-slate-800'
               }`}
               title="Vista de lista"
             >
@@ -162,10 +158,10 @@ export default function ProjectsGridView({
       {sortedProjects.length === 0 ? (
         <div className="text-center py-20">
           <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Grid className="w-8 h-8 text-gray-400" />
+            <Grid className="w-8 h-8 text-slate-400" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-600 mb-2">No hay proyectos</h3>
-          <p className="text-gray-500">No se encontraron proyectos que coincidan con los filtros aplicados.</p>
+          <h3 className="text-lg font-semibold text-slate-700 mb-2">No hay proyectos</h3>
+          <p className="text-gray-600">No se encontraron proyectos que coincidan con los filtros aplicados.</p>
         </div>
       ) : (
         <>
@@ -176,7 +172,7 @@ export default function ProjectsGridView({
                 <EnhancedProjectCard
                   key={project.project.id}
                   project={project}
-                  onView={() => navigateToProject(project.project.id)} // Cambio aquí: navegar al Kanban
+                  onView={() => navigateToProject(project.project.id)}
                   onEdit={() => onProjectEdit(project)}
                   onDelete={() => onProjectDelete(project)}
                   showMenu={openMenuId === project.project.id}
@@ -186,14 +182,14 @@ export default function ProjectsGridView({
               ))}
             </div>
           ) : (
-            /* Vista de Lista Compacta */
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            /* Vista de Lista Compacta - PALETA EMERALD */
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
               <div className="divide-y divide-gray-100">
                 {sortedProjects.map((project) => (
                   <div
                     key={project.project.id}
                     className="p-6 hover:bg-gray-50 transition-colors cursor-pointer"
-                    onClick={() => navigateToProject(project.project.id)} // Click en toda la fila navega al Kanban
+                    onClick={() => navigateToProject(project.project.id)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -201,7 +197,7 @@ export default function ProjectsGridView({
                           {project.project.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-800 hover:text-emerald-600 transition-colors">
+                          <h3 className="font-semibold text-slate-800 hover:text-emerald-600 transition-colors">
                             {project.project.name}
                           </h3>
                           <p className="text-sm text-gray-600">{project.lead?.name || 'Sin líder'}</p>
@@ -213,10 +209,10 @@ export default function ProjectsGridView({
                         <div className="text-center">
                           <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                             project.project.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
-                            project.project.status === 'planning' ? 'bg-blue-100 text-blue-800' :
-                            project.project.status === 'completed' ? 'bg-green-100 text-green-800' :
-                            project.project.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-red-100 text-red-800'
+                            project.project.status === 'planning' ? 'bg-gray-100 text-slate-700' :
+                            project.project.status === 'completed' ? 'bg-emerald-100 text-emerald-800' :
+                            project.project.status === 'paused' ? 'bg-gray-100 text-slate-700' :
+                            'bg-gray-100 text-slate-700'
                           }`}>
                             {project.project.status === 'active' ? 'Activo' : 
                              project.project.status === 'planning' ? 'Planificación' :
@@ -227,7 +223,7 @@ export default function ProjectsGridView({
                         
                         {/* Progreso */}
                         <div className="text-center min-w-[100px]">
-                          <div className="text-sm font-medium text-gray-800">{project.progressPct}%</div>
+                          <div className="text-sm font-medium text-slate-800">{project.progressPct}%</div>
                           <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
                             <div 
                               className="h-2 bg-emerald-500 rounded-full transition-all duration-300"
@@ -238,26 +234,26 @@ export default function ProjectsGridView({
                         
                         {/* Equipo */}
                         <div className="text-center">
-                          <div className="text-sm font-medium text-gray-800">
+                          <div className="text-sm font-medium text-slate-800">
                             {project.project.current_team_size}/{project.project.max_team_size}
                           </div>
-                          <div className="text-xs text-gray-500">Equipo</div>
+                          <div className="text-xs text-gray-600">Equipo</div>
                         </div>
                         
                         {/* Fecha límite */}
                         <div className="text-center min-w-[100px]">
                           {project.project.deadline ? (
                             <>
-                              <div className="text-sm font-medium text-gray-800">
+                              <div className="text-sm font-medium text-slate-800">
                                 {new Date(project.project.deadline).toLocaleDateString('es-ES', { 
                                   day: '2-digit', 
                                   month: 'short' 
                                 })}
                               </div>
-                              <div className="text-xs text-gray-500">Fecha límite</div>
+                              <div className="text-xs text-gray-600">Fecha límite</div>
                             </>
                           ) : (
-                            <div className="text-sm text-gray-400">Sin fecha</div>
+                            <div className="text-sm text-gray-500">Sin fecha</div>
                           )}
                         </div>
                         
@@ -272,7 +268,7 @@ export default function ProjectsGridView({
                           </button>
                           <button
                             onClick={() => onProjectView(project)}
-                            className="text-blue-600 hover:text-blue-700 p-1 hover:bg-blue-50 rounded transition-colors"
+                            className="text-slate-600 hover:text-slate-800 p-1 hover:bg-gray-100 rounded transition-colors"
                             title="Ver detalles"
                           >
                             <Filter className="w-4 h-4" />
@@ -288,11 +284,11 @@ export default function ProjectsGridView({
         </>
       )}
 
-      {/* Estadísticas del footer */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      {/* Estadísticas del footer - PALETA EMERALD */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">
+            <div className="text-2xl font-bold text-slate-800">
               {projects.length}
             </div>
             <div className="text-sm text-gray-600">Total Proyectos</div>
@@ -304,13 +300,13 @@ export default function ProjectsGridView({
             <div className="text-sm text-gray-600">Proyectos Activos</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-emerald-600">
               {Math.round(projects.reduce((acc, p) => acc + p.progressPct, 0) / projects.length || 0)}%
             </div>
             <div className="text-sm text-gray-600">Progreso Promedio</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-purple-600">
+            <div className="text-2xl font-bold text-slate-600">
               {projects.reduce((acc, p) => acc + (p.members?.length || 0), 0)}
             </div>
             <div className="text-sm text-gray-600">Total Miembros</div>

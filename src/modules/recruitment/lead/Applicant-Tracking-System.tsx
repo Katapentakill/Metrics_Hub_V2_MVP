@@ -10,9 +10,9 @@ import {
   Handshake,
   PlusCircle
 } from 'lucide-react';
-import AdminBreadcrumb from '../admin/components/AdminBreadcrumb';
-import AdminSectionCard from '../admin/components/AdminSectionCard';
-import AdminDashboardStats from '../admin/components/AdminDashboardStats';
+import AdminBreadcrumb from '../lead/components/AdminBreadcrumb';
+import AdminSectionCard from '../lead/components/AdminSectionCard';
+import AdminDashboardStats from '../lead/components/AdminDashboardStats';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 

@@ -27,7 +27,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 
-// Shared Types
+// [Types remain the same - omitted for brevity but include all original types]
 interface Job {
   id: string;
   title: string;
@@ -140,9 +140,9 @@ const mockJobs: Job[] = [
 
 const getDifficultyColor = (difficulty: string) => {
   const colors = {
-    'Principiante': 'bg-green-100 text-green-700 border-green-300',
-    'Intermedio': 'bg-blue-100 text-blue-700 border-blue-300',
-    'Avanzado': 'bg-purple-100 text-purple-700 border-purple-300'
+    'Principiante': 'bg-emerald-100 text-emerald-700 border-emerald-300',
+    'Intermedio': 'bg-gray-100 text-gray-700 border-slate-300',
+    'Avanzado': 'bg-slate-100 text-slate-700 border-slate-300'
   };
   return colors[difficulty as keyof typeof colors] || 'bg-gray-100 text-gray-700';
 };
@@ -177,11 +177,11 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-gradient-to-r from-green-600 to-emerald-700 p-6 text-white flex justify-between items-center">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-slate-200">
+        <div className="sticky top-0 bg-emerald-600 p-6 text-white flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold mb-1">Aplicar a {job.title}</h2>
-            <p className="text-green-100">{job.team} • {job.location}</p>
+            <p className="text-emerald-200">{job.team} • {job.location}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">
             <X className="w-6 h-6" />
@@ -189,16 +189,16 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
         </div>
 
         <div className="p-6">
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
-            <h3 className="font-bold text-gray-900 mb-2">Sobre esta posición</h3>
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6">
+            <h3 className="font-bold text-slate-800 mb-2">Sobre esta posición</h3>
             <p className="text-sm text-gray-700 mb-3">{job.description}</p>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-blue-600" />
+                <Clock className="w-4 h-4 text-emerald-600" />
                 <span>{job.timeCommitment}</span>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-600" />
+                <MapPin className="w-4 h-4 text-emerald-600" />
                 <span>{job.location}</span>
               </div>
             </div>
@@ -207,7 +207,7 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Nombre Completo *
                 </label>
                 <input
@@ -215,13 +215,13 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   placeholder="Tu nombre completo"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Correo Electrónico *
                 </label>
                 <input
@@ -229,13 +229,13 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   placeholder="tu@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Teléfono *
                 </label>
                 <input
@@ -243,19 +243,19 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   placeholder="+1 (555) 123-4567"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Zona Horaria *
                 </label>
                 <select
                   value={formData.timezone}
                   onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 >
                   <option value="EST (UTC-5)">EST (UTC-5)</option>
                   <option value="PST (UTC-8)">PST (UTC-8)</option>
@@ -266,15 +266,15 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="block text-sm font-semibold text-slate-800 mb-2">
                 Curriculum Vitae *
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-green-500 transition-colors">
-                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+              <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-emerald-500 transition-colors">
+                <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                 <p className="text-sm text-gray-600 mb-2">
-                  <span className="text-green-600 font-semibold">Haz clic para subir</span> o arrastra tu CV
+                  <span className="text-emerald-600 font-semibold">Haz clic para subir</span> o arrastra tu CV
                 </p>
-                <p className="text-xs text-gray-500">PDF, DOC, DOCX (máx. 5MB)</p>
+                <p className="text-xs text-gray-600">PDF, DOC, DOCX (máx. 5MB)</p>
                 <input
                   type="file"
                   accept=".pdf,.doc,.docx"
@@ -285,14 +285,14 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="block text-sm font-semibold text-slate-800 mb-2">
                 Carta de Presentación
               </label>
               <textarea
                 value={formData.coverLetter}
                 onChange={(e) => setFormData({ ...formData, coverLetter: e.target.value })}
                 rows={6}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
                 placeholder="Cuéntanos por qué estás interesado en esta posición y qué puedes aportar..."
               />
             </div>
@@ -301,13 +301,13 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+                className="flex-1 px-6 py-3 border border-slate-200 text-slate-800 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
-                className="flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors shadow-lg"
+                className="flex-1 px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-500 transition-colors shadow-lg"
               >
                 Enviar Aplicación
               </button>
@@ -323,25 +323,25 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
 function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => void; onApply: () => void }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-gradient-to-r from-green-600 to-emerald-700 p-6 text-white">
+      <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-slate-200">
+        <div className="sticky top-0 bg-emerald-600 p-6 text-white">
           <div className="flex justify-between items-start mb-4">
             <div className="flex-1">
               <div className="flex gap-2 mb-3">
                 {job.urgent && (
-                  <span className="bg-white text-green-600 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                  <span className="bg-white text-emerald-600 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                     <Zap className="w-3 h-3" />
                     URGENTE
                   </span>
                 )}
                 {job.featured && (
-                  <span className="bg-white bg-opacity-20 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <span className="bg-white bg-opacity-20 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full">
                     DESTACADA
                   </span>
                 )}
               </div>
               <h2 className="text-3xl font-bold mb-2">{job.title}</h2>
-              <p className="text-green-100">{job.team} • {job.type}</p>
+              <p className="text-emerald-200">{job.team} • {job.type}</p>
             </div>
             <button onClick={onClose} className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">
               <X className="w-6 h-6" />
@@ -350,33 +350,33 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
 
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3">
-              <Clock className="w-4 h-4 mb-1" />
-              <p className="text-xs font-semibold">{job.timeCommitment}</p>
+              <Clock className="w-4 h-4 text-emerald-500 " />
+              <p className="text-xs font-semibold text-gray-500 items-center">{job.timeCommitment}</p>
             </div>
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3">
-              <MapPin className="w-4 h-4 mb-1" />
-              <p className="text-xs font-semibold">{job.location}</p>
+              <MapPin className="w-4 h-4 text-emerald-500" />
+              <p className="text-xs font-semibold text-gray-500 items-center">{job.location}</p>
             </div>
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3">
-              <Users className="w-4 h-4 mb-1" />
-              <p className="text-xs font-semibold">{job.applicants} aplicantes</p>
+              <Users className="w-4 h-4 text-emerald-500" />
+              <p className="text-xs font-semibold text-gray-500 items-center">{job.applicants} aplicantes</p>
             </div>
           </div>
         </div>
 
         <div className="p-6 space-y-6">
           <div>
-            <h3 className="font-bold text-lg text-gray-900 mb-3">Descripción</h3>
+            <h3 className="font-bold text-lg text-slate-800 mb-3">Descripción</h3>
             <p className="text-gray-700 leading-relaxed">{job.description}</p>
           </div>
 
           {job.responsibilities && (
             <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-3">Responsabilidades</h3>
+              <h3 className="font-bold text-lg text-slate-800 mb-3">Responsabilidades</h3>
               <ul className="space-y-2">
                 {job.responsibilities.map((resp, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-gray-700">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                     <span>{resp}</span>
                   </li>
                 ))}
@@ -386,11 +386,11 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
 
           {job.requirements && (
             <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-3">Requisitos</h3>
+              <h3 className="font-bold text-lg text-slate-800 mb-3">Requisitos</h3>
               <ul className="space-y-2">
                 {job.requirements.map((req, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-gray-700">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                     <span>{req}</span>
                   </li>
                 ))}
@@ -399,26 +399,26 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
           )}
 
           <div>
-            <h3 className="font-bold text-lg text-gray-900 mb-3">Habilidades Requeridas</h3>
+            <h3 className="font-bold text-lg text-slate-800 mb-3">Habilidades Requeridas</h3>
             <div className="flex flex-wrap gap-2">
               {job.skills.map((skill, idx) => (
-                <span key={idx} className="px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-lg">
+                <span key={idx} className="px-4 py-2 bg-emerald-100 text-emerald-700 text-sm font-medium rounded-lg">
                   {skill}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="flex gap-4 pt-4 border-t-2 border-gray-100">
+          <div className="flex gap-4 pt-4 border-t border-slate-200">
             <button
               onClick={onClose}
-              className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-3 border border-slate-200 text-slate-800 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
             >
               Cerrar
             </button>
             <button
               onClick={onApply}
-              className="flex-1 px-6 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors shadow-lg"
+              className="flex-1 px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-500 transition-colors shadow-lg"
             >
               Aplicar Ahora
             </button>
@@ -507,43 +507,43 @@ export default function VolunteerRecruitmentSystem() {
     const job = mockJobs.find(j => j.id === userApplication.jobId);
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 p-8">
+      <div className="min-h-screen bg-gray-50 p-8">
         <div className="max-w-7xl mx-auto space-y-6">
           <button
             onClick={() => setView('jobs')}
-            className="flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold mb-4"
+            className="flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-semibold mb-4"
           >
             <ArrowLeft className="w-5 h-5" />
             Volver a vacantes
           </button>
 
-          <div className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl p-8 text-white shadow-xl">
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <h1 className="text-3xl font-bold">Estado de mi Solicitud</h1>
-                  <Sparkles className="w-6 h-6" />
+                  <h1 className="text-3xl font-bold text-slate-800">Estado de mi Solicitud</h1>
+                  <Sparkles className="w-6 h-6 text-emerald-500" />
                 </div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Briefcase className="w-5 h-5" />
-                  <span className="text-xl font-semibold">{job?.title}</span>
+                  <Briefcase className="w-5 h-5 text-emerald-600" />
+                  <span className="text-xl font-semibold text-slate-800">{job?.title}</span>
                 </div>
-                <p className="text-green-200">Equipo {job?.team}</p>
+                <p className="text-gray-600">Equipo {job?.team}</p>
               </div>
               
-              <div className="text-center bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 border border-white border-opacity-30">
-                <div className="text-4xl font-bold mb-1">{userApplication.progress}%</div>
-                <p className="text-sm text-green-200">Completado</p>
+              <div className="text-center bg-gray-50 rounded-xl p-6 border border-slate-200">
+                <div className="text-4xl font-bold text-slate-800 mb-1">{userApplication.progress}%</div>
+                <p className="text-sm text-gray-600">Completado</p>
               </div>
             </div>
             
             <div className="flex items-center gap-3">
-              <span className="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm font-semibold">
+              <span className="bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold border border-slate-200">
                 {userApplication.status}
               </span>
-              <div className="flex-1 bg-white bg-opacity-20 rounded-full h-3">
+              <div className="flex-1 bg-gray-200 rounded-full h-3">
                 <div 
-                  className="bg-white h-3 rounded-full transition-all"
+                  className="bg-emerald-600 h-3 rounded-full transition-all"
                   style={{ width: `${userApplication.progress}%` }}
                 />
               </div>
@@ -552,60 +552,60 @@ export default function VolunteerRecruitmentSystem() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="space-y-6">
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                    <User className="w-5 h-5 text-green-600" />
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                    <User className="w-5 h-5 text-emerald-600" />
                     Mi Información
                   </h3>
                 </div>
                 <div className="p-6">
-                  <div className="text-center pb-6 border-b border-gray-200 mb-4">
-                    <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                  <div className="text-center pb-6 border-b border-slate-200 mb-4">
+                    <div className="w-20 h-20 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
                       <span className="text-white text-2xl font-bold">
                         {userApplication.candidateName.split(' ').map(n => n[0]).join('')}
                       </span>
                     </div>
-                    <h3 className="font-bold text-lg text-gray-900">{userApplication.candidateName}</h3>
+                    <h3 className="font-bold text-lg text-slate-800">{userApplication.candidateName}</h3>
                   </div>
                   
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                      <Mail className="w-4 h-4 text-gray-400" />
+                      <Mail className="w-4 h-4 text-slate-400" />
                       <span className="text-gray-700">{userApplication.email}</span>
                     </div>
                     <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                      <Phone className="w-4 h-4 text-gray-400" />
+                      <Phone className="w-4 h-4 text-slate-400" />
                       <span className="text-gray-700">{userApplication.phone}</span>
                     </div>
                     <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                      <Globe className="w-4 h-4 text-gray-400" />
+                      <Globe className="w-4 h-4 text-slate-400" />
                       <span className="text-gray-700">{userApplication.timezone}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-green-600" />
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-emerald-600" />
                     Documentos
                   </h3>
                 </div>
                 <div className="p-4 space-y-3">
                   {userApplication.documents.map((doc, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border-2 border-gray-200 rounded-lg hover:border-green-300 transition-colors">
+                    <div key={index} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg hover:border-emerald-500 transition-colors">
                       <div className="flex items-center gap-3">
                         {doc.status === 'completed' ? 
-                          <CheckCircle className="w-5 h-5 text-green-500" /> :
+                          <CheckCircle className="w-5 h-5 text-emerald-600" /> :
                           doc.status === 'under_review' ?
-                          <Clock className="w-5 h-5 text-blue-500" /> :
-                          <AlertCircle className="w-5 h-5 text-yellow-500" />
+                          <Clock className="w-5 h-5 text-gray-600" /> :
+                          <AlertCircle className="w-5 h-5 text-slate-400" />
                         }
                         <div>
-                          <p className="text-sm font-semibold text-gray-900">{doc.name}</p>
-                          {doc.file && <p className="text-xs text-gray-500">{doc.file}</p>}
+                          <p className="text-sm font-semibold text-slate-800">{doc.name}</p>
+                          {doc.file && <p className="text-xs text-gray-600">{doc.file}</p>}
                         </div>
                       </div>
                       
@@ -614,7 +614,7 @@ export default function VolunteerRecruitmentSystem() {
                           <Download className="w-4 h-4 text-gray-600" />
                         </button>
                       ) : (
-                        <button className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                        <button className="p-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">
                           <Upload className="w-4 h-4" />
                         </button>
                       )}
@@ -625,61 +625,61 @@ export default function VolunteerRecruitmentSystem() {
             </div>
 
             <div className="lg:col-span-2 space-y-6">
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-900">Progreso del Proceso</h3>
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800">Progreso del Proceso</h3>
                 </div>
                 <div className="p-6">
                   <div className="space-y-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-green-100 text-green-600">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-emerald-100 text-emerald-600">
                         <CheckCircle className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-900">Aplicación Enviada</p>
+                        <p className="font-semibold text-slate-800">Aplicación Enviada</p>
                         <p className="text-sm text-gray-600">{new Date(userApplication.appliedDate).toLocaleDateString('es-ES')}</p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-blue-100 text-blue-600">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100 text-gray-800">
                         <Clock className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-blue-600">Revisión de Documentos</p>
+                        <p className="font-semibold text-slate-800">Revisión de Documentos</p>
                         <p className="text-sm text-gray-600">En progreso</p>
                       </div>
-                      <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
+                      <span className="px-3 py-1 bg-gray-100 text-gray-800 text-xs font-bold rounded-full border border-slate-200">
                         En Progreso
                       </span>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100 text-gray-400">
-                        <div className="w-3 h-3 rounded-full bg-gray-400" />
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-slate-100 text-slate-400">
+                        <div className="w-3 h-3 rounded-full bg-slate-400" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-900">Entrevista Inicial</p>
+                        <p className="font-semibold text-slate-800">Entrevista Inicial</p>
                         <p className="text-sm text-gray-600">Pendiente</p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100 text-gray-400">
-                        <div className="w-3 h-3 rounded-full bg-gray-400" />
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-slate-100 text-slate-400">
+                        <div className="w-3 h-3 rounded-full bg-slate-400" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-900">Entrevista Técnica</p>
+                        <p className="font-semibold text-slate-800">Entrevista Técnica</p>
                         <p className="text-sm text-gray-600">Pendiente</p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100 text-gray-400">
-                        <div className="w-3 h-3 rounded-full bg-gray-400" />
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-slate-100 text-slate-400">
+                        <div className="w-3 h-3 rounded-full bg-slate-400" />
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-900">Decisión Final</p>
+                        <p className="font-semibold text-slate-800">Decisión Final</p>
                         <p className="text-sm text-gray-600">Pendiente</p>
                       </div>
                     </div>
@@ -687,32 +687,32 @@ export default function VolunteerRecruitmentSystem() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                    <MessageCircle className="w-5 h-5 text-green-600" />
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5 text-emerald-600" />
                     Próximos Pasos
                   </h3>
                 </div>
                 <div className="p-6">
                   <div className="space-y-3">
-                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <p className="text-sm font-semibold text-gray-900">✅ Aplicación recibida</p>
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                      <p className="text-sm font-semibold text-slate-800">✅ Aplicación recibida</p>
                       <p className="text-xs text-gray-600 mt-1">Tu solicitud ha sido enviada exitosamente</p>
                     </div>
                     
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                      <p className="text-sm font-semibold text-gray-900">📋 Revisión en curso</p>
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                      <p className="text-sm font-semibold text-slate-800">📋 Revisión en curso</p>
                       <p className="text-xs text-gray-600 mt-1">Nuestro equipo está revisando tus documentos</p>
                     </div>
                     
-                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                      <p className="text-sm font-semibold text-gray-900">⏳ Pendiente</p>
+                    <div className="p-4 bg-gray-100 border border-slate-200 rounded-lg">
+                      <p className="text-sm font-semibold text-slate-800">⏳ Pendiente</p>
                       <p className="text-xs text-gray-600 mt-1">Te contactaremos pronto para programar entrevista</p>
                     </div>
                   </div>
                   
-                  <button className="w-full mt-4 px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 border-2 border-gray-200">
+                  <button className="w-full mt-4 px-4 py-3 bg-gray-100 text-slate-800 font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 border border-slate-200">
                     <MessageCircle className="w-4 h-4" />
                     Contactar Equipo
                   </button>
@@ -726,67 +726,67 @@ export default function VolunteerRecruitmentSystem() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        <div className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl p-8 text-white relative overflow-hidden shadow-xl">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
           <div className="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -translate-y-20 translate-x-20" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-white opacity-5 rounded-full translate-y-16 -translate-x-16" />
           
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-3 bg-white bg-opacity-20 rounded-xl">
-                <Briefcase className="w-8 h-8" />
+                <Briefcase className="w-5 h-5 text-emerald-600" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-slate-800">
                   Vacantes Disponibles
-                  <Sparkles className="w-7 h-7" />
+                  
                 </h1>
               </div>
             </div>
-            <p className="text-green-100 text-lg mb-6">
+            <p className="text-xl font-semibold text-slate-800">
               Descubre oportunidades para contribuir y crecer con nosotros
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-green-600 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
+              <div className="bg-emerald-50 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-gray-200 border-opacity-20">
                 <div className="flex items-center gap-2 mb-1">
-                  <Briefcase className="w-5 h-5" />
+                  <Briefcase className="w-5 h-5 text-emerald-600" />
                   <span className="font-bold text-2xl">{stats.total}</span>
                 </div>
-                <p className="text-sm text-green-200">Vacantes Activas</p>
+                <p className="text-sm text-gray-500">Vacantes Activas</p>
               </div>
               
-              <div className="bg-green-600 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
+              <div className="bg-emerald-50 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-gray-200 border-opacity-20">
                 <div className="flex items-center gap-2 mb-1">
-                  <Zap className="w-5 h-5" />
+                  <Zap className="w-5 h-5 text-emerald-600" />
                   <span className="font-bold text-2xl">{stats.urgent}</span>
                 </div>
-                <p className="text-sm text-green-200">Urgentes</p>
+                <p className="text-sm text-gray-500">Urgentes</p>
               </div>
               
-              <div className="bg-green-600 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-20">
+              <div className="bg-emerald-50 bg-opacity-10 backdrop-blur-sm rounded-xl p-4 border border-gray-200 border-opacity-20">
                 <div className="flex items-center gap-2 mb-1">
-                  <Users className="w-5 h-5" />
+                  <Users className="w-5 h-5 text-emerald-600" />
                   <span className="font-bold text-2xl">{stats.applications}</span>
                 </div>
-                <p className="text-sm text-green-200">Aplicaciones</p>
+                <p className="text-sm text-gray-500">Aplicaciones</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Buscar por rol, equipo o habilidades..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
               />
             </div>
             
@@ -794,7 +794,7 @@ export default function VolunteerRecruitmentSystem() {
               <select 
                 value={selectedFilter} 
                 onChange={(e) => setSelectedFilter(e.target.value)}
-                className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 font-medium"
+                className="px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
               >
                 <option value="all">Todas</option>
                 <option value="urgent">Urgentes</option>
@@ -805,7 +805,7 @@ export default function VolunteerRecruitmentSystem() {
               <select 
                 value={selectedTeam} 
                 onChange={(e) => setSelectedTeam(e.target.value)}
-                className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 font-medium"
+                className="px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
               >
                 <option value="all">Todos los equipos</option>
                 {teams.map(team => (
@@ -817,7 +817,7 @@ export default function VolunteerRecruitmentSystem() {
           
           <div className="mt-4 flex items-center justify-between text-sm">
             <span className="text-gray-600 font-medium">
-              Mostrando <span className="text-green-600 font-bold">{filteredJobs.length}</span> de {stats.total} vacantes
+              Mostrando <span className="text-emerald-600 font-bold">{filteredJobs.length}</span> de {stats.total} vacantes
             </span>
             {(selectedFilter !== 'all' || selectedTeam !== 'all') && (
               <button
@@ -826,7 +826,7 @@ export default function VolunteerRecruitmentSystem() {
                   setSelectedTeam('all');
                   setSearchTerm('');
                 }}
-                className="text-green-600 hover:text-green-700 font-medium flex items-center gap-1"
+                className="text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1"
               >
                 <Filter className="w-4 h-4" />
                 Limpiar filtros
@@ -836,11 +836,11 @@ export default function VolunteerRecruitmentSystem() {
         </div>
 
         {filteredJobs.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-12 text-center">
             <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-10 h-10 text-gray-400" />
+              <Search className="w-10 h-10 text-slate-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No se encontraron vacantes</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mb-2">No se encontraron vacantes</h3>
             <p className="text-gray-600 mb-6">
               Intenta ajustar tus filtros de búsqueda o explora otras categorías
             </p>
@@ -850,7 +850,7 @@ export default function VolunteerRecruitmentSystem() {
                 setSelectedFilter('all');
                 setSelectedTeam('all');
               }}
-              className="px-6 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-all"
+              className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-500 transition-all"
             >
               Limpiar Filtros
             </button>
@@ -858,17 +858,17 @@ export default function VolunteerRecruitmentSystem() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredJobs.map((job) => (
-              <div key={job.id} className="group bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
+              <div key={job.id} className="group bg-white rounded-xl border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
                 {(job.urgent || job.featured) && (
                   <div className="flex gap-2 p-4 pb-0">
                     {job.urgent && (
-                      <span className="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                      <span className="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <Zap className="w-3 h-3" />
                         URGENTE
                       </span>
                     )}
                     {job.featured && (
-                      <span className="bg-gray-700 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      <span className="bg-slate-700 text-white text-xs font-bold px-3 py-1 rounded-full">
                         DESTACADA
                       </span>
                     )}
@@ -878,7 +878,7 @@ export default function VolunteerRecruitmentSystem() {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="font-bold text-xl text-gray-900 mb-2">
+                      <h3 className="font-bold text-xl text-slate-800 mb-2">
                         {job.title}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -886,7 +886,7 @@ export default function VolunteerRecruitmentSystem() {
                         <span className="font-medium">{job.team}</span>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold border-2 ${getDifficultyColor(job.difficulty)}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getDifficultyColor(job.difficulty)}`}>
                       {job.difficulty}
                     </span>
                   </div>
@@ -895,17 +895,17 @@ export default function VolunteerRecruitmentSystem() {
                     {job.description}
                   </p>
                   
-                  <div className="grid grid-cols-1 gap-2 mb-4 p-3 bg-gray-50 rounded-xl">
+                  <div className="grid grid-cols-1 gap-2 mb-4 p-3 bg-gray-50 rounded-xl border border-slate-200">
                     <div className="flex items-center gap-2 text-sm">
-                      <Clock className="w-4 h-4 text-gray-400" />
+                      <Clock className="w-4 h-4 text-slate-400" />
                       <span className="text-gray-700 font-medium">{job.timeCommitment}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <MapPin className="w-4 h-4 text-gray-400" />
+                      <MapPin className="w-4 h-4 text-slate-400" />
                       <span className="text-gray-700 font-medium">{job.location}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <TrendingUp className="w-4 h-4 text-gray-400" />
+                      <TrendingUp className="w-4 h-4 text-slate-400" />
                       <span className="text-gray-700 font-medium">{job.applicants} aplicaciones</span>
                     </div>
                   </div>
@@ -913,7 +913,7 @@ export default function VolunteerRecruitmentSystem() {
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
                       {job.skills.slice(0, 3).map((skill, idx) => (
-                        <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
+                        <span key={idx} className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
                           {skill}
                         </span>
                       ))}
@@ -925,15 +925,15 @@ export default function VolunteerRecruitmentSystem() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between pt-4 border-t-2 border-gray-100 mt-auto">
-                    <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-200 mt-auto">
+                    <span className="text-xs text-gray-600 font-medium flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {getTimeAgo(job.datePosted)}
                     </span>
                     
                     <button 
                       onClick={() => handleJobClick(job)}
-                      className="flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white text-sm font-bold rounded-xl hover:bg-green-700 transition-all hover:shadow-lg group"
+                      className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-500 transition-all hover:shadow-lg group"
                     >
                       Ver Detalles
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

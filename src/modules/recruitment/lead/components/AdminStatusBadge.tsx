@@ -1,4 +1,4 @@
-// src/modules/recruitment/admin/components/AdminStatusBadge.tsx
+// src/modules/recruitment/lead/components/AdminStatusBadge.tsx
 import { cn } from '@/lib/utils';
 
 interface AdminStatusBadgeProps {

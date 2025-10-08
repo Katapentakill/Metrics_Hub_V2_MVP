@@ -80,20 +80,20 @@ export default function AdminCandidateTracker({
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'active':
-        return <Clock className="w-4 h-4 text-blue-600" />;
+        return <Clock className="w-4 h-4 text-emerald-600" />;
       case 'approved':
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
+        return <CheckCircle className="w-4 h-4 text-emerald-600" />;
       case 'rejected':
-        return <XCircle className="w-4 h-4 text-red-600" />;
+        return <XCircle className="w-4 h-4 text-slate-400" />;
       default:
         return <Clock className="w-4 h-4 text-gray-600" />;
     }
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 bg-green-50';
-    if (score >= 60) return 'text-yellow-600 bg-yellow-50';
-    return 'text-red-600 bg-red-50';
+    if (score >= 80) return 'text-emerald-600 bg-emerald-50';
+    if (score >= 60) return 'text-gray-800 bg-gray-100';
+    return 'text-slate-600 bg-slate-100';
   };
 
   return (
@@ -102,7 +102,7 @@ export default function AdminCandidateTracker({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Users className="w-5 h-5" />
+            <Users className="w-5 h-5 text-emerald-600" />
             Pipeline de Candidatos
           </CardTitle>
         </CardHeader>
@@ -114,10 +114,10 @@ export default function AdminCandidateTracker({
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${stage.color} text-white font-bold text-lg`}>
                     {stage.candidates.length}
                   </div>
-                  <div className="text-sm font-medium mt-2">{stage.name}</div>
+                  <div className="text-sm font-medium text-slate-800 mt-2">{stage.name}</div>
                 </div>
                 {index < stages.length - 1 && (
-                  <ArrowRight className="w-6 h-6 text-gray-400 mx-4" />
+                  <ArrowRight className="w-6 h-6 text-slate-400 mx-4" />
                 )}
               </div>
             ))}
@@ -147,7 +147,7 @@ export default function AdminCandidateTracker({
                   <div className={`w-3 h-3 rounded-full ${stage.color}`}></div>
                   {stage.name}
                 </CardTitle>
-                <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-sm font-medium">
+                <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-sm font-medium">
                   {stage.candidates.length}
                 </span>
               </div>
@@ -159,16 +159,16 @@ export default function AdminCandidateTracker({
                   draggable
                   onDragStart={() => handleDragStart(candidate.id)}
                   onClick={() => onCandidateClick(candidate)}
-                  className="bg-white border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow"
+                  className="bg-white border border-slate-200 rounded-lg p-4 cursor-pointer hover:shadow-md hover:border-emerald-500 transition-all"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <User className="w-5 h-5 text-gray-600" />
+                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        <User className="w-5 h-5 text-slate-400" />
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900">{candidate.name}</div>
-                        <div className="text-sm text-gray-500">{candidate.position}</div>
+                        <div className="font-medium text-slate-800">{candidate.name}</div>
+                        <div className="text-sm text-gray-600">{candidate.position}</div>
                       </div>
                     </div>
                     {getStatusIcon(candidate.status)}
@@ -197,14 +197,14 @@ export default function AdminCandidateTracker({
                         {candidate.status}
                       </AdminStatusBadge>
                     </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <div className="flex items-center gap-1 text-xs text-gray-600">
                       <MessageSquare className="w-3 h-3" />
                       {candidate.notes}
                     </div>
                   </div>
                   
-                  <div className="mt-3 pt-3 border-t border-gray-100">
-                    <div className="text-xs text-gray-500 mb-2">
+                  <div className="mt-3 pt-3 border-t border-slate-200">
+                    <div className="text-xs text-gray-600 mb-2">
                       Próxima acción: {candidate.nextAction}
                     </div>
                     <div className="flex gap-2">
@@ -222,7 +222,7 @@ export default function AdminCandidateTracker({
               ))}
               
               {stage.candidates.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-gray-600">
                   <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />
                   <div className="text-sm">No hay candidatos en esta etapa</div>
                 </div>

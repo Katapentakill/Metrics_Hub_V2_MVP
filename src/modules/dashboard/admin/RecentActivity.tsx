@@ -36,8 +36,8 @@ export default function RecentActivity() {
       time: 'Hace 15 minutos',
       user: 'María González',
       icon: UserPlus,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50'
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50'
     },
     {
       id: '2',
@@ -47,8 +47,8 @@ export default function RecentActivity() {
       time: 'Hace 32 minutos',
       user: 'Carlos Ruiz',
       icon: CheckSquare,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50'
     },
     {
       id: '3',
@@ -70,7 +70,7 @@ export default function RecentActivity() {
       user: 'Admin Sistema',
       icon: Settings,
       color: 'text-slate-600',
-      bgColor: 'bg-slate-50'
+      bgColor: 'bg-gray-50'
     },
     {
       id: '5',
@@ -80,8 +80,8 @@ export default function RecentActivity() {
       time: 'Hace 3 horas',
       user: 'Laura Pérez (HR)',
       icon: Award,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50'
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50'
     },
     {
       id: '6',
@@ -91,8 +91,8 @@ export default function RecentActivity() {
       time: 'Hace 4 horas',
       user: 'Pedro Sánchez',
       icon: FileText,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50'
+      color: 'text-slate-600',
+      bgColor: 'bg-gray-50'
     },
     {
       id: '7',
@@ -102,8 +102,8 @@ export default function RecentActivity() {
       time: 'Hace 5 horas',
       user: 'Admin Sistema',
       icon: AlertTriangle,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50'
+      color: 'text-slate-600',
+      bgColor: 'bg-gray-50'
     },
     {
       id: '8',
@@ -113,8 +113,8 @@ export default function RecentActivity() {
       time: 'Hace 6 horas',
       user: 'Sistema Automático',
       icon: Mail,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50'
+      color: 'text-slate-600',
+      bgColor: 'bg-gray-50'
     }
   ];
 
@@ -131,10 +131,10 @@ export default function RecentActivity() {
     <div className="card p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-          <Clock className="w-5 h-5 mr-2 text-slate-600" />
+          <Clock className="w-5 h-5 mr-2 text-emerald-600" />
           Actividad Reciente
         </h3>
-        <button className="text-sm text-primary hover:underline">
+        <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
           Ver todo el historial
         </button>
       </div>
@@ -143,7 +143,7 @@ export default function RecentActivity() {
         {activities.map((activity) => (
           <div key={activity.id} className="flex items-start space-x-3 group">
             {/* Icono de actividad */}
-            <div className={`${activity.bgColor} p-2 rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform`}>
+            <div className={`${activity.bgColor} p-2 rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}>
               <activity.icon className={`w-4 h-4 ${activity.color}`} />
             </div>
 
@@ -154,12 +154,12 @@ export default function RecentActivity() {
                   <p className="text-sm font-medium text-slate-800 group-hover:text-slate-900">
                     {activity.title}
                   </p>
-                  <p className="text-xs text-slate-600 mt-1 line-clamp-2">
+                  <p className="text-xs text-gray-600 mt-1 line-clamp-2">
                     {activity.description}
                   </p>
                   {activity.user && (
-                    <p className="text-xs text-slate-500 mt-1">
-                      por <span className="font-medium">{activity.user}</span>
+                    <p className="text-xs text-gray-600 mt-1">
+                      por <span className="font-medium text-slate-700">{activity.user}</span>
                     </p>
                   )}
                 </div>
@@ -169,7 +169,7 @@ export default function RecentActivity() {
               </div>
 
               {/* Línea divisoria sutil */}
-              <div className="mt-3 border-b border-slate-100 last:border-b-0"></div>
+              <div className="mt-3 border-b border-gray-100 last:border-b-0"></div>
             </div>
           </div>
         ))}
@@ -179,24 +179,23 @@ export default function RecentActivity() {
       <div className="mt-6 pt-4 border-t border-slate-200">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <p className="text-lg font-semibold text-blue-600">12</p>
-            <p className="text-xs text-slate-600">Hoy</p>
+            <p className="text-lg font-semibold text-emerald-600">12</p>
+            <p className="text-xs text-gray-600">Hoy</p>
           </div>
           <div>
             <p className="text-lg font-semibold text-emerald-600">47</p>
-            <p className="text-xs text-slate-600">Esta semana</p>
+            <p className="text-xs text-gray-600">Esta semana</p>
           </div>
           <div>
-            <p className="text-lg font-semibold text-purple-600">189</p>
-            <p className="text-xs text-slate-600">Este mes</p>
+            <p className="text-lg font-semibold text-slate-600">189</p>
+            <p className="text-xs text-gray-600">Este mes</p>
           </div>
         </div>
       </div>
 
       {/* Acciones rápidas desde actividad */}
       <div className="mt-4 flex flex-wrap gap-2">
-
-        <button className="px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
+        <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors">
           Exportar log
         </button>
       </div>

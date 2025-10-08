@@ -1,4 +1,4 @@
-// src/modules/recruitment/admin/components/AdminPageLayout.tsx
+// src/modules/recruitment/hr/components/AdminPageLayout.tsx
 import { LucideIcon } from 'lucide-react';
 import AdminBreadcrumb from './AdminBreadcrumb';
 
@@ -12,7 +12,6 @@ interface AdminPageLayoutProps {
   subtitle?: string;
   description: string;
   icon: LucideIcon;
-  iconGradient: string;
   breadcrumbItems: BreadcrumbItem[];
   children: React.ReactNode;
   headerActions?: React.ReactNode;
@@ -23,23 +22,22 @@ export default function AdminPageLayout({
   subtitle,
   description,
   icon: Icon,
-  iconGradient,
   breadcrumbItems,
   children,
   headerActions
 }: AdminPageLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gray-50">
       <div className="p-8 max-w-7xl mx-auto">
         <AdminBreadcrumb items={breadcrumbItems} />
         
         <div className="flex justify-between items-start mb-8">
           <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-xl ${iconGradient} text-white shadow-lg`}>
+            <div className="p-3 rounded-xl bg-emerald-600 text-white shadow-lg">
               <Icon className="w-8 h-8" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
+              <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
               {subtitle && <p className="text-xl text-gray-600">{subtitle}</p>}
             </div>
           </div>

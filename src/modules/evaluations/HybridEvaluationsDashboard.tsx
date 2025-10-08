@@ -53,7 +53,7 @@ interface HybridEvaluationsDashboardProps {
   loading?: boolean;
   // Props para personalización por rol
   role?: 'admin' | 'hr' | 'lead' | 'volunteer';
-  theme?:  'green' | 'blue' | 'purple' | 'emerald' | 'orange'; // Temas de color predefinidos (solo 'green')
+  theme?:  'green' | 'blue' | 'purple' | 'emerald' | 'orange'; // Se permite 'emerald'
   // Props para configuración de navegación
   basePath?: string; // ej: '/admin', '/hr', '/lead'
 }
@@ -69,7 +69,7 @@ export default function HybridEvaluationsDashboard({
   allPeriods,
   loading = false,
   role = 'admin',
-  theme = 'green', // Default 'green'
+  theme = 'emerald', // CAMBIO: Default a 'emerald' para reflejar la marca
   basePath = '/admin'
 }: HybridEvaluationsDashboardProps) {
   const router = useRouter();
@@ -79,19 +79,34 @@ export default function HybridEvaluationsDashboard({
   const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationView | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Configuración de tema (Simplificada ya que solo se acepta 'green')
-  const getThemeConfig = () => {
-    // Ya que 'theme' solo puede ser 'green' (o undefined, que se convierte a 'green' por defecto),
-    // el switch es innecesario.
+  // Configuración de tema (Ajustado para la paleta Verde Esmeralda/Gris)
+  const getThemeConfig = (currentTheme: string) => {
+    if (currentTheme === 'emerald') {
+      return {
+        // Títulos principales: slate-800
+        headerText: 'text-slate-800', 
+        // Color principal de la marca: emerald-600 (Iconos y elementos destacados)
+        buttonBg: 'bg-emerald-600 text-white hover:bg-emerald-700', 
+        // Bordes y acentos en focus: emerald-500/20 (Rings con transparencia)
+        focusRing: 'focus:ring-emerald-500/20 focus:ring-4 focus:border-emerald-500', 
+        // Tab activo: emerald-500/10 (Usando 10% para fondo suave) y emerald-600 (Texto/Borde)
+        tabActive: 'border-emerald-600 bg-emerald-500/10 text-emerald-600',
+        // Íconos secundarios: slate-400
+        iconSecondary: 'text-slate-400', 
+      };
+    }
+
+    // Fallback/Otros temas (usando 'green' original)
     return {
-      header: 'bg-transparent text-gray-900',
-      button: 'bg-green-600 text-white hover:bg-green-500',
+      headerText: 'text-gray-900',
+      buttonBg: 'bg-green-600 text-white hover:bg-green-700',
+      focusRing: 'focus:ring-green-500 focus:ring-4 focus:border-green-500',
       tabActive: 'border-green-500 bg-green-50 text-green-600',
-      focus: 'focus:ring-green-500 focus:border-green-500'
+      iconSecondary: 'text-gray-600',
     };
   };
 
-  const themeConfig = getThemeConfig();
+  const themeConfig = getThemeConfig(theme);
 
   // Sistema de tabs
   const tabs = [
@@ -159,16 +174,17 @@ export default function HybridEvaluationsDashboard({
   };
 
   if (loading) {
+    // Usando Grises Neutros para el esqueleto
     return (
       <div className="space-y-6">
-        <div className="loading-skeleton h-32 rounded-xl"></div>
-        <div className="loading-skeleton h-12 rounded-xl"></div>
+        <div className="bg-gray-200 h-32 rounded-xl animate-pulse"></div>
+        <div className="bg-gray-200 h-12 rounded-xl animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="loading-skeleton h-24 rounded-xl"></div>
+            <div key={i} className="bg-gray-200 h-24 rounded-xl animate-pulse"></div>
           ))}
         </div>
-        <div className="loading-skeleton h-96 rounded-xl"></div>
+        <div className="bg-gray-200 h-96 rounded-xl animate-pulse"></div>
       </div>
     );
   }
@@ -176,18 +192,25 @@ export default function HybridEvaluationsDashboard({
   return (
     <div className="space-y-6">
       {/* Header Principal */}
-      <div className={`bg-gradient-to-r ${themeConfig.header} rounded-2xl p-8 text-black mb-6`}>
+      {/* Fondo de cards: white. Texto principal: slate-800 */}
+      <div className={`bg-white rounded-2xl shadow-sm p-8 ${themeConfig.headerText} mb-6`}> 
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 flex items-center"><Award className="w-6 h-6 mr-2 text-green-500" /> Centro de Evaluaciones</h1>
-            <p className="text-muted mt-1">
+            {/* Títulos principales: text-slate-800. Ícono de marca: emerald-600 */}
+            <h1 className="text-3xl font-bold text-slate-800 flex items-center">
+              <Award className="w-6 h-6 mr-2 text-emerald-600" /> 
+              Centro de Evaluaciones
+            </h1>
+            {/* Texto secundario: gray-600 */}
+            <p className="text-gray-600 mt-1"> 
               Gestión integral del desempeño y desarrollo del talento
             </p>
           </div>
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowNewEvaluationModal(true)}
-              className={`${themeConfig.button} px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2`}
+              // Botón CTA: usa themeConfig.buttonBg (bg-emerald-600)
+              className={`${themeConfig.buttonBg} px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2`}
             >
               <Plus className="w-5 h-5" />
               <span>Nueva Evaluación</span>
@@ -198,59 +221,69 @@ export default function HybridEvaluationsDashboard({
 
       {/* Estadísticas Generales */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        
+        {/* Total Evaluaciones */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-blue-600" />
+            {/* Ícono secundario: bg-gray-100 y slate-400 */}
+            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-6 h-6 text-slate-400" /> 
             </div>
+            {/* Texto con énfasis medio: gray-800 */}
             <span className="text-2xl font-bold text-gray-800">{realtimeStats.total}</span>
           </div>
-          <h3 className="font-semibold text-gray-700 mb-1">Total Evaluaciones</h3>
-          <p className="text-sm text-gray-500">En todos los proyectos</p>
+          <h3 className="font-semibold text-gray-800 mb-1">Total Evaluaciones</h3>
+          <p className="text-sm text-gray-600">En todos los proyectos</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        {/* Completadas - Destacar con emerald-600 */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-green-600" />
+            {/* Ícono de marca: bg-emerald-100 y text-emerald-600 */}
+            <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-emerald-600" />
             </div>
-            <span className="text-2xl font-bold text-green-600">{realtimeStats.completed}</span>
+            <span className="text-2xl font-bold text-emerald-600">{realtimeStats.completed}</span>
           </div>
-          <h3 className="font-semibold text-gray-700 mb-1">Completadas</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="font-semibold text-gray-800 mb-1">Completadas</h3>
+          <p className="text-sm text-gray-600">
             {realtimeStats.completionRate.toFixed(1)}% de completitud
           </p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        {/* Promedio General - Usar color neutral */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Award className="w-6 h-6 text-purple-600" />
+            {/* Ícono neutral: bg-gray-100 y slate-400 */}
+            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+              <Award className="w-6 h-6 text-slate-400" />
             </div>
-            <span className="text-2xl font-bold text-purple-600">
+            <span className="text-2xl font-bold text-gray-800">
               {realtimeStats.averageScore.toFixed(1)}
             </span>
           </div>
-          <h3 className="font-semibold text-gray-700 mb-1">Promedio General</h3>
-          <p className="text-sm text-gray-500">Puntuación sobre 5.0</p>
+          <h3 className="font-semibold text-gray-800 mb-1">Promedio General</h3>
+          <p className="text-sm text-gray-600">Puntuación sobre 5.0</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        {/* Vencidas - Usar color de riesgo (rojo) */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
               <AlertTriangle className="w-6 h-6 text-red-600" />
             </div>
             <span className="text-2xl font-bold text-red-600">{realtimeStats.overdue}</span>
           </div>
-          <h3 className="font-semibold text-gray-700 mb-1">Vencidas</h3>
-          <p className="text-sm text-gray-500">Requieren atención</p>
+          <h3 className="font-semibold text-gray-800 mb-1">Vencidas</h3>
+          <p className="text-sm text-gray-600">Requieren atención</p>
         </div>
       </div>
 
       {/* Sistema de Tabs */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      {/* Bordes: slate-200 */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         {/* Header de Tabs */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-slate-200">
           <div className="flex overflow-x-auto">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
@@ -260,15 +293,18 @@ export default function HybridEvaluationsDashboard({
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex-shrink-0 px-6 py-4 border-b-2 transition-colors ${
                     activeTab === tab.id
-                      ? themeConfig.tabActive
-                      : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                      ? // Tab activo: usa themeConfig.tabActive (emerald-600 / bg-emerald-500/10)
+                        themeConfig.tabActive 
+                      : // Tab inactivo: texto gray-600 (Texto secundario) y hover bg-gray-50
+                        'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <IconComponent className="w-5 h-5" />
+                    {/* Ícono: usa el color del tab, si está activo usa emerald-600, si no slate-400 */}
+                    <IconComponent className={`w-5 h-5 ${activeTab === tab.id ? 'text-emerald-600' : 'text-slate-400'}`} />
                     <div className="text-left">
-                      <div className="font-medium">{tab.label}</div>
-                      <div className="text-xs text-gray-500">
+                      <div className="font-medium text-gray-800">{tab.label}</div>
+                      <div className="text-xs text-gray-600">
                         {tab.description} • {tab.count} elementos
                       </div>
                     </div>
@@ -280,12 +316,14 @@ export default function HybridEvaluationsDashboard({
         </div>
 
         {/* Barra de herramientas */}
-        <div className="p-4 border-b border-gray-200 bg-gray-50">
+        {/* Fondo de contenedores: bg-gray-100 */}
+        <div className="p-4 border-b border-slate-200 bg-gray-100"> 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {/* Búsqueda */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                {/* Ícono: slate-400 */}
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder={
@@ -295,13 +333,15 @@ export default function HybridEvaluationsDashboard({
                   }
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-64 ${themeConfig.focus} focus:border-transparent`}
+                  // Bordes: slate-200. Focus: usa themeConfig.focusRing (Anillos con transparencia)
+                  className={`pl-10 pr-4 py-2 border border-slate-200 rounded-lg w-64 ${themeConfig.focusRing} focus:border-transparent outline-none text-gray-800`}
                 />
               </div>
 
               {/* Filtros específicos por tab */}
-              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-green-50 transition-colors">
-                <Filter className="w-4 h-4" />
+              {/* Bordes: slate-200. Hover: bg-emerald-50 (fondo suave del color de marca) */}
+              <button className="flex items-center space-x-2 px-4 py-2 border border-slate-200 rounded-lg hover:bg-emerald-50 transition-colors text-gray-800">
+                <Filter className="w-4 h-4 text-slate-400" />
                 <span>Filtros</span>
               </button>
             </div>

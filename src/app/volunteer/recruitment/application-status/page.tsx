@@ -60,37 +60,37 @@ export default function VolunteerApplicationStatus() {
   const progress = 60;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         
         {/* Header */}
-        <div className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl p-8 text-white shadow-xl">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <h1 className="text-3xl font-bold">Estado de mi Solicitud</h1>
-                <Sparkles className="w-6 h-6" />
+                <h1 className="text-3xl font-bold text-slate-800">Estado de mi Solicitud</h1>
+                <Sparkles className="w-6 h-6 text-emerald-500" />
               </div>
               <div className="flex items-center gap-2 mb-2">
-                <Briefcase className="w-5 h-5" />
-                <span className="text-xl font-semibold">{candidate.appliedRole}</span>
+                <Briefcase className="w-5 h-5 text-emerald-600" />
+                <span className="text-xl font-semibold text-slate-800">{candidate.appliedRole}</span>
               </div>
-              <p className="text-green-200">Equipo {candidate.team}</p>
+              <p className="text-gray-600">Equipo {candidate.team}</p>
             </div>
 
-            <div className="text-center bg-green-500 bg-opacity-20 backdrop-blur-sm rounded-xl p-6 border border-white border-opacity-30">
-              <div className="text-4xl font-bold mb-1">{progress}%</div>
-              <p className="text-sm text-green-200">Completado</p>
+            <div className="text-center bg-gray-50 rounded-xl p-6 border border-slate-200">
+              <div className="text-4xl font-bold text-slate-800 mb-1">{progress}%</div>
+              <p className="text-sm text-gray-600">Completado</p>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
-            <span className="bg-green-500 bg-opacity-20 px-4 py-2 rounded-full text-sm font-semibold">
+            <span className="bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-semibold border border-slate-200">
               {candidate.applicationStatus}
             </span>
-            <div className="flex-1 bg-white bg-opacity-20 rounded-full h-3">
+            <div className="flex-1 bg-gray-200 rounded-full h-3">
               <div 
-                className="bg-white h-3 rounded-full transition-all"
+                className="bg-emerald-600 h-3 rounded-full transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -102,33 +102,33 @@ export default function VolunteerApplicationStatus() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Info Personal */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                  <User className="w-5 h-5 text-green-600" />
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="bg-gray-50 p-4 border-b border-slate-200">
+                <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                  <User className="w-5 h-5 text-emerald-600" />
                   Mi Información
                 </h3>
               </div>
               <div className="p-6">
-                <div className="text-center pb-6 border-b border-gray-200 mb-4">
-                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+                <div className="text-center pb-6 border-b border-slate-200 mb-4">
+                  <div className="w-20 h-20 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
                     <span className="text-white text-2xl font-bold">MG</span>
                   </div>
-                  <h3 className="font-bold text-lg text-gray-900">{candidate.name}</h3>
+                  <h3 className="font-bold text-lg text-slate-800">{candidate.name}</h3>
                   <p className="text-sm text-gray-600">{candidate.volunteerType}</p>
                 </div>
                 
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                    <Mail className="w-4 h-4 text-gray-400" />
+                    <Mail className="w-4 h-4 text-slate-400" />
                     <span className="text-gray-700">{candidate.email}</span>
                   </div>
                   <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                    <Phone className="w-4 h-4 text-gray-400" />
+                    <Phone className="w-4 h-4 text-slate-400" />
                     <span className="text-gray-700">{candidate.phone}</span>
                   </div>
                   <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                    <Globe className="w-4 h-4 text-gray-400" />
+                    <Globe className="w-4 h-4 text-slate-400" />
                     <span className="text-gray-700">{candidate.timezone}</span>
                   </div>
                 </div>
@@ -136,26 +136,26 @@ export default function VolunteerApplicationStatus() {
             </div>
 
             {/* Documentos */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-green-600" />
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="bg-gray-50 p-4 border-b border-slate-200">
+                <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-emerald-600" />
                   Documentos
                 </h3>
               </div>
               <div className="p-4 space-y-3">
                 {documents.map((doc, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border-2 border-gray-200 rounded-lg hover:border-green-300 transition-colors">
+                  <div key={index} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg hover:border-emerald-500 transition-colors">
                     <div className="flex items-center gap-3">
                       {doc.status === 'completed' ? 
-                        <CheckCircle className="w-5 h-5 text-green-500" /> :
+                        <CheckCircle className="w-5 h-5 text-emerald-600" /> :
                         doc.status === 'under_review' ?
-                        <Clock className="w-5 h-5 text-blue-500" /> :
-                        <AlertCircle className="w-5 h-5 text-yellow-500" />
+                        <Clock className="w-5 h-5 text-gray-600" /> :
+                        <AlertCircle className="w-5 h-5 text-slate-400" />
                       }
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">{doc.name}</p>
-                        {doc.file && <p className="text-xs text-gray-500">{doc.file}</p>}
+                        <p className="text-sm font-semibold text-slate-800">{doc.name}</p>
+                        {doc.file && <p className="text-xs text-gray-600">{doc.file}</p>}
                       </div>
                     </div>
                     
@@ -164,7 +164,7 @@ export default function VolunteerApplicationStatus() {
                         <Download className="w-4 h-4 text-gray-600" />
                       </button>
                     ) : (
-                      <button className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                      <button className="p-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">
                         <Upload className="w-4 h-4" />
                       </button>
                     )}
@@ -178,36 +178,36 @@ export default function VolunteerApplicationStatus() {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Timeline */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                <h3 className="font-bold text-gray-900">Progreso del Proceso</h3>
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="bg-gray-50 p-4 border-b border-slate-200">
+                <h3 className="font-bold text-slate-800">Progreso del Proceso</h3>
               </div>
               <div className="p-6">
                 <div className="space-y-6">
                   {processSteps.map((step, index) => (
                     <div key={index} className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        step.status === 'completed' ? 'bg-green-100 text-green-600' :
-                        step.status === 'current' ? 'bg-blue-100 text-blue-600' :
-                        'bg-gray-100 text-gray-400'
+                        step.status === 'completed' ? 'bg-emerald-100 text-emerald-600' :
+                        step.status === 'current' ? 'bg-gray-100 text-gray-800' :
+                        'bg-slate-100 text-slate-400'
                       }`}>
                         {step.status === 'completed' ? 
                           <CheckCircle className="w-5 h-5" /> :
                           step.status === 'current' ?
                           <Clock className="w-5 h-5" /> :
-                          <div className="w-3 h-3 rounded-full bg-gray-400" />
+                          <div className="w-3 h-3 rounded-full bg-slate-400" />
                         }
                       </div>
                       
                       <div className="flex-1">
-                        <p className={`font-semibold ${step.status === 'current' ? 'text-blue-600' : 'text-gray-900'}`}>
+                        <p className={`font-semibold ${step.status === 'current' ? 'text-slate-800' : 'text-slate-800'}`}>
                           {step.title}
                         </p>
                         <p className="text-sm text-gray-600">{step.date}</p>
                       </div>
 
                       {step.status === 'current' && (
-                        <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
+                        <span className="px-3 py-1 bg-gray-100 text-gray-800 text-xs font-bold rounded-full border border-slate-200">
                           En Progreso
                         </span>
                       )}
@@ -219,17 +219,17 @@ export default function VolunteerApplicationStatus() {
 
             {/* Entrevistas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-900">Entrevista RR.HH.</h3>
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800">Entrevista RR.HH.</h3>
                 </div>
                 <div className="p-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
                       {candidate.hrInterviewDate ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
+                        <CheckCircle className="w-5 h-5 text-emerald-600" />
                       ) : (
-                        <Clock className="w-5 h-5 text-yellow-500" />
+                        <Clock className="w-5 h-5 text-slate-400" />
                       )}
                       <span className="text-sm font-semibold">
                         {candidate.hrInterviewDate ? 'Completada' : 'Pendiente'}
@@ -240,7 +240,7 @@ export default function VolunteerApplicationStatus() {
                       {getInterviewStatus(candidate.hrInterviewDate)}
                     </p>
                     
-                    <button className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                    <button className="w-full px-4 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-500 transition-colors flex items-center justify-center gap-2">
                       <Calendar className="w-4 h-4" />
                       {candidate.hrInterviewDate ? 'Ver Detalles' : 'Programar'}
                     </button>
@@ -248,17 +248,17 @@ export default function VolunteerApplicationStatus() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                  <h3 className="font-bold text-gray-900">Entrevista Técnica</h3>
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-gray-50 p-4 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800">Entrevista Técnica</h3>
                 </div>
                 <div className="p-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
                       {candidate.pmInterviewDate ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
+                        <CheckCircle className="w-5 h-5 text-emerald-600" />
                       ) : (
-                        <Clock className="w-5 h-5 text-yellow-500" />
+                        <Clock className="w-5 h-5 text-slate-400" />
                       )}
                       <span className="text-sm font-semibold">
                         {candidate.pmInterviewDate ? 'Programada' : 'Por programar'}
@@ -270,12 +270,12 @@ export default function VolunteerApplicationStatus() {
                     </p>
                     
                     {candidate.interviewAssigned && (
-                      <p className="text-xs text-gray-500 p-2 bg-gray-50 rounded">
+                      <p className="text-xs text-gray-600 p-2 bg-gray-50 rounded border border-slate-200">
                         Entrevistador: <span className="font-semibold">{candidate.interviewAssigned}</span>
                       </p>
                     )}
                     
-                    <button className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                    <button className="w-full px-4 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-500 transition-colors flex items-center justify-center gap-2">
                       <Calendar className="w-4 h-4" />
                       Programar
                     </button>
@@ -285,32 +285,32 @@ export default function VolunteerApplicationStatus() {
             </div>
 
             {/* Comunicaciones */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b border-gray-200">
-                <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                  <MessageCircle className="w-5 h-5 text-green-600" />
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="bg-gray-50 p-4 border-b border-slate-200">
+                <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5 text-emerald-600" />
                   Comunicaciones Recientes
                 </h3>
               </div>
               <div className="p-6">
                 <div className="space-y-3 mb-4">
-                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-sm font-semibold text-gray-900">Confirmación de postulación</p>
+                  <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                    <p className="text-sm font-semibold text-slate-800">Confirmación de postulación</p>
                     <p className="text-xs text-gray-600 mt-1">15/09/2025 - Correo enviado</p>
                   </div>
                   
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-sm font-semibold text-gray-900">CV aprobado</p>
+                  <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                    <p className="text-sm font-semibold text-slate-800">CV aprobado</p>
                     <p className="text-xs text-gray-600 mt-1">16/09/2025 - Documento revisado</p>
                   </div>
                   
-                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-sm font-semibold text-gray-900">Programación de entrevista</p>
+                  <div className="p-4 bg-gray-100 border border-slate-200 rounded-lg">
+                    <p className="text-sm font-semibold text-slate-800">Programación de entrevista</p>
                     <p className="text-xs text-gray-600 mt-1">17/09/2025 - Pendiente de respuesta</p>
                   </div>
                 </div>
                 
-                <button className="w-full px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 border-2 border-gray-200">
+                <button className="w-full px-4 py-3 bg-gray-100 text-slate-800 font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 border border-slate-200">
                   <MessageCircle className="w-4 h-4" />
                   Contactar Equipo
                 </button>

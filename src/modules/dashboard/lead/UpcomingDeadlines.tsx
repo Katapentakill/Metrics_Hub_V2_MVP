@@ -65,18 +65,18 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'urgent': return 'bg-red-50 border-red-400 text-red-800';
-      case 'upcoming': return 'bg-yellow-50 border-yellow-400 text-yellow-800';
-      case 'completed': return 'bg-green-50 border-green-400 text-green-800';
-      default: return 'bg-slate-50 border-slate-400 text-slate-800';
+      case 'urgent': return 'bg-gray-50 border-slate-400 text-slate-800';
+      case 'upcoming': return 'bg-gray-50 border-slate-300 text-slate-700';
+      case 'completed': return 'bg-emerald-50 border-emerald-400 text-emerald-800';
+      default: return 'bg-gray-50 border-slate-300 text-slate-700';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-green-600';
+      case 'high': return 'text-slate-700';
+      case 'medium': return 'text-slate-600';
+      case 'low': return 'text-gray-500';
       default: return 'text-slate-600';
     }
   };
@@ -91,9 +91,9 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'urgent': return <AlertTriangle className="w-4 h-4 text-red-500" />;
-      case 'upcoming': return <Clock className="w-4 h-4 text-yellow-500" />;
-      case 'completed': return <CheckCircle className="w-4 h-4 text-green-500" />;
+      case 'urgent': return <AlertTriangle className="w-4 h-4 text-slate-600" />;
+      case 'upcoming': return <Clock className="w-4 h-4 text-slate-500" />;
+      case 'completed': return <CheckCircle className="w-4 h-4 text-emerald-500" />;
       default: return <Target className="w-4 h-4 text-slate-500" />;
     }
   };
@@ -101,7 +101,7 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
   return (
     <div className="card p-6">
       <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-        <Clock className="w-5 h-5 mr-2 text-orange-600" />
+        <Clock className="w-5 h-5 mr-2 text-emerald-600" />
         Próximos Deadlines
       </h3>
       
@@ -109,27 +109,27 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
         {deadlines.map((deadline) => {
           const daysLeft = getDaysUntilDeadline(deadline.dueDate);
           return (
-            <div key={deadline.id} className={`p-3 rounded-lg border-l-4 ${getStatusColor(deadline.status)}`}>
+            <div key={deadline.id} className={`p-3 rounded-lg border-l-4 ${getStatusColor(deadline.status)} hover:shadow-md transition-all`}>
               <div className="flex items-start justify-between mb-2">
                 <div className="flex-1">
                   <h4 className="font-medium text-slate-800 flex items-center">
                     {deadline.title}
-                    <span className={`ml-2 px-2 py-1 rounded-full text-xs ${getStatusColor(deadline.status)}`}>
+                    <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(deadline.status)}`}>
                       {deadline.status === 'urgent' ? 'Urgente' : 
                        deadline.status === 'upcoming' ? 'Próximo' : 'Completado'}
                     </span>
                   </h4>
-                  <p className="text-xs text-slate-600 mt-1">{deadline.description}</p>
-                  <div className="flex items-center space-x-4 mt-2 text-xs text-slate-500">
+                  <p className="text-xs text-gray-600 mt-1">{deadline.description}</p>
+                  <div className="flex items-center space-x-4 mt-2 text-xs text-gray-600">
                     <span className="flex items-center">
-                      <FileText className="w-3 h-3 mr-1" />
+                      <FileText className="w-3 h-3 mr-1 text-slate-400" />
                       {deadline.project}
                     </span>
                     <span className="flex items-center">
-                      <Users className="w-3 h-3 mr-1" />
+                      <Users className="w-3 h-3 mr-1 text-slate-400" />
                       {deadline.assignedTo}
                     </span>
-                    <span className={`flex items-center ${getPriorityColor(deadline.priority)}`}>
+                    <span className={`flex items-center font-medium ${getPriorityColor(deadline.priority)}`}>
                       <Flag className="w-3 h-3 mr-1" />
                       {deadline.priority === 'high' ? 'Alta' : 
                        deadline.priority === 'medium' ? 'Media' : 'Baja'}
@@ -139,11 +139,11 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
                 <div className="text-right">
                   <div className="flex items-center space-x-2">
                     {getStatusIcon(deadline.status)}
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs font-medium text-slate-700">
                       {daysLeft > 0 ? `${daysLeft} días` : daysLeft === 0 ? 'Hoy' : 'Vencido'}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-gray-600 mt-1">
                     {new Date(deadline.dueDate).toLocaleDateString()}
                   </p>
                 </div>
@@ -151,18 +151,18 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
               
               {/* Barra de progreso */}
               {deadline.progress > 0 && (
-                <div className="w-full bg-slate-200 rounded-full h-2 mt-2">
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                   <div 
-                    className="bg-blue-500 h-2 rounded-full transition-all duration-500" 
+                    className="bg-emerald-500 h-2 rounded-full transition-all duration-500" 
                     style={{ width: `${deadline.progress}%` }}
                   ></div>
                 </div>
               )}
               
-              <div className="flex justify-between items-center mt-2 text-xs text-slate-500">
-                <span>Progreso: {deadline.progress}%</span>
-                <span className="flex items-center">
-                  <Calendar className="w-3 h-3 mr-1" />
+              <div className="flex justify-between items-center mt-2 text-xs text-gray-600">
+                <span className="font-medium">Progreso: {deadline.progress}%</span>
+                <span className="flex items-center font-medium">
+                  <Calendar className="w-3 h-3 mr-1 text-slate-400" />
                   {daysLeft > 0 ? `${daysLeft} días restantes` : 
                    daysLeft === 0 ? 'Vence hoy' : `${Math.abs(daysLeft)} días vencido`}
                 </span>
@@ -176,35 +176,35 @@ export default function UpcomingDeadlines({ data }: UpcomingDeadlinesProps) {
       <div className="mt-6 pt-4 border-t border-slate-200">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <p className="text-lg font-semibold text-red-600">
+            <p className="text-lg font-semibold text-slate-700">
               {deadlines.filter(d => getDaysUntilDeadline(d.dueDate) <= 3).length}
             </p>
-            <p className="text-xs text-slate-600">Urgentes (≤3 días)</p>
+            <p className="text-xs text-gray-600">Urgentes (≤3 días)</p>
           </div>
           <div>
-            <p className="text-lg font-semibold text-yellow-600">
+            <p className="text-lg font-semibold text-slate-600">
               {deadlines.filter(d => getDaysUntilDeadline(d.dueDate) > 3 && getDaysUntilDeadline(d.dueDate) <= 7).length}
             </p>
-            <p className="text-xs text-slate-600">Próximos (≤7 días)</p>
+            <p className="text-xs text-gray-600">Próximos (≤7 días)</p>
           </div>
           <div>
-            <p className="text-lg font-semibold text-green-600">
+            <p className="text-lg font-semibold text-emerald-600">
               {deadlines.filter(d => d.progress === 100).length}
             </p>
-            <p className="text-xs text-slate-600">Completados</p>
+            <p className="text-xs text-gray-600">Completados</p>
           </div>
         </div>
       </div>
       
       {/* Acciones rápidas */}
       <div className="mt-4 flex flex-wrap gap-2">
-        <button className="px-3 py-1 text-xs bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors">
+        <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-slate-700 rounded transition-colors font-medium">
           Ver Urgentes
         </button>
-        <button className="px-3 py-1 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors">
+        <button className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium">
           Programar Reunión
         </button>
-        <button className="px-3 py-1 text-xs bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors">
+        <button className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium">
           Actualizar Progreso
         </button>
       </div>

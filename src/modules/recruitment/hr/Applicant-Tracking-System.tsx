@@ -9,9 +9,9 @@ import {
   Handshake,
   UserPlus,
 } from 'lucide-react';
-import AdminBreadcrumb from '../admin/components/AdminBreadcrumb';
-import AdminSectionCard from '../admin/components/AdminSectionCard';
-import AdminDashboardStats from '../admin/components/AdminDashboardStats';
+import AdminBreadcrumb from '../hr/components/AdminBreadcrumb';
+import AdminSectionCard from '../hr/components/AdminSectionCard';
+import AdminDashboardStats from '../hr/components/AdminDashboardStats';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 // Mock data for dashboard stats

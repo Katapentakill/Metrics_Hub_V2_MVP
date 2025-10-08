@@ -1,4 +1,3 @@
-
 // src/modules/recruitment/admin/PositionDetailView.tsx
 // Vista detallada de posición/vacante con navegación similar a ProjectDetailModal
 
@@ -160,11 +159,11 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'paused': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'closed': return 'bg-gray-100 text-gray-800 border-gray-200';
-      case 'draft': return 'bg-blue-100 text-blue-800 border-blue-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'active': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'paused': return 'bg-gray-100 text-gray-800 border-slate-200';
+      case 'closed': return 'bg-slate-100 text-slate-800 border-slate-200';
+      case 'draft': return 'bg-gray-100 text-gray-800 border-slate-200';
+      default: return 'bg-gray-100 text-gray-800 border-slate-200';
     }
   };
 
@@ -180,19 +179,19 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600 bg-red-50 border-red-200';
-      case 'medium': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'low': return 'text-green-600 bg-green-50 border-green-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'high': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
+      case 'medium': return 'text-gray-800 bg-gray-100 border-slate-200';
+      case 'low': return 'text-slate-600 bg-slate-50 border-slate-200';
+      default: return 'text-gray-600 bg-gray-50 border-slate-200';
     }
   };
 
   const getStageColor = (stage: string) => {
     switch (stage) {
-      case 'screening': return 'bg-yellow-100 text-yellow-800';
-      case 'interview': return 'bg-blue-100 text-blue-800';
-      case 'evaluation': return 'bg-purple-100 text-purple-800';
-      case 'offer': return 'bg-green-100 text-green-800';
+      case 'screening': return 'bg-gray-100 text-gray-800';
+      case 'interview': return 'bg-emerald-100 text-emerald-800';
+      case 'evaluation': return 'bg-slate-100 text-slate-800';
+      case 'offer': return 'bg-emerald-100 text-emerald-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -216,7 +215,7 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gray-50">
       <div className="p-8 max-w-7xl mx-auto">
         {/* Breadcrumb y navegación */}
         <div className="flex items-center justify-between mb-6">
@@ -230,7 +229,7 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
           
           <button
             onClick={() => router.back()}
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center space-x-2 text-gray-600 hover:text-emerald-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver</span>
@@ -238,16 +237,16 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
         </div>
 
         {/* Header de la posición */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
           <div className="flex items-start justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white">
+              <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center text-white">
                 <Briefcase className="w-8 h-8" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{mockPosition.title}</h1>
+                <h1 className="text-2xl font-bold text-slate-800">{mockPosition.title}</h1>
                 <p className="text-lg text-gray-600">{mockPosition.department}</p>
-                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-600">
                   <div className="flex items-center space-x-1">
                     <MapPin className="w-4 h-4" />
                     <span>{mockPosition.location}</span>
@@ -258,7 +257,7 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                   </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="w-4 h-4" />
-                    <span className={daysUntilDeadline <= 7 ? 'text-red-600 font-medium' : ''}>
+                    <span className={daysUntilDeadline <= 7 ? 'text-emerald-600 font-medium' : ''}>
                       {daysUntilDeadline > 0 ? `${daysUntilDeadline} días restantes` : 'Vencida'}
                     </span>
                   </div>
@@ -274,14 +273,14 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                 {getStatusLabel(mockPosition.status)}
               </div>
               <div className="flex items-center space-x-1">
-                <span className="text-lg font-bold text-gray-800">{mockPosition.metrics.totalApplications}</span>
+                <span className="text-lg font-bold text-slate-800">{mockPosition.metrics.totalApplications}</span>
                 <span className="text-sm text-gray-600">aplicaciones</span>
               </div>
             </div>
           </div>
 
           {/* Información clave */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-200">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <DollarSign className="w-4 h-4" />
               <span>{mockPosition.salaryRange}</span>
@@ -303,50 +302,50 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
 
         {/* Métricas rápidas */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Candidatos Calificados</p>
-                <p className="text-2xl font-bold text-blue-600">{mockPosition.metrics.qualifiedCandidates}</p>
+                <p className="text-2xl font-bold text-emerald-600">{mockPosition.metrics.qualifiedCandidates}</p>
               </div>
-              <Users className="w-8 h-8 text-blue-600" />
+              <Users className="w-8 h-8 text-emerald-600" />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">En Pipeline</p>
-                <p className="text-2xl font-bold text-purple-600">{mockPosition.metrics.inPipeline}</p>
+                <p className="text-2xl font-bold text-slate-600">{mockPosition.metrics.inPipeline}</p>
               </div>
-              <TrendingUp className="w-8 h-8 text-purple-600" />
+              <TrendingUp className="w-8 h-8 text-slate-400" />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Puntuación Media</p>
-                <p className="text-2xl font-bold text-green-600">{mockPosition.metrics.avgScore}%</p>
+                <p className="text-2xl font-bold text-emerald-600">{mockPosition.metrics.avgScore}%</p>
               </div>
-              <Star className="w-8 h-8 text-green-600" />
+              <Star className="w-8 h-8 text-emerald-600" />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Días Abierta</p>
-                <p className="text-2xl font-bold text-orange-600">{mockPosition.metrics.daysOpen}</p>
+                <p className="text-2xl font-bold text-gray-800">{mockPosition.metrics.daysOpen}</p>
               </div>
-              <Clock className="w-8 h-8 text-orange-600" />
+              <Clock className="w-8 h-8 text-slate-400" />
             </div>
           </div>
         </div>
 
         {/* Tabs de navegación */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="border-b border-gray-200">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+          <div className="border-b border-slate-200">
             <nav className="flex space-x-8 px-6">
               {[
                 { key: 'overview', label: 'Descripción', icon: FileText },
@@ -359,8 +358,8 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                   onClick={() => setActiveTab(key as any)}
                   className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                     activeTab === key
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-emerald-500 text-emerald-600'
+                      : 'border-transparent text-gray-600 hover:text-slate-800 hover:border-slate-300'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -376,16 +375,16 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                 {/* Descripción principal */}
                 <div className="lg:col-span-2 space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Descripción del Puesto</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-4">Descripción del Puesto</h3>
                     <p className="text-gray-700 leading-relaxed">{mockPosition.description}</p>
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Responsabilidades</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-4">Responsabilidades</h3>
                     <ul className="space-y-2">
                       {mockPosition.responsibilities.map((responsibility, index) => (
                         <li key={index} className="flex items-start space-x-2">
-                          <CheckCircle2 className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-700">{responsibility}</span>
                         </li>
                       ))}
@@ -393,11 +392,11 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Requisitos</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-4">Requisitos</h3>
                     <ul className="space-y-2">
                       {mockPosition.requirements.map((requirement, index) => (
                         <li key={index} className="flex items-start space-x-2">
-                          <Target className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <Target className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-700">{requirement}</span>
                         </li>
                       ))}
@@ -408,12 +407,12 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                 {/* Información lateral */}
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Habilidades Requeridas</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-4">Habilidades Requeridas</h3>
                     <div className="flex flex-wrap gap-2">
                       {mockPosition.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                          className="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-medium"
                         >
                           {skill}
                         </span>
@@ -422,11 +421,11 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Beneficios</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-4">Beneficios</h3>
                     <ul className="space-y-2">
                       {mockPosition.benefits.map((benefit, index) => (
                         <li key={index} className="flex items-start space-x-2">
-                          <Award className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                          <Award className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-700 text-sm">{benefit}</span>
                         </li>
                       ))}
@@ -434,23 +433,23 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Equipo</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 mb-4">Equipo</h3>
                     <div className="space-y-3">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <Users className="w-4 h-4 text-blue-600" />
+                        <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                          <Users className="w-4 h-4 text-emerald-600" />
                         </div>
                         <div>
-                          <p className="font-medium text-gray-800">{mockPosition.hiringManager.name}</p>
+                          <p className="font-medium text-slate-800">{mockPosition.hiringManager.name}</p>
                           <p className="text-sm text-gray-600">{mockPosition.hiringManager.role}</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                          <Target className="w-4 h-4 text-green-600" />
+                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                          <Target className="w-4 h-4 text-slate-400" />
                         </div>
                         <div>
-                          <p className="font-medium text-gray-800">{mockPosition.recruiter.name}</p>
+                          <p className="font-medium text-slate-800">{mockPosition.recruiter.name}</p>
                           <p className="text-sm text-gray-600">{mockPosition.recruiter.role}</p>
                         </div>
                       </div>
@@ -463,15 +462,15 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
             {activeTab === 'candidates' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-800">Candidatos ({mockPosition.candidates.length})</h3>
+                  <h3 className="text-lg font-semibold text-slate-800">Candidatos ({mockPosition.candidates.length})</h3>
                   <div className="flex items-center space-x-2">
-                    <button className="flex items-center space-x-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center space-x-2 px-3 py-2 border border-slate-200 rounded-lg hover:border-emerald-500 transition-colors">
                       <Filter className="w-4 h-4" />
                       <span>Filtrar</span>
                     </button>
                     <button 
                       onClick={() => router.push('/admin/recruitment/candidate-management')}
-                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      className="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
                     >
                       Ver todos los candidatos
                     </button>
@@ -482,14 +481,14 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                   {mockPosition.candidates.map((candidate) => (
                     <div 
                       key={candidate.id}
-                      className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                      className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-emerald-500 transition-all duration-200 cursor-pointer group"
                       onClick={() => navigateToCandidate(candidate.id)}
                     >
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
+                        <h4 className="font-medium text-slate-800 group-hover:text-emerald-600 transition-colors">
                           {candidate.name}
                         </h4>
-                        <Eye className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                        <Eye className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 transition-colors" />
                       </div>
                       
                       <div className="flex items-center justify-between">
@@ -498,19 +497,19 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                         </div>
                         <div className="flex items-center space-x-2">
                           <Star className={`w-4 h-4 ${
-                            candidate.score >= 90 ? 'text-green-600' : 
-                            candidate.score >= 80 ? 'text-blue-600' : 'text-yellow-600'
+                            candidate.score >= 90 ? 'text-emerald-600' : 
+                            candidate.score >= 80 ? 'text-emerald-600' : 'text-gray-800'
                           }`} />
                           <span className={`font-bold text-sm ${
-                            candidate.score >= 90 ? 'text-green-600' : 
-                            candidate.score >= 80 ? 'text-blue-600' : 'text-yellow-600'
+                            candidate.score >= 90 ? 'text-emerald-600' : 
+                            candidate.score >= 80 ? 'text-emerald-600' : 'text-gray-800'
                           }`}>
                             {candidate.score}%
                           </span>
                         </div>
                       </div>
                       
-                      <div className="text-xs text-gray-500 mt-2">
+                      <div className="text-xs text-gray-600 mt-2">
                         Aplicó el {new Date(candidate.appliedDate).toLocaleDateString('es-ES')}
                       </div>
                     </div>
@@ -519,16 +518,16 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
 
                 {/* Pipeline visual */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h4 className="font-medium text-gray-800 mb-4">Pipeline de Candidatos</h4>
+                  <h4 className="font-medium text-slate-800 mb-4">Pipeline de Candidatos</h4>
                   <div className="grid grid-cols-4 gap-4">
                     {['screening', 'interview', 'evaluation', 'offer'].map((stage) => {
                       const count = mockPosition.candidates.filter(c => c.stage === stage).length;
                       return (
                         <div key={stage} className="text-center">
                           <div className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-2 ${
-                            stage === 'screening' ? 'bg-yellow-100 text-yellow-600' :
-                            stage === 'interview' ? 'bg-blue-100 text-blue-600' :
-                            stage === 'evaluation' ? 'bg-purple-100 text-purple-600' : 'bg-green-100 text-green-600'
+                            stage === 'screening' ? 'bg-gray-100 text-gray-800' :
+                            stage === 'interview' ? 'bg-emerald-100 text-emerald-600' :
+                            stage === 'evaluation' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-100 text-emerald-600'
                           }`}>
                             <span className="font-bold">{count}</span>
                           </div>
@@ -543,27 +542,27 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
 
             {activeTab === 'analytics' && (
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-800">Analíticas de la Posición</h3>
+                <h3 className="text-lg font-semibold text-slate-800">Analíticas de la Posición</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-blue-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-blue-600">{mockPosition.metrics.viewCount}</div>
-                    <div className="text-sm text-blue-700">Visualizaciones</div>
+                  <div className="bg-emerald-50 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-emerald-600">{mockPosition.metrics.viewCount}</div>
+                    <div className="text-sm text-emerald-700">Visualizaciones</div>
                   </div>
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-green-600">{mockPosition.metrics.applicationRate}%</div>
-                    <div className="text-sm text-green-700">Tasa de Aplicación</div>
+                  <div className="bg-gray-100 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-gray-800">{mockPosition.metrics.applicationRate}%</div>
+                    <div className="text-sm text-gray-700">Tasa de Aplicación</div>
                   </div>
-                  <div className="bg-purple-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-purple-600">
+                  <div className="bg-slate-100 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-slate-800">
                       {Math.round((mockPosition.metrics.qualifiedCandidates / mockPosition.metrics.totalApplications) * 100)}%
                     </div>
-                    <div className="text-sm text-purple-700">Tasa de Calificación</div>
+                    <div className="text-sm text-slate-700">Tasa de Calificación</div>
                   </div>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h4 className="font-medium text-gray-800 mb-4">Rendimiento vs Promedio</h4>
+                  <h4 className="font-medium text-slate-800 mb-4">Rendimiento vs Promedio</h4>
                   <div className="space-y-4">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
@@ -571,7 +570,7 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                         <span>{mockPosition.metrics.totalApplications} vs 32 (promedio)</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{ width: '75%' }}></div>
+                        <div className="bg-emerald-600 h-2 rounded-full" style={{ width: '75%' }}></div>
                       </div>
                     </div>
                     <div>
@@ -580,7 +579,7 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
                         <span>{mockPosition.metrics.avgScore}% vs 72% (promedio)</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full" style={{ width: '85%' }}></div>
+                        <div className="bg-emerald-600 h-2 rounded-full" style={{ width: '85%' }}></div>
                       </div>
                     </div>
                   </div>
@@ -590,21 +589,21 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
 
             {activeTab === 'activity' && (
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-800">Actividad Reciente</h3>
+                <h3 className="text-lg font-semibold text-slate-800">Actividad Reciente</h3>
                 
                 <div className="space-y-4">
                   {mockPosition.activity.map((activity) => (
                     <div key={activity.id} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        activity.type === 'application' ? 'bg-blue-100 text-blue-600' :
-                        activity.type === 'interview' ? 'bg-green-100 text-green-600' : 'bg-purple-100 text-purple-600'
+                        activity.type === 'application' ? 'bg-emerald-100 text-emerald-600' :
+                        activity.type === 'interview' ? 'bg-gray-100 text-gray-800' : 'bg-slate-100 text-slate-600'
                       }`}>
                         {activity.type === 'application' ? <Users className="w-4 h-4" /> :
                          activity.type === 'interview' ? <Calendar className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
                       </div>
                       <div className="flex-1">
-                        <p className="text-gray-800">{activity.description}</p>
-                        <div className="flex items-center space-x-2 mt-1 text-sm text-gray-500">
+                        <p className="text-slate-800">{activity.description}</p>
+                        <div className="flex items-center space-x-2 mt-1 text-sm text-gray-600">
                           <span>{activity.user}</span>
                           <span>•</span>
                           <span>{new Date(activity.date).toLocaleDateString('es-ES')}</span>
@@ -619,23 +618,23 @@ export default function PositionDetailView({ positionId }: PositionDetailProps) 
         </div>
 
         {/* Acciones rápidas */}
-        <div className="mt-6 flex items-center justify-between bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div className="mt-6 flex items-center justify-between bg-white rounded-xl shadow-sm border border-slate-200 p-4">
           <div className="flex items-center space-x-4">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+            <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500 transition-colors flex items-center space-x-2">
               <Edit className="w-4 h-4" />
               <span>Editar Posición</span>
             </button>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
+            <button className="bg-gray-100 text-slate-800 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-2">
               <Share2 className="w-4 h-4" />
               <span>Compartir</span>
             </button>
-            <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+            <button className="border border-slate-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 hover:border-emerald-500 transition-colors flex items-center space-x-2">
               <Pause className="w-4 h-4" />
               <span>Pausar</span>
             </button>
           </div>
           
-          <button className="text-red-600 hover:text-red-700 transition-colors flex items-center space-x-2">
+          <button className="text-slate-400 hover:text-slate-600 transition-colors flex items-center space-x-2">
             <AlertTriangle className="w-4 h-4" />
             <span>Cerrar Posición</span>
           </button>

@@ -140,11 +140,11 @@ export default function ApplicationsPending() {
      */
     const getStageColor = (stage: string) => {
         switch (stage) {
-            case 'initial_review': return 'bg-blue-100 text-blue-800';
-            case 'hr_filter': return 'bg-yellow-100 text-yellow-800';
-            case 'interview_scheduled': return 'bg-purple-100 text-purple-800';
-            case 'interview_completed': return 'bg-green-100 text-green-800';
-            default: return 'bg-slate-100 text-slate-800';
+            case 'initial_review': return 'bg-gray-100 text-slate-700';
+            case 'hr_filter': return 'bg-gray-100 text-slate-700';
+            case 'interview_scheduled': return 'bg-emerald-100 text-emerald-800';
+            case 'interview_completed': return 'bg-emerald-100 text-emerald-800';
+            default: return 'bg-gray-100 text-slate-700';
         }
     };
 
@@ -166,9 +166,9 @@ export default function ApplicationsPending() {
      */
     const getPriorityColor = (priority: string) => {
         switch (priority) {
-            case 'high': return 'text-red-600';
-            case 'medium': return 'text-yellow-600';
-            case 'low': return 'text-green-600';
+            case 'high': return 'text-emerald-600';
+            case 'medium': return 'text-slate-600';
+            case 'low': return 'text-gray-500';
             default: return 'text-slate-600';
         }
     };
@@ -178,10 +178,10 @@ export default function ApplicationsPending() {
      */
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'pending': return <Clock className="w-4 h-4 text-yellow-500" />;
-            case 'in_review': return <Eye className="w-4 h-4 text-blue-500" />;
-            case 'approved': return <CheckCircle className="w-4 h-4 text-green-500" />;
-            case 'rejected': return <XCircle className="w-4 h-4 text-red-500" />;
+            case 'pending': return <Clock className="w-4 h-4 text-slate-500" />;
+            case 'in_review': return <Eye className="w-4 h-4 text-slate-600" />;
+            case 'approved': return <CheckCircle className="w-4 h-4 text-emerald-500" />;
+            case 'rejected': return <XCircle className="w-4 h-4 text-slate-500" />;
             default: return <AlertCircle className="w-4 h-4 text-slate-500" />;
         }
     };
@@ -214,10 +214,10 @@ export default function ApplicationsPending() {
         <div className="card p-6">
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-                    <UserCheck className="w-5 h-5 mr-2 text-blue-600" />
+                    <UserCheck className="w-5 h-5 mr-2 text-emerald-600" />
                     Aplicaciones Pendientes
                     {urgentCount > 0 && (
-                        <span className="ml-2 px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">
+                        <span className="ml-2 px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full font-medium">
                             {urgentCount} urgentes
                         </span>
                     )}
@@ -226,7 +226,7 @@ export default function ApplicationsPending() {
                     <select
                         value={selectedFilter}
                         onChange={(e) => setSelectedFilter(e.target.value)}
-                        className="text-xs border border-slate-200 rounded px-2 py-1"
+                        className="text-xs border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                     >
                         <option value="all">Todas ({pendingApplications.length})</option>
                         <option value="urgent">Urgentes ({urgentCount})</option>
@@ -239,7 +239,7 @@ export default function ApplicationsPending() {
 
             <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
                 {filteredApplications.map((application) => (
-                    <div key={application.id} className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div key={application.id} className="border border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-emerald-200 transition-all">
                         {/* Header con información básica */}
                         <div className="flex items-start justify-between mb-3">
                             <div className="flex-1">
@@ -250,24 +250,24 @@ export default function ApplicationsPending() {
                                     </span>
                                     <span className={`flex items-center ${getPriorityColor(application.priority)}`}>
                                         <Star className="w-3 h-3 mr-1" />
-                                        <span className="text-xs capitalize">{application.priority}</span>
+                                        <span className="text-xs capitalize font-medium">{application.priority}</span>
                                     </span>
                                 </div>
-                                <p className="text-sm text-slate-600 mb-1">{application.position}</p>
-                                <div className="flex items-center space-x-4 text-xs text-slate-500">
+                                <p className="text-sm text-gray-600 mb-1">{application.position}</p>
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
                                     <span className="flex items-center">
-                                        <Mail className="w-3 h-3 mr-1" />
+                                        <Mail className="w-3 h-3 mr-1 text-slate-400" />
                                         {application.email}
                                     </span>
                                     <span className="flex items-center">
-                                        <Phone className="w-3 h-3 mr-1" />
+                                        <Phone className="w-3 h-3 mr-1 text-slate-400" />
                                         {application.phone}
                                     </span>
                                 </div>
                             </div>
                             <div className="flex items-center space-x-2">
                                 {getStatusIcon(application.status)}
-                                <span className="text-xs text-slate-500">
+                                <span className="text-xs text-gray-600">
                                     {new Date(application.appliedDate).toLocaleDateString('es-ES')}
                                 </span>
                             </div>
@@ -276,11 +276,11 @@ export default function ApplicationsPending() {
                         {/* Información adicional */}
                         <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center space-x-4 text-xs">
-                                <span className="text-slate-600">
-                                    <strong>Experiencia:</strong> {application.experience}
+                                <span className="text-gray-600">
+                                    <strong className="text-slate-700">Experiencia:</strong> {application.experience}
                                 </span>
                                 {application.interviewDate && (
-                                    <span className="flex items-center text-purple-600">
+                                    <span className="flex items-center text-emerald-600 font-medium">
                                         <Calendar className="w-3 h-3 mr-1" />
                                         {new Date(application.interviewDate).toLocaleDateString('es-ES')}
                                     </span>
@@ -292,7 +292,7 @@ export default function ApplicationsPending() {
                         <div className="mb-3">
                             <div className="flex flex-wrap gap-1">
                                 {application.skills.map((skill) => (
-                                    <span key={skill} className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded">
+                                    <span key={skill} className="px-2 py-1 bg-gray-100 text-slate-700 text-xs rounded font-medium">
                                         {skill}
                                     </span>
                                 ))}
@@ -301,8 +301,8 @@ export default function ApplicationsPending() {
 
                         {/* Notas si existen */}
                         {application.notes && (
-                            <div className="mb-3 p-2 bg-blue-50 rounded text-xs">
-                                <span className="flex items-center text-blue-700">
+                            <div className="mb-3 p-2 bg-emerald-50 rounded text-xs">
+                                <span className="flex items-center text-emerald-700 font-medium">
                                     <MessageSquare className="w-3 h-3 mr-1" />
                                     {application.notes}
                                 </span>
@@ -310,24 +310,24 @@ export default function ApplicationsPending() {
                         )}
 
                         {/* Acciones */}
-                        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                             <div className="flex space-x-2">
                                 <button
                                     onClick={() => handleAction('view', application.id)}
-                                    className="px-3 py-1 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors"
+                                    className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-slate-700 rounded transition-colors font-medium"
                                 >
                                     Ver Perfil
                                 </button>
                                 <button
                                     onClick={() => handleAction('contact', application.id)}
-                                    className="px-3 py-1 text-xs bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors"
+                                    className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium"
                                 >
                                     Contactar
                                 </button>
                                 {application.stage === 'hr_filter' && (
                                     <button
                                         onClick={() => handleAction('interview', application.id)}
-                                        className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-700 rounded transition-colors"
+                                        className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium"
                                     >
                                         Programar Entrevista
                                     </button>
@@ -336,14 +336,14 @@ export default function ApplicationsPending() {
                             <div className="flex space-x-1">
                                 <button
                                     onClick={() => handleAction('approve', application.id)}
-                                    className="p-1 text-green-600 hover:bg-green-50 rounded transition-colors"
+                                    className="p-1 text-emerald-600 hover:bg-emerald-50 rounded transition-colors"
                                     title="Aprobar"
                                 >
                                     <CheckCircle className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleAction('reject', application.id)}
-                                    className="p-1 text-red-600 hover:bg-red-50 rounded transition-colors"
+                                    className="p-1 text-slate-600 hover:bg-gray-50 rounded transition-colors"
                                     title="Rechazar"
                                 >
                                     <XCircle className="w-4 h-4" />
@@ -355,7 +355,7 @@ export default function ApplicationsPending() {
             </div>
 
             {filteredApplications.length === 0 && (
-                <div className="text-center py-8 text-slate-500">
+                <div className="text-center py-8 text-gray-600">
                     <UserCheck className="w-12 h-12 mx-auto mb-3 text-slate-300" />
                     <p className="text-sm">No hay aplicaciones que coincidan con el filtro</p>
                 </div>
@@ -365,28 +365,28 @@ export default function ApplicationsPending() {
             <div className="mt-6 pt-4 border-t border-slate-200">
                 <div className="grid grid-cols-4 gap-4 text-center">
                     <div>
-                        <p className="text-lg font-semibold text-blue-600">
+                        <p className="text-lg font-semibold text-slate-600">
                             {pendingApplications.filter(a => a.stage === 'initial_review').length}
                         </p>
-                        <p className="text-xs text-slate-600">Por Revisar</p>
+                        <p className="text-xs text-gray-600">Por Revisar</p>
                     </div>
                     <div>
-                        <p className="text-lg font-semibold text-yellow-600">
+                        <p className="text-lg font-semibold text-slate-600">
                             {pendingApplications.filter(a => a.stage === 'hr_filter').length}
                         </p>
-                        <p className="text-xs text-slate-600">En Filtro</p>
+                        <p className="text-xs text-gray-600">En Filtro</p>
                     </div>
                     <div>
-                        <p className="text-lg font-semibold text-purple-600">
+                        <p className="text-lg font-semibold text-emerald-600">
                             {pendingApplications.filter(a => a.stage === 'interview_scheduled').length}
                         </p>
-                        <p className="text-xs text-slate-600">Entrevistas</p>
+                        <p className="text-xs text-gray-600">Entrevistas</p>
                     </div>
                     <div>
-                        <p className="text-lg font-semibold text-green-600">
+                        <p className="text-lg font-semibold text-emerald-600">
                             {pendingApplications.filter(a => a.stage === 'interview_completed').length}
                         </p>
-                        <p className="text-xs text-slate-600">Completadas</p>
+                        <p className="text-xs text-gray-600">Completadas</p>
                     </div>
                 </div>
             </div>

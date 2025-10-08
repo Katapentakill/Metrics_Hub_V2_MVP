@@ -58,17 +58,17 @@ export default function ProjectsOverview({ data }: ProjectsOverviewProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-emerald-100 text-emerald-700';
-      case 'planning': return 'bg-blue-100 text-blue-700';
-      case 'completed': return 'bg-gray-100 text-gray-700';
-      default: return 'bg-slate-100 text-slate-700';
+      case 'planning': return 'bg-gray-100 text-slate-700';
+      case 'completed': return 'bg-gray-100 text-slate-700';
+      default: return 'bg-gray-100 text-slate-700';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-green-600';
+      case 'high': return 'text-emerald-600';
+      case 'medium': return 'text-slate-600';
+      case 'low': return 'text-gray-500';
       default: return 'text-slate-600';
     }
   };
@@ -82,30 +82,30 @@ export default function ProjectsOverview({ data }: ProjectsOverviewProps) {
       
       <div className="space-y-4">
         {projects.map((project) => (
-          <div key={project.id} className="p-4 bg-slate-50 rounded-lg border">
+          <div key={project.id} className="p-4 bg-gray-50 rounded-lg border border-slate-200 hover:border-emerald-200 hover:shadow-md transition-all">
             <div className="flex items-start justify-between mb-3">
               <div>
                 <h4 className="font-semibold text-slate-800 flex items-center">
                   {project.name}
-                  <span className={`ml-2 px-2 py-1 rounded-full text-xs ${getStatusColor(project.status)}`}>
+                  <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(project.status)}`}>
                     Activo
                   </span>
-                  <span className={`ml-2 text-xs ${getPriorityColor(project.priority)}`}>
+                  <span className={`ml-2 text-xs font-medium ${getPriorityColor(project.priority)}`}>
                     {project.priority === 'high' ? 'Alta' : project.priority === 'medium' ? 'Media' : 'Baja'}
                   </span>
                 </h4>
-                <p className="text-sm text-slate-600 mb-2">{project.description}</p>
-                <div className="flex items-center space-x-4 text-xs text-slate-500">
+                <p className="text-sm text-gray-600 mb-2">{project.description}</p>
+                <div className="flex items-center space-x-4 text-xs text-gray-600">
                   <span className="flex items-center">
-                    <Users className="w-3 h-3 mr-1" />
+                    <Users className="w-3 h-3 mr-1 text-slate-400" />
                     {project.teamMembers} miembros
                   </span>
                   <span className="flex items-center">
-                    <CheckCircle className="w-3 h-3 mr-1" />
+                    <CheckCircle className="w-3 h-3 mr-1 text-slate-400" />
                     {project.tasksCompleted}/{project.totalTasks} tareas
                   </span>
                   <span className="flex items-center">
-                    <Clock className="w-3 h-3 mr-1" />
+                    <Clock className="w-3 h-3 mr-1 text-slate-400" />
                     Vence: {new Date(project.deadline).toLocaleDateString()}
                   </span>
                 </div>
@@ -113,24 +113,32 @@ export default function ProjectsOverview({ data }: ProjectsOverviewProps) {
             </div>
             
             {/* Barra de progreso */}
-            <div className="w-full bg-slate-200 rounded-full h-2 mb-2">
+            <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
               <div 
                 className="bg-emerald-600 h-2 rounded-full transition-all duration-500" 
                 style={{ width: `${project.progress}%` }}
               ></div>
             </div>
             
-            <div className="flex justify-between items-center text-xs text-slate-500">
-              <span>Progreso: {project.progress}%</span>
-              <span className="flex items-center">
+            <div className="flex justify-between items-center text-xs text-gray-600">
+              <span className="font-medium">Progreso: {project.progress}%</span>
+              <span className="flex items-center font-medium">
                 {project.progress > 80 ? (
-                  <TrendingUp className="w-3 h-3 mr-1 text-green-500" />
+                  <>
+                    <TrendingUp className="w-3 h-3 mr-1 text-emerald-500" />
+                    <span className="text-emerald-600">En buen ritmo</span>
+                  </>
                 ) : project.progress < 30 ? (
-                  <AlertTriangle className="w-3 h-3 mr-1 text-yellow-500" />
+                  <>
+                    <AlertTriangle className="w-3 h-3 mr-1 text-slate-500" />
+                    <span className="text-slate-700">Requiere atención</span>
+                  </>
                 ) : (
-                  <Target className="w-3 h-3 mr-1 text-blue-500" />
+                  <>
+                    <Target className="w-3 h-3 mr-1 text-slate-500" />
+                    <span className="text-slate-600">En progreso</span>
+                  </>
                 )}
-                {project.progress > 80 ? 'En buen ritmo' : project.progress < 30 ? 'Requiere atención' : 'En progreso'}
               </span>
             </div>
           </div>
@@ -142,17 +150,17 @@ export default function ProjectsOverview({ data }: ProjectsOverviewProps) {
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-2xl font-bold text-emerald-600">{data?.activeProjects || 0}</p>
-            <p className="text-xs text-slate-600">Proyectos Activos</p>
+            <p className="text-xs text-gray-600">Proyectos Activos</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-blue-600">{data?.activeTeamMembers || 0}</p>
-            <p className="text-xs text-slate-600">Miembros del Equipo</p>
+            <p className="text-2xl font-bold text-emerald-600">{data?.activeTeamMembers || 0}</p>
+            <p className="text-xs text-gray-600">Miembros del Equipo</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-purple-600">
+            <p className="text-2xl font-bold text-slate-600">
               {Math.round((data?.completedTasks || 0) / (data?.totalTasks || 1) * 100)}%
             </p>
-            <p className="text-xs text-slate-600">Progreso General</p>
+            <p className="text-xs text-gray-600">Progreso General</p>
           </div>
         </div>
       </div>
