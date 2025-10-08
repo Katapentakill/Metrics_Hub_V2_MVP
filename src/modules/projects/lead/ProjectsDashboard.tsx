@@ -1,5 +1,6 @@
 // UBICACIÓN: src/modules/projects/lead/ProjectsDashboard.tsx
 // Dashboard de proyectos para Líder de Proyecto - Solo muestra sus proyectos
+// ✅ FIX: Agregado onChange handler al select (línea 131)
 
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
@@ -26,10 +27,13 @@ interface ProjectsDashboardProps {
 
 export default function ProjectsDashboard({ 
   projects, 
-  timeframe = '30d' 
+  timeframe: initialTimeframe = '30d' 
 }: ProjectsDashboardProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'performance' | 'team' | 'timeline'>('overview');
+  
+  // ✅ FIX: Agregar estado para timeframe
+  const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>(initialTimeframe);
 
   // Función para navegar al proyecto
   const navigateToProject = (projectId: string) => {
@@ -128,8 +132,10 @@ export default function ProjectsDashboard({
         </div>
         
         <div className="flex items-center space-x-2">
+          {/* ✅ FIX: Agregar onChange handler */}
           <select 
-            value={timeframe} 
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value as '7d' | '30d' | '90d' | '1y')}
             className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
           >
             <option value="7d">Últimos 7 días</option>
@@ -454,4 +460,3 @@ export default function ProjectsDashboard({
     </div>
   );
 }
-

@@ -1,14 +1,7 @@
+// src/modules/documents/admin/documentHub.tsx
 'use client';
 
 import { useState } from 'react';
-// import Link from 'next/link'; // Original failing import
-
-// FIX: Implementación SIMPLIFICADA del componente Link. Ahora es un DIV para evitar la anidación de <a>.
-const Link: React.FC<{ href: string; children: React.ReactNode; legacyBehavior?: boolean }> = ({ children }) => {
-  // Retornamos solo los children envueltos en un fragmento o div neutro
-  return <>{children}</>;
-};
-
 import { 
   FileText, 
   Users, 
@@ -24,9 +17,7 @@ import {
   FileCheck,
   AlertCircle,
   Download,
-  Search,
-  Filter,
-  FolderOpen
+  Filter
 } from 'lucide-react';
 
 // ============================================================================
@@ -57,7 +48,7 @@ interface RecentActivity {
 }
 
 // ============================================================================
-// DATA (Colores Unificados: Esmeralda y Azul como primarios)
+// DATA - Paleta de Verdes
 // ============================================================================
 
 const sections: SectionConfig[] = [
@@ -66,7 +57,6 @@ const sections: SectionConfig[] = [
     description: 'Documentos de referencia generales y recursos compartidos de la organización.',
     href: '/admin/documents/company-library',
     icon: BookOpen,
-    // Usamos el color principal de la aplicación (Esmeralda)
     gradient: 'from-emerald-500 to-emerald-600',
     bgHover: 'hover:bg-emerald-50',
     stats: { label: 'Documents', value: 234, subValue: '+12 this week' },
@@ -76,9 +66,8 @@ const sections: SectionConfig[] = [
     description: 'Políticas internas, procedimientos operativos y guías de cumplimiento.',
     href: '/admin/documents/policies-guides',
     icon: Shield,
-    // Usamos Azul para el contraste secundario o áreas funcionales clave
-    gradient: 'from-blue-500 to-blue-600',
-    bgHover: 'hover:bg-blue-50',
+    gradient: 'from-teal-500 to-teal-600',
+    bgHover: 'hover:bg-teal-50',
     stats: { label: 'Policies', value: 48, subValue: '5 need review' },
   },
   {
@@ -86,9 +75,8 @@ const sections: SectionConfig[] = [
     description: 'Documentos personales, certificaciones y materiales enviados por voluntarios, CPT/OPT.',
     href: '/admin/documents/volunteer-submissions',
     icon: Users,
-    // Volvemos a Esmeralda/Azul o una variante neutra
-    gradient: 'from-emerald-400 to-emerald-500',
-    bgHover: 'hover:bg-emerald-50',
+    gradient: 'from-green-500 to-green-600',
+    bgHover: 'hover:bg-green-50',
     stats: { label: 'Submissions', value: 156, subValue: '23 pending' },
   },
   {
@@ -96,9 +84,8 @@ const sections: SectionConfig[] = [
     description: 'Herramientas de administración, aprobación y organización documental.',
     href: '/admin/documents/management',
     icon: Settings,
-    // Usamos Azul para el contraste secundario o áreas funcionales clave
-    gradient: 'from-blue-400 to-blue-500',
-    bgHover: 'hover:bg-blue-50',
+    gradient: 'from-lime-500 to-lime-600',
+    bgHover: 'hover:bg-lime-50',
     stats: { label: 'Pending', value: 12, subValue: '3 urgent' },
   },
 ];
@@ -110,12 +97,11 @@ const recentActivities: RecentActivity[] = [
   { id: '4', action: 'downloaded', user: 'Lisa Wang', document: 'Employee Handbook 2025', time: '2 hours ago', type: 'download' },
 ];
 
-// Mapeo de colores para la actividad (usando Esmeralda, Azul, Naranja, Rojo)
 const ACTIVITY_COLOR_MAP = {
-    upload: { icon: Upload, text: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-400' },
-    approve: { icon: FileCheck, text: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-400' },
-    review: { icon: AlertCircle, text: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-400' }, // Alerta
-    download: { icon: Download, text: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-300' }, // Neutro
+    upload: { icon: Upload, text: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+    approve: { icon: FileCheck, text: 'text-green-700', bg: 'bg-green-50', border: 'border-green-200' },
+    review: { icon: AlertCircle, text: 'text-teal-700', bg: 'bg-teal-50', border: 'border-teal-200' },
+    download: { icon: Download, text: 'text-lime-700', bg: 'bg-lime-50', border: 'border-lime-200' },
 };
 
 // ============================================================================
@@ -130,17 +116,17 @@ const StatCard = ({ label, value, trend, icon: Icon, color }: {
   color: string;
 }) => {
   const isUp = trend && trend.includes('+');
-  const trendColor = isUp ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50';
+  const trendColor = isUp ? 'text-emerald-700 bg-emerald-50' : 'text-red-700 bg-red-50';
 
   return (
     <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 group">
       <div className="flex items-start justify-between mb-3">
-        <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
-          <Icon className={`w-5 h-5 text-white`} />
+        <div className={`p-3 rounded-lg ${color}`}>
+          <Icon className="w-5 h-5 text-white" />
         </div>
         {trend && (
           <div className={`flex items-center gap-1 px-2 py-1 rounded-full ${trendColor}`}>
-            <TrendingUp className={`w-3 h-3 ${isUp ? 'text-green-600' : 'text-red-600 rotate-180'}`} />
+            <TrendingUp className={`w-3 h-3 ${isUp ? 'text-emerald-700' : 'text-red-700 rotate-180'}`} />
             <span className="text-xs font-medium">{trend}</span>
           </div>
         )}
@@ -155,89 +141,77 @@ const SectionCard = ({ section }: { section: SectionConfig }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    // FIX: El componente Link ahora es solo un contenedor (Fragmento),
-    // y el enlace real (<a>) se maneja en el elemento interno.
-    <Link href={section.href} legacyBehavior>
-      <a
-        href={section.href} // Añadimos el href directamente aquí
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`
-          relative overflow-hidden bg-white rounded-xl border-2 border-gray-200 block
-          hover:shadow-2xl hover:-translate-y-2 
-          transition-all duration-300 cursor-pointer
-          ${section.bgHover}
-        `}
-      >
-        {/* Gradient accent bar */}
-        <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${section.gradient}`} />
-        
-        {/* Card Header */}
-        <div className="p-6 pb-4">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-start gap-4 flex-1">
-              {/* Icon */}
-              <div className={`
-                p-3 rounded-xl bg-gradient-to-br ${section.gradient} 
-                shadow-lg transition-transform duration-300 flex-shrink-0
-                ${isHovered ? 'scale-110 rotate-3' : 'scale-100 rotate-0'}
-              `}>
-                <section.icon className="w-7 h-7 text-white" />
-              </div>
-              
-              {/* Title and Badge */}
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
-                  {section.title}
-                </h3>
-                <div className="flex items-center gap-2">
-                  <span className={`
-                    px-3 py-1 rounded-full text-sm font-bold
-                    bg-gradient-to-r ${section.gradient} text-white shadow-sm
-                  `}>
-                    {section.stats.value}
-                  </span>
-                  <span className="text-xs font-medium text-gray-500">
-                    {section.stats.label}
-                  </span>
-                </div>
-              </div>
+    <a
+      href={section.href}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`
+        relative overflow-hidden bg-white rounded-xl border-2 border-gray-200 block
+        hover:shadow-2xl hover:-translate-y-2 
+        transition-all duration-300 cursor-pointer
+        ${section.bgHover}
+      `}
+    >
+      <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${section.gradient}`} />
+      
+      <div className="p-6 pb-4">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-start gap-4 flex-1">
+            <div className={`
+              p-3 rounded-xl bg-gradient-to-br ${section.gradient} 
+              shadow-sm transition-transform duration-300 flex-shrink-0
+              ${isHovered ? 'scale-110 rotate-3' : 'scale-100 rotate-0'}
+            `}>
+              <section.icon className="w-7 h-7 text-white" />
             </div>
             
-            {/* Arrow */}
-            <ArrowRight className={`
-              w-6 h-6 text-gray-400 transition-all duration-300
-              ${isHovered ? 'text-gray-700 translate-x-1' : ''}
-            `} />
-          </div>
-
-          {/* Sub-stat */}
-          {section.stats.subValue && (
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 ml-16">
-              <Activity className="w-3 h-3" />
-              <span>{section.stats.subValue}</span>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
+                {section.title}
+              </h3>
+              <div className="flex items-center gap-2">
+                <span className={`
+                  px-3 py-1 rounded-full text-sm font-bold
+                  bg-gradient-to-r ${section.gradient} text-white shadow-sm
+                `}>
+                  {section.stats.value}
+                </span>
+                <span className="text-xs font-medium text-gray-500">
+                  {section.stats.label}
+                </span>
+              </div>
             </div>
-          )}
-        </div>
-        
-        {/* Card Body */}
-        <div className="px-6 pb-6">
-          <p className="text-sm text-gray-600 leading-relaxed mb-4">
-            {section.description}
-          </p>
-          
-          {/* Action hint */}
-          <div className="pt-4 border-t border-gray-100">
-            <span className={`
-              text-sm font-medium transition-colors
-              ${isHovered ? 'text-emerald-600' : 'text-gray-400'}
-            `}>
-              Explorar sección →
-            </span>
           </div>
+          
+          <ArrowRight className={`
+            w-6 h-6 text-gray-400 transition-all duration-300
+            ${isHovered ? 'text-gray-700 translate-x-1' : ''}
+          `} />
         </div>
-      </a>
-    </Link>
+
+        {section.stats.subValue && (
+          <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 ml-16">
+            <Activity className="w-3 h-3" />
+            <span>{section.stats.subValue}</span>
+          </div>
+        )}
+      </div>
+      
+      <div className="px-6 pb-6">
+        <p className="text-sm text-gray-600 leading-relaxed mb-4">
+          {section.description}
+        </p>
+        
+        <div className="pt-4 border-t border-gray-100">
+          <span className={`
+            text-sm font-medium transition-colors
+            ${isHovered ? 'text-emerald-600' : 'text-gray-400'}
+          `}>
+            Explorar sección →
+          </span>
+        </div>
+      </div>
+    </a>
   );
 };
 
@@ -247,7 +221,7 @@ const ActivityItem = ({ activity }: { activity: RecentActivity }) => {
 
   return (
     <div className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors border-l-4 border-transparent hover:border-gray-200">
-      <div className={`p-2 rounded-lg ${config.bg}`}>
+      <div className={`p-2 rounded-lg ${config.bg} border ${config.border}`}>
         <Icon className={`w-4 h-4 ${config.text}`} />
       </div>
       <div className="flex-1 min-w-0">
@@ -268,63 +242,51 @@ const ActivityItem = ({ activity }: { activity: RecentActivity }) => {
 
 export default function DocumentHub() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/20 to-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-6">
-            {/* INICIO: Logo principal modificado a línea verde sin fondo */}
-            
-              <FileText className="w-8 h-8 mr-3 text-emerald-600" />
-            
-            {/* FIN: Logo principal modificado */}
+            <FileText className="w-10 h-10 text-emerald-600" />
             <div>
-              <h1 className="text-3xl font-bold text-slate-800 flex items-center">Document Center</h1>
-              <p className="text-muted mt-1">
+              <h1 className="text-3xl font-bold text-gray-900">Document Center</h1>
+              <p className="text-gray-600 mt-1">
                 Gestión centralizada de documentos organizacionales
               </p>
             </div>
           </div>
           
-          {/* Stats Overview */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
               icon={FileText}
               label="Total Documents"
               value="450"
               trend="+8%"
-              // Usando la paleta Esmeralda
-              color="from-emerald-500 to-emerald-600"
+              color="bg-gradient-to-br from-emerald-500 to-emerald-600"
             />
             <StatCard
               icon={Users}
               label="Active Users"
               value="89"
               trend="+5%"
-              // Usando la paleta Azul
-              color="from-blue-500 to-blue-600"
+              color="bg-gradient-to-br from-teal-500 to-teal-600"
             />
             <StatCard
               icon={AlertCircle}
               label="Pending Review"
               value="12"
-              // Usando la paleta Naranja/Alerta
-              color="from-orange-500 to-red-600"
+              color="bg-gradient-to-br from-green-500 to-green-600"
             />
             <StatCard
               icon={BarChart3}
               label="Storage Used"
               value="2.4 GB"
               trend="+0.3 GB"
-              // Usando la paleta Neutra/Énfasis
-              color="from-gray-500 to-gray-600"
+              color="bg-gradient-to-br from-lime-500 to-lime-600"
             />
           </div>
         </div>
 
-        {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* Left Column - Sections */}
           <div className="lg:col-span-2">
             <div className="mb-4">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Document Sections</h2>
@@ -337,12 +299,11 @@ export default function DocumentHub() {
             </div>
           </div>
 
-          {/* Right Column - Activity Feed */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky lg:top-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-emerald-500" />
+                  <Activity className="w-5 h-5 text-emerald-600" />
                   Recent Activity
                 </h2>
                 <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
@@ -356,15 +317,14 @@ export default function DocumentHub() {
                 ))}
               </div>
 
-              {/* Activity Summary */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="grid grid-cols-2 gap-3 text-center">
-                  <div className="p-3 bg-blue-50 rounded-lg">
-                    <p className="text-2xl font-bold text-blue-600">34</p>
+                  <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                    <p className="text-2xl font-bold text-emerald-600">34</p>
                     <p className="text-xs text-gray-600">Today</p>
                   </div>
-                  <div className="p-3 bg-emerald-50 rounded-lg">
-                    <p className="text-2xl font-bold text-emerald-600">218</p>
+                  <div className="p-3 bg-teal-50 rounded-lg border border-teal-200">
+                    <p className="text-2xl font-bold text-teal-600">218</p>
                     <p className="text-xs text-gray-600">This Week</p>
                   </div>
                 </div>
@@ -373,7 +333,6 @@ export default function DocumentHub() {
           </div>
         </div>
 
-        {/* Quick Actions Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -387,20 +346,20 @@ export default function DocumentHub() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <button className="p-4 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2">
+            <button className="p-4 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2">
               <Upload className="w-5 h-5" />
               <span className="font-medium">Upload Document</span>
             </button>
             <button className="p-4 bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-emerald-300 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
-              <Clock className="w-5 h-5 text-emerald-500" />
+              <Clock className="w-5 h-5 text-emerald-600" />
               <span className="font-medium">Recent Activity</span>
             </button>
-            <button className="p-4 bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-blue-300 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
-              <BarChart3 className="w-5 h-5 text-blue-500" />
+            <button className="p-4 bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-teal-300 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
+              <BarChart3 className="w-5 h-5 text-teal-600" />
               <span className="font-medium">Generate Report</span>
             </button>
-            <button className="p-4 bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-gray-300 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
-              <Filter className="w-5 h-5 text-gray-500" />
+            <button className="p-4 bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-green-300 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
+              <Filter className="w-5 h-5 text-green-600" />
               <span className="font-medium">Advanced Search</span>
             </button>
           </div>

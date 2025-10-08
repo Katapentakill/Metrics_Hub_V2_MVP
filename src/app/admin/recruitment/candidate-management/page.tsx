@@ -13,14 +13,14 @@ const candidateStats = [
     value: 1247,
     change: { value: 18, type: 'increase' as const, period: 'mes anterior' },
     icon: Users,
-    color: 'text-purple-600',
+    color: 'text-emerald-600',
   },
   {
     title: 'Candidatos Activos',
     value: 156,
     change: { value: 12, type: 'increase' as const, period: 'semana anterior' },
     icon: Clock,
-    color: 'text-blue-600',
+    color: 'text-teal-600',
   },
   {
     title: 'En Proceso de Entrevista',
@@ -34,7 +34,7 @@ const candidateStats = [
     value: 8,
     change: { value: -20, type: 'decrease' as const, period: 'semana anterior' },
     icon: AlertTriangle,
-    color: 'text-orange-600',
+    color: 'text-lime-600',
   },
 ];
 
@@ -44,7 +44,7 @@ const adminCandidateManagementSections = [
     description: 'Visualiza y gestiona el progreso de todos los candidatos activos a través del embudo de reclutamiento.',
     href: '/admin/recruitment/candidate-management/tracker',
     icon: BarChart,
-    color: 'text-indigo-600',
+    color: 'text-teal-600',
     badge: { status: 'active' as const, text: '156 Activos' },
     stats: [
       { label: 'En Revisión', value: '89' },
@@ -57,7 +57,7 @@ const adminCandidateManagementSections = [
     description: 'Accede a un repositorio global con todos los perfiles de candidatos en la historia de la organización.',
     href: '/admin/recruitment/candidate-management/database',
     icon: Search,
-    color: 'text-green-600',
+    color: 'text-emerald-600',
     badge: { status: 'info' as const, text: '1,247 Total' },
     stats: [
       { label: 'Nuevos', value: '42' },
@@ -81,7 +81,7 @@ export default function AdminCandidateManagementPage() {
         
         <div className="flex justify-between items-start mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white shadow-lg">
+            <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-lg">
               <Users className="w-8 h-8" />
             </div>
             <div>

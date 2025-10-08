@@ -4,9 +4,8 @@
 import React, { useState } from 'react';
 import { Shield, Clock, Search, FileText, AlertTriangle, CheckCircle, Eye, TrendingUp, DollarSign, Target, Users, Calendar, ArrowRight, BarChart2, PieChart } from 'lucide-react';
 
-// --- Shared Components for Auto-Containment ---
+// --- Shared Components ---
 
-// Reemplazo simplificado para '@/components/ui/button'
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'outline' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg';
@@ -22,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   };
 
   const variantClasses = {
-    default: 'bg-slate-600 text-white hover:bg-slate-700 shadow-md',
+    default: 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg shadow-md',
     outline: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50',
     ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
     destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-md',
@@ -38,7 +37,6 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   );
 };
 
-// Reemplazo simplificado para '@/modules/recruitment/admin/components/AdminPageLayout'
 interface AdminPageLayoutProps {
   title: string;
   subtitle: string;
@@ -60,14 +58,14 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
   headerActions,
   children,
 }) => (
-  <div className="min-h-screen bg-gray-50">
+  <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/20 to-gray-100">
     <div className="p-8 max-w-7xl mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
         {breadcrumbItems.map((item, index) => (
           <React.Fragment key={index}>
             {item.href ? (
-              <a href={item.href} className="hover:text-indigo-600 transition-colors">
+              <a href={item.href} className="hover:text-emerald-600 transition-colors">
                 {item.label}
               </a>
             ) : (
@@ -97,20 +95,16 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
   </div>
 );
 
-// Reemplazo simplificado para las Cards
 const Card: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
   <div className={`bg-white rounded-xl shadow-sm border border-gray-100 ${className}`}>
     {children}
   </div>
 );
-const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pb-2">{children}</div>;
+
 const CardTitle: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
   <h3 className={`text-xl font-bold text-gray-900 ${className}`}>{children}</h3>
 );
-const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pt-0">{children}</div>;
 
-
-// Componente para estadísticas rápidas (AdminDashboardStats)
 interface StatProps {
   title: string;
   value: string | number;
@@ -129,8 +123,8 @@ const AdminDashboardStats: React.FC<{ stats: StatProps[] }> = ({ stats }) => (
       let isIncreasing = false;
 
       if (stat.change.type === 'increase') {
-        changeColor = 'text-green-600';
-        changeBg = 'bg-green-50';
+        changeColor = 'text-emerald-600';
+        changeBg = 'bg-emerald-50';
         isIncreasing = true;
       } else if (stat.change.type === 'decrease') {
         changeColor = 'text-red-600';
@@ -161,8 +155,6 @@ const AdminDashboardStats: React.FC<{ stats: StatProps[] }> = ({ stats }) => (
   </div>
 );
 
-
-// Componente para la Tarjeta de Contenido del Tab (AdminSectionCard)
 interface SectionStat {
   label: string;
   value: string;
@@ -183,13 +175,13 @@ interface SectionProps {
 const getBadgeColor = (status: SectionProps['badge']['status']) => {
   switch (status) {
     case 'success':
-      return 'bg-green-100 text-green-800 border-green-200';
+      return 'bg-emerald-100 text-emerald-700 border-emerald-200';
     case 'info':
-      return 'bg-blue-100 text-blue-800 border-blue-200';
+      return 'bg-teal-100 text-teal-700 border-teal-200';
     case 'active':
-      return 'bg-purple-100 text-purple-800 border-purple-200';
+      return 'bg-green-100 text-green-700 border-green-200';
     case 'warning':
-      return 'bg-orange-100 text-orange-800 border-orange-200';
+      return 'bg-lime-100 text-lime-700 border-lime-200';
   }
 };
 
@@ -203,10 +195,10 @@ const AdminSectionCard: React.FC<SectionProps> = ({
   stats,
   isActive,
 }) => (
-  <Card className={`${isActive ? 'border-slate-400 border-2' : 'border-gray-200'} p-6 transition-all duration-300`}>
+  <Card className={`${isActive ? 'border-emerald-400 border-2 shadow-lg' : 'border-gray-200'} p-6 transition-all duration-300 hover:shadow-md`}>
     <div className="flex items-start justify-between mb-4">
       <div className="flex items-center gap-3">
-        <div className={`p-3 rounded-lg bg-gray-50 shadow-sm border ${color}`}>
+        <div className={`p-3 rounded-lg bg-emerald-50/30 shadow-sm border border-emerald-100 ${color}`}>
           <Icon className="w-6 h-6" />
         </div>
         <CardTitle className="text-2xl font-semibold">{title}</CardTitle>
@@ -228,7 +220,7 @@ const AdminSectionCard: React.FC<SectionProps> = ({
             ))}
         </div>
         <a href={href}>
-            <Button size="sm" variant="default" className="bg-slate-600 hover:bg-slate-700">
+            <Button size="sm" variant="default">
                 <ArrowRight className="w-4 h-4" />
             </Button>
         </a>
@@ -236,36 +228,35 @@ const AdminSectionCard: React.FC<SectionProps> = ({
   </Card>
 );
 
-
-// Mock data for audit stats (Updated to match StatProps)
+// Mock data
 const auditStats: StatProps[] = [
   {
     title: 'Eventos de Auditoría',
     value: 1247,
     change: { value: 5, type: 'increase', period: 'semana anterior' },
     icon: Eye,
-    color: 'text-blue-600',
+    color: 'text-teal-600',
   },
   {
     title: 'Accesos a Datos',
     value: 89,
     change: { value: 12, type: 'decrease', period: 'día anterior' },
     icon: Search,
-    color: 'text-green-600',
+    color: 'text-emerald-600',
   },
   {
     title: 'Alertas de Seguridad',
     value: 0,
     change: { value: 0, type: 'neutral', period: 'mes actual' },
     icon: AlertTriangle,
-    color: 'text-orange-600',
+    color: 'text-lime-600',
   },
   {
     title: 'Estado de Cumplimiento',
     value: '100%',
     change: { value: 0, type: 'neutral', period: 'trimestre actual' },
     icon: CheckCircle,
-    color: 'text-green-600',
+    color: 'text-emerald-600',
   },
 ];
 
@@ -275,7 +266,7 @@ const auditSections: Omit<SectionProps, 'isActive'>[] = [
     description: 'Visualiza un registro detallado de todas las acciones y cambios realizados por los usuarios en el sistema de reclutamiento.',
     href: '/admin/recruitment/audits/activity-log',
     icon: Clock,
-    color: 'text-purple-600',
+    color: 'text-green-600',
     badge: { status: 'active', text: '1,247 Eventos' },
     stats: [
       { label: 'Hoy', value: '23' },
@@ -288,7 +279,7 @@ const auditSections: Omit<SectionProps, 'isActive'>[] = [
     description: 'Revisa quién ha accedido a la información confidencial de los candidatos para garantizar la seguridad y privacidad.',
     href: '/admin/recruitment/audits/data-access',
     icon: Search,
-    color: 'text-orange-600',
+    color: 'text-lime-600',
     badge: { status: 'success', text: '89 Accesos' },
     stats: [
       { label: 'Autorizados', value: '89' },
@@ -301,7 +292,7 @@ const auditSections: Omit<SectionProps, 'isActive'>[] = [
     description: 'Genera reportes para asegurar que los procesos de reclutamiento cumplen con las normativas internas y legales.',
     href: '/admin/recruitment/audits/compliance-reports',
     icon: FileText,
-    color: 'text-green-600',
+    color: 'text-emerald-600',
     badge: { status: 'success', text: '100% Compliant' },
     stats: [
       { label: 'Reportes', value: '12' },
@@ -317,7 +308,6 @@ const tabSections = [
     { label: 'Cumplimiento', icon: FileText, id: 2 },
 ];
 
-
 export default function AdminAuditsPage() {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -329,7 +319,7 @@ export default function AdminAuditsPage() {
       subtitle="Panel de Administración"
       description="Este panel te ayuda a garantizar la transparencia y seguridad del proceso de reclutamiento. Revisa la actividad del sistema y audita el acceso a los datos para mantener el cumplimiento normativo."
       icon={Shield}
-      iconGradient="bg-gradient-to-br from-slate-600 to-gray-700"
+      iconGradient="bg-gradient-to-br from-emerald-500 to-teal-600"
       breadcrumbItems={[
         { label: 'Recruitment', href: '/admin/recruitment' },
         { label: 'Auditoría y Seguridad' }
@@ -340,7 +330,7 @@ export default function AdminAuditsPage() {
             <Search className="w-5 h-5 mr-2" />
             Búsqueda Avanzada
           </Button>
-          <Button variant="default" size="md" className="bg-slate-600 hover:bg-slate-700">
+          <Button variant="default" size="md">
             <FileText className="w-5 h-5 mr-2" />
             Generar Reporte
           </Button>
@@ -361,7 +351,7 @@ export default function AdminAuditsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-shrink-0 flex items-center gap-2 px-6 py-2.5 font-semibold transition-all rounded-lg ${
                   isActive
-                    ? 'bg-slate-50 text-slate-700 border border-slate-300'
+                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -372,7 +362,7 @@ export default function AdminAuditsPage() {
           })}
         </div>
 
-        {/* Tab Content (Card View) */}
+        {/* Tab Content */}
         <div className="p-6">
             <AdminSectionCard
                 title={currentSectionData.title}
@@ -383,12 +373,70 @@ export default function AdminAuditsPage() {
                 badge={currentSectionData.badge}
                 stats={currentSectionData.stats}
                 priority={currentSectionData.priority}
-                isActive={true} // Siempre activo en la vista de tab
+                isActive={true}
             />
-            {/* Aquí se podría renderizar el contenido detallado del registro/reporte */}
-            <div className='mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg text-center text-gray-500'>
-                <p>Visualización detallada del registro de **{currentSectionData.title}**</p>
-                <p className='text-sm mt-1'> (Simulación de tabla de logs o reporte de acceso)</p>
+            
+            {/* Audit Log Visualization */}
+            <div className='mt-8 p-8 bg-gradient-to-br from-emerald-50/30 to-teal-50/20 border-2 border-emerald-100 rounded-xl'>
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                        <div className="p-3 bg-white rounded-lg shadow-sm border border-emerald-200">
+                            {React.createElement(currentSectionData.icon, { className: `w-8 h-8 ${currentSectionData.color}` })}
+                        </div>
+                        <div>
+                            <p className="text-xl font-bold text-gray-900">Visualización detallada</p>
+                            <p className="text-sm text-emerald-600 font-medium">{currentSectionData.title}</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <button className="px-4 py-2 bg-white border border-emerald-200 text-emerald-700 rounded-lg hover:bg-emerald-50 transition-colors text-sm font-medium">
+                            <Search className="w-4 h-4 inline mr-2" />
+                            Filtrar
+                        </button>
+                        <button className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg hover:shadow-lg transition-all text-sm font-medium">
+                            <FileText className="w-4 h-4 inline mr-2" />
+                            Exportar
+                        </button>
+                    </div>
+                </div>
+                
+                {/* Mock Log Entries */}
+                <div className="space-y-3">
+                    {[
+                        { user: 'María González', action: 'Visualizó perfil de candidato', time: 'Hace 5 minutos', status: 'success' },
+                        { user: 'Carlos Ruiz', action: 'Actualizó estado de aplicación', time: 'Hace 15 minutos', status: 'success' },
+                        { user: 'Ana Martínez', action: 'Descargó reporte de compliance', time: 'Hace 1 hora', status: 'info' },
+                        { user: 'Juan López', action: 'Modificó configuración de permisos', time: 'Hace 2 horas', status: 'warning' },
+                    ].map((log, index) => (
+                        <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 hover:border-emerald-200 hover:shadow-sm transition-all">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-2 h-2 rounded-full ${
+                                        log.status === 'success' ? 'bg-emerald-500' :
+                                        log.status === 'warning' ? 'bg-lime-500' :
+                                        'bg-teal-500'
+                                    }`} />
+                                    <div>
+                                        <p className="text-sm font-semibold text-gray-900">{log.user}</p>
+                                        <p className="text-sm text-gray-600">{log.action}</p>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-xs text-gray-500">{log.time}</p>
+                                    <span className={`text-xs px-2 py-1 rounded-full ${
+                                        log.status === 'success' ? 'bg-emerald-50 text-emerald-700' :
+                                        log.status === 'warning' ? 'bg-lime-50 text-lime-700' :
+                                        'bg-teal-50 text-teal-700'
+                                    }`}>
+                                        {log.status === 'success' ? 'Exitoso' : log.status === 'warning' ? 'Requiere revisión' : 'Informativo'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                
+                <p className='text-sm text-gray-500 text-center mt-6'>(Simulación de tabla de logs o reporte de acceso)</p>
             </div>
         </div>
       </div>

@@ -171,13 +171,13 @@ export default function AdminUsers() {
     setSelectedUser(null);
   };
 
-  // Funciones de utilidad
+  // Funciones de utilidad - PALETA VERDE
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin': return 'bg-red-100 text-red-800 border-red-200';
-      case 'hr': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'hr': return 'bg-teal-100 text-teal-800 border-teal-200';
       case 'lead': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'volunteer': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'volunteer': return 'bg-green-100 text-green-800 border-green-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
@@ -196,7 +196,7 @@ export default function AdminUsers() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'inactive': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'inactive': return 'bg-lime-100 text-lime-800 border-lime-200';
       case 'suspended': return 'bg-red-100 text-red-800 border-red-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -257,7 +257,7 @@ export default function AdminUsers() {
         </div>
       </div>
 
-      {/* Estadísticas */}
+      {/* Estadísticas - PALETA VERDE */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="card p-6 hover-lift">
@@ -269,7 +269,7 @@ export default function AdminUsers() {
                   {Object.keys(stats.byCountry).length} países
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
                 <Users className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -280,11 +280,11 @@ export default function AdminUsers() {
               <div>
                 <p className="text-sm font-medium text-muted">Usuarios Activos</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.active}</p>
-                <p className="text-sm text-green-600">
+                <p className="text-sm text-teal-600">
                   {Math.round((stats.active / stats.total) * 100)}% del total
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center">
                 <UserCheck className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -297,7 +297,7 @@ export default function AdminUsers() {
                 <p className="text-3xl font-bold text-slate-800">{stats.byRole.volunteer}</p>
                 <p className="text-sm text-slate-500">Rol más común</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
                 <UserCheck className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -477,7 +477,7 @@ export default function AdminUsers() {
                       {/* Botón para ver perfil completo */}
                       <button
                         onClick={() => handleViewUser(user.id)}
-                        className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="p-2 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                         title="Ver perfil completo"
                       >
                         <Eye className="w-4 h-4" />

@@ -181,11 +181,11 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
         </div>
       )}
 
-      {/* Alertas específicas del rol */}
+      {/* Alertas específicas del rol - PALETA VERDE */}
       {config.alerts && (
         <div className="card p-6">
           <div className="flex items-center space-x-2 mb-4">
-            <AlertTriangle className="w-5 h-5 text-yellow-500" />
+            <AlertTriangle className="w-5 h-5 text-lime-500" />
             <h3 className="text-lg font-semibold text-slate-800">{config.alerts.title}</h3>
           </div>
           <div className="space-y-3">
@@ -204,7 +204,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
                     {alert.action}
                   </button>
                 ) : (
-                  <Award className="w-5 h-5 text-green-500" />
+                  <Award className="w-5 h-5 text-emerald-500" />
                 )}
               </div>
             ))}

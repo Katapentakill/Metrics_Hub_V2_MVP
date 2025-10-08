@@ -1,5 +1,6 @@
 // UBICACIÓN: src/modules/projects/volunteer/VolunteerProjectsDashboard.tsx
 // Dashboard de proyectos para Voluntario - Solo muestra sus proyectos
+// ✅ FIX: Agregado onChange handler al select (línea 144)
 
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
@@ -37,12 +38,15 @@ interface VolunteerProjectsDashboardProps {
 
 export default function VolunteerProjectsDashboard({ 
   projects, 
-  timeframe = '30d' 
+  timeframe: initialTimeframe = '30d' 
 }: VolunteerProjectsDashboardProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'performance' | 'team' | 'timeline' | 'files' | 'kanban' | 'export'>('overview');
   const [selectedProject, setSelectedProject] = useState<ProjectView | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  
+  // ✅ FIX: Agregar estado para timeframe
+  const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>(initialTimeframe);
 
   // Función para navegar al proyecto
   const navigateToProject = (projectId: string) => {
@@ -141,8 +145,10 @@ export default function VolunteerProjectsDashboard({
         </div>
         
         <div className="flex items-center space-x-2">
+          {/* ✅ FIX: Agregar onChange handler */}
           <select 
-            value={timeframe} 
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value as '7d' | '30d' | '90d' | '1y')}
             className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
           >
             <option value="7d">Últimos 7 días</option>
@@ -480,6 +486,7 @@ export default function VolunteerProjectsDashboard({
                 projectId={projects[0]?.project.id || ''}
                 tasks={[]} // TODO: Implementar tareas mock
                 setTasks={() => {}} // TODO: Implementar setTasks
+                
               />
             </div>
           )}
@@ -487,7 +494,12 @@ export default function VolunteerProjectsDashboard({
           {/* Export Tab */}
           {activeTab === 'export' && (
             <div className="space-y-6">
-              <ExportProjects views={projects} />
+              <div className="text-center py-12">
+                <Download className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Exportar Proyectos</h3>
+                <p className="text-gray-600 mb-6">Descarga tus proyectos en formato CSV</p>
+                <ExportProjects views={projects} />
+              </div>
             </div>
           )}
         </div>
