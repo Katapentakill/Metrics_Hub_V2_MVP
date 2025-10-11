@@ -14,6 +14,7 @@ import {
     MessageSquare
 } from 'lucide-react';
 import { useState } from 'react';
+import '../../../styles/dashboard-hr.css';
 
 /**
  * Representa una aplicación pendiente dentro del proceso de reclutamiento.
@@ -140,11 +141,11 @@ export default function ApplicationsPending() {
      */
     const getStageColor = (stage: string) => {
         switch (stage) {
-            case 'initial_review': return 'bg-gray-100 text-slate-700';
-            case 'hr_filter': return 'bg-gray-100 text-slate-700';
-            case 'interview_scheduled': return 'bg-emerald-100 text-emerald-800';
-            case 'interview_completed': return 'bg-emerald-100 text-emerald-800';
-            default: return 'bg-gray-100 text-slate-700';
+            case 'initial_review': return 'hr-app-stage-gray';
+            case 'hr_filter': return 'hr-app-stage-gray';
+            case 'interview_scheduled': return 'hr-app-stage-emerald';
+            case 'interview_completed': return 'hr-app-stage-emerald';
+            default: return 'hr-app-stage-gray';
         }
     };
 
@@ -166,10 +167,10 @@ export default function ApplicationsPending() {
      */
     const getPriorityColor = (priority: string) => {
         switch (priority) {
-            case 'high': return 'text-emerald-600';
-            case 'medium': return 'text-slate-600';
-            case 'low': return 'text-gray-500';
-            default: return 'text-slate-600';
+            case 'high': return 'hr-app-priority-high';
+            case 'medium': return 'hr-app-priority-medium';
+            case 'low': return 'hr-app-priority-low';
+            default: return 'hr-app-priority-medium';
         }
     };
 
@@ -178,23 +179,19 @@ export default function ApplicationsPending() {
      */
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'pending': return <Clock className="w-4 h-4 text-slate-500" />;
-            case 'in_review': return <Eye className="w-4 h-4 text-slate-600" />;
-            case 'approved': return <CheckCircle className="w-4 h-4 text-emerald-500" />;
-            case 'rejected': return <XCircle className="w-4 h-4 text-slate-500" />;
-            default: return <AlertCircle className="w-4 h-4 text-slate-500" />;
+            case 'pending': return <Clock className="hr-app-status-icon hr-app-icon-slate" />;
+            case 'in_review': return <Eye className="hr-app-status-icon hr-app-icon-slate" />;
+            case 'approved': return <CheckCircle className="hr-app-status-icon hr-app-icon-emerald" />;
+            case 'rejected': return <XCircle className="hr-app-status-icon hr-app-icon-slate" />;
+            default: return <AlertCircle className="hr-app-status-icon hr-app-icon-slate" />;
         }
     };
 
     /**
      * Simula una acción tomada sobre una aplicación.
-     *
-     * @param {string} actionType - Tipo de acción (e.g., "approve", "reject").
-     * @param {string} applicationId - ID de la aplicación a modificar.
      */
     const handleAction = (actionType: string, applicationId: string) => {
         console.log(`Executing ${actionType} for application ${applicationId}`);
-        // Aquí iría la lógica real de backend/API
     };
 
     /** Filtrado dinámico de aplicaciones según el filtro seleccionado */
@@ -211,22 +208,22 @@ export default function ApplicationsPending() {
     ).length;
 
     return (
-        <div className="card p-6">
-            <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-                    <UserCheck className="w-5 h-5 mr-2 text-emerald-600" />
+        <div className="hr-applications-card">
+            <div className="hr-applications-header">
+                <h3 className="hr-applications-title">
+                    <UserCheck className="hr-applications-title-icon" />
                     Aplicaciones Pendientes
                     {urgentCount > 0 && (
-                        <span className="ml-2 px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full font-medium">
+                        <span className="hr-applications-urgent-badge">
                             {urgentCount} urgentes
                         </span>
                     )}
                 </h3>
-                <div className="flex space-x-2">
+                <div className="hr-applications-filter">
                     <select
                         value={selectedFilter}
                         onChange={(e) => setSelectedFilter(e.target.value)}
-                        className="text-xs border border-slate-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                        className="hr-applications-select"
                     >
                         <option value="all">Todas ({pendingApplications.length})</option>
                         <option value="urgent">Urgentes ({urgentCount})</option>
@@ -237,51 +234,51 @@ export default function ApplicationsPending() {
                 </div>
             </div>
 
-            <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
+            <div className="hr-applications-list">
                 {filteredApplications.map((application) => (
-                    <div key={application.id} className="border border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-emerald-200 transition-all">
+                    <div key={application.id} className="hr-application-item">
                         {/* Header con información básica */}
-                        <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1">
-                                <div className="flex items-center space-x-2 mb-1">
-                                    <h4 className="font-semibold text-slate-800">{application.candidateName}</h4>
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(application.stage)}`}>
+                        <div className="hr-app-header">
+                            <div className="hr-app-info">
+                                <div className="hr-app-name-row">
+                                    <h4 className="hr-app-name">{application.candidateName}</h4>
+                                    <span className={`hr-app-stage-badge ${getStageColor(application.stage)}`}>
                                         {getStageText(application.stage)}
                                     </span>
-                                    <span className={`flex items-center ${getPriorityColor(application.priority)}`}>
-                                        <Star className="w-3 h-3 mr-1" />
-                                        <span className="text-xs capitalize font-medium">{application.priority}</span>
+                                    <span className={`hr-app-priority ${getPriorityColor(application.priority)}`}>
+                                        <Star className="hr-app-priority-icon" />
+                                        <span className="hr-app-priority-text">{application.priority}</span>
                                     </span>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-1">{application.position}</p>
-                                <div className="flex items-center space-x-4 text-xs text-gray-600">
-                                    <span className="flex items-center">
-                                        <Mail className="w-3 h-3 mr-1 text-slate-400" />
+                                <p className="hr-app-position">{application.position}</p>
+                                <div className="hr-app-contact">
+                                    <span className="hr-app-contact-item">
+                                        <Mail className="hr-app-contact-icon" />
                                         {application.email}
                                     </span>
-                                    <span className="flex items-center">
-                                        <Phone className="w-3 h-3 mr-1 text-slate-400" />
+                                    <span className="hr-app-contact-item">
+                                        <Phone className="hr-app-contact-icon" />
                                         {application.phone}
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="hr-app-status">
                                 {getStatusIcon(application.status)}
-                                <span className="text-xs text-gray-600">
+                                <span className="hr-app-date">
                                     {new Date(application.appliedDate).toLocaleDateString('es-ES')}
                                 </span>
                             </div>
                         </div>
 
                         {/* Información adicional */}
-                        <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center space-x-4 text-xs">
-                                <span className="text-gray-600">
-                                    <strong className="text-slate-700">Experiencia:</strong> {application.experience}
+                        <div className="hr-app-details">
+                            <div className="hr-app-details-row">
+                                <span className="hr-app-experience">
+                                    <strong className="hr-app-label">Experiencia:</strong> {application.experience}
                                 </span>
                                 {application.interviewDate && (
-                                    <span className="flex items-center text-emerald-600 font-medium">
-                                        <Calendar className="w-3 h-3 mr-1" />
+                                    <span className="hr-app-interview-date">
+                                        <Calendar className="hr-app-interview-icon" />
                                         {new Date(application.interviewDate).toLocaleDateString('es-ES')}
                                     </span>
                                 )}
@@ -289,64 +286,62 @@ export default function ApplicationsPending() {
                         </div>
 
                         {/* Skills */}
-                        <div className="mb-3">
-                            <div className="flex flex-wrap gap-1">
-                                {application.skills.map((skill) => (
-                                    <span key={skill} className="px-2 py-1 bg-gray-100 text-slate-700 text-xs rounded font-medium">
-                                        {skill}
-                                    </span>
-                                ))}
-                            </div>
+                        <div className="hr-app-skills">
+                            {application.skills.map((skill) => (
+                                <span key={skill} className="hr-app-skill-tag">
+                                    {skill}
+                                </span>
+                            ))}
                         </div>
 
                         {/* Notas si existen */}
                         {application.notes && (
-                            <div className="mb-3 p-2 bg-emerald-50 rounded text-xs">
-                                <span className="flex items-center text-emerald-700 font-medium">
-                                    <MessageSquare className="w-3 h-3 mr-1" />
+                            <div className="hr-app-notes">
+                                <span className="hr-app-notes-text">
+                                    <MessageSquare className="hr-app-notes-icon" />
                                     {application.notes}
                                 </span>
                             </div>
                         )}
 
                         {/* Acciones */}
-                        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                            <div className="flex space-x-2">
+                        <div className="hr-app-actions">
+                            <div className="hr-app-actions-left">
                                 <button
                                     onClick={() => handleAction('view', application.id)}
-                                    className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-slate-700 rounded transition-colors font-medium"
+                                    className="hr-app-btn hr-app-btn-view"
                                 >
                                     Ver Perfil
                                 </button>
                                 <button
                                     onClick={() => handleAction('contact', application.id)}
-                                    className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium"
+                                    className="hr-app-btn hr-app-btn-contact"
                                 >
                                     Contactar
                                 </button>
                                 {application.stage === 'hr_filter' && (
                                     <button
                                         onClick={() => handleAction('interview', application.id)}
-                                        className="px-3 py-1 text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded transition-colors font-medium"
+                                        className="hr-app-btn hr-app-btn-interview"
                                     >
                                         Programar Entrevista
                                     </button>
                                 )}
                             </div>
-                            <div className="flex space-x-1">
+                            <div className="hr-app-actions-right">
                                 <button
                                     onClick={() => handleAction('approve', application.id)}
-                                    className="p-1 text-emerald-600 hover:bg-emerald-50 rounded transition-colors"
+                                    className="hr-app-icon-btn hr-app-icon-btn-approve"
                                     title="Aprobar"
                                 >
-                                    <CheckCircle className="w-4 h-4" />
+                                    <CheckCircle className="hr-app-action-icon" />
                                 </button>
                                 <button
                                     onClick={() => handleAction('reject', application.id)}
-                                    className="p-1 text-slate-600 hover:bg-gray-50 rounded transition-colors"
+                                    className="hr-app-icon-btn hr-app-icon-btn-reject"
                                     title="Rechazar"
                                 >
-                                    <XCircle className="w-4 h-4" />
+                                    <XCircle className="hr-app-action-icon" />
                                 </button>
                             </div>
                         </div>
@@ -355,38 +350,38 @@ export default function ApplicationsPending() {
             </div>
 
             {filteredApplications.length === 0 && (
-                <div className="text-center py-8 text-gray-600">
-                    <UserCheck className="w-12 h-12 mx-auto mb-3 text-slate-300" />
-                    <p className="text-sm">No hay aplicaciones que coincidan con el filtro</p>
+                <div className="hr-applications-empty">
+                    <UserCheck className="hr-applications-empty-icon" />
+                    <p className="hr-applications-empty-text">No hay aplicaciones que coincidan con el filtro</p>
                 </div>
             )}
 
             {/* Resumen de acciones */}
-            <div className="mt-6 pt-4 border-t border-slate-200">
-                <div className="grid grid-cols-4 gap-4 text-center">
-                    <div>
-                        <p className="text-lg font-semibold text-slate-600">
+            <div className="hr-applications-summary">
+                <div className="hr-applications-summary-grid">
+                    <div className="hr-summary-item">
+                        <p className="hr-summary-value hr-summary-slate">
                             {pendingApplications.filter(a => a.stage === 'initial_review').length}
                         </p>
-                        <p className="text-xs text-gray-600">Por Revisar</p>
+                        <p className="hr-summary-label">Por Revisar</p>
                     </div>
-                    <div>
-                        <p className="text-lg font-semibold text-slate-600">
+                    <div className="hr-summary-item">
+                        <p className="hr-summary-value hr-summary-slate">
                             {pendingApplications.filter(a => a.stage === 'hr_filter').length}
                         </p>
-                        <p className="text-xs text-gray-600">En Filtro</p>
+                        <p className="hr-summary-label">En Filtro</p>
                     </div>
-                    <div>
-                        <p className="text-lg font-semibold text-emerald-600">
+                    <div className="hr-summary-item">
+                        <p className="hr-summary-value hr-summary-emerald">
                             {pendingApplications.filter(a => a.stage === 'interview_scheduled').length}
                         </p>
-                        <p className="text-xs text-gray-600">Entrevistas</p>
+                        <p className="hr-summary-label">Entrevistas</p>
                     </div>
-                    <div>
-                        <p className="text-lg font-semibold text-emerald-600">
+                    <div className="hr-summary-item">
+                        <p className="hr-summary-value hr-summary-emerald">
                             {pendingApplications.filter(a => a.stage === 'interview_completed').length}
                         </p>
-                        <p className="text-xs text-gray-600">Completadas</p>
+                        <p className="hr-summary-label">Completadas</p>
                     </div>
                 </div>
             </div>

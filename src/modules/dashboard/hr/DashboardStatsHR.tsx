@@ -1,6 +1,7 @@
 'use client';
 
 import { UserPlus, Users, ClipboardCheck, TrendingUp, Calendar, Target } from 'lucide-react';
+import '../../../styles/dashboard-hr.css';
 
 /**
  * Datos principales del dashboard de Recursos Humanos (HR).
@@ -56,10 +57,10 @@ export default function DashboardStatsHR({ data }: DashboardStatsHRProps) {
 
     /** Pipeline de reclutamiento en diferentes etapas */
     const recruitmentPipeline = [
-        { stage: 'Aplicaciones', count: data.totalApplications, color: 'bg-slate-500', percentage: 100 },
-        { stage: 'Filtro HR', count: data.pendingApplications, color: 'bg-slate-500', percentage: 70 },
-        { stage: 'Entrevistas', count: data.activeInterviews, color: 'bg-emerald-500', percentage: 40 },
-        { stage: 'Aprobados', count: data.approvedApplications, color: 'bg-emerald-500', percentage: 25 }
+        { stage: 'Aplicaciones', count: data.totalApplications, color: 'hr-pipeline-slate', percentage: 100 },
+        { stage: 'Filtro HR', count: data.pendingApplications, color: 'hr-pipeline-emerald', percentage: 70 },
+        { stage: 'Entrevistas', count: data.activeInterviews, color: 'hr-pipeline-blue', percentage: 40 },
+        { stage: 'Aprobados', count: data.approvedApplications, color: 'hr-pipeline-yellow', percentage: 25 }
     ];
 
     /** Aplicaciones recibidas y contrataciones por mes (últimos 6 meses) */
@@ -74,10 +75,10 @@ export default function DashboardStatsHR({ data }: DashboardStatsHRProps) {
 
     /** Estado actual de los candidatos (pendientes, entrevistas, aprobados, rechazados) */
     const candidateStatus = [
-        { status: 'Pendientes', count: data.pendingApplications, color: 'bg-slate-500', textColor: 'text-slate-700' },
-        { status: 'En Entrevista', count: data.activeInterviews, color: 'bg-emerald-500', textColor: 'text-emerald-700' },
-        { status: 'Aprobados', count: data.approvedApplications, color: 'bg-emerald-500', textColor: 'text-emerald-700' },
-        { status: 'Rechazados', count: data.rejectedApplications, color: 'bg-slate-500', textColor: 'text-slate-700' }
+        { status: 'Pendientes', count: data.pendingApplications, color: 'hr-status-slate', textColor: 'hr-text-slate' },
+        { status: 'En Entrevista', count: data.activeInterviews, color: 'hr-status-emerald', textColor: 'hr-text-emerald' },
+        { status: 'Aprobados', count: data.approvedApplications, color: 'hr-pipeline-blue', textColor: 'hr-text-emerald' },
+        { status: 'Rechazados', count: data.rejectedApplications, color: 'hr-pipeline-yellow', textColor: 'hr-text-slate' }
     ];
 
     /** Entrevistas programadas en la semana */
@@ -90,111 +91,109 @@ export default function DashboardStatsHR({ data }: DashboardStatsHRProps) {
     ];
 
     return (
-        <div className="card p-6 space-y-6">
+        <div className="hr-stats-card">
             {/* Header con título y estado de actualización */}
-            <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-                    <UserPlus className="w-5 h-5 mr-2 text-emerald-600" />
+            <div className="hr-stats-header">
+                <h3 className="hr-stats-title">
+                    <UserPlus className="hr-stats-title-icon" />
                     Estadísticas de Reclutamiento
                 </h3>
-                <div className="flex items-center space-x-2 text-xs text-gray-600">
-                    <Calendar className="w-4 h-4 text-slate-400" />
+                <div className="hr-stats-update">
+                    <Calendar className="hr-stats-update-icon" />
                     <span>Actualizado en tiempo real</span>
                 </div>
             </div>
 
             {/* Pipeline de Reclutamiento */}
-            <div className="space-y-4">
-                <h4 className="text-sm font-medium text-slate-700 flex items-center">
-                    <Target className="w-4 h-4 mr-2 text-slate-400" />
+            <div className="hr-stats-section">
+                <h4 className="hr-stats-subtitle">
+                    <Target className="hr-stats-subtitle-icon" />
                     Pipeline de Reclutamiento
                 </h4>
-                <div className="space-y-3">
+                <div className="hr-pipeline-list">
                     {recruitmentPipeline.map((stage, index) => (
-                        <div key={stage.stage} className="flex items-center justify-between">
-                            <div className="flex items-center space-x-3">
-                                <div className="flex items-center space-x-2">
-                                    <span className="text-xs font-medium bg-gray-100 px-2 py-1 rounded">{index + 1}</span>
-                                    <span className="text-sm text-gray-600">{stage.stage}</span>
-                                </div>
+                        <div key={stage.stage} className="hr-pipeline-item">
+                            <div className="hr-pipeline-stage">
+                                <span className="hr-pipeline-number">{index + 1}</span>
+                                <span className="hr-pipeline-label">{stage.stage}</span>
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div className="hr-pipeline-stats">
+                                <div className="hr-pipeline-progress-track">
                                     <div
-                                        className={`h-2 ${stage.color} rounded-full transition-all duration-500`}
+                                        className={`hr-pipeline-progress-bar ${stage.color}`}
                                         style={{ width: `${stage.percentage}%` }}
                                     ></div>
                                 </div>
-                                <span className="text-sm font-medium text-slate-800 w-8 text-right">{stage.count}</span>
+                                <span className="hr-pipeline-count">{stage.count}</span>
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="text-xs text-gray-600 bg-emerald-50 p-2 rounded">
-                    💡 Tasa de conversión actual: <span className="font-medium text-emerald-700">{data.conversionRate}%</span> (de aplicación a contratación)
+                <div className="hr-pipeline-tip">
+                    💡 Tasa de conversión actual: <span className="hr-pipeline-tip-value">{data.conversionRate}%</span> (de aplicación a contratación)
                 </div>
             </div>
 
             {/* Estado de Candidatos */}
-            <div className="space-y-4">
-                <h4 className="text-sm font-medium text-slate-700 flex items-center">
-                    <ClipboardCheck className="w-4 h-4 mr-2 text-slate-400" />
+            <div className="hr-stats-section">
+                <h4 className="hr-stats-subtitle">
+                    <ClipboardCheck className="hr-stats-subtitle-icon" />
                     Estado Actual de Candidatos
                 </h4>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="hr-status-grid">
                     {candidateStatus.map((status) => (
-                        <div key={status.status} className="text-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
-                            <div className={`w-8 h-8 ${status.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white font-semibold text-sm`}>
+                        <div key={status.status} className="hr-status-card">
+                            <div className={`hr-status-badge ${status.color}`}>
                                 {status.count}
                             </div>
-                            <p className="text-xs text-gray-600">{status.status}</p>
+                            <p className="hr-status-label">{status.status}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Tendencia de Aplicaciones y Contrataciones */}
-            <div className="space-y-4">
-                <h4 className="text-sm font-medium text-slate-700 flex items-center">
-                    <TrendingUp className="w-4 h-4 mr-2 text-slate-400" />
+            <div className="hr-stats-section">
+                <h4 className="hr-stats-subtitle">
+                    <TrendingUp className="hr-stats-subtitle-icon" />
                     Tendencia de Aplicaciones (Últimos 6 Meses)
                 </h4>
-                <div className="space-y-4">
+                <div className="hr-trends-wrapper">
                     {/* Nuevas aplicaciones */}
-                    <div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-xs text-gray-600">Nuevas Aplicaciones</span>
-                            <span className="text-xs font-medium text-emerald-600">Promedio: 23/mes</span>
+                    <div className="hr-trend-chart">
+                        <div className="hr-trend-header">
+                            <span className="hr-trend-label">Nuevas Aplicaciones</span>
+                            <span className="hr-trend-average">Promedio: 23/mes</span>
                         </div>
-                        <div className="flex items-end space-x-1 h-16">
+                        <div className="hr-chart-bars">
                             {monthlyApplications.map((month) => (
-                                <div key={month.month} className="flex-1 flex flex-col items-center">
+                                <div key={month.month} className="hr-chart-item">
                                     <div
-                                        className="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600 cursor-pointer"
+                                        className="hr-chart-bar hr-bar-emerald"
                                         style={{ height: `${(month.applications / 31) * 100}%` }}
                                         title={`${month.month}: ${month.applications} aplicaciones`}
                                     ></div>
-                                    <span className="text-xs text-gray-600 mt-1">{month.month}</span>
+                                    <span className="hr-chart-month">{month.month}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     {/* Nuevas contrataciones */}
-                    <div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-xs text-gray-600">Nuevas Contrataciones</span>
-                            <span className="text-xs font-medium text-emerald-600">Total: 30 contrataciones</span>
+                    <div className="hr-trend-chart">
+                        <div className="hr-trend-header">
+                            <span className="hr-trend-label">Nuevas Contrataciones</span>
+                            <span className="hr-trend-average">Total: 30 contrataciones</span>
                         </div>
-                        <div className="flex items-end space-x-1 h-12">
+                        <div className="hr-chart-bars hr-chart-bars-sm">
                             {monthlyApplications.map((month) => (
-                                <div key={month.month} className="flex-1 flex flex-col items-center">
+                                <div key={month.month} className="hr-chart-item">
                                     <div
-                                        className="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600 cursor-pointer"
+                                        className="hr-chart-bar hr-bar-emerald"
                                         style={{ height: `${(month.hires / 8) * 100}%` }}
                                         title={`${month.month}: ${month.hires} contrataciones`}
                                     ></div>
-                                    <span className="text-xs text-gray-600 mt-1">{month.month}</span>
+                                    <span className="hr-chart-month">{month.month}</span>
                                 </div>
                             ))}
                         </div>
@@ -203,47 +202,47 @@ export default function DashboardStatsHR({ data }: DashboardStatsHRProps) {
             </div>
 
             {/* Entrevistas Programadas */}
-            <div className="space-y-4">
-                <h4 className="text-sm font-medium text-slate-700 flex items-center">
-                    <Users className="w-4 h-4 mr-2 text-slate-400" />
+            <div className="hr-stats-section">
+                <h4 className="hr-stats-subtitle">
+                    <Users className="hr-stats-subtitle-icon" />
                     Entrevistas de Esta Semana
                 </h4>
-                <div className="flex justify-between items-end h-12 bg-gray-50 p-3 rounded-lg">
+                <div className="hr-interviews-chart">
                     {upcomingInterviews.map((day) => (
-                        <div key={day.day} className="flex flex-col items-center">
+                        <div key={day.day} className="hr-interview-day">
                             <div
-                                className="w-8 bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600 cursor-pointer"
+                                className="hr-interview-bar"
                                 style={{ height: `${day.count * 8}px` }}
                                 title={`${day.day}: ${day.count} entrevistas`}
                             ></div>
-                            <span className="text-xs text-gray-600 mt-1">{day.day}</span>
+                            <span className="hr-interview-label">{day.day}</span>
                         </div>
                     ))}
                 </div>
-                <div className="text-xs text-gray-600 text-center">
-                    Total programadas: <span className="font-medium text-slate-800">{data.scheduledInterviews}</span> entrevistas
+                <div className="hr-interviews-total">
+                    Total programadas: <span className="hr-interviews-total-value">{data.scheduledInterviews}</span> entrevistas
                 </div>
             </div>
 
             {/* Métricas de Rendimiento */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200">
-                <div className="text-center">
-                    <p className="text-2xl font-bold text-emerald-600">
+            <div className="hr-performance-grid">
+                <div className="hr-performance-item">
+                    <p className="hr-performance-value hr-performance-emerald">
                         {data.conversionRate}%
                     </p>
-                    <p className="text-xs text-gray-600">Tasa Conversión</p>
+                    <p className="hr-performance-label">Tasa Conversión</p>
                 </div>
-                <div className="text-center">
-                    <p className="text-2xl font-bold text-emerald-600">
+                <div className="hr-performance-item">
+                    <p className="hr-performance-value hr-performance-emerald">
                         {Math.round((data.approvedApplications / data.totalApplications) * 100)}%
                     </p>
-                    <p className="text-xs text-gray-600">Tasa Aprobación</p>
+                    <p className="hr-performance-label">Tasa Aprobación</p>
                 </div>
-                <div className="text-center">
-                    <p className="text-2xl font-bold text-slate-600">
+                <div className="hr-performance-item">
+                    <p className="hr-performance-value hr-performance-slate">
                         {Math.round(data.totalApplications / 6)}
                     </p>
-                    <p className="text-xs text-gray-600">Promedio/Mes</p>
+                    <p className="hr-performance-label">Promedio/Mes</p>
                 </div>
             </div>
         </div>
