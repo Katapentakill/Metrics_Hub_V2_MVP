@@ -14,7 +14,6 @@ interface NewEvaluationModalProps {
   onSave: (data: EvaluationFormData) => void;
   allUsers: ExtendedUserWithProfile[];
   allPeriods: EvaluationPeriod[];
-  // Props para integración con proyectos (futuro)
   projects?: Array<{
     id: string;
     name: string;
@@ -102,7 +101,6 @@ export default function NewEvaluationModal({
 
   const handleSubmit = () => {
     if (bulkMode) {
-      // Crear múltiples evaluaciones para el equipo
       selectedTeamMembers.forEach(memberId => {
         const evaluationData = {
           ...formData,
@@ -144,9 +142,7 @@ export default function NewEvaluationModal({
     setSelectedProject(projectId);
     const project = projects.find(p => p.id === projectId);
     if (project) {
-      // Auto-seleccionar al líder como evaluador
       setFormData(prev => ({ ...prev, evaluator_id: project.lead_id }));
-      // En modo bulk, preseleccionar todos los miembros del equipo
       if (bulkMode) {
         setSelectedTeamMembers(project.team_members);
       }
@@ -166,12 +162,12 @@ export default function NewEvaluationModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-6 text-white">
+        {/* Header - Gradiente institucional */}
+        <div className="bg-gradient-to-r from-green-800 to-emerald-600 p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">Nueva Evaluación</h2>
-              <p className="text-emerald-100 mt-1">
+              <p className="text-green-50 mt-1">
                 {step === 'basic' ? 'Información básica' : 
                  step === 'details' ? 'Detalles de la evaluación' : 
                  'Asignación y confirmación'}
@@ -179,7 +175,7 @@ export default function NewEvaluationModal({
             </div>
             <button
               onClick={handleClose}
-              className="text-emerald-200 hover:text-white transition-colors p-2 rounded-lg hover:bg-emerald-500"
+              className="text-green-100 hover:text-white transition-colors p-2 rounded-lg hover:bg-green-700"
             >
               <X className="w-6 h-6" />
             </button>
@@ -191,12 +187,12 @@ export default function NewEvaluationModal({
               <React.Fragment key={s}>
                 <div className={`flex items-center space-x-2 ${
                   step === s ? 'text-white' : 
-                  ['basic', 'details', 'assignment'].indexOf(step) > index ? 'text-emerald-200' : 'text-emerald-400'
+                  ['basic', 'details', 'assignment'].indexOf(step) > index ? 'text-green-100' : 'text-green-300'
                 }`}>
                   <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-medium ${
-                    step === s ? 'border-white bg-white text-emerald-600' :
-                    ['basic', 'details', 'assignment'].indexOf(step) > index ? 'border-emerald-200 bg-emerald-200 text-emerald-700' :
-                    'border-emerald-400'
+                    step === s ? 'border-white bg-white text-green-800' :
+                    ['basic', 'details', 'assignment'].indexOf(step) > index ? 'border-green-100 bg-green-100 text-green-800' :
+                    'border-green-300'
                   }`}>
                     {index + 1}
                   </div>
@@ -206,7 +202,7 @@ export default function NewEvaluationModal({
                 </div>
                 {index < 2 && (
                   <div className={`w-12 h-0.5 ${
-                    ['basic', 'details', 'assignment'].indexOf(step) > index ? 'bg-emerald-200' : 'bg-emerald-400'
+                    ['basic', 'details', 'assignment'].indexOf(step) > index ? 'bg-green-100' : 'bg-green-300'
                   }`} />
                 )}
               </React.Fragment>
@@ -218,16 +214,16 @@ export default function NewEvaluationModal({
         <div className="p-6 max-h-[60vh] overflow-y-auto">
           {step === 'basic' && (
             <div className="space-y-6">
-              {/* Modo de Evaluación */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              {/* Modo de Evaluación - Actualizado con colores institucionales */}
+              <div className="bg-blue-50 border border-blue-500 rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <Briefcase className="w-5 h-5 text-blue-600" />
+                    <Briefcase className="w-5 h-5 text-blue-500" />
                     <div>
-                      <label className="text-sm font-medium text-blue-800">
+                      <label className="text-sm font-semibold text-slate-800">
                         Evaluación por Equipo de Proyecto
                       </label>
-                      <p className="text-xs text-blue-600">
+                      <p className="text-xs text-gray-600">
                         Crear evaluaciones para todo un equipo de proyecto
                       </p>
                     </div>
@@ -239,21 +235,21 @@ export default function NewEvaluationModal({
                       onChange={(e) => setBulkMode(e.target.checked)}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-100 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                   </label>
                 </div>
               </div>
 
-              {/* Selección de Proyecto (si está en modo bulk) */}
+              {/* Selección de Proyecto */}
               {bulkMode && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-800 mb-2">
                     Proyecto *
                   </label>
                   <select
                     value={selectedProject}
                     onChange={(e) => handleProjectChange(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none"
                   >
                     <option value="">Seleccionar proyecto...</option>
                     {projects.map((project) => (
@@ -267,17 +263,17 @@ export default function NewEvaluationModal({
 
               {/* Tipo de Evaluación */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-semibold text-slate-800 mb-3">
                   Tipo de Evaluación
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {evaluationTypes.map((type) => (
                     <label
                       key={type.value}
-                      className={`relative flex cursor-pointer rounded-lg border p-4 focus:outline-none ${
+                      className={`relative flex cursor-pointer rounded-lg border-2 p-4 focus:outline-none transition-all ${
                         formData.type === type.value
-                          ? 'border-emerald-500 bg-emerald-50'
-                          : 'border-gray-300 bg-white hover:bg-gray-50'
+                          ? 'border-green-800 bg-green-50'
+                          : 'border-slate-200 bg-white hover:bg-gray-50 hover:border-teal-500'
                       }`}
                     >
                       <input
@@ -289,10 +285,10 @@ export default function NewEvaluationModal({
                         className="sr-only"
                       />
                       <div className="flex w-full items-center">
-                        <div className={`mr-3 ${formData.type === type.value ? 'text-emerald-600' : 'text-gray-400'}`}>
+                        <div className={`mr-3 ${formData.type === type.value ? 'text-green-800' : 'text-slate-400'}`}>
                           {type.icon}
                         </div>
-                        <div className="text-sm font-medium text-gray-900">{type.label}</div>
+                        <div className="text-sm font-semibold text-slate-800">{type.label}</div>
                       </div>
                     </label>
                   ))}
@@ -304,14 +300,14 @@ export default function NewEvaluationModal({
                 {/* Usuario a Evaluar o Equipo */}
                 {!bulkMode ? (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-800 mb-2">
                       Usuario a Evaluar *
                     </label>
                     <select
                       value={formData.evaluated_user_id}
                       onChange={(e) => setFormData(prev => ({ ...prev, evaluated_user_id: e.target.value }))}
-                      className={`w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${
-                        errors.evaluated_user_id ? 'border-red-300' : 'border-gray-300'
+                      className={`w-full border rounded-lg px-3 py-2 text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none ${
+                        errors.evaluated_user_id ? 'border-red-500' : 'border-slate-200'
                       }`}
                     >
                       <option value="">Seleccionar usuario...</option>
@@ -322,46 +318,46 @@ export default function NewEvaluationModal({
                       ))}
                     </select>
                     {errors.evaluated_user_id && (
-                      <p className="mt-1 text-sm text-red-600">{errors.evaluated_user_id}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.evaluated_user_id}</p>
                     )}
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-800 mb-2">
                       Miembros del Equipo ({selectedTeamMembers.length} seleccionados)
                     </label>
-                    <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3 space-y-2">
+                    <div className="max-h-40 overflow-y-auto border border-slate-200 rounded-lg p-3 space-y-2 bg-white">
                       {selectedProject && projects.find(p => p.id === selectedProject)?.team_members.map(memberId => {
                         const user = allUsers.find(u => u.id === memberId);
                         return user ? (
-                          <label key={user.id} className="flex items-center space-x-2 cursor-pointer">
+                          <label key={user.id} className="flex items-center space-x-2 cursor-pointer hover:bg-green-50 p-1 rounded">
                             <input
                               type="checkbox"
                               checked={selectedTeamMembers.includes(user.id)}
                               onChange={() => toggleTeamMember(user.id)}
-                              className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                              className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-600"
                             />
-                            <span className="text-sm">{user.name}</span>
+                            <span className="text-sm text-gray-600">{user.name}</span>
                           </label>
                         ) : null;
                       })}
                     </div>
                     {errors.team_members && (
-                      <p className="mt-1 text-sm text-red-600">{errors.team_members}</p>
+                      <p className="mt-1 text-sm text-red-500">{errors.team_members}</p>
                     )}
                   </div>
                 )}
 
                 {/* Evaluador */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-800 mb-2">
                     Evaluador *
                   </label>
                   <select
                     value={formData.evaluator_id}
                     onChange={(e) => setFormData(prev => ({ ...prev, evaluator_id: e.target.value }))}
-                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${
-                      errors.evaluator_id ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full border rounded-lg px-3 py-2 text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none ${
+                      errors.evaluator_id ? 'border-red-500' : 'border-slate-200'
                     }`}
                   >
                     <option value="">Seleccionar evaluador...</option>
@@ -372,20 +368,20 @@ export default function NewEvaluationModal({
                     ))}
                   </select>
                   {errors.evaluator_id && (
-                    <p className="mt-1 text-sm text-red-600">{errors.evaluator_id}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.evaluator_id}</p>
                   )}
                 </div>
 
                 {/* Período */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-800 mb-2">
                     Período *
                   </label>
                   <select
                     value={formData.period_id}
                     onChange={(e) => setFormData(prev => ({ ...prev, period_id: e.target.value }))}
-                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${
-                      errors.period_id ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full border rounded-lg px-3 py-2 text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none ${
+                      errors.period_id ? 'border-red-500' : 'border-slate-200'
                     }`}
                   >
                     <option value="">Seleccionar período...</option>
@@ -396,26 +392,26 @@ export default function NewEvaluationModal({
                     ))}
                   </select>
                   {errors.period_id && (
-                    <p className="mt-1 text-sm text-red-600">{errors.period_id}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.period_id}</p>
                   )}
                 </div>
 
                 {/* Fecha Límite */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-slate-800 mb-2">
                     Fecha Límite *
                   </label>
                   <input
                     type="date"
                     value={formData.due_date}
                     onChange={(e) => setFormData(prev => ({ ...prev, due_date: e.target.value }))}
-                    className={`w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${
-                      errors.due_date ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full border rounded-lg px-3 py-2 text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none ${
+                      errors.due_date ? 'border-red-500' : 'border-slate-200'
                     }`}
                     min={new Date().toISOString().split('T')[0]}
                   />
                   {errors.due_date && (
-                    <p className="mt-1 text-sm text-red-600">{errors.due_date}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.due_date}</p>
                   )}
                 </div>
               </div>
@@ -426,27 +422,27 @@ export default function NewEvaluationModal({
             <div className="space-y-6">
               {/* Feedback General */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Comentarios Iniciales
                 </label>
                 <textarea
                   value={formData.feedback_text}
                   onChange={(e) => setFormData(prev => ({ ...prev, feedback_text: e.target.value }))}
                   placeholder="Comentarios o instrucciones iniciales para esta evaluación..."
-                  className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
+                  className="w-full h-24 p-3 border border-slate-200 rounded-lg text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none resize-none"
                 />
               </div>
 
               {/* Objetivos para el próximo período */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-800 mb-2">
                   Objetivos Esperados
                 </label>
                 <textarea
                   value={formData.goals_next_period}
                   onChange={(e) => setFormData(prev => ({ ...prev, goals_next_period: e.target.value }))}
                   placeholder="Define los objetivos que se espera evaluar..."
-                  className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
+                  className="w-full h-24 p-3 border border-slate-200 rounded-lg text-gray-600 bg-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none resize-none"
                 />
               </div>
             </div>
@@ -455,50 +451,50 @@ export default function NewEvaluationModal({
           {step === 'assignment' && (
             <div className="space-y-6">
               {/* Resumen de la evaluación */}
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Resumen de la Evaluación</h3>
+              <div className="bg-green-50 border border-teal-500 rounded-lg p-4">
+                <h3 className="text-lg font-bold text-slate-800 mb-4">Resumen de la Evaluación</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="font-medium text-gray-600">Tipo:</span>
-                    <span className="ml-2">{evaluationTypes.find(t => t.value === formData.type)?.label}</span>
+                    <span className="font-semibold text-gray-600">Tipo:</span>
+                    <span className="ml-2 text-slate-800">{evaluationTypes.find(t => t.value === formData.type)?.label}</span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-600">Evaluador:</span>
-                    <span className="ml-2">{allUsers.find(u => u.id === formData.evaluator_id)?.name || 'No seleccionado'}</span>
+                    <span className="font-semibold text-gray-600">Evaluador:</span>
+                    <span className="ml-2 text-slate-800">{allUsers.find(u => u.id === formData.evaluator_id)?.name || 'No seleccionado'}</span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-600">Período:</span>
-                    <span className="ml-2">{allPeriods.find(p => p.id === formData.period_id)?.name || 'No seleccionado'}</span>
+                    <span className="font-semibold text-gray-600">Período:</span>
+                    <span className="ml-2 text-slate-800">{allPeriods.find(p => p.id === formData.period_id)?.name || 'No seleccionado'}</span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-600">Fecha límite:</span>
-                    <span className="ml-2">{formData.due_date || 'No establecida'}</span>
+                    <span className="font-semibold text-gray-600">Fecha límite:</span>
+                    <span className="ml-2 text-slate-800">{formData.due_date || 'No establecida'}</span>
                   </div>
                   {bulkMode ? (
                     <div className="md:col-span-2">
-                      <span className="font-medium text-gray-600">Evaluaciones a crear:</span>
-                      <span className="ml-2">{selectedTeamMembers.length} evaluaciones</span>
-                      <div className="mt-2 text-xs text-gray-500">
+                      <span className="font-semibold text-gray-600">Evaluaciones a crear:</span>
+                      <span className="ml-2 text-slate-800">{selectedTeamMembers.length} evaluaciones</span>
+                      <div className="mt-2 text-xs text-gray-600">
                         {selectedTeamMembers.map(id => allUsers.find(u => u.id === id)?.name).join(', ')}
                       </div>
                     </div>
                   ) : (
                     <div>
-                      <span className="font-medium text-gray-600">Usuario a evaluar:</span>
-                      <span className="ml-2">{allUsers.find(u => u.id === formData.evaluated_user_id)?.name || 'No seleccionado'}</span>
+                      <span className="font-semibold text-gray-600">Usuario a evaluar:</span>
+                      <span className="ml-2 text-slate-800">{allUsers.find(u => u.id === formData.evaluated_user_id)?.name || 'No seleccionado'}</span>
                     </div>
                   )}
                 </div>
               </div>
 
               {/* Confirmación */}
-              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+              <div className="bg-emerald-50 border border-emerald-600 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
                   <Star className="w-5 h-5 text-emerald-600 mt-0.5" />
                   <div className="text-sm">
-                    <h4 className="font-medium text-emerald-800 mb-1">¿Crear evaluación?</h4>
-                    <p className="text-emerald-700">
+                    <h4 className="font-semibold text-slate-800 mb-1">¿Crear evaluación?</h4>
+                    <p className="text-gray-600">
                       {bulkMode 
                         ? `Se crearán ${selectedTeamMembers.length} evaluaciones para el proyecto seleccionado.`
                         : 'Se creará una nueva evaluación con la información proporcionada.'
@@ -512,11 +508,11 @@ export default function NewEvaluationModal({
         </div>
 
         {/* Footer con botones */}
-        <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+        <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-slate-200">
           <button
             type="button"
             onClick={step === 'basic' ? handleClose : () => setStep(step === 'assignment' ? 'details' : 'basic')}
-            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 border border-slate-200 text-gray-600 bg-white rounded-lg hover:bg-gray-50 transition-colors font-medium"
           >
             {step === 'basic' ? 'Cancelar' : 'Anterior'}
           </button>
@@ -526,7 +522,7 @@ export default function NewEvaluationModal({
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                className="px-6 py-2 bg-green-800 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium shadow-sm"
               >
                 Siguiente
               </button>
@@ -534,7 +530,7 @@ export default function NewEvaluationModal({
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors flex items-center space-x-2"
+                className="px-6 py-2 bg-green-800 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium shadow-sm flex items-center space-x-2"
               >
                 <Save className="w-4 h-4" />
                 <span>{bulkMode ? `Crear ${selectedTeamMembers.length} Evaluaciones` : 'Crear Evaluación'}</span>

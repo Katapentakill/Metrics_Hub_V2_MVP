@@ -129,20 +129,20 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Archivos del Proyecto</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Archivos del Proyecto</h2>
           <p className="text-gray-600">Gestiona documentos y recursos del proyecto</p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-slate-200">
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab('files')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+            className={`py-2 px-1 border-b-2 font-semibold text-sm transition-colors ${
               activeTab === 'files'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-green-800 text-green-800'
+                : 'border-transparent text-gray-600 hover:text-slate-800 hover:border-slate-300'
             }`}
           >
             <FileText className="w-4 h-4 inline mr-2" />
@@ -150,10 +150,10 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
           </button>
           <button
             onClick={() => setActiveTab('links')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+            className={`py-2 px-1 border-b-2 font-semibold text-sm transition-colors ${
               activeTab === 'links'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-green-800 text-green-800'
+                : 'border-transparent text-gray-600 hover:text-slate-800 hover:border-slate-300'
             }`}
           >
             <ExternalLink className="w-4 h-4 inline mr-2" />
@@ -166,13 +166,13 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               type="text"
               placeholder="Buscar archivos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg bg-white text-gray-600 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none"
             />
           </div>
         </div>
@@ -180,7 +180,7 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-gray-600 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none font-medium"
           >
             <option value="all">Todas las categorías</option>
             <option value="project_docs">Documentos del Proyecto</option>
@@ -196,10 +196,10 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
       {activeTab === 'files' && (
         <div className="space-y-4">
           {filteredFiles.length === 0 ? (
-            <div className="text-center py-12">
-              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No hay archivos</h3>
-              <p className="text-gray-500">No se encontraron archivos que coincidan con los filtros.</p>
+            <div className="text-center py-12 bg-green-50 border-2 border-teal-500 rounded-lg">
+              <FileText className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-slate-800 mb-2">No hay archivos</h3>
+              <p className="text-gray-600">No se encontraron archivos que coincidan con los filtros.</p>
             </div>
           ) : (
             <div className="grid gap-4">
@@ -208,42 +208,42 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
                 return (
                   <div
                     key={file.id}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="bg-green-50 border-2 border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-teal-500 transition-all"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3 flex-1">
                         <div className="flex-shrink-0">
-                          <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                            <IconComponent className="w-5 h-5 text-blue-600" />
+                          <div className="w-10 h-10 bg-white border border-teal-500 rounded-lg flex items-center justify-center">
+                            <IconComponent className="w-5 h-5 text-green-800" />
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-medium text-gray-900 truncate">
+                          <h3 className="text-sm font-semibold text-slate-800 truncate">
                             {file.name}
                           </h3>
-                          <p className="text-sm text-gray-500 mt-1">
+                          <p className="text-sm text-gray-600 mt-1">
                             {file.description}
                           </p>
-                          <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                            <span>Subido por {file.uploadedBy}</span>
+                          <div className="flex items-center space-x-4 mt-2 text-xs text-gray-600">
+                            <span className="font-medium">Subido por {file.uploadedBy}</span>
                             <span>•</span>
                             <span>{formatDate(file.uploadedAt)}</span>
                             <span>•</span>
-                            <span>{formatFileSize(file.size)}</span>
+                            <span className="font-medium">{formatFileSize(file.size)}</span>
                             {file.download_count && (
                               <>
                                 <span>•</span>
-                                <span>{file.download_count} descargas</span>
+                                <span className="text-emerald-600 font-medium">{file.download_count} descargas</span>
                               </>
                             )}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                        <button className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Ver">
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                        <button className="p-2 text-slate-400 hover:text-teal-500 hover:bg-teal-50 rounded-lg transition-colors" title="Descargar">
                           <Download className="w-4 h-4" />
                         </button>
                       </div>
@@ -260,10 +260,10 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
       {activeTab === 'links' && (
         <div className="space-y-4">
           {filteredResources.length === 0 ? (
-            <div className="text-center py-12">
-              <ExternalLink className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No hay enlaces</h3>
-              <p className="text-gray-500">No se encontraron enlaces que coincidan con los filtros.</p>
+            <div className="text-center py-12 bg-green-50 border-2 border-teal-500 rounded-lg">
+              <ExternalLink className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-slate-800 mb-2">No hay enlaces</h3>
+              <p className="text-gray-600">No se encontraron enlaces que coincidan con los filtros.</p>
             </div>
           ) : (
             <div className="grid gap-4">
@@ -272,27 +272,38 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
                 return (
                   <div
                     key={resource.id}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="bg-green-50 border-2 border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-teal-500 transition-all"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3 flex-1">
                         <div className="flex-shrink-0">
                           <div 
-                            className="w-10 h-10 rounded-lg flex items-center justify-center"
-                            style={{ backgroundColor: `${resource.color}20` }}
+                            className="w-10 h-10 rounded-lg flex items-center justify-center border-2"
+                            style={{ 
+                              backgroundColor: `${resource.color}20`,
+                              borderColor: resource.color
+                            }}
                           >
                             <IconComponent className="w-5 h-5" style={{ color: resource.color }} />
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-medium text-gray-900 truncate">
+                          <h3 className="text-sm font-semibold text-slate-800 truncate">
                             {resource.name}
                           </h3>
-                          <p className="text-sm text-gray-500 mt-1">
+                          <p className="text-sm text-gray-600 mt-1">
                             {resource.description}
                           </p>
-                          <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                            <span className="capitalize">{resource.category}</span>
+                          <div className="flex items-center space-x-4 mt-2 text-xs">
+                            <span 
+                              className="capitalize font-semibold px-2 py-1 rounded-full"
+                              style={{ 
+                                backgroundColor: `${resource.color}20`,
+                                color: resource.color
+                              }}
+                            >
+                              {resource.category}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -301,7 +312,8 @@ export default function ProjectFilesManagerUpdated({ projectId = 'p1' }: Project
                           href={resource.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2 text-gray-400 hover:text-gray-600"
+                          className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Abrir enlace"
                         >
                           <ExternalLink className="w-4 h-4" />
                         </a>

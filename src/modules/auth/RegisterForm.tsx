@@ -22,10 +22,14 @@ import {
   ChevronRight,
   Award,
   Languages,
-  Check
+  Check,
+  Upload,
+  File,
+  X
 } from 'lucide-react';
+import '@/styles/register.css';
 
-// Tipos simplificados para el formulario
+// Tipos
 interface SimpleSkill {
   name: string;
   level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
@@ -60,8 +64,9 @@ interface UserProfile {
   skills: SimpleSkill[];
   languages: SimpleLanguage[];
   certifications: string[];
+  resume_file?: File | null;
+  resume_filename?: string;
 }
-
 type RegistrationData = {
   name: string;
   email: string;
@@ -297,11 +302,11 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      // Simular registro
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       console.log('Form Data:', formData);
-      alert('Registro completado. Por favor inicia sesión.');
+      console.log('Registro completado. Por favor inicia sesión.');
+      window.location.href = '/login?message=Registro completado. Por favor inicia sesión.';
     } catch (error) {
       console.error('Error en registro:', error);
     } finally {
@@ -326,58 +331,49 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 py-8 px-4">
-      <div className="w-full max-w-4xl mx-auto">
+    <div className="register-container">
+      <div className="register-content">
         {/* Header */}
-        <div className="text-center mb-8 fade-in">
-          <h1 className="text-gradient text-4xl font-bold mb-2">
-            Crear Cuenta
-          </h1>
-          <p className="text-muted text-lg">Únete a Living Stones como voluntario</p>
+        <div className="register-header">
+        
+          <h1 className="register-title2">Crear Cuenta</h1>
+          <p className="register-subtitle">Únete a Living Stones como voluntario</p>
         </div>
 
         {/* Main Card */}
-        <div className="card p-8 space-y-8 hover-lift">
+        <div className="register-form-card">
           {/* Progress Section */}
-          <div className="space-y-6">
+          <div>
             {/* Progress Bar */}
-            <div className="progress-bar h-2">
+            <div className="register-progress-bar">
               <div 
-                className="progress-fill transition-all duration-500 ease-out"
+                className="register-progress-fill"
                 style={{ width: `${getProgressPercentage()}%` }}
               />
             </div>
 
             {/* Step Indicators */}
-            <div className="flex items-center justify-between">
-              {steps.map((step, index) => {
+            <div className="register-steps">
+              {steps.map((step) => {
                 const Icon = step.icon;
                 const isActive = currentStep === step.number;
                 const isComplete = isStepComplete(step.number);
                 
                 return (
-                  <div key={step.number} className="flex flex-col items-center flex-1">
-                    <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300 ${
-                      isActive 
-                        ? 'timeline-step-active shadow-lg transform scale-110' 
-                        : isComplete
-                        ? 'bg-emerald-500 border-emerald-500 text-white shadow-md'
-                        : 'timeline-step-inactive hover:scale-105'
+                  <div key={step.number} className="register-step">
+                    <div className={`register-step-circle ${
+                      isActive ? 'active' : isComplete ? 'complete' : 'inactive'
                     }`}>
                       <Icon className="w-5 h-5" />
                     </div>
-                    <div className="mt-2 text-center">
-                      <p className={`text-xs font-medium hidden sm:block ${
-                        isActive 
-                          ? 'text-primary' 
-                          : isComplete 
-                          ? 'text-emerald-600' 
-                          : 'text-muted'
+                    <div className="register-step-text">
+                      <p className={`register-step-title ${
+                        isActive ? 'active' : isComplete ? 'complete' : 'inactive'
                       }`}>
                         {step.title}
                       </p>
-                      <p className={`text-xs ${
-                        isActive || isComplete ? 'text-primary' : 'text-muted'
+                      <p className={`register-step-number ${
+                        isActive || isComplete ? 'active' : 'inactive'
                       }`}>
                         Paso {step.number}
                       </p>
@@ -388,104 +384,98 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit}>
             {/* Step Content */}
-            <div className="min-h-[500px] transition-all duration-300">
+            <div className="register-step-content">
               {/* Step 1: Información Personal */}
               {currentStep === 1 && (
-                <div className="space-y-6 content-enter">
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-secondary mb-2">
-                      Información Personal
-                    </h3>
-                    <p className="text-muted">Cuéntanos un poco sobre ti</p>
+                <div className="content-enter">
+                  <div className="register-step-header">
+                    <h3 className="register-step-content-title">Información Personal</h3>
+                    <p className="register-step-content-description">Cuéntanos un poco sobre ti</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="input-group">
-                      <label className="block text-sm font-medium text-secondary mb-2">
-                        Nombre *
-                      </label>
-                      <div className="relative">
-                        <User className="input-icon w-5 h-5" />
+                  <div className="register-form-grid">
+                    <div className="register-input-group">
+                      <label className="register-input-label">Nombre *</label>
+                      <div className="register-input-wrapper">
+                        <User className="register-input-icon" />
                         <input
                           type="text"
                           value={formData.profile.first_name}
                           onChange={(e) => handleInputChange('profile.first_name', e.target.value)}
-                          className={`input-field has-icon w-full ${errors['profile.first_name'] ? 'input-error' : ''}`}
+                          className={`register-input-field ${errors['profile.first_name'] ? 'input-error' : ''}`}
                           placeholder="Tu nombre"
                           disabled={isLoading}
                         />
                       </div>
-                      {errors['profile.first_name'] && <p className="text-red-600 text-xs mt-1">{errors['profile.first_name']}</p>}
+                      {errors['profile.first_name'] && (
+                        <p className="register-alert-error">{errors['profile.first_name']}</p>
+                      )}
                     </div>
 
-                    <div className="input-group">
-                      <label className="block text-sm font-medium text-secondary mb-2">
-                        Apellido *
-                      </label>
-                      <div className="relative">
-                        <User className="input-icon w-5 h-5" />
+                    <div className="register-input-group">
+                      <label className="register-input-label">Apellido *</label>
+                      <div className="register-input-wrapper">
+                        <User className="register-input-icon" />
                         <input
                           type="text"
                           value={formData.profile.last_name}
                           onChange={(e) => handleInputChange('profile.last_name', e.target.value)}
-                          className={`input-field has-icon w-full ${errors['profile.last_name'] ? 'input-error' : ''}`}
+                          className={`register-input-field ${errors['profile.last_name'] ? 'input-error' : ''}`}
                           placeholder="Tu apellido"
                           disabled={isLoading}
                         />
                       </div>
-                      {errors['profile.last_name'] && <p className="text-red-600 text-xs mt-1">{errors['profile.last_name']}</p>}
+                      {errors['profile.last_name'] && (
+                        <p className="register-alert-error">{errors['profile.last_name']}</p>
+                      )}
                     </div>
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Email *
-                    </label>
-                    <div className="relative">
-                      <Mail className="input-icon w-5 h-5" />
+                  <div className="register-input-group register-form-full-width">
+                    <label className="register-input-label">Email *</label>
+                    <div className="register-input-wrapper">
+                      <Mail className="register-input-icon" />
                       <input
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className={`input-field has-icon w-full ${errors.email ? 'input-error' : ''}`}
+                        className={`register-input-field ${errors.email ? 'input-error' : ''}`}
                         placeholder="tu@email.com"
                         disabled={isLoading}
                       />
                     </div>
-                    {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
+                    {errors.email && <p className="register-alert-error">{errors.email}</p>}
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Teléfono *
-                    </label>
-                    <div className="relative">
-                      <Phone className="input-icon w-5 h-5" />
+                  <div className="register-input-group register-form-full-width">
+                    <label className="register-input-label">Teléfono *</label>
+                    <div className="register-input-wrapper">
+                      <Phone className="register-input-icon" />
                       <input
                         type="tel"
                         value={formData.profile.phone}
                         onChange={(e) => handleInputChange('profile.phone', e.target.value)}
-                        className={`input-field has-icon w-full ${errors['profile.phone'] ? 'input-error' : ''}`}
+                        className={`register-input-field ${errors['profile.phone'] ? 'input-error' : ''}`}
                         placeholder="+1 (555) 123-4567"
                         disabled={isLoading}
                       />
                     </div>
-                    {errors['profile.phone'] && <p className="text-red-600 text-xs mt-1">{errors['profile.phone']}</p>}
+                    {errors['profile.phone'] && (
+                      <p className="register-alert-error">{errors['profile.phone']}</p>
+                    )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="input-group">
-                      <label className="block text-sm font-medium text-secondary mb-2">
-                        País *
-                      </label>
-                      <div className="relative">
-                        <MapPin className="input-icon w-5 h-5" />
+                  <div className="register-form-grid">
+                    <div className="register-input-group">
+                      <label className="register-input-label">País *</label>
+                      <div className="register-input-wrapper">
+                        <MapPin className="register-input-icon" />
                         <select
                           value={countries.find(c => c.name === formData.profile.country)?.code || ''}
                           onChange={(e) => handleCountryChange(e.target.value)}
-                          className={`input-field has-icon w-full ${errors['profile.country'] ? 'input-error' : ''}`}
+                          className={`register-select-field ${errors['profile.country'] ? 'input-error' : ''}`}
                           disabled={isLoading}
                         >
                           <option value="">Selecciona tu país</option>
@@ -496,68 +486,66 @@ export default function RegisterForm() {
                           ))}
                         </select>
                       </div>
-                      {errors['profile.country'] && <p className="text-red-600 text-xs mt-1">{errors['profile.country']}</p>}
+                      {errors['profile.country'] && (
+                        <p className="register-alert-error">{errors['profile.country']}</p>
+                      )}
                     </div>
 
-                    <div className="input-group">
-                      <label className="block text-sm font-medium text-secondary mb-2">
-                        Ciudad *
-                      </label>
-                      <div className="relative">
-                        <MapPin className="input-icon w-5 h-5" />
+                    <div className="register-input-group">
+                      <label className="register-input-label">Ciudad *</label>
+                      <div className="register-input-wrapper">
+                        <MapPin className="register-input-icon" />
                         <input
                           type="text"
                           value={formData.profile.city}
                           onChange={(e) => handleInputChange('profile.city', e.target.value)}
-                          className={`input-field has-icon w-full ${errors['profile.city'] ? 'input-error' : ''}`}
+                          className={`register-input-field ${errors['profile.city'] ? 'input-error' : ''}`}
                           placeholder="Tu ciudad"
                           disabled={isLoading}
                         />
                       </div>
-                      {errors['profile.city'] && <p className="text-red-600 text-xs mt-1">{errors['profile.city']}</p>}
+                      {errors['profile.city'] && (
+                        <p className="register-alert-error">{errors['profile.city']}</p>
+                      )}
                     </div>
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Fecha de Nacimiento *
-                    </label>
-                    <div className="relative">
-                      <Calendar className="input-icon w-5 h-5" />
+                  <div className="register-input-group register-form-full-width">
+                    <label className="register-input-label">Fecha de Nacimiento *</label>
+                    <div className="register-input-wrapper">
+                      <Calendar className="register-input-icon" />
                       <input
                         type="date"
                         value={formData.profile.birth_date}
                         onChange={(e) => handleInputChange('profile.birth_date', e.target.value)}
-                        className={`input-field has-icon w-full ${errors['profile.birth_date'] ? 'input-error' : ''}`}
+                        className={`register-input-field ${errors['profile.birth_date'] ? 'input-error' : ''}`}
                         disabled={isLoading}
                       />
                     </div>
-                    {errors['profile.birth_date'] && <p className="text-red-600 text-xs mt-1">{errors['profile.birth_date']}</p>}
+                    {errors['profile.birth_date'] && (
+                      <p className="register-alert-error">{errors['profile.birth_date']}</p>
+                    )}
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Cuéntanos sobre ti
-                    </label>
+                  <div className="register-input-group register-form-full-width">
+                    <label className="register-input-label">Cuéntanos sobre ti</label>
                     <textarea
                       value={formData.profile.bio}
                       onChange={(e) => handleInputChange('profile.bio', e.target.value)}
                       rows={3}
-                      className="input-field w-full resize-none"
+                      className="register-input-field"
                       placeholder="Escribe una breve descripción sobre ti, tu experiencia y intereses..."
                       disabled={isLoading}
                     />
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      ¿Qué te motiva a ser voluntario?
-                    </label>
+                  <div className="register-input-group register-form-full-width">
+                    <label className="register-input-label">¿Qué te motiva a ser voluntario?</label>
                     <textarea
                       value={formData.profile.motivation}
                       onChange={(e) => handleInputChange('profile.motivation', e.target.value)}
                       rows={3}
-                      className="input-field w-full resize-none"
+                      className="register-input-field"
                       placeholder="Comparte qué te inspira a contribuir como voluntario en Living Stones..."
                       disabled={isLoading}
                     />
@@ -567,153 +555,137 @@ export default function RegisterForm() {
 
               {/* Step 2: Seguridad */}
               {currentStep === 2 && (
-                <div className="space-y-6 content-enter">
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-secondary mb-2">
-                      Seguridad y Tipo de Voluntario
-                    </h3>
-                    <p className="text-muted">Configura tu acceso y perfil</p>
+                <div className="content-enter">
+                  <div className="register-step-header">
+                    <h3 className="register-step-content-title">Seguridad y Tipo de Voluntario</h3>
+                    <p className="register-step-content-description">Configura tu acceso y perfil</p>
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Contraseña *
-                    </label>
-                    <div className="relative">
-                      <Lock className="input-icon w-5 h-5" />
+                  <div className="register-input-group">
+                    <label className="register-input-label">Contraseña *</label>
+                    <div className="register-input-wrapper">
+                      <Lock className="register-input-icon" />
                       <input
                         type={showPassword ? 'text' : 'password'}
                         value={formData.password}
                         onChange={(e) => handleInputChange('password', e.target.value)}
-                        className={`input-field has-icon w-full pr-12 ${errors.password ? 'input-error' : ''}`}
+                        className={`register-input-field register-input-field-with-button ${errors.password ? 'input-error' : ''}`}
                         placeholder="••••••••"
                         disabled={isLoading}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                        className="register-input-toggle-btn"
                         disabled={isLoading}
                       >
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
-                    {errors.password && <p className="text-red-600 text-xs mt-1">{errors.password}</p>}
-                    <p className="text-xs text-slate-500 mt-1">Mínimo 8 caracteres</p>
+                    {errors.password && <p className="register-alert-error">{errors.password}</p>}
+                    <p className="register-step-content-description">Mínimo 8 caracteres</p>
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Confirmar Contraseña *
-                    </label>
-                    <div className="relative">
-                      <Lock className="input-icon w-5 h-5" />
+                  <div className="register-input-group">
+                    <label className="register-input-label">Confirmar Contraseña *</label>
+                    <div className="register-input-wrapper">
+                      <Lock className="register-input-icon" />
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
                         value={formData.confirmPassword}
                         onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                        className={`input-field has-icon w-full pr-12 ${errors.confirmPassword ? 'input-error' : ''}`}
+                        className={`register-input-field register-input-field-with-button ${errors.confirmPassword ? 'input-error' : ''}`}
                         placeholder="••••••••"
                         disabled={isLoading}
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                        className="register-input-toggle-btn"
                         disabled={isLoading}
                       >
                         {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
-                    {errors.confirmPassword && <p className="text-red-600 text-xs mt-1">{errors.confirmPassword}</p>}
+                    {errors.confirmPassword && (
+                      <p className="register-alert-error">{errors.confirmPassword}</p>
+                    )}
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-4">
-                      Tipo de Voluntario
-                    </label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="register-input-group">
+                    <label className="register-input-label">Tipo de Voluntario</label>
+                    <div className="register-type-grid">
                       {[
-                        { value: 'regular', label: 'Voluntario Regular', desc: 'Ciudadano/Residente sin estudios actuales', color: 'border-blue-200 hover:border-blue-300 peer-checked:border-blue-500 peer-checked:bg-blue-50' },
-                        { value: 'student_usa', label: 'Estudiante USA', desc: 'Estudiante en universidad americana', color: 'border-green-200 hover:border-green-300 peer-checked:border-green-500 peer-checked:bg-green-50' },
-                        { value: 'student_intl', label: 'Estudiante Internacional', desc: 'Estudiante fuera de USA', color: 'border-purple-200 hover:border-purple-300 peer-checked:border-purple-500 peer-checked:bg-purple-50' },
-                        { value: 'professional_intl', label: 'Profesional Internacional', desc: 'Profesional fuera de USA', color: 'border-orange-200 hover:border-orange-300 peer-checked:border-orange-500 peer-checked:bg-orange-50' }
+                        
+                        { value: 'student_usa', label: 'CPT-USA', desc: 'Estudiante internacional practicante en USA', color: 'green' },
+                        { value: 'student_intl', label: 'OPT-USA', desc: 'Graduado internacional practicante en  USA', color: 'darkgreen' },
+                        { value: 'regular', label: 'Voluntario Regular', color: 'teal' },
+
                       ].map((type) => (
-                        <div key={type.value} className="relative">
+                        <div key={type.value} className="register-type-option">
                           <input
                             type="radio"
                             id={type.value}
                             name="volunteerType"
                             value={type.value}
                             checked={formData.volunteerType === type.value}
-                            onChange={(e) => handleInputChange('volunteerType', e.target.value as any)}
-                            className="peer sr-only"
+                            onChange={(e) => handleInputChange('volunteerType', e.target.value)}
+                            className="register-type-radio"
                           />
-                          <label
-                            htmlFor={type.value}
-                            className={`flex flex-col p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${type.color}`}
-                          >
-                            <span className="font-semibold text-slate-800">{type.label}</span>
-                            <span className="text-sm text-slate-600 mt-1">{type.desc}</span>
+                          <label htmlFor={type.value} className={`register-type-label ${type.color}`}>
+                            <span className="register-type-title">{type.label}</span>
+                            <span className="register-type-description">{type.desc}</span>
                           </label>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Campos condicionales */}
+                  {/* Campos condicionales para estudiantes */}
                   {(formData.volunteerType === 'student_usa' || formData.volunteerType === 'student_intl') && (
-                    <div className="card-gradient p-6 rounded-xl border space-y-4 scale-in">
-                      <h4 className="font-semibold text-slate-800 flex items-center">
-                        <GraduationCap className="w-5 h-5 mr-2" />
+                    <div className="register-conditional-section">
+                      <h4 className="register-conditional-title">
+                        <GraduationCap className="w-5 h-5" />
                         Información Académica
                       </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="input-group">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Universidad
-                          </label>
+                      <div className="register-form-grid">
+                        <div className="register-input-group">
+                          <label className="register-input-label">Universidad</label>
                           <input
                             type="text"
                             value={formData.profile.university || ''}
                             onChange={(e) => handleInputChange('profile.university', e.target.value)}
-                            className="input-field w-full"
+                            className="register-input-field"
                             placeholder="Nombre de tu universidad"
                           />
                         </div>
-                        <div className="input-group">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Programa/Carrera
-                          </label>
+                        <div className="register-input-group">
+                          <label className="register-input-label">Programa/Carrera</label>
                           <input
                             type="text"
                             value={formData.profile.program || ''}
                             onChange={(e) => handleInputChange('profile.program', e.target.value)}
-                            className="input-field w-full"
+                            className="register-input-field"
                             placeholder="Tu carrera o programa"
                           />
                         </div>
-                        <div className="input-group">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Supervisor Académico
-                          </label>
+                        <div className="register-input-group">
+                          <label className="register-input-label">Supervisor Académico</label>
                           <input
                             type="text"
                             value={formData.profile.supervisor_name || ''}
                             onChange={(e) => handleInputChange('profile.supervisor_name', e.target.value)}
-                            className="input-field w-full"
+                            className="register-input-field"
                             placeholder="Nombre del supervisor"
                           />
                         </div>
-                        <div className="input-group">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Email del Supervisor
-                          </label>
+                        <div className="register-input-group">
+                          <label className="register-input-label">Email del Supervisor</label>
                           <input
                             type="email"
                             value={formData.profile.supervisor_email || ''}
                             onChange={(e) => handleInputChange('profile.supervisor_email', e.target.value)}
-                            className="input-field w-full"
+                            className="register-input-field"
                             placeholder="supervisor@universidad.edu"
                           />
                         </div>
@@ -721,33 +693,28 @@ export default function RegisterForm() {
                     </div>
                   )}
 
+                  {/* Campos condicionales para profesionales */}
                   {formData.volunteerType === 'professional_intl' && (
-                    <div className="card-gradient p-6 rounded-xl border space-y-4 scale-in">
-                      <h4 className="font-semibold text-slate-800">
-                        Información Profesional
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="input-group">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Área Profesional
-                          </label>
+                    <div className="register-conditional-section">
+                      <h4 className="register-conditional-title">Información Profesional</h4>
+                      <div className="register-form-grid">
+                        <div className="register-input-group">
+                          <label className="register-input-label">Área Profesional</label>
                           <input
                             type="text"
                             value={formData.professionalArea || ''}
                             onChange={(e) => handleInputChange('professionalArea', e.target.value)}
-                            className="input-field w-full"
+                            className="register-input-field"
                             placeholder="Ej: Desarrollo de Software, Marketing"
                           />
                         </div>
-                        <div className="input-group">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Años de Experiencia
-                          </label>
+                        <div className="register-input-group">
+                          <label className="register-input-label">Años de Experiencia</label>
                           <input
                             type="number"
                             value={formData.yearsExperience || ''}
                             onChange={(e) => handleInputChange('yearsExperience', parseInt(e.target.value) || 0)}
-                            className="input-field w-full"
+                            className="register-input-field"
                             placeholder="0"
                             min="0"
                             max="50"
@@ -758,50 +725,44 @@ export default function RegisterForm() {
                   )}
 
                   {/* Enlaces Profesionales */}
-                  <div className="space-y-4">
-                    <h4 className="font-medium text-slate-800">Enlaces Profesionales (Opcional)</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="input-group">
-                        <label className="block text-sm font-medium text-secondary mb-2">
-                          LinkedIn
-                        </label>
-                        <div className="relative">
-                          <Linkedin className="input-icon w-5 h-5" />
+                  <div className="register-input-group">
+                    <h4 className="register-section-title">Enlaces Profesionales (Opcional)</h4>
+                    <div className="register-form-grid">
+                      <div className="register-input-group">
+                        <label className="register-input-label">LinkedIn</label>
+                        <div className="register-input-wrapper">
+                          <Linkedin className="register-input-icon" />
                           <input
                             type="url"
                             value={formData.profile.linkedin || ''}
                             onChange={(e) => handleInputChange('profile.linkedin', e.target.value)}
-                            className="input-field has-icon w-full"
+                            className="register-input-field"
                             placeholder="https://linkedin.com/in/tu-perfil"
                           />
                         </div>
                       </div>
-                      <div className="input-group">
-                        <label className="block text-sm font-medium text-secondary mb-2">
-                          GitHub
-                        </label>
-                        <div className="relative">
-                          <Github className="input-icon w-5 h-5" />
+                      <div className="register-input-group">
+                        <label className="register-input-label">GitHub</label>
+                        <div className="register-input-wrapper">
+                          <Github className="register-input-icon" />
                           <input
                             type="url"
                             value={formData.profile.github || ''}
                             onChange={(e) => handleInputChange('profile.github', e.target.value)}
-                            className="input-field has-icon w-full"
+                            className="register-input-field"
                             placeholder="https://github.com/tu-usuario"
                           />
                         </div>
                       </div>
-                      <div className="md:col-span-2 input-group">
-                        <label className="block text-sm font-medium text-secondary mb-2">
-                          Portfolio
-                        </label>
-                        <div className="relative">
-                          <Globe className="input-icon w-5 h-5" />
+                      <div className="register-input-group register-form-full-width">
+                        <label className="register-input-label">Portfolio</label>
+                        <div className="register-input-wrapper">
+                          <Globe className="register-input-icon" />
                           <input
                             type="url"
                             value={formData.profile.portfolio || ''}
                             onChange={(e) => handleInputChange('profile.portfolio', e.target.value)}
-                            className="input-field has-icon w-full"
+                            className="register-input-field"
                             placeholder="https://tu-portfolio.com"
                           />
                         </div>
@@ -813,23 +774,19 @@ export default function RegisterForm() {
 
               {/* Step 3: Disponibilidad */}
               {currentStep === 3 && (
-                <div className="space-y-6 content-enter">
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-secondary mb-2">
-                      Tu Disponibilidad
-                    </h3>
-                    <p className="text-muted">Define cuándo puedes colaborar</p>
+                <div className="content-enter">
+                  <div className="register-step-header">
+                    <h3 className="register-step-content-title">Tu Disponibilidad</h3>
+                    <p className="register-step-content-description">Define cuándo puedes colaborar</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="input-group">
-                      <label className="block text-sm font-medium text-secondary mb-2">
-                        Horas por semana *
-                      </label>
+                  <div className="register-form-grid">
+                    <div className="register-input-group">
+                      <label className="register-input-label">Horas por semana *</label>
                       <select
                         value={formData.profile.hours_per_week}
                         onChange={(e) => handleInputChange('profile.hours_per_week', parseInt(e.target.value) as 10 | 20)}
-                        className="input-field w-full"
+                        className="register-select-field"
                         disabled={isLoading}
                       >
                         <option value={10}>10 horas semanales</option>
@@ -837,14 +794,12 @@ export default function RegisterForm() {
                       </select>
                     </div>
 
-                    <div className="input-group">
-                      <label className="block text-sm font-medium text-secondary mb-2">
-                        Horario Preferido *
-                      </label>
+                    <div className="register-input-group">
+                      <label className="register-input-label">Horario Preferido *</label>
                       <select
                         value={formData.profile.preferred_hours}
                         onChange={(e) => handleInputChange('profile.preferred_hours', e.target.value)}
-                        className="input-field w-full"
+                        className="register-select-field"
                         disabled={isLoading}
                       >
                         <option value="">Selecciona horario</option>
@@ -856,43 +811,37 @@ export default function RegisterForm() {
                     </div>
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-3">
-                      Días Preferidos
-                    </label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                  <div className="register-input-group">
+                    <label className="register-input-label">Días Preferidos</label>
+                    <div className="register-days-grid">
                       {daysOfWeek.map((day) => (
                         <button
                           key={day}
                           type="button"
                           onClick={() => togglePreferredDay(day)}
-                          className={`p-3 text-sm border-2 rounded-xl transition-all duration-200 font-medium ${
-                            formData.profile.preferred_days.includes(day)
-                              ? 'bg-emerald-500 border-emerald-500 text-white shadow-md transform scale-105'
-                              : 'bg-white border-slate-200 text-slate-600 hover:border-emerald-300 hover:shadow-sm'
+                          className={`register-day-button ${
+                            formData.profile.preferred_days.includes(day) ? 'selected' : 'unselected'
                           }`}
                           disabled={isLoading}
                         >
-                          <div className="text-xs">{day.substring(0, 3)}</div>
+                          <div className="register-day-abbr">{day.substring(0, 3)}</div>
                         </button>
                       ))}
                     </div>
-                    <p className="text-xs text-slate-500 mt-2">
+                    <p className="register-step-content-description">
                       Selecciona los días que prefieres trabajar (opcional)
                     </p>
                   </div>
 
-                  <div className="input-group">
-                    <label className="block text-sm font-medium text-secondary mb-2">
-                      Zona Horaria
-                    </label>
+                  <div className="register-input-group">
+                    <label className="register-input-label">Zona Horaria</label>
                     <input
                       type="text"
                       value={formData.profile.timezone}
-                      className="input-field w-full bg-slate-50 text-slate-600"
+                      className="register-input-field"
                       disabled
                     />
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="register-step-content-description">
                       Detectada automáticamente según tu país
                     </p>
                   </div>
@@ -901,55 +850,49 @@ export default function RegisterForm() {
 
               {/* Step 4: Habilidades */}
               {currentStep === 4 && (
-                <div className="space-y-6 content-enter">
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-secondary mb-2">
-                      Habilidades e Idiomas
-                    </h3>
-                    <p className="text-muted">Comparte tus conocimientos y capacidades</p>
+                <div className="content-enter">
+                  <div className="register-step-header">
+                    <h3 className="register-step-content-title">Habilidades e Idiomas</h3>
+                    <p className="register-step-content-description">Comparte tus conocimientos y capacidades</p>
                   </div>
 
                   {/* Habilidades */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-semibold text-slate-800 flex items-center">
-                        <Award className="w-5 h-5 mr-2 text-emerald-600" />
+                  <div>
+                    <div className="register-section-header">
+                      <h4 className="register-section-title">
+                        <Award className="w-5 h-5" />
                         Habilidades Técnicas
                       </h4>
                       <button
                         type="button"
                         onClick={addSkill}
-                        className="btn-secondary text-sm flex items-center space-x-2"
+                        className="register-add-button"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Agregar</span>
                       </button>
                     </div>
 
-                    <div className="space-y-4">
+                    <div>
                       {formData.profile.skills.map((skill, index) => (
-                        <div key={index} className="card p-4 hover-lift">
-                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                            <div className="input-group">
-                              <label className="block text-sm font-medium text-slate-700 mb-2">
-                                Habilidad
-                              </label>
+                        <div key={index} className="register-skill-item">
+                          <div className="register-skill-grid">
+                            <div className="register-input-group">
+                              <label className="register-input-label">Habilidad</label>
                               <input
                                 type="text"
                                 value={skill.name}
                                 onChange={(e) => updateSkill(index, 'name', e.target.value)}
-                                className="input-field w-full"
+                                className="register-input-field"
                                 placeholder="Ej: React, Python, Photoshop"
                               />
                             </div>
-                            <div className="input-group">
-                              <label className="block text-sm font-medium text-slate-700 mb-2">
-                                Nivel
-                              </label>
+                            <div className="register-input-group">
+                              <label className="register-input-label">Nivel</label>
                               <select
                                 value={skill.level}
                                 onChange={(e) => updateSkill(index, 'level', e.target.value as any)}
-                                className="input-field w-full"
+                                className="register-select-field"
                               >
                                 {skillLevels.map(level => (
                                   <option key={level.value} value={level.value}>
@@ -958,14 +901,12 @@ export default function RegisterForm() {
                                 ))}
                               </select>
                             </div>
-                            <div className="input-group">
-                              <label className="block text-sm font-medium text-slate-700 mb-2">
-                                Categoría
-                              </label>
+                            <div className="register-input-group">
+                              <label className="register-input-label">Categoría</label>
                               <select
                                 value={skill.category}
                                 onChange={(e) => updateSkill(index, 'category', e.target.value as any)}
-                                className="input-field w-full"
+                                className="register-select-field"
                               >
                                 {skillCategories.map(category => (
                                   <option key={category.value} value={category.value}>
@@ -978,7 +919,7 @@ export default function RegisterForm() {
                               <button
                                 type="button"
                                 onClick={() => removeSkill(index)}
-                                className="w-full p-3 text-red-500 hover:bg-red-50 border border-red-200 rounded-xl transition-colors flex items-center justify-center"
+                                className="register-remove-button"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -989,55 +930,51 @@ export default function RegisterForm() {
                     </div>
 
                     {formData.profile.skills.length === 0 && (
-                      <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                        <Award className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                        <p className="text-slate-500 text-lg mb-1">No hay habilidades agregadas</p>
-                        <p className="text-slate-400 text-sm">Haz clic en "Agregar" para comenzar</p>
+                      <div className="register-empty-state">
+                        <Award className="register-empty-icon" />
+                        <p className="register-empty-title">No hay habilidades agregadas</p>
+                        <p className="register-empty-description">Haz clic en "Agregar" para comenzar</p>
                       </div>
                     )}
                   </div>
 
                   {/* Idiomas */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-semibold text-slate-800 flex items-center">
-                        <Languages className="w-5 h-5 mr-2 text-blue-600" />
+                  <div>
+                    <div className="register-section-header">
+                      <h4 className="register-section-title">
+                        <Languages className="w-5 h-5" />
                         Idiomas
                       </h4>
                       <button
                         type="button"
                         onClick={addLanguage}
-                        className="btn-secondary text-sm flex items-center space-x-2"
+                        className="register-add-button"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Agregar</span>
                       </button>
                     </div>
 
-                    <div className="space-y-4">
+                    <div>
                       {formData.profile.languages.map((language, index) => (
-                        <div key={index} className="card p-4 hover-lift">
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                            <div className="input-group">
-                              <label className="block text-sm font-medium text-slate-700 mb-2">
-                                Idioma
-                              </label>
+                        <div key={index} className="register-language-item">
+                          <div className="register-language-grid">
+                            <div className="register-input-group">
+                              <label className="register-input-label">Idioma</label>
                               <input
                                 type="text"
                                 value={language.name}
                                 onChange={(e) => updateLanguage(index, 'name', e.target.value)}
-                                className="input-field w-full"
+                                className="register-input-field"
                                 placeholder="Ej: Español, Inglés, Francés"
                               />
                             </div>
-                            <div className="input-group">
-                              <label className="block text-sm font-medium text-slate-700 mb-2">
-                                Nivel
-                              </label>
+                            <div className="register-input-group">
+                              <label className="register-input-label">Nivel</label>
                               <select
                                 value={language.level}
                                 onChange={(e) => updateLanguage(index, 'level', e.target.value as any)}
-                                className="input-field w-full"
+                                className="register-select-field"
                               >
                                 {languageLevels.map(level => (
                                   <option key={level.value} value={level.value}>
@@ -1050,7 +987,7 @@ export default function RegisterForm() {
                               <button
                                 type="button"
                                 onClick={() => removeLanguage(index)}
-                                className="w-full p-3 text-red-500 hover:bg-red-50 border border-red-200 rounded-xl transition-colors flex items-center justify-center"
+                                className="register-remove-button"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -1061,42 +998,42 @@ export default function RegisterForm() {
                     </div>
 
                     {formData.profile.languages.length === 0 && (
-                      <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                        <Languages className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                        <p className="text-slate-500 text-lg mb-1">No hay idiomas agregados</p>
-                        <p className="text-slate-400 text-sm">Haz clic en "Agregar" para comenzar</p>
+                      <div className="register-empty-state">
+                        <Languages className="register-empty-icon" />
+                        <p className="register-empty-title">No hay idiomas agregados</p>
+                        <p className="register-empty-description">Haz clic en "Agregar" para comenzar</p>
                       </div>
                     )}
                   </div>
 
                   {/* Certificaciones */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-semibold text-slate-800">Certificaciones (Opcional)</h4>
+                  <div>
+                    <div className="register-section-header">
+                      <h4 className="register-section-title">Certificaciones (Opcional)</h4>
                       <button
                         type="button"
                         onClick={addCertification}
-                        className="btn-secondary text-sm flex items-center space-x-2"
+                        className="register-add-button"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Agregar</span>
                       </button>
                     </div>
 
-                    <div className="space-y-3">
+                    <div>
                       {formData.profile.certifications.map((cert, index) => (
-                        <div key={index} className="flex items-center space-x-3">
+                        <div key={index} className="register-certification-item">
                           <input
                             type="text"
                             value={cert}
                             onChange={(e) => updateCertification(index, e.target.value)}
-                            className="flex-1 input-field"
+                            className="register-input-field"
                             placeholder="Nombre de la certificación"
                           />
                           <button
                             type="button"
                             onClick={() => removeCertification(index)}
-                            className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                            className="register-certification-remove"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -1109,83 +1046,113 @@ export default function RegisterForm() {
 
               {/* Step 5: Finalizar */}
               {currentStep === 5 && (
-                <div className="space-y-6 content-enter">
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-secondary mb-2">
-                      ¡Casi Terminamos!
-                    </h3>
-                    <p className="text-muted">Revisa tu información y acepta los términos</p>
+                <div className="content-enter">
+                  <div className="register-step-header">
+                    <h3 className="register-step-content-title">¡Casi Terminamos!</h3>
+                    <p className="register-step-content-description">Revisa tu información y acepta los términos</p>
                   </div>
 
                   {/* Resumen */}
-                  <div className="card-gradient p-6 rounded-xl border">
-                    <h4 className="font-semibold text-slate-800 mb-4 flex items-center">
-                      <User className="w-5 h-5 mr-2" />
+                  <div className="register-summary">
+                    <h4 className="register-summary-title">
+                      <User className="w-5 h-5" />
                       Resumen de tu Perfil
                     </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                      <div className="space-y-2">
-                        <p><span className="font-medium text-slate-700">Nombre:</span> <span className="text-slate-600">{formData.profile.first_name} {formData.profile.last_name}</span></p>
-                        <p><span className="font-medium text-slate-700">Email:</span> <span className="text-slate-600">{formData.email}</span></p>
-                        <p><span className="font-medium text-slate-700">Ubicación:</span> <span className="text-slate-600">{formData.profile.city}, {formData.profile.country}</span></p>
-                        <p><span className="font-medium text-slate-700">Tipo:</span> <span className="badge badge-info">
-                          {formData.volunteerType === 'regular' ? 'Voluntario Regular' :
-                          formData.volunteerType === 'student_usa' ? 'Estudiante USA' :
-                          formData.volunteerType === 'student_intl' ? 'Estudiante Internacional' :
-                          'Profesional Internacional'}
-                        </span></p>
+                    <div className="register-summary-grid">
+                      <div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Nombre: </span>
+                          <span className="register-summary-value">
+                            {formData.profile.first_name} {formData.profile.last_name}
+                          </span>
+                        </div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Email: </span>
+                          <span className="register-summary-value">{formData.email}</span>
+                        </div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Ubicación: </span>
+                          <span className="register-summary-value">
+                            {formData.profile.city}, {formData.profile.country}
+                          </span>
+                        </div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Tipo: </span>
+                          <span className="register-badge register-badge-blue">
+                            {formData.volunteerType === 'regular' ? 'Voluntario Regular' :
+                            formData.volunteerType === 'student_usa' ? 'Estudiante USA' :
+                            formData.volunteerType === 'student_intl' ? 'Estudiante Internacional' :
+                            'Profesional Internacional'}
+                          </span>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <p><span className="font-medium text-slate-700">Disponibilidad:</span> <span className="text-slate-600">{formData.profile.hours_per_week}h/semana</span></p>
-                        <p><span className="font-medium text-slate-700">Horario:</span> <span className="text-slate-600">{formData.profile.preferred_hours || 'No especificado'}</span></p>
-                        <p><span className="font-medium text-slate-700">Habilidades:</span> <span className="badge badge-success">{formData.profile.skills.length} agregadas</span></p>
-                        <p><span className="font-medium text-slate-700">Idiomas:</span> <span className="badge badge-success">{formData.profile.languages.length} agregados</span></p>
+                      <div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Disponibilidad: </span>
+                          <span className="register-summary-value">{formData.profile.hours_per_week}h/semana</span>
+                        </div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Horario: </span>
+                          <span className="register-summary-value">
+                            {formData.profile.preferred_hours || 'No especificado'}
+                          </span>
+                        </div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Habilidades: </span>
+                          <span className="register-badge register-badge-green">
+                            {formData.profile.skills.length} agregadas
+                          </span>
+                        </div>
+                        <div className="register-summary-item">
+                          <span className="register-summary-label">Idiomas: </span>
+                          <span className="register-badge register-badge-green">
+                            {formData.profile.languages.length} agregados
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Términos y Condiciones */}
-                  <div className="card p-6 border-2 border-slate-200">
-                    <div className="flex items-start space-x-4">
+                  <div className="register-terms-box">
+                    <div className="register-terms-wrapper">
                       <input
                         type="checkbox"
                         id="terms"
                         checked={formData.acceptTerms}
                         onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                        className={`mt-1 w-5 h-5 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500 ${
-                          errors.acceptTerms ? 'border-red-500' : ''
-                        }`}
+                        className={`register-terms-checkbox ${errors.acceptTerms ? 'error' : ''}`}
                         disabled={isLoading}
                       />
-                      <label htmlFor="terms" className="text-sm text-slate-700 leading-relaxed">
+                      <label htmlFor="terms" className="register-terms-label">
                         Acepto los{' '}
-                        <a href="#" className="text-primary hover:underline font-medium">
+                        <a href="#" className="register-terms-link">
                           términos y condiciones
                         </a>
                         {' '}y la{' '}
-                        <a href="#" className="text-primary hover:underline font-medium">
+                        <a href="#" className="register-terms-link">
                           política de privacidad
                         </a>
                         {' '}de Living Stones. Entiendo que mi información será utilizada para evaluar mi participación como voluntario.
                       </label>
                     </div>
-                    {errors.acceptTerms && <p className="text-red-600 text-xs mt-2 ml-9">{errors.acceptTerms}</p>}
+                    {errors.acceptTerms && (
+                      <p className="register-alert register-alert-error" style={{ marginTop: '0.5rem', marginLeft: '2.25rem' }}>
+                        {errors.acceptTerms}
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between pt-6 border-t border-slate-200">
+            <div className="register-nav">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 1 || isLoading}
-                className={`flex items-center space-x-2 px-6 py-3 border-2 border-slate-300 rounded-xl font-medium transition-all duration-200 ${
-                  currentStep === 1 || isLoading
-                    ? 'text-slate-400 cursor-not-allowed opacity-50'
-                    : 'text-slate-700 hover:bg-slate-50 hover:border-slate-400 hover:shadow-md'
-                }`}
+                className="register-nav-button prev"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Anterior</span>
@@ -1196,7 +1163,7 @@ export default function RegisterForm() {
                   type="button"
                   onClick={nextStep}
                   disabled={isLoading}
-                  className="btn-living flex items-center space-x-2"
+                  className="register-nav-button next"
                 >
                   <span>Siguiente</span>
                   <ChevronRight className="w-4 h-4" />
@@ -1205,17 +1172,17 @@ export default function RegisterForm() {
                 <button
                   type="submit"
                   disabled={isLoading || !formData.acceptTerms}
-                  className="btn-living flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="register-button-primary"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Creando cuenta...
+                      <Loader2 className="w-4 h-4 register-spinner" />
+                      <span>Creando cuenta...</span>
                     </>
                   ) : (
                     <>
                       <Check className="w-4 h-4" />
-                      Crear Cuenta
+                      <span>Crear Cuenta</span>
                     </>
                   )}
                 </button>
@@ -1223,15 +1190,18 @@ export default function RegisterForm() {
             </div>
           </form>
 
-          {/* Footer */}
-          <div className="text-center pt-4 border-t border-slate-200">
-            <div className="text-sm text-muted">
+          {/* Footer Link */}
+          <div className="register-footer-link">
+            <p className="register-footer-text">
               ¿Ya tienes cuenta?{' '}
-              <a href="/login" className="text-primary hover:underline font-medium transition-colors">
-                Inicia sesión aquí
-              </a>
-            </div>
+              <a href="/login">Inicia sesión aquí</a>
+            </p>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="register-footer">
+          <p>&copy; 2024 Living Stones. Todos los derechos reservados.</p>
         </div>
       </div>
     </div>

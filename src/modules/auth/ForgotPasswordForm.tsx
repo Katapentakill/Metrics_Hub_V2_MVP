@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, ArrowLeft, Loader2, CheckCircle } from 'lucide-react';
+import { Mail, Loader2, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface ForgotPasswordFormProps {
@@ -19,61 +19,71 @@ export default function ForgotPasswordForm({ className = '' }: ForgotPasswordFor
     e.preventDefault();
     setIsLoading(true);
 
+    // Simular llamada a API
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     setIsLoading(false);
     setIsSuccess(true);
 
+    // Redirigir después de 3 segundos
     setTimeout(() => {
       router.push('/login?message=Revisa tu email para restablecer tu contraseña');
     }, 3000);
   }
 
+  // Vista de éxito
   if (isSuccess) {
     return (
-      <div className={`w-full max-w-md mx-auto ${className}`}>
-        <div className="card p-8 space-y-6 text-center">
-          <div className="flex justify-center">
-            <CheckCircle className="w-16 h-16 text-living-green-500" />
+      <div className={`forgot-password-content ${className}`}>
+        <div className="forgot-password-success-card">
+          <div className="forgot-password-success-icon-wrapper">
+            <CheckCircle className="forgot-password-success-icon" />
           </div>
           
-          <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-gradient">¡Email Enviado!</h1>
-            <p className="text-muted">
-              Hemos enviado las instrucciones para restablecer tu contraseña a:
-            </p>
-            <p className="font-medium text-secondary">{email}</p>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-sm text-muted">
-              Revisa tu bandeja de entrada y carpeta de spam.
-            </p>
-            
-            <div className="text-sm text-muted">
-              Redirigiendo al login en unos segundos...
-            </div>
-          </div>
+          <h2 className="forgot-password-success-title">¡Email Enviado!</h2>
+          
+          <p className="forgot-password-success-description">
+            Hemos enviado las instrucciones para restablecer tu contraseña a:
+          </p>
+          
+          <p className="forgot-password-success-email">{email}</p>
+          
+          <p className="forgot-password-success-note">
+            Revisa tu bandeja de entrada y carpeta de spam.
+          </p>
+          
+          <p className="forgot-password-success-redirect">
+            Redirigiendo al login en unos segundos...
+          </p>
         </div>
       </div>
     );
   }
 
+  // Vista del formulario
   return (
-    <div className={`w-full max-w-md mx-auto ${className}`}>
-      <div className="card p-8 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-gradient">Restablecer Contraseña</h1>
-          <p className="text-muted">Ingresa tu email y te enviaremos instrucciones</p>
+    <div className={`forgot-password-content ${className}`}>
+      {/* Tarjeta principal del formulario */}
+      <div className="forgot-password-form-card">
+        
+        {/* Header del formulario */}
+        <div className="forgot-password-form-header">
+          <h2 className="forgot-password-form-title">
+            Restablecer Contraseña
+          </h2>
+          <p className="forgot-password-form-description">
+            Ingresa tu email y te enviaremos instrucciones
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="input-group">
-            <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
+        <form onSubmit={handleSubmit}>
+          {/* Campo Email */}
+          <div className="forgot-password-input-group">
+            <label htmlFor="email" className="forgot-password-input-label">
               Email
             </label>
-            <div className="relative">
-              <Mail className="input-icon w-5 h-5" />
+            <div className="forgot-password-input-wrapper">
+              <Mail className="forgot-password-input-icon" aria-hidden="true" />
               <input
                 type="email"
                 id="email"
@@ -81,45 +91,46 @@ export default function ForgotPasswordForm({ className = '' }: ForgotPasswordFor
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="input-field has-icon w-full"
+                className="forgot-password-input-field"
                 placeholder="tu@email.com"
                 disabled={isLoading}
+                autoComplete="email"
               />
             </div>
           </div>
 
+          {/* Botón de envío */}
           <button
             type="submit"
             disabled={isLoading || !email}
-            className="btn-living w-full flex items-center justify-center gap-2"
+            className="forgot-password-button-primary"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Enviando...
+                <Loader2 className="w-4 h-4 forgot-password-spinner" />
+                <span>Enviando...</span>
               </>
             ) : (
-              'Enviar Instrucciones'
+              <span>Enviar Instrucciones</span>
             )}
           </button>
         </form>
 
-        <div className="text-center">
-          <button
-            onClick={() => router.push('/login')}
-            className="inline-flex items-center gap-2 text-sm text-primary hover:underline transition-colors"
-            disabled={isLoading}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Volver al login
-          </button>
-        </div>
+        {/* Link de regreso */}
+        <button
+          onClick={() => router.push('/login')}
+          className="forgot-password-back-link"
+          disabled={isLoading}
+          type="button"
+        >
+          <ArrowLeft className="forgot-password-back-link-icon" />
+          Volver al login
+        </button>
       </div>
 
-      <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-        <div className="text-sm text-blue-700">
-          <strong>Nota:</strong> Este es un prototipo. En producción, aquí se enviaría un email real con un enlace seguro para restablecer la contraseña.
-        </div>
+      {/* Nota informativa */}
+      <div className="forgot-password-info-box">
+        <strong>Nota:</strong> Este es un prototipo. En producción, aquí se enviaría un email real con un enlace seguro para restablecer la contraseña.
       </div>
     </div>
   );

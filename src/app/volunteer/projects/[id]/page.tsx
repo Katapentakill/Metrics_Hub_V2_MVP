@@ -72,12 +72,12 @@ export default function VolunteerProjectDetailPage() {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="loading-skeleton h-8 w-64"></div>
+        <div className="bg-gray-50 border border-slate-200 h-8 w-64 rounded animate-pulse"></div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <div className="loading-skeleton h-96 rounded-xl"></div>
+            <div className="bg-green-50 border-2 border-teal-500 h-96 rounded-xl animate-pulse"></div>
           </div>
-          <div className="loading-skeleton h-96 rounded-xl"></div>
+          <div className="bg-green-50 border-2 border-teal-500 h-96 rounded-xl animate-pulse"></div>
         </div>
       </div>
     );
@@ -86,13 +86,13 @@ export default function VolunteerProjectDetailPage() {
   if (!project) {
     return (
       <div className="max-w-7xl mx-auto">
-        <div className="text-center py-12">
+        <div className="text-center py-12 bg-red-50 border-2 border-red-500 rounded-xl">
           <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Proyecto no encontrado</h2>
-          <p className="text-slate-600">No tienes acceso a este proyecto o no existe.</p>
+          <p className="text-gray-600">No tienes acceso a este proyecto o no existe.</p>
           <button
             onClick={() => router.push('/volunteer/projects')}
-            className="btn-living mt-4"
+            className="px-4 py-2 bg-green-800 text-white rounded-lg hover:bg-emerald-600 transition-colors mt-4 font-medium shadow-sm"
           >
             Volver a Mis Proyectos
           </button>
@@ -103,11 +103,11 @@ export default function VolunteerProjectDetailPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'planning': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'completed': return 'bg-green-100 text-green-800 border-green-200';
-      case 'paused': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'active': return 'bg-emerald-50 text-emerald-600 border-emerald-600';
+      case 'planning': return 'bg-blue-50 text-blue-500 border-blue-500';
+      case 'completed': return 'bg-teal-50 text-teal-500 border-teal-500';
+      case 'paused': return 'bg-yellow-50 text-yellow-500 border-yellow-500';
+      default: return 'bg-gray-50 text-gray-600 border-slate-200';
     }
   };
 
@@ -140,18 +140,18 @@ export default function VolunteerProjectDetailPage() {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => router.push('/volunteer/projects')}
-            className="text-slate-600 hover:text-slate-800 transition-colors"
+            className="text-gray-600 hover:text-green-800 transition-colors p-2 hover:bg-green-50 rounded-lg"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
             <h1 className="text-3xl font-bold text-slate-800">{project.project.name}</h1>
-            <p className="text-slate-600">Vista de voluntario • {project.lead?.name || 'Sin líder'}</p>
+            <p className="text-gray-600">Vista de voluntario • {project.lead?.name || 'Sin líder'}</p>
           </div>
         </div>
         
         <div className="flex items-center space-x-2">
-          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(project.project.status)}`}>
+          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border-2 ${getStatusColor(project.project.status)}`}>
             {getStatusLabel(project.project.status)}
           </span>
         </div>
@@ -159,51 +159,51 @@ export default function VolunteerProjectDetailPage() {
 
       {/* Métricas principales */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="card p-6">
+        <div className="bg-green-50 border-2 border-teal-500 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Progreso</p>
+              <p className="text-sm font-semibold text-gray-600">Progreso</p>
               <p className="text-3xl font-bold text-slate-800">{project.progressPct}%</p>
             </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-800 to-emerald-600 rounded-xl flex items-center justify-center shadow-sm">
               <BarChart3 className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
 
-        <div className="card p-6">
+        <div className="bg-green-50 border-2 border-teal-500 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Equipo</p>
+              <p className="text-sm font-semibold text-gray-600">Equipo</p>
               <p className="text-3xl font-bold text-slate-800">{project.project.current_team_size}/{project.project.max_team_size}</p>
             </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-sm">
               <Users className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
 
-        <div className="card p-6">
+        <div className="bg-green-50 border-2 border-teal-500 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Fecha Límite</p>
-              <p className="text-3xl font-bold text-slate-800">
+              <p className="text-sm font-semibold text-gray-600">Fecha Límite</p>
+              <p className="text-2xl font-bold text-slate-800">
                 {project.project.deadline ? new Date(project.project.deadline).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) : 'Sin fecha'}
               </p>
             </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-sm">
               <Calendar className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
 
-        <div className="card p-6">
+        <div className="bg-green-50 border-2 border-emerald-600 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Mi Rol</p>
-              <p className="text-3xl font-bold text-slate-800">Voluntario</p>
+              <p className="text-sm font-semibold text-gray-600">Mi Rol</p>
+              <p className="text-2xl font-bold text-slate-800">Voluntario</p>
             </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center shadow-sm">
               <Target className="w-6 h-6 text-white" />
             </div>
           </div>
@@ -211,8 +211,8 @@ export default function VolunteerProjectDetailPage() {
       </div>
 
       {/* Tabs de navegación */}
-      <div className="card overflow-hidden">
-        <div className="border-b border-slate-200 bg-slate-50">
+      <div className="bg-green-50 border-2 border-teal-500 rounded-xl overflow-hidden shadow-sm">
+        <div className="border-b border-slate-200 bg-white">
           <nav className="flex space-x-8 px-6">
             {[
               { key: 'overview', label: 'Resumen', icon: BarChart3 },
@@ -223,10 +223,10 @@ export default function VolunteerProjectDetailPage() {
               <button
                 key={key}
                 onClick={() => setActiveTab(key as any)}
-                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-semibold text-sm transition-colors ${
                   activeTab === key
-                    ? 'border-emerald-500 text-emerald-600'
-                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                    ? 'border-green-800 text-green-800'
+                    : 'border-transparent text-gray-600 hover:text-slate-800 hover:border-slate-300'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -236,24 +236,24 @@ export default function VolunteerProjectDetailPage() {
           </nav>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 bg-white">
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Información del proyecto */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-slate-800">Información del Proyecto</h3>
+                <div className="space-y-4 bg-green-50 border border-slate-200 rounded-lg p-4">
+                  <h3 className="text-lg font-bold text-slate-800">Información del Proyecto</h3>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-sm font-medium text-slate-600">Descripción</label>
+                      <label className="text-sm font-semibold text-gray-600">Descripción</label>
                       <p className="text-slate-800 mt-1">{project.project.description || 'Sin descripción'}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-slate-600">Líder de Proyecto</label>
+                      <label className="text-sm font-semibold text-gray-600">Líder de Proyecto</label>
                       <p className="text-slate-800 mt-1">{project.lead?.name || 'Sin asignar'}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-slate-600">Ubicación</label>
+                      <label className="text-sm font-semibold text-gray-600">Ubicación</label>
                       <p className="text-slate-800 mt-1">
                         {project.city && project.country ? `${project.city}, ${project.country}` : 'No especificada'}
                       </p>
@@ -262,29 +262,29 @@ export default function VolunteerProjectDetailPage() {
                 </div>
 
                 {/* Progreso detallado */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-slate-800">Progreso del Proyecto</h3>
+                <div className="space-y-4 bg-green-50 border border-slate-200 rounded-lg p-4">
+                  <h3 className="text-lg font-bold text-slate-800">Progreso del Proyecto</h3>
                   <div className="space-y-4">
                     <div>
                       <div className="flex items-center justify-between text-sm mb-2">
-                        <span className="text-slate-600">Progreso General</span>
-                        <span className="font-medium text-slate-800">{project.progressPct}%</span>
+                        <span className="text-gray-600 font-medium">Progreso General</span>
+                        <span className="font-bold text-slate-800">{project.progressPct}%</span>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-3">
                         <div 
-                          className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-3 rounded-full transition-all duration-300"
+                          className="bg-gradient-to-r from-green-800 to-emerald-600 h-3 rounded-full transition-all duration-300"
                           style={{ width: `${project.progressPct}%` }}
                         />
                       </div>
                     </div>
 
                     {project.project.deadline && (
-                      <div className="bg-slate-50 rounded-lg p-4">
+                      <div className="bg-white border border-slate-200 rounded-lg p-4">
                         <div className="flex items-center space-x-2 mb-2">
-                          <Calendar className="w-4 h-4 text-slate-600" />
-                          <span className="font-medium text-slate-800">Fecha Límite</span>
+                          <Calendar className="w-4 h-4 text-slate-400" />
+                          <span className="font-semibold text-slate-800">Fecha Límite</span>
                         </div>
-                        <p className="text-slate-600">{formatDate(project.project.deadline)}</p>
+                        <p className="text-gray-600">{formatDate(project.project.deadline)}</p>
                       </div>
                     )}
                   </div>
@@ -295,18 +295,18 @@ export default function VolunteerProjectDetailPage() {
 
           {activeTab === 'team' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-slate-800">Equipo del Proyecto</h3>
+              <h3 className="text-lg font-bold text-slate-800">Equipo del Proyecto</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {project.members?.map((member) => (
-                  <div key={member.id} className="card p-4">
+                  <div key={member.id} className="bg-green-50 border border-slate-200 rounded-lg p-4 hover:border-teal-500 transition-colors">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      <div className="w-10 h-10 bg-gradient-to-br from-green-800 to-emerald-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
                         {getInitials(member.name)}
                       </div>
                       <div>
-                        <h4 className="font-medium text-slate-800">{member.name}</h4>
-                        <p className="text-sm text-slate-600">{member.role}</p>
+                        <h4 className="font-semibold text-slate-800">{member.name}</h4>
+                        <p className="text-sm text-gray-600">{member.role}</p>
                       </div>
                     </div>
                   </div>
@@ -317,26 +317,26 @@ export default function VolunteerProjectDetailPage() {
 
           {activeTab === 'tasks' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-slate-800">Mis Tareas</h3>
+              <h3 className="text-lg font-bold text-slate-800">Mis Tareas</h3>
               
-              <div className="text-center py-12">
+              <div className="text-center py-12 bg-green-50 border border-slate-200 rounded-lg">
                 <CheckCircle2 className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                <h4 className="text-lg font-semibold text-slate-600 mb-2">Sistema de Tareas</h4>
-                <p className="text-slate-500">Las tareas se gestionan a través del sistema Kanban del proyecto.</p>
-                <p className="text-sm text-slate-400 mt-2">Contacta con tu líder de proyecto para más información.</p>
+                <h4 className="text-lg font-semibold text-slate-800 mb-2">Sistema de Tareas</h4>
+                <p className="text-gray-600">Las tareas se gestionan a través del sistema Kanban del proyecto.</p>
+                <p className="text-sm text-gray-600 mt-2">Contacta con tu líder de proyecto para más información.</p>
               </div>
             </div>
           )}
 
           {activeTab === 'files' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-slate-800">Archivos del Proyecto</h3>
+              <h3 className="text-lg font-bold text-slate-800">Archivos del Proyecto</h3>
               
-              <div className="text-center py-12">
+              <div className="text-center py-12 bg-green-50 border border-slate-200 rounded-lg">
                 <FileText className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                <h4 className="text-lg font-semibold text-slate-600 mb-2">Gestión de Archivos</h4>
-                <p className="text-slate-500">Los archivos se gestionan a través del sistema de archivos del proyecto.</p>
-                <p className="text-sm text-slate-400 mt-2">Contacta con tu líder de proyecto para acceder a los archivos.</p>
+                <h4 className="text-lg font-semibold text-slate-800 mb-2">Gestión de Archivos</h4>
+                <p className="text-gray-600">Los archivos se gestionan a través del sistema de archivos del proyecto.</p>
+                <p className="text-sm text-gray-600 mt-2">Contacta con tu líder de proyecto para acceder a los archivos.</p>
               </div>
             </div>
           )}

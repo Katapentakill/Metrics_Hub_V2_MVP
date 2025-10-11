@@ -158,7 +158,7 @@ export default function LeadEvaluationsPage() {
           allUsers={filteredData.users}
           allPeriods={mockEvaluationPeriods}
           role="lead"
-          theme="emerald"
+          theme="institutional"
           basePath="/lead"
         />
       </div>

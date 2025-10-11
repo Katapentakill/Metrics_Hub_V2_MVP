@@ -1,3 +1,4 @@
+// src/modules/dashboard/volunteer/RecentActivity.tsx
 'use client';
 
 import { 
@@ -6,28 +7,42 @@ import {
   Award, 
   Users, 
   Activity,
-  Clock,
-  Target
+  Clock
 } from 'lucide-react';
+import '@/styles/dashboard.css';
 
 interface RecentActivityProps {
   data: any;
 }
 
+interface ActivityItem {
+  id: string | number;
+  type: string;
+  title: string;
+  description: string;
+  projectName?: string;
+  timestamp: string;
+}
+
 export default function RecentActivity({ data }: RecentActivityProps) {
-  const recentActivities = data?.recentActivities || [];
+  const recentActivities: ActivityItem[] = data?.recentActivities || [];
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'task_completed': return <CheckCircle className="w-5 h-5 text-emerald-500" />;
-      case 'evaluation_received': return <Star className="w-5 h-5 text-slate-500" />;
-      case 'milestone_reached': return <Award className="w-5 h-5 text-emerald-500" />;
-      case 'project_joined': return <Users className="w-5 h-5 text-slate-500" />;
-      default: return <Activity className="w-5 h-5 text-slate-500" />;
+      case 'task_completed': 
+        return <CheckCircle className="activity-icon-completed" />;
+      case 'evaluation_received': 
+        return <Star className="activity-icon-evaluation" />;
+      case 'milestone_reached': 
+        return <Award className="activity-icon-milestone" />;
+      case 'project_joined': 
+        return <Users className="activity-icon-joined" />;
+      default: 
+        return <Activity className="activity-icon-default" />;
     }
   };
 
-  const getTimeAgo = (timestamp: string) => {
+  const getTimeAgo = (timestamp: string): string => {
     const now = new Date();
     const time = new Date(timestamp);
     const diffInMinutes = Math.floor((now.getTime() - time.getTime()) / (1000 * 60));
@@ -35,36 +50,55 @@ export default function RecentActivity({ data }: RecentActivityProps) {
     if (diffInMinutes < 60) {
       return `Hace ${diffInMinutes} min`;
     } else if (diffInMinutes < 1440) {
-      return `Hace ${Math.floor(diffInMinutes / 60)} h`;
+      const hours = Math.floor(diffInMinutes / 60);
+      return `Hace ${hours} h`;
     } else {
-      return `Hace ${Math.floor(diffInMinutes / 1440)} días`;
+      const days = Math.floor(diffInMinutes / 1440);
+      return `Hace ${days} día${days > 1 ? 's' : ''}`;
     }
   };
 
+  // Cálculo de contadores
+  const completedTasksCount = recentActivities.filter(
+    (a) => a.type === 'task_completed'
+  ).length;
+
+  const evaluationsCount = recentActivities.filter(
+    (a) => a.type === 'evaluation_received'
+  ).length;
+
+  const achievementsCount = recentActivities.filter(
+    (a) => a.type === 'milestone_reached'
+  ).length;
+
   return (
-    <div className="card p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-slate-800">Actividad Reciente</h2>
-        <button className="text-emerald-600 hover:text-emerald-700 text-sm font-medium transition-colors">
+    <div className="recent-activity-container">
+      <div className="recent-activity-header">
+        <h2 className="recent-activity-title">Actividad Reciente</h2>
+        <button className="recent-activity-view-history">
           Ver historial
         </button>
       </div>
       
-      <div className="space-y-4">
-        {recentActivities.map((activity: any) => (
-          <div key={activity.id} className="flex items-start space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
-            <div className="flex-shrink-0 mt-1">
+      <div className="recent-activity-list">
+        {recentActivities.map((activity) => (
+          <div 
+            key={activity.id} 
+            className="activity-item"
+          >
+            <div className="activity-icon-wrapper">
               {getActivityIcon(activity.type)}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-800">{activity.title}</p>
-              <p className="text-xs text-gray-600 mt-1">{activity.description}</p>
+            <div className="activity-content">
+              <p className="activity-title">{activity.title}</p>
+              <p className="activity-description">{activity.description}</p>
               {activity.projectName && (
-                <p className="text-xs text-gray-600 mt-1">
-                  Proyecto: <span className="font-medium text-slate-700">{activity.projectName}</span>
+                <p className="activity-project">
+                  Proyecto: <span className="activity-project-name">{activity.projectName}</span>
                 </p>
               )}
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="activity-timestamp">
+                <Clock className="activity-timestamp-icon" />
                 {getTimeAgo(activity.timestamp)}
               </p>
             </div>
@@ -73,25 +107,30 @@ export default function RecentActivity({ data }: RecentActivityProps) {
       </div>
       
       {/* Resumen de actividad */}
-      <div className="mt-6 pt-4 border-t border-slate-200">
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-lg font-semibold text-emerald-600">
-              {recentActivities.filter((a: any) => a.type === 'task_completed').length}
+      <div className="activity-summary">
+        <div className="activity-summary-grid">
+          {/* Tareas Completadas */}
+          <div className="activity-summary-card activity-summary-completed">
+            <p className="activity-summary-number activity-summary-number-completed">
+              {completedTasksCount}
             </p>
-            <p className="text-xs text-gray-600">Tareas Completadas</p>
+            <p className="activity-summary-label">Tareas Completadas</p>
           </div>
-          <div>
-            <p className="text-lg font-semibold text-slate-600">
-              {recentActivities.filter((a: any) => a.type === 'evaluation_received').length}
+          
+          {/* Evaluaciones */}
+          <div className="activity-summary-card activity-summary-evaluations">
+            <p className="activity-summary-number activity-summary-number-evaluations">
+              {evaluationsCount}
             </p>
-            <p className="text-xs text-gray-600">Evaluaciones</p>
+            <p className="activity-summary-label">Evaluaciones</p>
           </div>
-          <div>
-            <p className="text-lg font-semibold text-emerald-600">
-              {recentActivities.filter((a: any) => a.type === 'milestone_reached').length}
+          
+          {/* Logros */}
+          <div className="activity-summary-card activity-summary-achievements">
+            <p className="activity-summary-number activity-summary-number-achievements">
+              {achievementsCount}
             </p>
-            <p className="text-xs text-gray-600">Logros</p>
+            <p className="activity-summary-label">Logros</p>
           </div>
         </div>
       </div>

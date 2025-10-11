@@ -48,101 +48,132 @@ export default function LoginForm({ className = '' }: LoginFormProps) {
   }
 
   return (
-    <div className={`w-full max-w-md mx-auto ${className}`}>
-      <div className="card p-8 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-gradient">Bienvenido</h1>
-          <p className="text-muted">Ingresa a tu cuenta de Living Stones</p>
+    <div className={`login-content ${className}`}>
+      {/* Tarjeta principal del formulario */}
+      <div className="login-form-card">
+        
+        {/* Header del formulario */}
+        <div className="login-form-header">
+          <h1 className="login-form-title">Bienvenido</h1>
+          <p className="login-form-description">
+            Ingresa a tu cuenta de Living Stones
+          </p>
         </div>
 
-        <form action={handleSubmit} className="space-y-4">
-          <div className="input-group">
-            <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
+        <form action={handleSubmit}>
+          {/* Campo Email */}
+          <div className="login-input-group">
+            <label htmlFor="email" className="login-input-label">
               Email
             </label>
-            <div className="relative">
-              <Mail className="input-icon w-5 h-5" />
+            <div className="login-input-wrapper">
+              <Mail className="login-input-icon" aria-hidden="true" />
               <input
                 type="email"
                 id="email"
                 name="email"
                 required
-                className="input-field has-icon w-full"
+                className="login-input-field"
                 placeholder="tu@email.com"
                 disabled={isLoading}
+                autoComplete="email"
               />
             </div>
           </div>
 
-          <div className="input-group">
-            <label htmlFor="password" className="block text-sm font-medium text-secondary mb-2">
+          {/* Campo Contraseña */}
+          <div className="login-input-group">
+            <label htmlFor="password" className="login-input-label">
               Contraseña
             </label>
-            <div className="relative">
-              <Lock className="input-icon w-5 h-5" />
+            <div className="login-input-wrapper">
+              <Lock className="login-input-icon" aria-hidden="true" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
                 required
-                className="input-field has-icon w-full pr-12"
+                className="login-input-field login-input-field-with-button"
                 placeholder="••••••••"
                 disabled={isLoading}
+                autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                className="login-input-toggle-btn"
                 disabled={isLoading}
+                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
 
+          {/* Mensaje de error */}
           {error && (
-            <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
-              {error}
+            <div className="login-alert login-alert-error" role="alert">
+              <span>{error}</span>
             </div>
           )}
 
+          {/* Botón de envío */}
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-living w-full flex items-center justify-center gap-2"
+            className="login-button-primary"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Ingresando...
+                <Loader2 className="w-4 h-4 login-spinner" />
+                <span>Ingresando...</span>
               </>
             ) : (
-              'Ingresar'
+              <span>Ingresar</span>
             )}
           </button>
         </form>
 
-        <div className="text-center space-y-2">
-          <a href="/forgot-password" className="text-sm text-primary hover:underline transition-colors">
+        {/* Links de ayuda */}
+        <div className="login-links">
+          <a href="/forgot-password" className="login-link">
             ¿Olvidaste tu contraseña?
           </a>
-          <div className="text-sm text-muted">
+          <div className="login-link-secondary" style={{ marginTop: '0.5rem' }}>
             ¿No tienes cuenta?{' '}
-            <a href="/register" className="text-primary hover:underline font-medium transition-colors">
+            <a href="/register" className="login-link-bold">
               Regístrate aquí
             </a>
           </div>
         </div>
       </div>
 
-      <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-        <h3 className="text-sm font-semibold text-slate-700 mb-2">🔑 Credenciales de prueba:</h3>
-        <div className="space-y-1 text-xs text-slate-600">
-          <div><strong>Admin:</strong> admin_1@example.com</div>
-          <div><strong>HR:</strong> hr_1@example.com</div>
-          <div><strong>Lead:</strong> lead_1@example.com</div>
-          <div><strong>Volunteer:</strong> volunteer_1@example.com</div>
-          <div className="mt-1"><strong>Password:</strong> password123</div>
+      {/* Credenciales de prueba */}
+      <div className="login-credentials-box">
+        <h3 className="login-credentials-title">
+          <span role="img" aria-label="llave">🔑</span>
+          Credenciales de prueba:
+        </h3>
+        <div className="login-credentials-list">
+          <div className="login-credentials-item">
+            <span className="login-credentials-label">Admin:</span> admin_1@example.com
+          </div>
+          <div className="login-credentials-item">
+            <span className="login-credentials-label">HR:</span> hr_1@example.com
+          </div>
+          <div className="login-credentials-item">
+            <span className="login-credentials-label">Lead:</span> lead_1@example.com
+          </div>
+          <div className="login-credentials-item">
+            <span className="login-credentials-label">Volunteer:</span> volunteer_1@example.com
+          </div>
+          <div className="login-credentials-item login-credentials-divider">
+            <span className="login-credentials-label">Password:</span> password123
+          </div>
         </div>
       </div>
     </div>

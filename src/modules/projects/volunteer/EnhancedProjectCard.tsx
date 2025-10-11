@@ -30,11 +30,11 @@ export default function EnhancedProjectCard({
   
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'text-green-600 bg-green-50 border-green-200';
-      case 'planning': return 'text-blue-600 bg-blue-50 border-blue-200';
-      case 'completed': return 'text-purple-600 bg-purple-50 border-purple-200';
-      case 'paused': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'active': return 'text-emerald-600 bg-emerald-50 border-emerald-600';
+      case 'planning': return 'text-blue-500 bg-blue-50 border-blue-500';
+      case 'completed': return 'text-teal-500 bg-teal-50 border-teal-500';
+      case 'paused': return 'text-yellow-500 bg-yellow-50 border-yellow-500';
+      default: return 'text-gray-600 bg-gray-50 border-slate-200';
     }
   };
 
@@ -81,7 +81,7 @@ export default function EnhancedProjectCard({
     if (isOverdue(project.project.deadline)) {
       return {
         text: `${Math.abs(daysLeft)} días vencido`,
-        color: 'text-red-600',
+        color: 'text-red-500',
         icon: AlertTriangle
       };
     }
@@ -89,14 +89,14 @@ export default function EnhancedProjectCard({
     if (isUrgent(project.project.deadline)) {
       return {
         text: `${daysLeft} días restantes`,
-        color: 'text-orange-600',
+        color: 'text-yellow-500',
         icon: Clock
       };
     }
     
     return {
       text: `${daysLeft} días restantes`,
-      color: 'text-green-600',
+      color: 'text-emerald-600',
       icon: CheckCircle2
     };
   };
@@ -104,20 +104,20 @@ export default function EnhancedProjectCard({
   const deadlineStatus = getDeadlineStatus();
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 group">
+    <div className="bg-green-50 rounded-xl border-2 border-teal-500 shadow-sm hover:shadow-md transition-all duration-200 group hover:border-green-800">
       {/* Header */}
-      <div className="p-6 border-b border-slate-100">
+      <div className="p-6 border-b border-slate-200">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-2">
-              <h3 className="text-lg font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-lg font-bold text-slate-800 group-hover:text-green-800 transition-colors">
                 {project.project.name}
               </h3>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(project.project.status)}`}>
+              <span className={`px-2 py-1 rounded-full text-xs font-semibold border ${getStatusColor(project.project.status)}`}>
                 {getStatusText(project.project.status)}
               </span>
             </div>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <p className="text-gray-600 text-sm leading-relaxed">
               {project.project.description}
             </p>
           </div>
@@ -125,7 +125,7 @@ export default function EnhancedProjectCard({
           <div className="flex items-center space-x-2 ml-4">
             <button
               onClick={() => onView(project)}
-              className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
               title="Ver detalles"
             >
               <Eye className="w-4 h-4" />
@@ -136,12 +136,12 @@ export default function EnhancedProjectCard({
         {/* Progress Bar */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700">Progreso</span>
-            <span className="text-sm font-medium text-slate-700">{project.progressPct}%</span>
+            <span className="text-sm font-semibold text-slate-800">Progreso</span>
+            <span className="text-sm font-semibold text-slate-800">{project.progressPct}%</span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-2">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-green-800 to-emerald-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${project.progressPct}%` }}
             />
           </div>
@@ -149,39 +149,39 @@ export default function EnhancedProjectCard({
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 bg-white">
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center space-x-2">
             <Users className="w-4 h-4 text-slate-400" />
             <div>
-              <div className="text-sm font-medium text-slate-700">
+              <div className="text-sm font-semibold text-slate-800">
                 {project.project.current_team_size} / {project.project.max_team_size}
               </div>
-              <div className="text-xs text-slate-500">Miembros</div>
+              <div className="text-xs text-gray-600">Miembros</div>
             </div>
           </div>
           
           <div className="flex items-center space-x-2">
             <Target className="w-4 h-4 text-slate-400" />
             <div>
-              <div className="text-sm font-medium text-slate-700">{project.progressPct}%</div>
-              <div className="text-xs text-slate-500">Completado</div>
+              <div className="text-sm font-semibold text-slate-800">{project.progressPct}%</div>
+              <div className="text-xs text-gray-600">Completado</div>
             </div>
           </div>
         </div>
 
         {/* Deadline Info */}
         {project.project.deadline && (
-          <div className="mb-4 p-3 bg-slate-50 rounded-lg">
+          <div className="mb-4 p-3 bg-green-50 border border-slate-200 rounded-lg">
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4 text-slate-400" />
               <div className="flex-1">
-                <div className="text-sm font-medium text-slate-700">
+                <div className="text-sm font-semibold text-slate-800">
                   Fecha límite: {formatDate(project.project.deadline)}
                 </div>
                 {deadlineStatus && (
-                  <div className={`text-xs flex items-center space-x-1 ${deadlineStatus.color}`}>
+                  <div className={`text-xs flex items-center space-x-1 ${deadlineStatus.color} font-medium mt-1`}>
                     <deadlineStatus.icon className="w-3 h-3" />
                     <span>{deadlineStatus.text}</span>
                   </div>
@@ -196,19 +196,23 @@ export default function EnhancedProjectCard({
           <div className="mb-4">
             <div className="flex items-center space-x-2 mb-2">
               <Users className="w-4 h-4 text-slate-400" />
-              <span className="text-sm font-medium text-slate-700">Equipo</span>
+              <span className="text-sm font-semibold text-slate-800">Equipo</span>
             </div>
             <div className="flex items-center space-x-2">
               {project.members.slice(0, 3).map((member, index) => (
-                <div key={index} className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-blue-600">
+                <div 
+                  key={index} 
+                  className="w-8 h-8 bg-gradient-to-br from-green-800 to-emerald-600 rounded-full flex items-center justify-center shadow-sm"
+                  title={member.name}
+                >
+                  <span className="text-xs font-semibold text-white">
                     {member.name.split(' ').map(n => n[0]).join('')}
                   </span>
                 </div>
               ))}
               {project.members.length > 3 && (
-                <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-slate-600">
+                <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center">
+                  <span className="text-xs font-semibold text-slate-600">
                     +{project.members.length - 3}
                   </span>
                 </div>
@@ -218,24 +222,24 @@ export default function EnhancedProjectCard({
         )}
 
         {/* Your Role */}
-        <div className="flex items-center space-x-2 mb-4 p-3 bg-blue-50 rounded-lg">
-          <Award className="w-4 h-4 text-blue-600" />
+        <div className="flex items-center space-x-2 mb-4 p-3 bg-emerald-50 border border-emerald-600 rounded-lg">
+          <Award className="w-4 h-4 text-emerald-600" />
           <div>
-            <div className="text-sm font-medium text-blue-800">Tu Rol</div>
-            <div className="text-xs text-blue-600">Voluntario Activo</div>
+            <div className="text-sm font-semibold text-slate-800">Tu Rol</div>
+            <div className="text-xs text-gray-600">Voluntario Activo</div>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+        <div className="flex items-center justify-between pt-4 border-t border-slate-200">
           <div className="flex items-center space-x-2">
             <Star className="w-4 h-4 text-yellow-500" />
-            <span className="text-sm text-slate-600">Proyecto activo</span>
+            <span className="text-sm text-gray-600">Proyecto activo</span>
           </div>
           
           <button
             onClick={() => onView(project)}
-            className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
+            className="flex items-center space-x-1 text-blue-500 hover:text-blue-600 text-sm font-semibold transition-colors"
           >
             <span>Ver proyecto</span>
             <ArrowRight className="w-4 h-4" />

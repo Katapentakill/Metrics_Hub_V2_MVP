@@ -45,21 +45,24 @@ export default function ExportEvaluations({ views, onExport }: ExportEvaluations
       label: 'PDF',
       description: 'Reporte completo con gráficos',
       icon: FileText,
-      color: 'text-red-600 bg-red-50 hover:bg-red-100'
+      // PDF usa red-500 según la guía (Delete/Peligro - pero aquí es neutral)
+      color: 'text-red-500 bg-red-50 hover:bg-red-100 border border-red-200'
     },
     {
       id: 'excel' as const,
       label: 'Excel',
       description: 'Hoja de cálculo con datos',
       icon: Table,
-      color: 'text-green-600 bg-green-50 hover:bg-green-100'
+      // Excel usa emerald-600 (Éxito/Confirmaciones)
+      color: 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200'
     },
     {
       id: 'csv' as const,
       label: 'CSV',
       description: 'Datos separados por comas',
       icon: Calendar,
-      color: 'text-blue-600 bg-blue-50 hover:bg-blue-100'
+      // CSV usa blue-500 (View/Info)
+      color: 'text-blue-500 bg-blue-50 hover:bg-blue-100 border border-blue-200'
     }
   ];
 
@@ -68,10 +71,10 @@ export default function ExportEvaluations({ views, onExport }: ExportEvaluations
       <button
         onClick={() => setIsOpen(!isOpen)}
         disabled={isExporting}
-        className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+        className="flex items-center space-x-2 px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-green-50 hover:border-teal-500 transition-colors disabled:opacity-50 text-gray-600"
       >
-        <Download className="w-4 h-4" />
-        <span>{isExporting ? 'Exportando...' : 'Exportar'}</span>
+        <Download className="w-4 h-4 text-teal-500" />
+        <span className="font-medium">{isExporting ? 'Exportando...' : 'Exportar'}</span>
       </button>
 
       {isOpen && (
@@ -82,16 +85,16 @@ export default function ExportEvaluations({ views, onExport }: ExportEvaluations
             onClick={() => setIsOpen(false)}
           />
           
-          {/* Dropdown */}
-          <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
-            <div className="p-3 border-b border-gray-200">
-              <h3 className="text-sm font-medium text-gray-800">Exportar Evaluaciones</h3>
-              <p className="text-xs text-gray-500 mt-1">
+          {/* Dropdown - Fondo green-50 con borde teal-500 */}
+          <div className="absolute right-0 mt-2 w-64 bg-green-50 border border-teal-500 rounded-lg shadow-lg z-20">
+            <div className="p-3 border-b border-slate-200">
+              <h3 className="text-sm font-semibold text-slate-800">Exportar Evaluaciones</h3>
+              <p className="text-xs text-gray-600 mt-1">
                 {views.length} evaluaciones disponibles
               </p>
             </div>
             
-            <div className="p-2">
+            <div className="p-2 space-y-2">
               {exportOptions.map((option) => {
                 const Icon = option.icon;
                 return (
@@ -99,16 +102,24 @@ export default function ExportEvaluations({ views, onExport }: ExportEvaluations
                     key={option.id}
                     onClick={() => handleExport(option.id)}
                     disabled={isExporting}
-                    className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${option.color} disabled:opacity-50`}
+                    className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-all ${option.color} disabled:opacity-50 hover:shadow-sm`}
                   >
-                    <Icon className="w-5 h-5" />
-                    <div className="text-left">
-                      <div className="text-sm font-medium">{option.label}</div>
-                      <div className="text-xs opacity-75">{option.description}</div>
+                    <div className="flex-shrink-0">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div className="text-left flex-1">
+                      <div className="text-sm font-semibold">{option.label}</div>
+                      <div className="text-xs opacity-80">{option.description}</div>
                     </div>
                   </button>
                 );
               })}
+            </div>
+
+            <div className="p-3 border-t border-slate-200 bg-white rounded-b-lg">
+              <p className="text-xs text-gray-600 text-center">
+                Los datos se exportarán según los filtros actuales
+              </p>
             </div>
           </div>
         </>
