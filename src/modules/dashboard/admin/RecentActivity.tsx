@@ -1,4 +1,3 @@
-// src/modules/dashboard/admin/RecentActivity.tsx
 'use client';
 
 import { 
@@ -13,6 +12,7 @@ import {
   Users,
   Award
 } from 'lucide-react';
+import '../../../styles/dashboard-admin.css';
 
 interface ActivityItem {
   id: string;
@@ -36,8 +36,8 @@ export default function RecentActivity() {
       time: 'Hace 15 minutos',
       user: 'María González',
       icon: UserPlus,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50'
+      color: 'activity-emerald',
+      bgColor: 'activity-bg-emerald'
     },
     {
       id: '2',
@@ -47,8 +47,8 @@ export default function RecentActivity() {
       time: 'Hace 32 minutos',
       user: 'Carlos Ruiz',
       icon: CheckSquare,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50'
+      color: 'activity-emerald',
+      bgColor: 'activity-bg-emerald'
     },
     {
       id: '3',
@@ -58,8 +58,8 @@ export default function RecentActivity() {
       time: 'Hace 1 hora',
       user: 'Ana Martínez',
       icon: FolderOpen,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50'
+      color: 'activity-emerald',
+      bgColor: 'activity-bg-emerald'
     },
     {
       id: '4',
@@ -69,8 +69,8 @@ export default function RecentActivity() {
       time: 'Hace 2 horas',
       user: 'Admin Sistema',
       icon: Settings,
-      color: 'text-slate-600',
-      bgColor: 'bg-gray-50'
+      color: 'activity-slate',
+      bgColor: 'activity-bg-gray'
     },
     {
       id: '5',
@@ -80,8 +80,8 @@ export default function RecentActivity() {
       time: 'Hace 3 horas',
       user: 'Laura Pérez (HR)',
       icon: Award,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50'
+      color: 'activity-emerald',
+      bgColor: 'activity-bg-emerald'
     },
     {
       id: '6',
@@ -91,8 +91,8 @@ export default function RecentActivity() {
       time: 'Hace 4 horas',
       user: 'Pedro Sánchez',
       icon: FileText,
-      color: 'text-slate-600',
-      bgColor: 'bg-gray-50'
+      color: 'activity-slate',
+      bgColor: 'activity-bg-gray'
     },
     {
       id: '7',
@@ -102,8 +102,8 @@ export default function RecentActivity() {
       time: 'Hace 5 horas',
       user: 'Admin Sistema',
       icon: AlertTriangle,
-      color: 'text-slate-600',
-      bgColor: 'bg-gray-50'
+      color: 'activity-slate',
+      bgColor: 'activity-bg-gray'
     },
     {
       id: '8',
@@ -113,8 +113,8 @@ export default function RecentActivity() {
       time: 'Hace 6 horas',
       user: 'Sistema Automático',
       icon: Mail,
-      color: 'text-slate-600',
-      bgColor: 'bg-gray-50'
+      color: 'activity-slate',
+      bgColor: 'activity-bg-gray'
     }
   ];
 
@@ -124,78 +124,77 @@ export default function RecentActivity() {
 
   const handleViewDetails = (activityId: string) => {
     console.log(`Ver detalles de actividad: ${activityId}`);
-    // Aquí iría la lógica para mostrar detalles
   };
 
   return (
-    <div className="card p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-          <Clock className="w-5 h-5 mr-2 text-emerald-600" />
+    <div className="admin-activity-card">
+      <div className="admin-activity-header">
+        <h3 className="admin-activity-title">
+          <Clock className="admin-activity-title-icon" />
           Actividad Reciente
         </h3>
-        <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
+        <button className="admin-activity-view-all">
           Ver todo el historial
         </button>
       </div>
 
-      <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
+      <div className="admin-activity-list">
         {activities.map((activity) => (
-          <div key={activity.id} className="flex items-start space-x-3 group">
+          <div key={activity.id} className="admin-activity-item">
             {/* Icono de actividad */}
-            <div className={`${activity.bgColor} p-2 rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}>
-              <activity.icon className={`w-4 h-4 ${activity.color}`} />
+            <div className={`admin-activity-icon-wrapper ${activity.bgColor}`}>
+              <activity.icon className={`admin-activity-icon ${activity.color}`} />
             </div>
 
             {/* Contenido de la actividad */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-800 group-hover:text-slate-900">
+            <div className="admin-activity-content">
+              <div className="admin-activity-content-top">
+                <div className="admin-activity-content-main">
+                  <p className="admin-activity-item-title">
                     {activity.title}
                   </p>
-                  <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                  <p className="admin-activity-item-description">
                     {activity.description}
                   </p>
                   {activity.user && (
-                    <p className="text-xs text-gray-600 mt-1">
-                      por <span className="font-medium text-slate-700">{activity.user}</span>
+                    <p className="admin-activity-item-user">
+                      por <span className="admin-activity-user-name">{activity.user}</span>
                     </p>
                   )}
                 </div>
-                <div className="text-xs text-slate-400 ml-2 flex-shrink-0">
+                <div className="admin-activity-time">
                   {getTimeAgo(activity.time)}
                 </div>
               </div>
 
               {/* Línea divisoria sutil */}
-              <div className="mt-3 border-b border-gray-100 last:border-b-0"></div>
+              <div className="admin-activity-divider"></div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Resumen de actividad */}
-      <div className="mt-6 pt-4 border-t border-slate-200">
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-lg font-semibold text-emerald-600">12</p>
-            <p className="text-xs text-gray-600">Hoy</p>
+      <div className="admin-activity-summary">
+        <div className="admin-activity-summary-grid">
+          <div className="admin-activity-summary-item">
+            <p className="admin-activity-summary-number admin-summary-emerald">12</p>
+            <p className="admin-activity-summary-label">Hoy</p>
           </div>
-          <div>
-            <p className="text-lg font-semibold text-emerald-600">47</p>
-            <p className="text-xs text-gray-600">Esta semana</p>
+          <div className="admin-activity-summary-item">
+            <p className="admin-activity-summary-number admin-summary-emerald">47</p>
+            <p className="admin-activity-summary-label">Esta semana</p>
           </div>
-          <div>
-            <p className="text-lg font-semibold text-slate-600">189</p>
-            <p className="text-xs text-gray-600">Este mes</p>
+          <div className="admin-activity-summary-item">
+            <p className="admin-activity-summary-number admin-summary-slate">189</p>
+            <p className="admin-activity-summary-label">Este mes</p>
           </div>
         </div>
       </div>
 
       {/* Acciones rápidas desde actividad */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors">
+      <div className="admin-activity-actions">
+        <button className="admin-activity-export-btn">
           Exportar log
         </button>
       </div>

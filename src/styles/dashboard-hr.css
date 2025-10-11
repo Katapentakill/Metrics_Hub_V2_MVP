@@ -1,0 +1,826 @@
+/* ============================================
+   HR DASHBOARD STATS STYLES
+   ============================================ */
+
+/* Stats Card Container */
+.hr-stats-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Stats Header */
+.hr-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hr-stats-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.hr-stats-title-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  color: #10b981;
+}
+
+.hr-stats-update {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.hr-stats-update-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #94a3b8;
+}
+
+/* Stats Section */
+.hr-stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hr-stats-subtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.hr-stats-subtitle-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  color: #94a3b8;
+}
+
+/* ============================================
+   RECRUITMENT PIPELINE STYLES
+   ============================================ */
+
+.hr-pipeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hr-pipeline-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hr-pipeline-stage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hr-pipeline-number {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.hr-pipeline-label {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.hr-pipeline-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hr-pipeline-progress-track {
+  width: 6rem;
+  height: 0.5rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.hr-pipeline-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s;
+}
+
+.hr-pipeline-slate {
+  background-color: #6EE7B7;
+}
+
+.hr-pipeline-emerald {
+  background-color: #10b981;
+}
+
+.hr-pipeline-blue {
+  background-color: #93C5FD;
+}
+
+.hr-pipeline-yellow {
+  background-color: #FCD34D;
+}
+
+.hr-pipeline-count {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e293b;
+  width: 2rem;
+  text-align: right;
+}
+
+.hr-pipeline-tip {
+  font-size: 0.75rem;
+  color: #4b5563;
+  background-color: #d1fae5;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.hr-pipeline-tip-value {
+  font-weight: 500;
+  color: #047857;
+}
+
+/* ============================================
+   CANDIDATE STATUS STYLES
+   ============================================ */
+
+.hr-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.hr-status-card {
+  text-align: center;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.hr-status-card:hover {
+  background-color: #f3f4f6;
+}
+
+.hr-status-badge {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  margin: 0 auto 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.hr-status-slate {
+  background-color: #64748b;
+}
+
+.hr-status-emerald {
+  background-color: #10b981;
+}
+
+.hr-status-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* ============================================
+   TRENDS CHART STYLES
+   ============================================ */
+
+.hr-trends-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hr-trend-chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.hr-trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.hr-trend-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.hr-trend-average {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #10b981;
+}
+
+.hr-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  height: 4rem;
+}
+
+.hr-chart-bars-sm {
+  height: 3rem;
+}
+
+.hr-chart-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hr-chart-bar {
+  width: 100%;
+  border-radius: 0.25rem 0.25rem 0 0;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.hr-bar-emerald {
+  background-color: #10b981;
+}
+
+.hr-bar-emerald:hover {
+  background-color: #059669;
+}
+
+.hr-chart-month {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+/* ============================================
+   INTERVIEWS CHART STYLES
+   ============================================ */
+
+.hr-interviews-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 3rem;
+  background-color: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.hr-interview-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hr-interview-bar {
+  width: 2rem;
+  background-color: #10b981;
+  border-radius: 0.25rem 0.25rem 0 0;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.hr-interview-bar:hover {
+  background-color: #059669;
+}
+
+.hr-interview-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+.hr-interviews-total {
+  font-size: 0.75rem;
+  color: #4b5563;
+  text-align: center;
+}
+
+.hr-interviews-total-value {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* ============================================
+   PERFORMANCE METRICS STYLES
+   ============================================ */
+
+.hr-performance-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.hr-performance-item {
+  text-align: center;
+}
+
+.hr-performance-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.hr-conversion-label {
+  color: #FCD34D;
+}
+
+
+hr-approval-label
+.hr-performance-slate {
+  color: #475569;
+}
+
+.hr-performance-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* ============================================
+   APPLICATIONS PENDING STYLES
+   ============================================ */
+
+/* Applications Card Container */
+.hr-applications-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Applications Header */
+.hr-applications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.hr-applications-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.hr-applications-title-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  color: #10b981;
+}
+
+.hr-applications-urgent-badge {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #d1fae5;
+  color: #047857;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+/* Applications Filter */
+.hr-applications-filter {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hr-applications-select {
+  font-size: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.hr-applications-select:focus {
+  ring: 2px;
+  ring-color: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+}
+
+/* Applications List */
+.hr-applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/* Custom Scrollbar */
+.hr-applications-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.hr-applications-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.hr-applications-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.hr-applications-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Application Item */
+.hr-application-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.hr-application-item:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #a7f3d0;
+}
+
+/* Application Header */
+.hr-app-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.hr-app-info {
+  flex: 1;
+}
+
+.hr-app-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.hr-app-name {
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.hr-app-stage-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.hr-app-stage-gray {
+  background-color: #f3f4f6;
+  color: #334155;
+}
+
+.hr-app-stage-emerald {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.hr-app-priority {
+  display: flex;
+  align-items: center;
+}
+
+.hr-app-priority-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+}
+
+.hr-app-priority-text {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.hr-app-priority-high {
+  color: #059669;
+}
+
+.hr-app-priority-medium {
+  color: #475569;
+}
+
+.hr-app-priority-low {
+  color: #6b7280;
+}
+
+.hr-app-position {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin: 0.25rem 0;
+}
+
+.hr-app-contact {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #4b5563;
+  flex-wrap: wrap;
+}
+
+.hr-app-contact-item {
+  display: flex;
+  align-items: center;
+}
+
+.hr-app-contact-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+  color: #94a3b8;
+}
+
+/* Application Status */
+.hr-app-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hr-app-status-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hr-app-icon-slate {
+  color: #64748b;
+}
+
+.hr-app-icon-emerald {
+  color: #10b981;
+}
+
+.hr-app-date {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+/* Application Details */
+.hr-app-details {
+  margin-bottom: 0.75rem;
+}
+
+.hr-app-details-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.hr-app-experience {
+  color: #4b5563;
+}
+
+.hr-app-label {
+  color: #334155;
+}
+
+.hr-app-interview-date {
+  display: flex;
+  align-items: center;
+  color: #059669;
+  font-weight: 500;
+}
+
+.hr-app-interview-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+}
+
+/* Application Skills */
+.hr-app-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.hr-app-skill-tag {
+  padding: 0.25rem 0.5rem;
+  background-color: #f3f4f6;
+  color: #334155;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+/* Application Notes */
+.hr-app-notes {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background-color: #d1fae5;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.hr-app-notes-text {
+  display: flex;
+  align-items: center;
+  color: #047857;
+  font-weight: 500;
+}
+
+.hr-app-notes-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+}
+
+/* Application Actions */
+.hr-app-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.hr-app-actions-left {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hr-app-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.hr-app-btn-view {
+  background-color: #f3f4f6;
+  color: #334155;
+}
+
+.hr-app-btn-view:hover {
+  background-color: #e5e7eb;
+}
+
+.hr-app-btn-contact {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.hr-app-btn-contact:hover {
+  background-color: #a7f3d0;
+}
+
+.hr-app-btn-interview {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.hr-app-btn-interview:hover {
+  background-color: #a7f3d0;
+}
+
+.hr-app-actions-right {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.hr-app-icon-btn {
+  padding: 0.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: none;
+}
+
+.hr-app-icon-btn-approve {
+  color: #059669;
+}
+
+.hr-app-icon-btn-approve:hover {
+  background-color: #d1fae5;
+}
+
+.hr-app-icon-btn-reject {
+  color: #475569;
+}
+
+.hr-app-icon-btn-reject:hover {
+  background-color: #f9fafb;
+}
+
+.hr-app-action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Applications Empty State */
+.hr-applications-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #4b5563;
+}
+
+.hr-applications-empty-icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 0.75rem;
+  color: #cbd5e1;
+}
+
+.hr-applications-empty-text {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Applications Summary */
+.hr-applications-summary {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.hr-applications-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.hr-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hr-summary-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hr-summary-slate {
+  color: #475569;
+}
+
+.hr-summary-emerald {
+  color: #10b981;
+}
+
+.hr-summary-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}

@@ -96,7 +96,7 @@
 }
 
 /* ========================================
-   KPI METRICS CARDS
+   KPI METRICS CARDS - FONDO BLANCO
    ======================================== */
 
 .metrics-grid {
@@ -120,8 +120,8 @@
 .metric-card {
   position: relative;
   overflow: hidden;
-  background-color: #f0fdf4;
-  border: 2px solid #14b8a6;
+  background-color: #ffffff; /* Fondo blanco */
+  border: 2px solid #e5e7eb; /* Borde gris */
   border-radius: 0.75rem;
   padding: 1.5rem;
   transition: all 0.3s;
@@ -130,6 +130,7 @@
 .metric-card:hover {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   transform: translateY(-0.25rem);
+  border-color: #10b981; /* Borde verde al hover */
 }
 
 .metric-card-bg-effect {
@@ -138,7 +139,7 @@
   right: 0;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(to bottom right, #dcfce7, transparent);
+  background: linear-gradient(to bottom right, #d1fae5, transparent);
   border-radius: 9999px;
   margin-right: -4rem;
   margin-top: -4rem;
@@ -180,16 +181,36 @@
   font-weight: 500;
 }
 
+/* ICONOS CON DIFERENTES TONALIDADES DE VERDE */
 .metric-card-icon-wrapper {
   width: 3.5rem;
   height: 3.5rem;
-  background: linear-gradient(to bottom right, #166534, #059669);
   border-radius: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
+}
+
+/* Primera tarjeta - Verde oscuro */
+.metrics-grid > .metric-card:nth-child(1) .metric-card-icon-wrapper {
+  background: linear-gradient(to bottom right, #065f46, #047857);
+}
+
+/* Segunda tarjeta - Verde medio */
+.metrics-grid > .metric-card:nth-child(2) .metric-card-icon-wrapper {
+  background: linear-gradient(to bottom right, #059669, #10b981);
+}
+
+/* Tercera tarjeta - Verde claro */
+.metrics-grid > .metric-card:nth-child(3) .metric-card-icon-wrapper {
+  background: linear-gradient(to bottom right, #10b981, #34d399);
+}
+
+/* Cuarta tarjeta - Verde esmeralda */
+.metrics-grid > .metric-card:nth-child(4) .metric-card-icon-wrapper {
+  background: linear-gradient(to bottom right, #14b8a6, #2dd4bf);
 }
 
 .metric-card:hover .metric-card-icon-wrapper {
@@ -213,7 +234,7 @@
 
 .metric-card-progress-bar {
   height: 100%;
-  background: linear-gradient(to right, #166534, #059669);
+  background: linear-gradient(to right, #059669, #10b981);
   transition: all 1s ease-out;
 }
 

@@ -1,0 +1,1095 @@
+/* Admin Quick Actions Wrapper */
+.admin-quick-actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Quick Actions Card */
+.admin-quick-actions-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.admin-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+/* Actions Grid */
+.admin-actions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Action Buttons */
+.admin-action-btn {
+  width: 100%;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.admin-action-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Action Button Colors */
+.quick-action-emerald {
+  background-color: #10b981;
+  border: 10b981;
+}
+
+.quick-action-emerald:hover {
+  background-color: #059669;
+}
+
+.quick-action-purple {
+  background-color: #60c7b7;
+}
+
+.quick-action-purple:hover {
+  background-color: #14b8a6;
+}
+
+.quick-action-slate {
+  background-color: #83b653;
+}
+
+.quick-action-slate:hover {
+  background-color: #65a30d;
+}
+
+/* Action Content */
+.admin-action-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-action-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.admin-action-text {
+  text-align: left;
+  flex: 1;
+}
+
+.admin-action-title {
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.admin-action-description {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Pending Tasks Card */
+.admin-pending-tasks-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.admin-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Task Items */
+.admin-task-item {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid currentColor;
+}
+
+/* Task Variants */
+.task-blue {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.task-blue .admin-task-icon {
+  color: #2563eb;
+}
+
+.task-yellow {
+  background-color: #fefce8;
+  color: #ca8a04;
+}
+
+.task-yellow .admin-task-icon {
+  color: #ca8a04;
+}
+
+.task-red {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.task-red .admin-task-icon {
+  color: #dc2626;
+}
+
+.task-green {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
+.task-green .admin-task-icon {
+  color: #16a34a;
+}
+
+/* Task Content */
+.admin-task-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.admin-task-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.admin-task-info {
+  flex: 1;
+}
+
+.admin-task-title {
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.admin-task-description {
+  font-size: 0.75rem;
+  color: #475569;
+  margin: 0.25rem 0 0 0;
+}
+
+.admin-task-link {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  display: block;
+  text-decoration: underline;
+}
+
+.admin-task-link:hover {
+  color: #334155;
+}
+
+/* ============================================
+   DASHBOARD STATS STYLES
+   ============================================ */
+
+/* Stats Card Container */
+.admin-stats-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Stats Header */
+.admin-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-stats-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.admin-stats-title-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  color: #10b981;
+}
+
+.admin-stats-realtime {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.admin-stats-realtime-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #94a3b8;
+}
+
+/* Stats Section */
+.admin-stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-stats-subtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.admin-stats-subtitle-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  color: #94a3b8;
+}
+
+/* Users by Role */
+.admin-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-user-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+.admin-user-label {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.admin-user-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-progress-bar {
+  width: 6rem;
+  height: 0.5rem;
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.admin-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s;
+}
+
+.admin-user-count {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e293b;
+  width: 2rem;
+  text-align: right;
+}
+
+/* Project Status Grid */
+.admin-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.admin-project-card {
+  text-align: center;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.admin-project-card:hover {
+  background-color: #f3f4f6;
+}
+
+.admin-project-badge {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  margin: 0 auto 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.admin-project-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Monthly Activity Charts */
+.admin-activity-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-activity-chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.admin-activity-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.admin-activity-average {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #10b981;
+}
+
+.admin-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 4rem;
+}
+
+.admin-chart-bars-sm {
+  height: 3rem;
+}
+
+.admin-chart-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-chart-bar {
+  width: 100%;
+  border-radius: 0.25rem 0.25rem 0 0;
+  transition: all 0.5s;
+}
+
+.admin-bar-emerald {
+  background-color: #10b981;
+}
+
+.admin-bar-emerald:hover {
+  background-color: #059669;
+}
+
+.admin-chart-month {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+/* Color Utilities for Stats */
+.bg-emerald-500 {
+  background-color: #86EFAC;
+}
+
+.bg-blue-500 {
+  background-color: #93C5FD;
+}
+
+.bg-purple-500 {
+  background-color: #D8B4FE;
+}
+
+.bg-yellow-500 {
+  background-color: #FCD34D;
+}
+
+.bg-red-500 {
+  background-color: #FDB4C3;
+}
+
+.bg-green-500 {
+  background-color: #BAE6FD;
+}
+
+/* ============================================
+   RECENT ACTIVITY STYLES
+   ============================================ */
+
+/* Activity Card Container */
+.admin-activity-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Activity Header */
+.admin-activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.admin-activity-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.admin-activity-title-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  color: #10b981;
+}
+
+.admin-activity-view-all {
+  font-size: 0.875rem;
+  color: #10b981;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.admin-activity-view-all:hover {
+  color: #059669;
+}
+
+/* Activity List */
+.admin-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/* Custom Scrollbar */
+.admin-activity-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-activity-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.admin-activity-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.admin-activity-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Activity Item */
+.admin-activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.admin-activity-item:hover .admin-activity-icon-wrapper {
+  transform: scale(1.1);
+}
+
+.admin-activity-item:hover .admin-activity-item-title {
+  color: #0f172a;
+}
+
+/* Activity Icon Wrapper */
+.admin-activity-icon-wrapper {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.activity-bg-emerald {
+  background-color: #d1fae5;
+}
+
+.activity-bg-gray {
+  background-color: #f9fafb;
+}
+
+.admin-activity-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.activity-emerald {
+  color: #059669;
+}
+
+.activity-slate {
+  color: #475569;
+}
+
+/* Activity Content */
+.admin-activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-activity-content-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.admin-activity-content-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-activity-item-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0;
+  transition: color 0.2s;
+}
+
+.admin-activity-item-description {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0.25rem 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.admin-activity-item-user {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0.25rem 0 0 0;
+}
+
+.admin-activity-user-name {
+  font-weight: 500;
+  color: #334155;
+}
+
+.admin-activity-time {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Activity Divider */
+.admin-activity-divider {
+  margin-top: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.admin-activity-item:last-child .admin-activity-divider {
+  border-bottom: none;
+}
+
+/* Activity Summary */
+.admin-activity-summary {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.admin-activity-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.admin-activity-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-activity-summary-number {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.admin-summary-emerald {
+  color: #10b981;
+}
+
+.admin-summary-slate {
+  color: #475569;
+}
+
+.admin-activity-summary-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Activity Actions */
+.admin-activity-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-activity-export-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-activity-export-btn:hover {
+  background-color: #e5e7eb;
+}
+/* ============================================
+   SYSTEM HEALTH STYLES
+   ============================================ */
+
+/* Health Card Container */
+.admin-health-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Health Header */
+.admin-health-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-health-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.admin-health-title-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  color: #10b981;
+}
+
+.admin-health-update-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-health-update-time {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.admin-health-refresh-btn {
+  padding: 0.25rem;
+  background: none;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-health-refresh-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.admin-health-refresh-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.admin-health-refresh-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #94a3b8;
+}
+
+.admin-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status Banner */
+.admin-health-status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #d1fae5;
+  border: 1px solid #a7f3d0;
+  border-radius: 0.5rem;
+}
+
+.admin-health-banner-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #059669;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.admin-health-banner-title {
+  font-weight: 600;
+  color: #065f46;
+  margin: 0;
+}
+
+.admin-health-banner-subtitle {
+  font-size: 0.875rem;
+  color: #059669;
+  margin: 0;
+}
+
+/* Health Section */
+.admin-health-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-health-section-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+  margin: 0;
+}
+
+/* Metrics Grid */
+.admin-health-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.admin-health-metric-card {
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.admin-health-metric-card:hover {
+  background-color: #f3f4f6;
+}
+
+.admin-health-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.admin-health-metric-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-health-metric-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #475569;
+}
+
+.admin-health-metric-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.admin-health-metric-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+/* Status Colors */
+.health-status-good {
+  color: #059669;
+  background-color: #d1fae5;
+}
+
+.health-status-warning {
+  color: #475569;
+  background-color: #f9fafb;
+}
+
+.health-status-critical {
+  color: #334155;
+  background-color: #f9fafb;
+}
+
+.health-status-maintenance {
+  color: #475569;
+  background-color: #f9fafb;
+}
+
+.health-status-default {
+  color: #475569;
+  background-color: #f9fafb;
+}
+
+/* Progress Track */
+.admin-health-progress-track {
+  width: 100%;
+  height: 0.5rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.admin-health-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s;
+}
+
+.health-progress-good {
+  background-color: #10b981;
+}
+
+.health-progress-warning {
+  background-color: #94a3b8;
+}
+
+.health-progress-critical {
+  background-color: #475569;
+}
+
+.health-progress-default {
+  background-color: #cbd5e1;
+}
+
+.admin-health-metric-description {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Services List */
+.admin-health-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-health-service-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.admin-health-service-item:hover {
+  background-color: #f3f4f6;
+}
+
+.admin-health-service-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-health-service-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.admin-health-service-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+  margin: 0;
+}
+
+.admin-health-service-uptime {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+.admin-health-service-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-health-response-time {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.admin-health-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.admin-health-status-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.admin-health-status-text {
+  text-transform: capitalize;
+}
+
+/* Footer */
+.admin-health-footer {
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.admin-health-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.admin-health-footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-health-footer-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.admin-health-footer-label {
+  font-size: 0.75rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Actions */
+.admin-health-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-health-action-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-health-action-btn:hover {
+  background-color: #e5e7eb;
+}

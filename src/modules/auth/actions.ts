@@ -80,7 +80,7 @@ export async function loginAction(formData: FormData): Promise<LoginResult> {
   const redirectPaths = {
     admin: '/admin/dashboard',
     hr: '/hr/dashboard',
-    lead: '/lead/projects',
+    lead: '/lead/dashboard',
     volunteer: '/volunteer/dashboard',
     unassigned: '/volunteer/dashboard',
   };

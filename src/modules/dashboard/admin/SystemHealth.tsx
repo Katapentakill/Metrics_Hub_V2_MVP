@@ -1,4 +1,3 @@
-// src/modules/dashboard/admin/SystemHealth.tsx
 'use client';
 
 import { 
@@ -15,6 +14,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import '../../../styles/dashboard-admin.css';
 
 interface SystemMetric {
   name: string;
@@ -107,16 +107,16 @@ export default function SystemHealth() {
     switch (status) {
       case 'good':
       case 'online':
-        return 'text-emerald-600 bg-emerald-50';
+        return 'health-status-good';
       case 'warning':
-        return 'text-slate-600 bg-gray-50';
+        return 'health-status-warning';
       case 'critical':
       case 'offline':
-        return 'text-slate-700 bg-gray-50';
+        return 'health-status-critical';
       case 'maintenance':
-        return 'text-slate-600 bg-gray-50';
+        return 'health-status-maintenance';
       default:
-        return 'text-slate-600 bg-gray-50';
+        return 'health-status-default';
     }
   };
 
@@ -137,16 +137,27 @@ export default function SystemHealth() {
     }
   };
 
+  const getProgressBarColor = (status: string) => {
+    switch (status) {
+      case 'good':
+        return 'health-progress-good';
+      case 'warning':
+        return 'health-progress-warning';
+      case 'critical':
+        return 'health-progress-critical';
+      default:
+        return 'health-progress-default';
+    }
+  };
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    // Simular actualización
     await new Promise(resolve => setTimeout(resolve, 1000));
     setLastUpdate(new Date());
     setIsRefreshing(false);
   };
 
   useEffect(() => {
-    // Auto-refresh cada 30 segundos
     const interval = setInterval(() => {
       setLastUpdate(new Date());
     }, 30000);
@@ -155,85 +166,82 @@ export default function SystemHealth() {
   }, []);
 
   return (
-    <div className="card p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-          <Activity className="w-5 h-5 mr-2 text-emerald-600" />
+    <div className="admin-health-card">
+      <div className="admin-health-header">
+        <h3 className="admin-health-title">
+          <Activity className="admin-health-title-icon" />
           Estado del Sistema
         </h3>
-        <div className="flex items-center space-x-2">
-          <span className="text-xs text-gray-600">
+        <div className="admin-health-update-info">
+          <span className="admin-health-update-time">
             Actualizado: {lastUpdate.toLocaleTimeString('es-ES')}
           </span>
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            className="admin-health-refresh-btn"
           >
-            <RefreshCw className={`w-4 h-4 text-slate-400 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`admin-health-refresh-icon ${isRefreshing ? 'admin-spin' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* Estado general */}
-      <div className="flex items-center justify-center p-4 bg-emerald-50 rounded-lg border border-emerald-200">
-        <CheckCircle className="w-6 h-6 text-emerald-600 mr-3" />
+      <div className="admin-health-status-banner">
+        <CheckCircle className="admin-health-banner-icon" />
         <div>
-          <p className="font-semibold text-emerald-800">Sistema Operativo</p>
-          <p className="text-sm text-emerald-600">Todos los servicios funcionando correctamente</p>
+          <p className="admin-health-banner-title">Sistema Operativo</p>
+          <p className="admin-health-banner-subtitle">Todos los servicios funcionando correctamente</p>
         </div>
       </div>
 
       {/* Métricas del sistema */}
-      <div className="space-y-4">
-        <h4 className="text-sm font-medium text-slate-700">Métricas del Servidor</h4>
-        <div className="grid grid-cols-2 gap-4">
+      <div className="admin-health-section">
+        <h4 className="admin-health-section-title">Métricas del Servidor</h4>
+        <div className="admin-health-metrics-grid">
           {systemMetrics.map((metric) => (
-            <div key={metric.name} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-2">
-                  <metric.icon className="w-4 h-4 text-slate-600" />
-                  <span className="text-sm font-medium text-slate-700">{metric.name}</span>
+            <div key={metric.name} className="admin-health-metric-card">
+              <div className="admin-health-metric-header">
+                <div className="admin-health-metric-name">
+                  <metric.icon className="admin-health-metric-icon" />
+                  <span className="admin-health-metric-label">{metric.name}</span>
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(metric.status)}`}>
+                <span className={`admin-health-metric-badge ${getStatusColor(metric.status)}`}>
                   {metric.value}{metric.unit}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="admin-health-progress-track">
                 <div 
-                  className={`h-2 rounded-full transition-all duration-500 ${
-                    metric.status === 'good' ? 'bg-emerald-500' :
-                    metric.status === 'warning' ? 'bg-slate-400' : 'bg-slate-600'
-                  }`}
+                  className={`admin-health-progress-bar ${getProgressBarColor(metric.status)}`}
                   style={{ width: `${Math.min(metric.value, 100)}%` }}
                 ></div>
               </div>
-              <p className="text-xs text-gray-600 mt-1">{metric.description}</p>
+              <p className="admin-health-metric-description">{metric.description}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Estado de servicios */}
-      <div className="space-y-4">
-        <h4 className="text-sm font-medium text-slate-700">Estado de Servicios</h4>
-        <div className="space-y-2">
+      <div className="admin-health-section">
+        <h4 className="admin-health-section-title">Estado de Servicios</h4>
+        <div className="admin-health-services-list">
           {services.map((service) => {
             const StatusIcon = getStatusIcon(service.status);
             return (
-              <div key={service.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="flex items-center space-x-3">
-                  <service.icon className="w-4 h-4 text-slate-600" />
+              <div key={service.name} className="admin-health-service-item">
+                <div className="admin-health-service-info">
+                  <service.icon className="admin-health-service-icon" />
                   <div>
-                    <p className="text-sm font-medium text-slate-700">{service.name}</p>
-                    <p className="text-xs text-gray-600">Uptime: {service.uptime}</p>
+                    <p className="admin-health-service-name">{service.name}</p>
+                    <p className="admin-health-service-uptime">Uptime: {service.uptime}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-xs text-gray-600">{service.responseTime}ms</span>
-                  <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(service.status)}`}>
-                    <StatusIcon className="w-3 h-3" />
-                    <span className="capitalize">{service.status}</span>
+                <div className="admin-health-service-status">
+                  <span className="admin-health-response-time">{service.responseTime}ms</span>
+                  <div className={`admin-health-status-badge ${getStatusColor(service.status)}`}>
+                    <StatusIcon className="admin-health-status-icon" />
+                    <span className="admin-health-status-text">{service.status}</span>
                   </div>
                 </div>
               </div>
@@ -243,28 +251,28 @@ export default function SystemHealth() {
       </div>
 
       {/* Información adicional */}
-      <div className="pt-4 border-t border-slate-200">
-        <div className="grid grid-cols-2 gap-4 text-center">
-          <div>
-            <p className="text-sm font-semibold text-slate-800">24/7</p>
-            <p className="text-xs text-gray-600">Monitoreo activo</p>
+      <div className="admin-health-footer">
+        <div className="admin-health-footer-grid">
+          <div className="admin-health-footer-item">
+            <p className="admin-health-footer-value">24/7</p>
+            <p className="admin-health-footer-label">Monitoreo activo</p>
           </div>
-          <div>
-            <p className="text-sm font-semibold text-slate-800">99.9%</p>
-            <p className="text-xs text-gray-600">Uptime promedio</p>
+          <div className="admin-health-footer-item">
+            <p className="admin-health-footer-value">99.9%</p>
+            <p className="admin-health-footer-label">Uptime promedio</p>
           </div>
         </div>
       </div>
 
       {/* Acciones rápidas */}
-      <div className="flex flex-wrap gap-2">
-        <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors">
+      <div className="admin-health-actions">
+        <button className="admin-health-action-btn">
           Ver logs detallados
         </button>
-        <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors">
+        <button className="admin-health-action-btn">
           Configurar alertas
         </button>
-        <button className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors">
+        <button className="admin-health-action-btn">
           Historial de incidentes
         </button>
       </div>

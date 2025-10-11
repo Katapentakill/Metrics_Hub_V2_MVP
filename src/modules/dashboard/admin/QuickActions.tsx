@@ -1,14 +1,17 @@
-// src/modules/dashboard/admin/QuickActions.tsx
 'use client';
 
 import { 
   FolderPlus, 
   FileText, 
   Settings, 
-  Clock,
+  Mail, 
+  Download,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  Clock,
+  BarChart3
 } from 'lucide-react';
+
 
 export default function QuickActions() {
   const handleAction = (action: string) => {
@@ -21,21 +24,21 @@ export default function QuickActions() {
       title: 'Nuevo Proyecto',
       description: 'Iniciar un nuevo proyecto',
       icon: FolderPlus,
-      color: 'bg-emerald-500 hover:bg-emerald-600',
+      color: 'quick-action-emerald',
       action: 'create-project'
     },
     {
       title: 'Generar Reporte',
       description: 'Crear reporte ejecutivo',
       icon: FileText,
-      color: 'bg-emerald-500 hover:bg-emerald-600',
+      color: 'quick-action-purple',
       action: 'generate-report'
     },
     {
       title: 'Configuración',
       description: 'Ajustes del sistema',
       icon: Settings,
-      color: 'bg-slate-500 hover:bg-slate-600',
+      color: 'quick-action-slate',
       action: 'system-settings'
     }
   ];
@@ -45,57 +48,49 @@ export default function QuickActions() {
       title: '8 Entrevistas programadas hoy',
       description: 'Gestión de entrevistas requiere supervisión',
       icon: Clock,
-      color: 'text-emerald-700',
-      bgColor: 'bg-emerald-50',
-      borderColor: 'border-emerald-400',
+      variant: 'task-blue',
       action: '/admin/recruitment/evaluation/interview-management'
     },
     {
       title: '12 Aplicaciones por revisar',
       description: 'Candidatos esperando evaluación inicial',
       icon: Clock,
-      color: 'text-slate-700',
-      bgColor: 'bg-gray-50',
-      borderColor: 'border-slate-300',
+      variant: 'task-yellow',
       action: '/admin/recruitment/candidate-management/tracker'
     },
     {
       title: '3 Proyectos con tareas bloqueadas',
       description: 'Requieren atención inmediata',
       icon: AlertTriangle,
-      color: 'text-slate-700',
-      bgColor: 'bg-gray-50',
-      borderColor: 'border-slate-300',
+      variant: 'task-red',
       action: '/admin/projects?filter=blocked'
     },
     {
       title: '5 Evaluaciones completadas',
       description: 'Listas para revisión final',
       icon: CheckCircle,
-      color: 'text-emerald-700',
-      bgColor: 'bg-emerald-50',
-      borderColor: 'border-emerald-400',
+      variant: 'task-green',
       action: '/admin/evaluations?status=completed'
     }
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="admin-quick-actions-wrapper">
       {/* Acciones rápidas principales */}
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Acciones Rápidas</h3>
-        <div className="grid grid-cols-1 gap-3">
+      <div className="admin-quick-actions-card">
+        <h3 className="admin-section-title">Acciones Rápidas</h3>
+        <div className="admin-actions-grid">
           {quickActions.map((action) => (
             <button
               key={action.action}
               onClick={() => handleAction(action.action)}
-              className={`${action.color} text-white p-4 rounded-xl transition-all duration-200 hover:transform hover:scale-105 hover:shadow-lg`}
+              className={`admin-action-btn ${action.color}`}
             >
-              <div className="flex items-center space-x-3">
-                <action.icon className="w-5 h-5" />
-                <div className="text-left">
-                  <p className="font-medium text-sm">{action.title}</p>
-                  <p className="text-xs opacity-90">{action.description}</p>
+              <div className="admin-action-content">
+                <action.icon className="admin-action-icon" />
+                <div className="admin-action-text">
+                  <p className="admin-action-title">{action.title}</p>
+                  <p className="admin-action-description">{action.description}</p>
                 </div>
               </div>
             </button>
@@ -104,22 +99,19 @@ export default function QuickActions() {
       </div>
 
       {/* Tareas pendientes */}
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Requiere Atención</h3>
-        <div className="space-y-3">
+      <div className="admin-pending-tasks-card">
+        <h3 className="admin-section-title">Requiere Atención</h3>
+        <div className="admin-tasks-list">
           {pendingTasks.map((task, index) => (
-            <div 
-              key={index} 
-              className={`p-4 ${task.bgColor} rounded-lg border-l-4 ${task.borderColor} hover:shadow-md transition-shadow`}
-            >
-              <div className="flex items-start space-x-3">
-                <task.icon className={`w-5 h-5 ${task.color} mt-0.5`} />
-                <div className="flex-1">
-                  <p className={`font-medium text-sm ${task.color}`}>{task.title}</p>
-                  <p className="text-xs text-gray-600 mt-1">{task.description}</p>
+            <div key={index} className={`admin-task-item ${task.variant}`}>
+              <div className="admin-task-content">
+                <task.icon className="admin-task-icon" />
+                <div className="admin-task-info">
+                  <p className="admin-task-title">{task.title}</p>
+                  <p className="admin-task-description">{task.description}</p>
                   <button 
                     onClick={() => window.location.href = task.action}
-                    className="text-xs text-gray-600 hover:text-slate-800 mt-2 font-medium transition-colors"
+                    className="admin-task-link"
                   >
                     Ver detalles →
                   </button>
