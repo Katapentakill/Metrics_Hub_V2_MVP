@@ -1,6 +1,5 @@
 // UBICACIÓN: src/modules/projects/volunteer/VolunteerProjectsGridView.tsx
 // Vista de grid de proyectos para Voluntario - Solo muestra sus proyectos
-// ✅ Actualizado con colores institucionales Living Stones
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,10 +22,12 @@ export default function VolunteerProjectsGridView({
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [sortBy, setSortBy] = useState<SortOption>('name');
 
+  // Función para navegar al proyecto
   const navigateToProject = (projectId: string) => {
     router.push(`/volunteer/projects/${projectId}`);
   };
 
+  // Función para ordenar proyectos
   const sortedProjects = [...projects].sort((a, b) => {
     switch (sortBy) {
       case 'name':
@@ -49,6 +50,7 @@ export default function VolunteerProjectsGridView({
   if (loading) {
     return (
       <div className="space-y-6">
+        {/* Header skeleton */}
         <div className="flex items-center justify-between">
           <div className="loading-skeleton h-8 w-48"></div>
           <div className="flex items-center space-x-2">
@@ -56,6 +58,8 @@ export default function VolunteerProjectsGridView({
             <div className="loading-skeleton h-10 w-32"></div>
           </div>
         </div>
+        
+        {/* Grid skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="loading-skeleton h-80 rounded-2xl"></div>
@@ -70,27 +74,27 @@ export default function VolunteerProjectsGridView({
       {/* Header con controles */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h2 className="text-2xl font-bold text-[#1e293b]">
+          <h2 className="text-2xl font-bold text-gray-800">
             Mis Proyectos ({projects.length})
           </h2>
           
-          {/* Indicadores de estado con colores institucionales */}
+          {/* Indicadores de estado */}
           <div className="flex items-center space-x-4 text-sm">
             <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-[#059669] rounded-full"></div>
-              <span className="text-[#4b5563] font-medium">
+              <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+              <span className="text-gray-600">
                 {projects.filter(p => p.project.status === 'active').length} Activos
               </span>
             </div>
             <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-[#eab308] rounded-full"></div>
-              <span className="text-[#4b5563] font-medium">
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <span className="text-gray-600">
                 {projects.filter(p => p.project.status === 'planning').length} En planificación
               </span>
             </div>
             <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-[#22c55e] rounded-full"></div>
-              <span className="text-[#4b5563] font-medium">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span className="text-gray-600">
                 {projects.filter(p => p.project.status === 'completed').length} Completados
               </span>
             </div>
@@ -103,9 +107,7 @@ export default function VolunteerProjectsGridView({
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="appearance-none bg-white border-2 border-[#e2e8f0] rounded-lg px-4 py-2 pr-8 text-sm 
-                         focus:outline-none focus:border-[#059669] focus:ring-3 focus:ring-[#059669]/10
-                         transition-all"
+              className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
             >
               <option value="name">Ordenar por Nombre</option>
               <option value="status">Ordenar por Estado</option>
@@ -113,17 +115,17 @@ export default function VolunteerProjectsGridView({
               <option value="deadline">Ordenar por Fecha límite</option>
               <option value="team_size">Ordenar por Tamaño equipo</option>
             </select>
-            <SortDesc className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#4b5563] pointer-events-none" />
+            <SortDesc className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
           
           {/* Selector de vista */}
-          <div className="flex items-center bg-[#f9fafb] rounded-lg p-1">
+          <div className="flex items-center bg-gray-100 rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-md transition-all ${
+              className={`p-2 rounded-md transition-colors ${
                 viewMode === 'grid' 
-                  ? 'bg-white text-[#166534] shadow-sm' 
-                  : 'text-[#4b5563] hover:text-[#1e293b]'
+                  ? 'bg-white text-emerald-600 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-800'
               }`}
               title="Vista de tarjetas"
             >
@@ -131,10 +133,10 @@ export default function VolunteerProjectsGridView({
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-md transition-all ${
+              className={`p-2 rounded-md transition-colors ${
                 viewMode === 'list' 
-                  ? 'bg-white text-[#166534] shadow-sm' 
-                  : 'text-[#4b5563] hover:text-[#1e293b]'
+                  ? 'bg-white text-emerald-600 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-800'
               }`}
               title="Vista de lista"
             >
@@ -147,12 +149,11 @@ export default function VolunteerProjectsGridView({
       {/* Contenido principal */}
       {sortedProjects.length === 0 ? (
         <div className="text-center py-20">
-          <div className="w-20 h-20 bg-[#f0fdf4] border-2 border-[#14b8a6] rounded-full 
-                          flex items-center justify-center mx-auto mb-4">
-            <Target className="w-8 h-8 text-[#059669]" />
+          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Target className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-lg font-bold text-[#1e293b] mb-2">No tienes proyectos asignados</h3>
-          <p className="text-[#4b5563]">Contacta con tu líder de proyecto o HR para que te asignen proyectos como voluntario.</p>
+          <h3 className="text-lg font-semibold text-gray-600 mb-2">No tienes proyectos asignados</h3>
+          <p className="text-gray-500">Contacta con tu líder de proyecto o HR para que te asignen proyectos como voluntario.</p>
         </div>
       ) : (
         <>
@@ -162,25 +163,23 @@ export default function VolunteerProjectsGridView({
               {sortedProjects.map((project) => (
                 <div
                   key={project.project.id}
-                  className="bg-white rounded-xl shadow-md border border-[#e2e8f0] overflow-hidden 
-                             hover:shadow-lg hover:border-[#14b8a6] hover:-translate-y-1
-                             transition-all duration-200 cursor-pointer group"
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200 cursor-pointer group"
                   onClick={() => navigateToProject(project.project.id)}
                 >
                   {/* Header de la tarjeta */}
                   <div className="p-6 pb-4">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className="font-bold text-[#1e293b] group-hover:text-[#166534] transition-colors mb-1">
+                        <h3 className="font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors mb-1">
                           {project.project.name}
                         </h3>
-                        <p className="text-sm text-[#4b5563] mb-2">{project.lead?.name || 'Sin líder'}</p>
-                        <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${
-                          project.project.status === 'active' ? 'bg-[#d1fae5] text-[#065f46]' :
-                          project.project.status === 'planning' ? 'bg-[#dbeafe] text-[#1e40af]' :
-                          project.project.status === 'completed' ? 'bg-[#dcfce7] text-[#166534]' :
-                          project.project.status === 'paused' ? 'bg-[#fef3c7] text-[#92400e]' :
-                          'bg-[#fee2e2] text-[#991b1b]'
+                        <p className="text-sm text-gray-600 mb-2">{project.lead?.name || 'Sin líder'}</p>
+                        <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                          project.project.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
+                          project.project.status === 'planning' ? 'bg-blue-100 text-blue-800' :
+                          project.project.status === 'completed' ? 'bg-green-100 text-green-800' :
+                          project.project.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
                         }`}>
                           {project.project.status === 'active' ? 'Activo' : 
                            project.project.status === 'planning' ? 'Planificación' :
@@ -188,12 +187,12 @@ export default function VolunteerProjectsGridView({
                            project.project.status === 'paused' ? 'Pausado' : 'Cancelado'}
                         </div>
                       </div>
-                      <Eye className="w-4 h-4 text-[#4b5563] group-hover:text-[#166534] transition-colors" />
+                      <Eye className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 transition-colors" />
                     </div>
 
                     {/* Descripción */}
                     {project.project.description && (
-                      <p className="text-sm text-[#4b5563] mb-4 line-clamp-2">
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                         {project.project.description}
                       </p>
                     )}
@@ -201,12 +200,12 @@ export default function VolunteerProjectsGridView({
                     {/* Progreso */}
                     <div className="mb-4">
                       <div className="flex items-center justify-between text-sm mb-1">
-                        <span className="text-[#4b5563] font-medium">Progreso</span>
-                        <span className="font-bold text-[#1e293b]">{project.progressPct}%</span>
+                        <span className="text-gray-600">Progreso</span>
+                        <span className="font-medium text-gray-800">{project.progressPct}%</span>
                       </div>
-                      <div className="w-full bg-[#e2e8f0] rounded-full h-2">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
                         <div 
-                          className="h-2 bg-[#166534] rounded-full transition-all duration-300"
+                          className="h-2 bg-emerald-500 rounded-full transition-all duration-300"
                           style={{ width: `${project.progressPct}%` }}
                         />
                       </div>
@@ -214,24 +213,24 @@ export default function VolunteerProjectsGridView({
                   </div>
 
                   {/* Footer de la tarjeta */}
-                  <div className="px-6 py-4 bg-[#f9fafb] border-t border-[#e2e8f0]">
-                    <div className="flex items-center justify-between text-sm text-[#4b5563]">
+                  <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-sm text-gray-600">
                       <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-1">
                           <Users className="w-3 h-3" />
-                          <span className="font-medium">{project.project.current_team_size}/{project.project.max_team_size}</span>
+                          <span>{project.project.current_team_size}/{project.project.max_team_size}</span>
                         </div>
                         {project.project.deadline && (
                           <div className="flex items-center space-x-1">
                             <Calendar className="w-3 h-3" />
-                            <span className="font-medium">{new Date(project.project.deadline).toLocaleDateString('es-ES', { 
+                            <span>{new Date(project.project.deadline).toLocaleDateString('es-ES', { 
                               day: '2-digit', 
                               month: 'short' 
                             })}</span>
                           </div>
                         )}
                       </div>
-                      <div className="text-[#166534] font-semibold text-xs">
+                      <div className="text-emerald-600 font-medium text-xs">
                         Ver proyecto
                       </div>
                     </div>
@@ -241,37 +240,36 @@ export default function VolunteerProjectsGridView({
             </div>
           ) : (
             /* Vista de Lista Compacta */
-            <div className="bg-white rounded-xl shadow-md border border-[#e2e8f0] overflow-hidden">
-              <div className="divide-y divide-[#e2e8f0]">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="divide-y divide-gray-100">
                 {sortedProjects.map((project) => (
                   <div
                     key={project.project.id}
-                    className="p-6 hover:bg-[#f9fafb] transition-colors cursor-pointer"
+                    className="p-6 hover:bg-gray-50 transition-colors cursor-pointer"
                     onClick={() => navigateToProject(project.project.id)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-[#166534] to-[#059669] 
-                                        rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                           {project.project.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                         </div>
                         <div>
-                          <h3 className="font-bold text-[#1e293b] hover:text-[#166534] transition-colors">
+                          <h3 className="font-semibold text-gray-800 hover:text-emerald-600 transition-colors">
                             {project.project.name}
                           </h3>
-                          <p className="text-sm text-[#4b5563]">{project.lead?.name || 'Sin líder'}</p>
+                          <p className="text-sm text-gray-600">{project.lead?.name || 'Sin líder'}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-center space-x-6">
                         {/* Estado */}
                         <div className="text-center">
-                          <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${
-                            project.project.status === 'active' ? 'bg-[#d1fae5] text-[#065f46]' :
-                            project.project.status === 'planning' ? 'bg-[#dbeafe] text-[#1e40af]' :
-                            project.project.status === 'completed' ? 'bg-[#dcfce7] text-[#166534]' :
-                            project.project.status === 'paused' ? 'bg-[#fef3c7] text-[#92400e]' :
-                            'bg-[#fee2e2] text-[#991b1b]'
+                          <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            project.project.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
+                            project.project.status === 'planning' ? 'bg-blue-100 text-blue-800' :
+                            project.project.status === 'completed' ? 'bg-green-100 text-green-800' :
+                            project.project.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-red-100 text-red-800'
                           }`}>
                             {project.project.status === 'active' ? 'Activo' : 
                              project.project.status === 'planning' ? 'Planificación' :
@@ -282,10 +280,10 @@ export default function VolunteerProjectsGridView({
                         
                         {/* Progreso */}
                         <div className="text-center min-w-[100px]">
-                          <div className="text-sm font-bold text-[#1e293b]">{project.progressPct}%</div>
-                          <div className="w-full bg-[#e2e8f0] rounded-full h-2 mt-1">
+                          <div className="text-sm font-medium text-gray-800">{project.progressPct}%</div>
+                          <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
                             <div 
-                              className="h-2 bg-[#166534] rounded-full transition-all duration-300"
+                              className="h-2 bg-emerald-500 rounded-full transition-all duration-300"
                               style={{ width: `${project.progressPct}%` }}
                             />
                           </div>
@@ -293,26 +291,26 @@ export default function VolunteerProjectsGridView({
                         
                         {/* Equipo */}
                         <div className="text-center">
-                          <div className="text-sm font-bold text-[#1e293b]">
+                          <div className="text-sm font-medium text-gray-800">
                             {project.project.current_team_size}/{project.project.max_team_size}
                           </div>
-                          <div className="text-xs text-[#4b5563]">Equipo</div>
+                          <div className="text-xs text-gray-500">Equipo</div>
                         </div>
                         
                         {/* Fecha límite */}
                         <div className="text-center min-w-[100px]">
                           {project.project.deadline ? (
                             <>
-                              <div className="text-sm font-bold text-[#1e293b]">
+                              <div className="text-sm font-medium text-gray-800">
                                 {new Date(project.project.deadline).toLocaleDateString('es-ES', { 
                                   day: '2-digit', 
                                   month: 'short' 
                                 })}
                               </div>
-                              <div className="text-xs text-[#4b5563]">Fecha límite</div>
+                              <div className="text-xs text-gray-500">Fecha límite</div>
                             </>
                           ) : (
-                            <div className="text-sm text-[#94a3b8]">Sin fecha</div>
+                            <div className="text-sm text-gray-400">Sin fecha</div>
                           )}
                         </div>
                         
@@ -320,8 +318,7 @@ export default function VolunteerProjectsGridView({
                         <div className="flex items-center space-x-2" onClick={(e) => e.stopPropagation()}>
                           <button
                             onClick={() => navigateToProject(project.project.id)}
-                            className="text-[#166534] hover:text-[#059669] p-1 hover:bg-[#f0fdf4] 
-                                       rounded transition-colors"
+                            className="text-emerald-600 hover:text-emerald-700 p-1 hover:bg-emerald-50 rounded transition-colors"
                             title="Ver proyecto"
                           >
                             <Eye className="w-4 h-4" />
@@ -337,32 +334,32 @@ export default function VolunteerProjectsGridView({
         </>
       )}
 
-      {/* Estadísticas del footer - Todas con fondos verdes institucionales */}
-      <div className="bg-[#f0fdf4] border-2 border-[#14b8a6] rounded-xl shadow-md p-6">
+      {/* Estadísticas del footer */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#1e293b]">
+            <div className="text-2xl font-bold text-gray-800">
               {projects.length}
             </div>
-            <div className="text-sm font-semibold text-[#4b5563]">Mis Proyectos</div>
+            <div className="text-sm text-gray-600">Mis Proyectos</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#059669]">
+            <div className="text-2xl font-bold text-emerald-600">
               {projects.filter(p => p.project.status === 'active').length}
             </div>
-            <div className="text-sm font-semibold text-[#4b5563]">Proyectos Activos</div>
+            <div className="text-sm text-gray-600">Proyectos Activos</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#166534]">
+            <div className="text-2xl font-bold text-blue-600">
               {Math.round(projects.reduce((acc, p) => acc + p.progressPct, 0) / projects.length || 0)}%
             </div>
-            <div className="text-sm font-semibold text-[#4b5563]">Progreso Promedio</div>
+            <div className="text-sm text-gray-600">Progreso Promedio</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-[#14b8a6]">
+            <div className="text-2xl font-bold text-purple-600">
               {projects.reduce((acc, p) => acc + (p.members?.length || 0), 0)}
             </div>
-            <div className="text-sm font-semibold text-[#4b5563]">Total Miembros</div>
+            <div className="text-sm text-gray-600">Total Miembros</div>
           </div>
         </div>
       </div>

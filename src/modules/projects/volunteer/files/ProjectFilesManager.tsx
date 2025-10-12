@@ -102,7 +102,7 @@ export default function ProjectFilesManager() {
       type: 'drive',
       description: 'Carpeta compartida con todos los documentos del proyecto',
       icon: Folder,
-      color: '#3b82f6'
+      color: 'text-blue-600'
     },
     {
       id: '2',
@@ -111,7 +111,7 @@ export default function ProjectFilesManager() {
       type: 'whatsapp',
       description: 'Grupo para comunicación rápida del equipo',
       icon: MessageSquare,
-      color: '#059669'
+      color: 'text-green-600'
     },
     {
       id: '3',
@@ -120,7 +120,7 @@ export default function ProjectFilesManager() {
       type: 'github',
       description: 'Código fuente del sistema de gestión',
       icon: Code,
-      color: '#475569'
+      color: 'text-gray-800'
     },
     {
       id: '4',
@@ -129,7 +129,7 @@ export default function ProjectFilesManager() {
       type: 'notion',
       description: 'Base de conocimiento y documentación técnica',
       icon: FileText,
-      color: '#14b8a6'
+      color: 'text-gray-600'
     }
   ]);
 
@@ -159,11 +159,11 @@ export default function ProjectFilesManager() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'project_docs': return 'text-blue-500 bg-blue-50 border-blue-500';
-      case 'multimedia': return 'text-teal-500 bg-teal-50 border-teal-500';
-      case 'legal': return 'text-red-500 bg-red-50 border-red-500';
-      case 'external_links': return 'text-emerald-600 bg-emerald-50 border-emerald-600';
-      default: return 'text-gray-600 bg-gray-50 border-slate-200';
+      case 'project_docs': return 'text-blue-600 bg-blue-50';
+      case 'multimedia': return 'text-purple-600 bg-purple-50';
+      case 'legal': return 'text-red-600 bg-red-50';
+      case 'external_links': return 'text-green-600 bg-green-50';
+      default: return 'text-gray-600 bg-gray-50';
     }
   };
 
@@ -173,7 +173,7 @@ export default function ProjectFilesManager() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Archivos del Proyecto</h2>
-          <p className="text-gray-600 mt-1">Gestiona documentos y recursos del Centro Comunitario Santiago</p>
+          <p className="text-slate-600 mt-1">Gestiona documentos y recursos del Centro Comunitario Santiago</p>
         </div>
       </div>
 
@@ -182,20 +182,20 @@ export default function ProjectFilesManager() {
         <nav className="flex space-x-8">
           <button
             onClick={() => setActiveTab('files')}
-            className={`py-2 px-1 border-b-2 font-semibold text-sm transition-colors ${
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'files'
-                ? 'border-green-800 text-green-800'
-                : 'border-transparent text-gray-600 hover:text-slate-800 hover:border-slate-300'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
             }`}
           >
             Archivos ({mockFiles.length})
           </button>
           <button
             onClick={() => setActiveTab('links')}
-            className={`py-2 px-1 border-b-2 font-semibold text-sm transition-colors ${
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'links'
-                ? 'border-green-800 text-green-800'
-                : 'border-transparent text-gray-600 hover:text-slate-800 hover:border-slate-300'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
             }`}
           >
             Enlaces ({externalResources.length})
@@ -213,7 +213,7 @@ export default function ProjectFilesManager() {
               placeholder="Buscar archivos o enlaces..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg bg-white text-gray-600 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none"
+              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
@@ -221,7 +221,7 @@ export default function ProjectFilesManager() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-gray-600 font-medium focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none"
+            className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="all">Todas las categorías</option>
             <option value="project_docs">Documentos del Proyecto</option>
@@ -235,10 +235,10 @@ export default function ProjectFilesManager() {
       {activeTab === 'files' ? (
         <div className="space-y-4">
           {filteredFiles.length === 0 ? (
-            <div className="text-center py-12 bg-green-50 border-2 border-teal-500 rounded-lg">
+            <div className="text-center py-12">
               <FileText className="mx-auto h-12 w-12 text-slate-400" />
-              <h3 className="mt-2 text-sm font-semibold text-slate-800">No hay archivos</h3>
-              <p className="mt-1 text-sm text-gray-600">
+              <h3 className="mt-2 text-sm font-medium text-slate-900">No hay archivos</h3>
+              <p className="mt-1 text-sm text-slate-500">
                 {searchTerm ? 'No se encontraron archivos con ese criterio.' : 'Aún no hay archivos en este proyecto.'}
               </p>
             </div>
@@ -247,19 +247,19 @@ export default function ProjectFilesManager() {
               {filteredFiles.map((file) => {
                 const FileIcon = getFileIcon(file.type);
                 return (
-                  <div key={file.id} className="bg-green-50 border-2 border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-teal-500 transition-all">
+                  <div key={file.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3 flex-1">
                         <div className="flex-shrink-0">
-                          <div className="w-10 h-10 bg-white border border-teal-500 rounded-lg flex items-center justify-center">
-                            <FileIcon className="w-5 h-5 text-green-800" />
+                          <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                            <FileIcon className="w-5 h-5 text-slate-600" />
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-semibold text-slate-800 truncate">{file.name}</h3>
-                          <p className="text-sm text-gray-600 mt-1">{file.description}</p>
-                          <div className="flex items-center space-x-4 mt-2 text-xs text-gray-600">
-                            <span className="font-medium">{file.size}</span>
+                          <h3 className="text-sm font-medium text-slate-900 truncate">{file.name}</h3>
+                          <p className="text-sm text-slate-500 mt-1">{file.description}</p>
+                          <div className="flex items-center space-x-4 mt-2 text-xs text-slate-500">
+                            <span>{file.size}</span>
                             <span>•</span>
                             <span>Subido por {file.uploadedBy}</span>
                             <span>•</span>
@@ -268,15 +268,15 @@ export default function ProjectFilesManager() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 ml-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold border ${getCategoryColor(file.category)}`}>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(file.category)}`}>
                           {file.category === 'project_docs' ? 'Documento' :
                            file.category === 'multimedia' ? 'Multimedia' :
                            file.category === 'legal' ? 'Legal' : 'Otro'}
                         </span>
-                        <button className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Ver">
+                        <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="p-2 text-slate-400 hover:text-teal-500 hover:bg-teal-50 rounded-lg transition-colors" title="Descargar">
+                        <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
                           <Download className="w-4 h-4" />
                         </button>
                       </div>
@@ -290,10 +290,10 @@ export default function ProjectFilesManager() {
       ) : (
         <div className="space-y-4">
           {filteredResources.length === 0 ? (
-            <div className="text-center py-12 bg-green-50 border-2 border-teal-500 rounded-lg">
+            <div className="text-center py-12">
               <ExternalLink className="mx-auto h-12 w-12 text-slate-400" />
-              <h3 className="mt-2 text-sm font-semibold text-slate-800">No hay enlaces</h3>
-              <p className="mt-1 text-sm text-gray-600">
+              <h3 className="mt-2 text-sm font-medium text-slate-900">No hay enlaces</h3>
+              <p className="mt-1 text-sm text-slate-500">
                 {searchTerm ? 'No se encontraron enlaces con ese criterio.' : 'Aún no hay enlaces en este proyecto.'}
               </p>
             </div>
@@ -302,35 +302,21 @@ export default function ProjectFilesManager() {
               {filteredResources.map((resource) => {
                 const ResourceIcon = resource.icon;
                 return (
-                  <div key={resource.id} className="bg-green-50 border-2 border-slate-200 rounded-lg p-4 hover:shadow-md hover:border-teal-500 transition-all">
+                  <div key={resource.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3 flex-1">
                         <div className="flex-shrink-0">
-                          <div 
-                            className="w-10 h-10 rounded-lg flex items-center justify-center border-2"
-                            style={{ 
-                              backgroundColor: `${resource.color}20`,
-                              borderColor: resource.color
-                            }}
-                          >
-                            <ResourceIcon className="w-5 h-5" style={{ color: resource.color }} />
+                          <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                            <ResourceIcon className={`w-5 h-5 ${resource.color}`} />
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-semibold text-slate-800">{resource.name}</h3>
-                          <p className="text-sm text-gray-600 mt-1">{resource.description}</p>
+                          <h3 className="text-sm font-medium text-slate-900">{resource.name}</h3>
+                          <p className="text-sm text-slate-500 mt-1">{resource.description}</p>
                           <div className="flex items-center space-x-2 mt-2">
-                            <span 
-                              className="text-xs font-semibold px-2 py-1 rounded-full"
-                              style={{ 
-                                backgroundColor: `${resource.color}20`,
-                                color: resource.color
-                              }}
-                            >
-                              {resource.type}
-                            </span>
-                            <span className="text-xs text-slate-400">•</span>
-                            <span className="text-xs text-blue-500 hover:text-blue-600 cursor-pointer truncate">
+                            <span className="text-xs text-slate-500">{resource.type}</span>
+                            <span className="text-xs text-slate-300">•</span>
+                            <span className="text-xs text-blue-600 hover:text-blue-800 cursor-pointer">
                               {resource.url}
                             </span>
                           </div>
@@ -339,8 +325,7 @@ export default function ProjectFilesManager() {
                       <div className="flex items-center space-x-2 ml-4">
                         <button 
                           onClick={() => window.open(resource.url, '_blank')}
-                          className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Abrir enlace"
+                          className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
                         >
                           <ExternalLink className="w-4 h-4" />
                         </button>

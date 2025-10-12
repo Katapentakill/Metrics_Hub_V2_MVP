@@ -93,14 +93,13 @@ export default function EvaluationsListView({
     return filtered;
   }, [evaluations, searchTerm, sortBy, sortOrder]);
 
-  // Colores de estado según la guía institucional
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-emerald-600 bg-emerald-50 border-emerald-600'; // Éxito
-      case 'in_progress': return 'text-blue-500 bg-blue-50 border-blue-500'; // Info/Ver
-      case 'pending': return 'text-yellow-500 bg-yellow-50 border-yellow-500'; // Advertencia
-      case 'overdue': return 'text-red-500 bg-red-50 border-red-500'; // Peligro
-      default: return 'text-gray-600 bg-gray-50 border-slate-200';
+      case 'completed': return 'text-green-600 bg-green-100 border-green-200';
+      case 'in_progress': return 'text-blue-600 bg-blue-100 border-blue-200';
+      case 'pending': return 'text-yellow-600 bg-yellow-100 border-yellow-200';
+      case 'overdue': return 'text-red-600 bg-red-100 border-red-200';
+      default: return 'text-gray-600 bg-gray-100 border-gray-200';
     }
   };
 
@@ -149,13 +148,13 @@ export default function EvaluationsListView({
   if (filteredAndSortedEvaluations.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="w-20 h-20 bg-gray-50 border border-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Star className="w-8 h-8 text-slate-400" />
+        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Star className="w-8 h-8 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-slate-800 mb-2">
+        <h3 className="text-lg font-semibold text-gray-600 mb-2">
           {searchTerm ? 'No se encontraron evaluaciones' : 'No hay evaluaciones'}
         </h3>
-        <p className="text-gray-600">
+        <p className="text-gray-500">
           {searchTerm 
             ? `No hay evaluaciones que coincidan con "${searchTerm}"`
             : 'Aún no se han creado evaluaciones en el sistema'
@@ -170,7 +169,7 @@ export default function EvaluationsListView({
       {/* Controles de vista */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h3 className="text-lg font-semibold text-slate-800">
+          <h3 className="text-lg font-semibold text-gray-800">
             Todas las Evaluaciones ({filteredAndSortedEvaluations.length})
           </h3>
           
@@ -183,7 +182,7 @@ export default function EvaluationsListView({
                 setSortBy(field as SortOption);
                 setSortOrder(order as 'asc' | 'desc');
               }}
-              className="appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-8 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600"
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             >
               <option value="created_date-desc">Más recientes</option>
               <option value="created_date-asc">Más antiguas</option>
@@ -194,7 +193,7 @@ export default function EvaluationsListView({
               <option value="score-asc">Menor puntuación</option>
               <option value="due_date-asc">Próximas a vencer</option>
             </select>
-            <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+            <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
 
@@ -204,8 +203,8 @@ export default function EvaluationsListView({
             onClick={() => setViewMode('card')}
             className={`p-2 rounded-lg transition-colors ${
               viewMode === 'card' 
-                ? 'bg-green-50 text-green-800' 
-                : 'text-gray-600 hover:bg-gray-50'
+                ? 'bg-emerald-100 text-emerald-600' 
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
@@ -219,8 +218,8 @@ export default function EvaluationsListView({
             onClick={() => setViewMode('table')}
             className={`p-2 rounded-lg transition-colors ${
               viewMode === 'table' 
-                ? 'bg-green-50 text-green-800' 
-                : 'text-gray-600 hover:bg-gray-50'
+                ? 'bg-emerald-100 text-emerald-600' 
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             <div className="w-4 h-4 flex flex-col gap-0.5">
@@ -233,23 +232,23 @@ export default function EvaluationsListView({
         </div>
       </div>
 
-      {/* Vista en tarjetas - Fondo green-50, bordes teal-500 */}
+      {/* Vista en tarjetas */}
       {viewMode === 'card' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredAndSortedEvaluations.map((evaluation) => (
             <div
               key={evaluation.evaluation.id}
-              className="bg-green-50 border-2 border-teal-500 rounded-xl p-6 hover:shadow-lg hover:border-green-800 transition-all cursor-pointer group"
+              className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group"
               onClick={() => onEvaluationView(evaluation)}
             >
               {/* Header de la evaluación */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-800 to-emerald-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm">
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center text-white font-bold">
                     {getInitials(evaluation.evaluatedUser?.name || 'Usuario')}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-800 group-hover:text-green-800 transition-colors">
+                    <h4 className="font-bold text-gray-800 group-hover:text-emerald-600 transition-colors">
                       {evaluation.evaluatedUser?.name || 'Usuario no encontrado'}
                     </h4>
                     <p className="text-sm text-gray-600">
@@ -263,33 +262,33 @@ export default function EvaluationsListView({
                   <div className="relative" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => setOpenMenuId(openMenuId === evaluation.evaluation.id ? null : evaluation.evaluation.id)}
-                      className="p-2 text-slate-400 hover:text-green-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="p-2 text-gray-400 hover:text-gray-600 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <MoreVertical className="w-4 h-4" />
                     </button>
                     
                     {openMenuId === evaluation.evaluation.id && (
-                      <div className="absolute right-0 mt-2 w-48 bg-green-50 border border-teal-500 rounded-lg shadow-lg z-20">
+                      <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
                         <button
                           onClick={() => onEvaluationView(evaluation)}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-white text-sm rounded-t-lg"
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50 text-sm"
                         >
-                          <Eye className="w-4 h-4 text-blue-500" />
-                          <span className="text-gray-600">Ver evaluación</span>
+                          <Eye className="w-4 h-4 text-emerald-500" />
+                          Ver evaluación
                         </button>
                         <button
                           onClick={() => onEvaluationEdit(evaluation)}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-white text-sm"
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50 text-sm"
                         >
-                          <Edit className="w-4 h-4 text-slate-600" />
-                          <span className="text-gray-600">Editar evaluación</span>
+                          <Edit className="w-4 h-4 text-blue-500" />
+                          Editar evaluación
                         </button>
                         <button
                           onClick={() => onEvaluationDelete(evaluation)}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-red-50 text-sm border-t border-slate-200 rounded-b-lg"
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-red-50 text-sm border-t border-gray-100"
                         >
                           <AlertTriangle className="w-4 h-4 text-red-500" />
-                          <span className="text-red-500">Eliminar</span>
+                          <span className="text-red-600">Eliminar</span>
                         </button>
                       </div>
                     )}
@@ -299,23 +298,23 @@ export default function EvaluationsListView({
 
               {/* Estado y puntuación */}
               <div className="flex items-center justify-between mb-4">
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(evaluation.evaluation.status)}`}>
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(evaluation.evaluation.status)}`}>
                   {getStatusLabel(evaluation.evaluation.status)}
                 </span>
                 <div className="text-right">
                   {shouldShowConfidentialDetails(evaluation) ? (
                     <>
-                      <div className="text-lg font-bold text-slate-800">
+                      <div className="text-lg font-bold text-gray-800">
                         {evaluation.evaluation.overall_score ? `${evaluation.evaluation.overall_score}/5.0` : 'Pendiente'}
                       </div>
-                      <div className="text-xs text-gray-600">Puntuación</div>
+                      <div className="text-xs text-gray-500">Puntuación</div>
                     </>
                   ) : (
                     <>
-                      <div className="text-lg font-bold text-gray-600">
+                      <div className="text-lg font-bold text-gray-500">
                         {evaluation.evaluation.status === 'completed' ? 'Completada' : 'En proceso'}
                       </div>
-                      <div className="text-xs text-gray-600">Estado</div>
+                      <div className="text-xs text-gray-500">Estado</div>
                     </>
                   )}
                 </div>
@@ -324,7 +323,7 @@ export default function EvaluationsListView({
               {/* Evaluador */}
               {shouldShowConfidentialDetails(evaluation) && (
                 <div className="flex items-center space-x-2 mb-4">
-                  <User className="w-4 h-4 text-slate-400" />
+                  <User className="w-4 h-4 text-gray-400" />
                   <span className="text-sm text-gray-600">
                     Evaluador: {evaluation.evaluator?.name || 'Sin asignar'}
                   </span>
@@ -334,7 +333,7 @@ export default function EvaluationsListView({
               {/* Fecha límite */}
               {evaluation.evaluation.due_date && shouldShowConfidentialDetails(evaluation) && (
                 <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <Calendar className="w-4 h-4 text-slate-400" />
+                  <Calendar className="w-4 h-4 text-gray-400" />
                   <span>
                     Vence: {new Date(evaluation.evaluation.due_date).toLocaleDateString('es-ES')}
                   </span>
@@ -345,88 +344,88 @@ export default function EvaluationsListView({
         </div>
       )}
 
-      {/* Vista en tabla - Fondo green-50, bordes teal-500 */}
+      {/* Vista en tabla */}
       {viewMode === 'table' && (
-        <div className="bg-green-50 rounded-xl shadow-sm border border-teal-500 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200">
-              <thead className="bg-white">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
                   <th 
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-50"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                     onClick={() => handleSort('name')}
                   >
                     Usuario Evaluado
                   </th>
                   <th 
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-50"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                     onClick={() => handleSort('type')}
                   >
                     Tipo
                   </th>
                   <th 
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-50"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                     onClick={() => handleSort('status')}
                   >
                     Estado
                   </th>
                   <th 
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-50"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                     onClick={() => handleSort('score')}
                   >
                     Puntuación
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Evaluador
                   </th>
                   <th 
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-50"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                     onClick={() => handleSort('due_date')}
                   >
                     Fecha Límite
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Acciones
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-slate-200">
+              <tbody className="bg-white divide-y divide-gray-200">
                 {filteredAndSortedEvaluations.map((evaluation) => (
                   <tr 
                     key={evaluation.evaluation.id} 
-                    className="hover:bg-green-50 cursor-pointer transition-colors"
+                    className="hover:bg-gray-50 cursor-pointer"
                     onClick={() => onEvaluationView(evaluation)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="w-10 h-10 bg-gradient-to-br from-green-800 to-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                           {getInitials(evaluation.evaluatedUser?.name || 'Usuario')}
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-semibold text-slate-800">
+                          <div className="text-sm font-medium text-gray-900">
                             {evaluation.evaluatedUser?.name || 'Usuario no encontrado'}
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-gray-500">
                             {evaluation.evaluatedUser?.email}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {getTypeLabel(evaluation.evaluation.type)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold border ${getStatusColor(evaluation.evaluation.status)}`}>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(evaluation.evaluation.status)}`}>
                         {getStatusLabel(evaluation.evaluation.status)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-slate-800">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {evaluation.evaluation.overall_score ? `${evaluation.evaluation.overall_score}/5.0` : '-'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {evaluation.evaluator?.name || 'Sin asignar'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {evaluation.evaluation.due_date 
                         ? new Date(evaluation.evaluation.due_date).toLocaleDateString('es-ES')
                         : '-'
@@ -436,15 +435,13 @@ export default function EvaluationsListView({
                       <div className="flex items-center justify-end space-x-2">
                         <button
                           onClick={() => onEvaluationView(evaluation)}
-                          className="text-blue-500 hover:text-blue-600 p-1 rounded transition-colors"
-                          title="Ver evaluación"
+                          className="text-emerald-600 hover:text-emerald-900 p-1 rounded"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => onEvaluationEdit(evaluation)}
-                          className="text-slate-600 hover:text-green-800 p-1 rounded transition-colors"
-                          title="Editar evaluación"
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded"
                         >
                           <Edit className="w-4 h-4" />
                         </button>

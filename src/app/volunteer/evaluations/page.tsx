@@ -134,7 +134,7 @@ export default function VolunteerEvaluationsPage() {
           allUsers={filteredData.users}
           allPeriods={mockEvaluationPeriods}
           role="volunteer"
-          theme="institutional"
+          theme="green"
           basePath="/volunteer"
         />
       </div>

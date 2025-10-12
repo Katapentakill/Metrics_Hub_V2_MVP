@@ -137,7 +137,7 @@ export default function ApplicationsPending() {
     ];
 
     /**
-     * Retorna la clase de color según la etapa de selección.
+     * Retorna la clase dessssssss color según la etapa de selección.
      */
     const getStageColor = (stage: string) => {
         switch (stage) {

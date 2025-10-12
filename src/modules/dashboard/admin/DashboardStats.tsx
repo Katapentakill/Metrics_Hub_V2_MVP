@@ -1,8 +1,8 @@
+// src/modules/dashboard/admin/DashboardStats.tsx
 'use client';
 
 import { BarChart3, PieChart, TrendingUp, Users, Calendar } from 'lucide-react';
 import { mockAdminChartData } from '@/lib/data/dashboard';
-import '../../../styles/dashboard-admin.css';
 
 interface DashboardData {
   totalUsers: number;
@@ -22,42 +22,43 @@ interface DashboardStatsProps {
 export default function DashboardStats({ data }: DashboardStatsProps) {
   if (!data) return null;
 
+  // Usar datos centralizados para gráficos
   const { usersByRole, projectStatus, monthlyActivity } = mockAdminChartData;
 
   return (
-    <div className="admin-stats-card">
-      <div className="admin-stats-header">
-        <h3 className="admin-stats-title">
-          <BarChart3 className="admin-stats-title-icon" />
+    <div className="card p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-slate-800 flex items-center">
+          <BarChart3 className="w-5 h-5 mr-2 text-emerald-600" />
           Estadísticas Detalladas
         </h3>
-        <div className="admin-stats-realtime">
-          <Calendar className="admin-stats-realtime-icon" />
+        <div className="flex items-center space-x-2 text-xs text-gray-600">
+          <Calendar className="w-4 h-4 text-slate-400" />
           <span>Datos en tiempo real</span>
         </div>
       </div>
 
       {/* Distribución de usuarios por rol */}
-      <div className="admin-stats-section">
-        <h4 className="admin-stats-subtitle">
-          <Users className="admin-stats-subtitle-icon" />
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium text-slate-700 flex items-center">
+          <Users className="w-4 h-4 mr-2 text-slate-400" />
           Distribución de Usuarios por Rol
         </h4>
-        <div className="admin-users-list">
+        <div className="space-y-3">
           {usersByRole.map((item) => (
-            <div key={item.role} className="admin-user-row">
-              <div className="admin-user-info">
-                <div className={`admin-user-dot ${item.color}`}></div>
-                <span className="admin-user-label">{item.role}</span>
+            <div key={item.role} className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className={`w-3 h-3 ${item.color} rounded-full`}></div>
+                <span className="text-sm text-gray-600">{item.role}</span>
               </div>
-              <div className="admin-user-stats">
-                <div className="admin-progress-bar">
+              <div className="flex items-center space-x-3">
+                <div className="w-24 bg-gray-100 rounded-full h-2">
                   <div 
-                    className={`admin-progress-fill ${item.color}`}
+                    className={`h-2 ${item.color} rounded-full transition-all duration-500`}
                     style={{ width: `${(item.count / data.totalUsers) * 100}%` }}
                   ></div>
                 </div>
-                <span className="admin-user-count">{item.count}</span>
+                <span className="text-sm font-medium text-slate-800 w-8 text-right">{item.count}</span>
               </div>
             </div>
           ))}
@@ -65,63 +66,63 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
       </div>
 
       {/* Estado de proyectos */}
-      <div className="admin-stats-section">
-        <h4 className="admin-stats-subtitle">
-          <PieChart className="admin-stats-subtitle-icon" />
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium text-slate-700 flex items-center">
+          <PieChart className="w-4 h-4 mr-2 text-slate-400" />
           Estado de Proyectos
         </h4>
-        <div className="admin-projects-grid">
+        <div className="grid grid-cols-3 gap-4">
           {projectStatus.map((item) => (
-            <div key={item.status} className="admin-project-card">
-              <div className={`admin-project-badge ${item.color}`}>
+            <div key={item.status} className="text-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className={`w-8 h-8 ${item.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white font-semibold text-sm`}>
                 {item.count}
               </div>
-              <p className="admin-project-label">{item.status}</p>
+              <p className="text-xs text-gray-600">{item.status}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Actividad mensual */}
-      <div className="admin-stats-section">
-        <h4 className="admin-stats-subtitle">
-          <TrendingUp className="admin-stats-subtitle-icon" />
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium text-slate-700 flex items-center">
+          <TrendingUp className="w-4 h-4 mr-2 text-slate-400" />
           Actividad de los Últimos 5 Meses
         </h4>
-        <div className="admin-activity-wrapper">
+        <div className="space-y-4">
           {/* Registros mensuales */}
-          <div className="admin-activity-chart">
-            <div className="admin-activity-header">
-              <span className="admin-activity-label">Nuevos Registros</span>
-              <span className="admin-activity-average">Promedio: 10/mes</span>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-xs text-gray-600">Nuevos Registros</span>
+              <span className="text-xs font-medium text-emerald-600">Promedio: 10/mes</span>
             </div>
-            <div className="admin-chart-bars">
+            <div className="flex items-end space-x-2 h-16">
               {monthlyActivity.map((month) => (
-                <div key={month.month} className="admin-chart-item">
+                <div key={month.month} className="flex-1 flex flex-col items-center">
                   <div 
-                    className="admin-chart-bar admin-bar-emerald"
+                    className="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600"
                     style={{ height: `${(month.registrations / 15) * 100}%` }}
                   ></div>
-                  <span className="admin-chart-month">{month.month}</span>
+                  <span className="text-xs text-gray-600 mt-1">{month.month}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Proyectos mensuales */}
-          <div className="admin-activity-chart">
-            <div className="admin-activity-header">
-              <span className="admin-activity-label">Nuevos Proyectos</span>
-              <span className="admin-activity-average">Total: 8 proyectos</span>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-xs text-gray-600">Nuevos Proyectos</span>
+              <span className="text-xs font-medium text-emerald-600">Total: 8 proyectos</span>
             </div>
-            <div className="admin-chart-bars admin-chart-bars-sm">
+            <div className="flex items-end space-x-2 h-12">
               {monthlyActivity.map((month) => (
-                <div key={month.month} className="admin-chart-item">
+                <div key={month.month} className="flex-1 flex flex-col items-center">
                   <div 
-                    className="admin-chart-bar admin-bar-emerald"
+                    className="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600"
                     style={{ height: `${month.projects === 0 ? 5 : (month.projects / 3) * 100}%` }}
                   ></div>
-                  <span className="admin-chart-month">{month.month}</span>
+                  <span className="text-xs text-gray-600 mt-1">{month.month}</span>
                 </div>
               ))}
             </div>

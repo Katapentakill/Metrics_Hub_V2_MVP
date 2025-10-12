@@ -122,7 +122,7 @@ export default function EvaluationsPage() {
           allUsers={filteredData.users}
           allPeriods={mockEvaluationPeriods}
           role="admin"
-          theme="institutional"
+          theme="green"
           basePath="/admin"
         />
       </div>

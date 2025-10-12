@@ -1,4 +1,3 @@
-// src/modules/dashboard/volunteer/UpcomingTasks.tsx
 'use client';
 
 import { 
@@ -6,9 +5,11 @@ import {
   CheckCircle, 
   AlertCircle, 
   Target,
-  Calendar
+  Calendar,
+  Users,
+  FileText,
+  Flag
 } from 'lucide-react';
-import '@/styles/dashboard.css';
 
 interface UpcomingTasksProps {
   data: any;
@@ -17,55 +18,25 @@ interface UpcomingTasksProps {
 export default function UpcomingTasks({ data }: UpcomingTasksProps) {
   const upcomingTasks = data?.upcomingTasks || [];
 
-  const getPriorityClass = (priority: string): string => {
+  const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': 
-        return 'task-priority-high';
-      case 'medium': 
-        return 'task-priority-medium';
-      case 'low': 
-        return 'task-priority-low';
-      default: 
-        return 'task-priority-default';
-    }
-  };
-
-  const getTaskCardClass = (priority: string): string => {
-    switch (priority) {
-      case 'high': 
-        return 'task-card task-card-high';
-      case 'medium': 
-        return 'task-card task-card-medium';
-      case 'low': 
-        return 'task-card task-card-low';
-      default: 
-        return 'task-card task-card-default';
+      case 'high': return 'text-slate-700 bg-gray-100';
+      case 'medium': return 'text-slate-600 bg-gray-50';
+      case 'low': return 'text-gray-600 bg-gray-50';
+      default: return 'text-gray-600 bg-gray-50';
     }
   };
 
   const getPriorityIcon = (priority: string) => {
     switch (priority) {
-      case 'high': 
-        return <AlertCircle className="priority-icon-high" />;
-      case 'medium': 
-        return <Clock className="priority-icon-medium" />;
-      case 'low': 
-        return <CheckCircle className="priority-icon-low" />;
-      default: 
-        return <Target className="priority-icon-default" />;
+      case 'high': return <AlertCircle className="w-4 h-4 text-slate-600" />;
+      case 'medium': return <Clock className="w-4 h-4 text-slate-500" />;
+      case 'low': return <CheckCircle className="w-4 h-4 text-emerald-500" />;
+      default: return <Target className="w-4 h-4 text-slate-500" />;
     }
   };
 
-  const getPriorityLabel = (priority: string): string => {
-    switch (priority) {
-      case 'high': return 'Alta';
-      case 'medium': return 'Media';
-      case 'low': return 'Baja';
-      default: return priority;
-    }
-  };
-
-  const getDaysUntilDue = (dueDate: string): number => {
+  const getDaysUntilDue = (dueDate: string) => {
     const today = new Date();
     const due = new Date(dueDate);
     const diffTime = due.getTime() - today.getTime();
@@ -73,81 +44,40 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
     return diffDays;
   };
 
-  const getDaysText = (daysLeft: number): string => {
-    if (daysLeft > 0) {
-      return `${daysLeft} días`;
-    } else if (daysLeft === 0) {
-      return 'Hoy';
-    } else {
-      return `Vencido (${Math.abs(daysLeft)} días)`;
-    }
-  };
-
-  const getDaysClass = (daysLeft: number): string => {
-    if (daysLeft < 0) {
-      return 'task-card-meta-item task-card-meta-urgent';
-    } else if (daysLeft <= 3) {
-      return 'task-card-meta-item task-card-meta-warning';
-    } else {
-      return 'task-card-meta-item';
-    }
-  };
-
-  const urgentCount = upcomingTasks.filter((t: any) => {
-    const days = getDaysUntilDue(t.dueDate);
-    return days <= 3 && days >= 0;
-  }).length;
-
-  const upcomingCount = upcomingTasks.filter((t: any) => {
-    const days = getDaysUntilDue(t.dueDate);
-    return days > 3 && days <= 7;
-  }).length;
-
-  const lowPriorityCount = upcomingTasks.filter((t: any) => 
-    t.priority === 'low'
-  ).length;
-
   return (
-    <div className="upcoming-tasks-container">
-      <div className="upcoming-tasks-header">
-        <h2 className="upcoming-tasks-title">Próximas Tareas</h2>
-        <button className="upcoming-tasks-view-all">
+    <div className="card p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-slate-800">Próximas Tareas</h2>
+        <button className="text-emerald-600 hover:text-emerald-700 text-sm font-medium transition-colors">
           Ver todas
         </button>
       </div>
       
-      <div className="upcoming-tasks-list">
+      <div className="space-y-4">
         {upcomingTasks.map((task: any) => {
           const daysLeft = getDaysUntilDue(task.dueDate);
-          
           return (
-            <div 
-              key={task.id} 
-              className={getTaskCardClass(task.priority)}
-            >
-              <div className="task-card-content">
-                <div className="task-card-header">
-                  {getPriorityIcon(task.priority)}
-                  <h3 className="task-card-title">{task.title}</h3>
-                </div>
-                <p className="task-card-project">{task.projectName}</p>
-                <div className="task-card-meta">
-                  <span className="task-card-meta-item">
-                    <Calendar className="task-card-meta-icon" />
+            <div key={task.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="flex-1">
+                <h3 className="font-medium text-slate-800">{task.title}</h3>
+                <p className="text-sm text-gray-600">{task.projectName}</p>
+                <div className="flex items-center space-x-4 mt-2 text-xs text-gray-600">
+                  <span className="flex items-center">
+                    <Calendar className="w-3 h-3 mr-1 text-slate-400" />
                     Vence: {new Date(task.dueDate).toLocaleDateString()}
                   </span>
-                  <span className={getDaysClass(daysLeft)}>
-                    <Clock className="task-card-meta-icon" />
-                    {getDaysText(daysLeft)}
+                  <span className="flex items-center font-medium">
+                    <Clock className="w-3 h-3 mr-1 text-slate-400" />
+                    {daysLeft > 0 ? `${daysLeft} días` : daysLeft === 0 ? 'Hoy' : 'Vencido'}
                   </span>
                 </div>
               </div>
               
-              <div className="task-card-actions">
-                <span className={`task-priority-badge ${getPriorityClass(task.priority)}`}>
-                  {getPriorityLabel(task.priority)}
+              <div className="flex items-center space-x-3">
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
+                  {task.priority === 'high' ? 'Alta' : task.priority === 'medium' ? 'Media' : 'Baja'}
                 </span>
-                <button className="task-details-button">
+                <button className="px-3 py-1 text-sm font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
                   Ver Detalles
                 </button>
               </div>
@@ -157,30 +87,25 @@ export default function UpcomingTasks({ data }: UpcomingTasksProps) {
       </div>
       
       {/* Resumen de tareas */}
-      <div className="task-summary">
-        <div className="task-summary-grid">
-          {/* Urgentes */}
-          <div className="task-summary-card task-summary-urgent">
-            <p className="task-summary-number task-summary-number-urgent">
-              {urgentCount}
+      <div className="mt-6 pt-4 border-t border-slate-200">
+        <div className="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <p className="text-lg font-semibold text-slate-700">
+              {upcomingTasks.filter((t: any) => getDaysUntilDue(t.dueDate) <= 3).length}
             </p>
-            <p className="task-summary-label">Urgentes (≤3 días)</p>
+            <p className="text-xs text-gray-600">Urgentes (≤3 días)</p>
           </div>
-          
-          {/* Próximas */}
-          <div className="task-summary-card task-summary-upcoming">
-            <p className="task-summary-number task-summary-number-warning">
-              {upcomingCount}
+          <div>
+            <p className="text-lg font-semibold text-slate-600">
+              {upcomingTasks.filter((t: any) => getDaysUntilDue(t.dueDate) > 3 && getDaysUntilDue(t.dueDate) <= 7).length}
             </p>
-            <p className="task-summary-label">Próximas (≤7 días)</p>
+            <p className="text-xs text-gray-600">Próximas (≤7 días)</p>
           </div>
-          
-          {/* Baja Prioridad */}
-          <div className="task-summary-card task-summary-low">
-            <p className="task-summary-number task-summary-number-success">
-              {lowPriorityCount}
+          <div>
+            <p className="text-lg font-semibold text-emerald-600">
+              {upcomingTasks.filter((t: any) => t.priority === 'low').length}
             </p>
-            <p className="task-summary-label">Baja Prioridad</p>
+            <p className="text-xs text-gray-600">Baja Prioridad</p>
           </div>
         </div>
       </div>
