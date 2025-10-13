@@ -171,7 +171,7 @@ export default function EvaluationsPage() {
           allUsers={filteredData.users}
           allPeriods={mockEvaluationPeriods}
           role="hr"
-          theme="green"
+          theme="purple"
           basePath="/hr"
         />
       </div>

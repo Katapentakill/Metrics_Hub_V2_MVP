@@ -1,984 +1,112 @@
-/* src/styles/dashboard.css */
+/* ------------------------------------------- */
+/* 1. Base Styles & Variables */
+/* ------------------------------------------- */
+:root {
+  --color-primary: #3b82f6; /* Tailwind blue-500 */
+  --color-primary-dark: #2563eb; /* Tailwind blue-600 */
+  --color-text-default: #1f2937; /* Tailwind gray-800 */
+  --color-text-muted: #6b7280; /* Tailwind gray-500 */
+  --color-bg-light: #f9fafb; /* Tailwind gray-50 */
+  --shadow-default: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
 
-/* ========================================
-   DASHBOARD LAYOUT
-   ======================================== */
+/* Apply Inter font, if not already done globally */
+body {
+  font-family: 'Inter', sans-serif;
+}
 
+/* ------------------------------------------- */
+/* 2. Layout and Containers */
+/* ------------------------------------------- */
+/* The dashboard-container provides a consistent maximum width and centering */
 .dashboard-container {
-  max-width: 80rem;
-  margin: 0 auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
-.dashboard-spacing {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+
+/* ------------------------------------------- */
+/* 3. Card Styling */
+/* ------------------------------------------- */
+.card {
+  background-color: white;
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: var(--shadow-default);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e5e7eb; /* Subtle border */
 }
 
-/* ========================================
-   HEADER SECTION
-   ======================================== */
-
-.dashboard-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-@media (min-width: 1024px) {
-  .dashboard-header {
-    flex-direction: row;
+/* ------------------------------------------- */
+/* 4. Button Styles */
+/* ------------------------------------------- */
+
+/* Shared base button style */
+.btn-base {
+    font-weight: 500;
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
     align-items: center;
-    gap: 0;
-  }
+    justify-content: center;
 }
 
-.dashboard-title {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #1e293b;
-  display: flex;
-  align-items: center;
-}
-
-.dashboard-title-icon {
-  width: 2rem;
-  height: 2rem;
-  margin-right: 0.75rem;
-  color: #059669;
-}
-
-.dashboard-subtitle {
-  color: #4b5563;
-  margin-top: 0.25rem;
-}
-
-.dashboard-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.dashboard-last-update {
-  font-size: 0.875rem;
-  color: #4b5563;
-}
-
-.dashboard-last-update-icon {
-  width: 1rem;
-  height: 1rem;
-  display: inline;
-  margin-right: 0.25rem;
-  color: #94a3b8;
-}
-
-.dashboard-refresh-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #4b5563;
-  background-color: transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.dashboard-refresh-button:hover {
-  color: #166534;
-  background-color: #f0fdf4;
-  border-color: #14b8a6;
-}
-
-/* ========================================
-   KPI METRICS CARDS - FONDO BLANCO
-   ======================================== */
-
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .metrics-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .metrics-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.metric-card {
-  position: relative;
-  overflow: hidden;
-  background-color: #ffffff; /* Fondo blanco */
-  border: 2px solid #e5e7eb; /* Borde gris */
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  transition: all 0.3s;
-}
-
-.metric-card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transform: translateY(-0.25rem);
-  border-color: #10b981; /* Borde verde al hover */
-}
-
-.metric-card-bg-effect {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 8rem;
-  height: 8rem;
-  background: linear-gradient(to bottom right, #d1fae5, transparent);
-  border-radius: 9999px;
-  margin-right: -4rem;
-  margin-top: -4rem;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.metric-card:hover .metric-card-bg-effect {
-  opacity: 1;
-}
-
-.metric-card-content {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.metric-card-info {
-  flex: 1;
-}
-
-.metric-card-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #4b5563;
-  margin-bottom: 0.5rem;
-}
-
-.metric-card-value {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 0.25rem;
-}
-
-.metric-card-subtitle {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-/* ICONOS CON DIFERENTES TONALIDADES DE VERDE */
-.metric-card-icon-wrapper {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
-}
-
-/* Primera tarjeta - Verde oscuro */
-.metrics-grid > .metric-card:nth-child(1) .metric-card-icon-wrapper {
-  background: linear-gradient(to bottom right, #065f46, #047857);
-}
-
-/* Segunda tarjeta - Verde medio */
-.metrics-grid > .metric-card:nth-child(2) .metric-card-icon-wrapper {
-  background: linear-gradient(to bottom right, #059669, #10b981);
-}
-
-/* Tercera tarjeta - Verde claro */
-.metrics-grid > .metric-card:nth-child(3) .metric-card-icon-wrapper {
-  background: linear-gradient(to bottom right, #10b981, #34d399);
-}
-
-/* Cuarta tarjeta - Verde esmeralda */
-.metrics-grid > .metric-card:nth-child(4) .metric-card-icon-wrapper {
-  background: linear-gradient(to bottom right, #14b8a6, #2dd4bf);
-}
-
-.metric-card:hover .metric-card-icon-wrapper {
-  transform: scale(1.1);
-}
-
-.metric-card-icon {
-  width: 1.75rem;
-  height: 1.75rem;
-  color: white;
-}
-
-.metric-card-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0.25rem;
-  background-color: #e2e8f0;
-}
-
-.metric-card-progress-bar {
-  height: 100%;
-  background: linear-gradient(to right, #059669, #10b981);
-  transition: all 1s ease-out;
-}
-
-/* ========================================
-   MAIN CONTENT GRID
-   ======================================== */
-
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-  .content-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.content-main {
-  grid-column: span 1;
-}
-
-@media (min-width: 1024px) {
-  .content-main {
-    grid-column: span 2;
-  }
-}
-
-.content-secondary {
-  grid-column: span 1;
-}
-
-/* ========================================
-   BOTTOM COMPONENTS GRID
-   ======================================== */
-
-.bottom-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-  .bottom-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* ========================================
-   ALERTS SECTION
-   ======================================== */
-
-.alerts-container {
+/* Outline Button (e.g., "Actualizar") */
+.btn-living-outline {
+  @extend .btn-base;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
   background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
 }
 
-.alerts-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+.btn-living-outline:hover {
+  background-color: #eff6ff; /* blue-50 */
+  border-color: var(--color-primary-dark);
 }
 
-.alerts-header-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #059669;
+/* Secondary Button */
+.btn-secondary {
+  @extend .btn-base;
+  background-color: #f3f4f6; /* gray-100 */
+  color: var(--color-text-default);
 }
 
-.alerts-title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1e293b;
+.btn-secondary:hover {
+  background-color: #e5e7eb; /* gray-200 */
 }
 
-.alerts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+
+/* ------------------------------------------- */
+/* 5. Utility Overrides */
+/* ------------------------------------------- */
+
+/* Override for text-muted class used in the component */
+.text-muted {
+  color: var(--color-text-muted);
 }
 
-.alert-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border-left-width: 4px;
-  transition: box-shadow 0.2s;
-}
 
-.alert-item:hover {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-}
-
-.alert-item-content {
-  flex: 1;
-}
-
-.alert-item-message {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.alert-item-subtitle {
-  font-size: 0.75rem;
-}
-
-.alert-action-button {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 0.5rem;
-  color: #4b5563;
-  font-weight: 600;
-  background-color: transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.alert-action-button:hover {
-  color: #166534;
-  background-color: #f0fdf4;
-  border-color: #14b8a6;
-}
-
-.alert-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #059669;
-}
-
-/* ========================================
-   QUICK ACTIONS SECTION
-   ======================================== */
-
-.quick-actions-container {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-}
-
-.quick-actions-title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 1rem;
-}
-
-.quick-actions-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
-  .quick-actions-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.quick-action-button {
-  padding: 1rem;
-  background-color: #f0fdf4;
-  border: 1px solid #14b8a6;
-  border-radius: 0.75rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.quick-action-button:hover {
-  background-color: white;
-  border-color: #166534;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-.quick-action-icon {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  transition: transform 0.2s;
-}
-
-.quick-action-button:hover .quick-action-icon {
-  transform: scale(1.1);
-}
-
-.quick-action-title {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.quick-action-subtitle {
-  font-size: 0.75rem;
-  color: #4b5563;
-  margin-top: 0.25rem;
-}
-
-/* ========================================
-   LOADING STATE
-   ======================================== */
-
-.loading-container {
-  max-width: 80rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+/* ------------------------------------------- */
+/* 6. Loading Skeleton */
+/* ------------------------------------------- */
+@keyframes loading {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
 }
 
 .loading-skeleton {
-  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s ease-in-out infinite;
-  border-radius: 0.5rem;
-}
-
-@keyframes loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* ========================================
-   UNAUTHORIZED STATE
-   ======================================== */
-
-.unauthorized-container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 2rem 0;
-}
-
-.unauthorized-content {
-  text-align: center;
-}
-
-.unauthorized-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 1rem;
-}
-
-.unauthorized-message {
-  color: #4b5563;
-}
-
-/* ========================================
-   UPCOMING TASKS COMPONENT
-   ======================================== */
-
-.upcoming-tasks-container {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-}
-
-.upcoming-tasks-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-}
-
-.upcoming-tasks-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.upcoming-tasks-view-all {
-  color: #166534;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.upcoming-tasks-view-all:hover {
-  color: #059669;
-}
-
-.upcoming-tasks-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Task Card */
-.task-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 2px solid;
-  transition: all 0.2s;
-}
-
-.task-card:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.task-card-high {
-  background-color: #fef2f2;
-  border-color: #ef4444;
-}
-
-.task-card-medium {
-  background-color: #fefce8;
-  border-color: #eab308;
-}
-
-.task-card-low {
-  background-color: #f0fdf4;
-  border-color: #059669;
-}
-
-.task-card-default {
-  background-color: white;
-  border-color: #e2e8f0;
-}
-
-.task-card-default:hover {
-  border-color: #14b8a6;
-}
-
-.task-card-content {
-  flex: 1;
-}
-
-.task-card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
-}
-
-.task-card-title {
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.task-card-project {
-  font-size: 0.875rem;
-  color: #4b5563;
-  margin-bottom: 0.5rem;
-}
-
-.task-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.75rem;
-}
-
-.task-card-meta-item {
-  display: flex;
-  align-items: center;
-  color: #4b5563;
-}
-
-.task-card-meta-icon {
-  width: 0.75rem;
-  height: 0.75rem;
-  margin-right: 0.25rem;
-  color: #94a3b8;
-}
-
-.task-card-meta-urgent {
-  color: #ef4444;
-  font-weight: 600;
-}
-
-.task-card-meta-warning {
-  color: #eab308;
-  font-weight: 600;
-}
-
-.task-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* Task Priority Badge */
-.task-priority-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border: 1px solid;
-}
-
-.task-priority-high {
-  color: #991b1b;
-  background-color: #fef2f2;
-  border-color: #ef4444;
-}
-
-.task-priority-medium {
-  color: #854d0e;
-  background-color: #fefce8;
-  border-color: #eab308;
-}
-
-.task-priority-low {
-  color: #065f46;
-  background-color: #f0fdf4;
-  border-color: #059669;
-}
-
-.task-priority-default {
-  color: #4b5563;
-  background-color: #f9fafb;
-  border-color: #e2e8f0;
-}
-
-/* Task Action Button */
-.task-details-button {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.task-details-button:hover {
-  background-color: #2563eb;
-  transform: translateY(-0.125rem);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* Task Summary Section */
-.task-summary {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.task-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.task-summary-card {
-  text-align: center;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid;
-}
-
-.task-summary-urgent {
-  background-color: #fef2f2;
-  border-color: #ef4444;
-}
-
-.task-summary-upcoming {
-  background-color: #fefce8;
-  border-color: #eab308;
-}
-
-.task-summary-low {
-  background-color: #f0fdf4;
-  border-color: #059669;
-}
-
-.task-summary-number {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.task-summary-number-urgent {
-  color: #ef4444;
-}
-
-.task-summary-number-warning {
-  color: #eab308;
-}
-
-.task-summary-number-success {
-  color: #059669;
-}
-
-.task-summary-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #4b5563;
-  margin-top: 0.25rem;
-}
-
-/* Task Priority Icons */
-.priority-icon-high {
-  width: 1rem;
-  height: 1rem;
-  color: #ef4444;
-}
-
-.priority-icon-medium {
-  width: 1rem;
-  height: 1rem;
-  color: #eab308;
-}
-
-.priority-icon-low {
-  width: 1rem;
-  height: 1rem;
-  color: #059669;
-}
-
-.priority-icon-default {
-  width: 1rem;
-  height: 1rem;
-  color: #4b5563;
-}
-
-/* ========================================
-   RECENT ACTIVITY COMPONENT
-   ======================================== */
-
-.recent-activity-container {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-}
-
-.recent-activity-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-}
-
-.recent-activity-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.recent-activity-view-history {
-  color: #166534;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.recent-activity-view-history:hover {
-  color: #059669;
-}
-
-.recent-activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Activity Item */
-.activity-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-}
-
-.activity-item:hover {
-  background-color: #f9fafb;
-  border-color: #14b8a6;
-}
-
-.activity-icon-wrapper {
-  flex-shrink: 0;
-  margin-top: 0.25rem;
-  padding: 0.5rem;
-  background-color: #f0fdf4;
-  border-radius: 0.5rem;
-}
-
-.activity-icon-completed {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #059669;
-}
-
-.activity-icon-evaluation {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #eab308;
-}
-
-.activity-icon-milestone {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #166534;
-}
-
-.activity-icon-joined {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #14b8a6;
-}
-
-.activity-icon-default {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #4b5563;
-}
-
-.activity-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.activity-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.activity-description {
-  font-size: 0.75rem;
-  color: #4b5563;
-  margin-top: 0.25rem;
-}
-
-.activity-project {
-  font-size: 0.75rem;
-  color: #4b5563;
-  margin-top: 0.25rem;
-}
-
-.activity-project-name {
-  font-weight: 600;
-  color: #166534;
-}
-
-.activity-timestamp {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  margin-top: 0.25rem;
-  display: flex;
-  align-items: center;
-}
-
-.activity-timestamp-icon {
-  width: 0.75rem;
-  height: 0.75rem;
-  margin-right: 0.25rem;
-}
-
-/* Activity Summary */
-.activity-summary {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.activity-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.activity-summary-card {
-  text-align: center;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid;
-}
-
-.activity-summary-completed {
-  background-color: #f0fdf4;
-  border-color: #14b8a6;
-}
-
-.activity-summary-evaluations {
-  background-color: #fffbeb;
-  border-color: #eab308;
-}
-
-.activity-summary-achievements {
-  background-color: #dcfce7;
-  border-color: #166534;
-}
-
-.activity-summary-number {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.activity-summary-number-completed {
-  color: #059669;
-}
-
-.activity-summary-number-evaluations {
-  color: #eab308;
-}
-
-.activity-summary-number-achievements {
-  color: #166534;
-}
-
-.activity-summary-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #4b5563;
-  margin-top: 0.25rem;
-}
-
-/* ========================================
-   UTILITY CLASSES
-   ======================================== */
-
-.card {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background-color: #e5e7eb; /* gray-200 */
+  background-image: linear-gradient(
+    90deg,
+    #e5e7eb 0px,
+    #f3f4f6 40px,
+    #e5e7eb 80px
+  );
+  background-size: 200px 100%;
+  border-radius: 0.25rem;
+  animation: loading 1.5s infinite linear;
 }

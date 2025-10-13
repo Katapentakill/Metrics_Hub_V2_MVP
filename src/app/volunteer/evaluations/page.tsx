@@ -108,15 +108,14 @@ export default function VolunteerEvaluationsPage() {
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="space-y-6">
-            {/* Skeleton con colores institucionales */}
-            <div className="bg-gray-50 border border-slate-200 h-32 rounded-xl animate-pulse"></div>
-            <div className="bg-gray-50 border border-slate-200 h-12 rounded-xl animate-pulse"></div>
+            <div className="loading-skeleton h-32 rounded-xl"></div>
+            <div className="loading-skeleton h-12 rounded-xl"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-gray-50 border border-slate-200 h-24 rounded-xl animate-pulse"></div>
+                <div key={i} className="loading-skeleton h-24 rounded-xl"></div>
               ))}
             </div>
-            <div className="bg-gray-50 border border-slate-200 h-96 rounded-xl animate-pulse"></div>
+            <div className="loading-skeleton h-96 rounded-xl"></div>
           </div>
         </div>
       </div>
@@ -134,7 +133,7 @@ export default function VolunteerEvaluationsPage() {
           allUsers={filteredData.users}
           allPeriods={mockEvaluationPeriods}
           role="volunteer"
-          theme="green"
+          theme="orange"
           basePath="/volunteer"
         />
       </div>
