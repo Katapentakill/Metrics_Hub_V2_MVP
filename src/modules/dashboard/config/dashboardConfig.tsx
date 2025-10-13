@@ -41,7 +41,7 @@ const adminConfig = {
       getSubtitle: (data: any) => `+${data?.thisMonthRegistrations || 0} este mes`,
       subtitleColor: "text-emerald-600",
       icon: Users,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-[#166534] to-[#14532d]"
     },
     {
       label: "Proyectos Activos",
@@ -49,7 +49,7 @@ const adminConfig = {
       getSubtitle: (data: any) => `de ${data?.totalProjects || 0} total`,
       subtitleColor: "text-gray-600",
       icon: FolderOpen,
-      iconBg: "bg-gradient-to-br from-slate-500 to-slate-600"
+      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
     },
     {
       label: "Tareas Completadas",
@@ -57,7 +57,7 @@ const adminConfig = {
       getSubtitle: (data: any) => `${Math.round((data?.completedTasks || 0) / (data?.totalTasks || 1) * 100)}% de progreso`,
       subtitleColor: "text-emerald-600",
       icon: CheckSquare,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-teal-500 to-teal-600"
     },
     {
       label: "Aplicaciones Pendientes",
@@ -65,7 +65,7 @@ const adminConfig = {
       getSubtitle: (data: any) => "Requieren revisión",
       subtitleColor: "text-gray-600",
       icon: FileText,
-      iconBg: "bg-gradient-to-br from-slate-500 to-slate-600"
+      iconBg: "bg-gradient-to-br from-[#84cc16] to-[#65a30d]"
     }
   ],
   mainComponent: DashboardStats,
@@ -75,30 +75,31 @@ const adminConfig = {
     title: "Alertas del Sistema",
     items: [
       {
-        getMessage: () => "3 proyectos tienen tareas bloqueadas por más de 5 días",
-        getSubtitle: () => "EcoVerde, TechEdu, HealthConnect",
-        bgColor: "bg-gray-50",
-        borderColor: "border-slate-300",
-        textColor: "text-slate-800",
-        subtitleColor: "text-gray-600",
+        getMessage: (data: any) => "3 proyectos tienen tareas bloqueadas por más de 5 días",
+        getSubtitle: (data: any) => "EcoVerde, TechEdu, HealthConnect",
+        bgColor: "bg-yellow-50",
+        borderColor: "border-yellow-500",
+        textColor: "text-yellow-800",
+        subtitleColor: "text-yellow-600",
         action: "Revisar"
       },
       {
-        getMessage: () => "12 aplicaciones pendientes de revisión inicial",
-        getSubtitle: () => "Algunas llevan más de 3 días en espera",
-        bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
-        textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600",
+        getMessage: (data: any) => "12 aplicaciones pendientes de revisión inicial",
+        getSubtitle: (data: any) => "Algunas llevan más de 3 días en espera",
+        bgColor: "bg-blue-50",
+        borderColor: "border-blue-500",
+        textColor: "text-blue-800",
+        subtitleColor: "text-blue-600",
         action: "Ver Lista"
       },
       {
-        getMessage: () => "Sistema funcionando correctamente",
-        getSubtitle: () => "Todas las métricas dentro de rangos normales",
+        getMessage: (data: any) => "Sistema funcionando correctamente",
+        getSubtitle: (data: any) => "Todas las métricas dentro de rangos normales",
         bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
+        borderColor: "border-emerald-600",
         textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600"
+        subtitleColor: "text-emerald-600",
+        action: null
       }
     ]
   },
@@ -116,7 +117,7 @@ const hrConfig = {
       getSubtitle: (data: any) => `+${data?.thisMonthApplications || 0} este mes`,
       subtitleColor: "text-emerald-600",
       icon: Users,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-[#166534] to-[#14532d]"
     },
     {
       label: "Pendientes Revisión",
@@ -124,7 +125,7 @@ const hrConfig = {
       getSubtitle: (data: any) => "Requieren atención",
       subtitleColor: "text-gray-600",
       icon: Clock,
-      iconBg: "bg-gradient-to-br from-slate-500 to-slate-600"
+      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
     },
     {
       label: "Entrevistas Activas",
@@ -132,7 +133,7 @@ const hrConfig = {
       getSubtitle: (data: any) => `${data?.scheduledInterviews || 0} programadas`,
       subtitleColor: "text-emerald-600",
       icon: MessageSquare,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-teal-500 to-teal-600"
     },
     {
       label: "Nuevas Contrataciones",
@@ -140,7 +141,7 @@ const hrConfig = {
       getSubtitle: (data: any) => `${data?.conversionRate || 0}% conversión`,
       subtitleColor: "text-emerald-600",
       icon: UserPlus,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-[#84cc16] to-[#65a30d]"
     }
   ],
   mainComponent: DashboardStatsHR,
@@ -150,39 +151,40 @@ const hrConfig = {
     title: "Alertas de Recursos Humanos",
     items: [
       {
-        getMessage: () => "8 aplicaciones llevan más de 5 días sin revisión inicial",
-        getSubtitle: () => "Algunas son candidatos de alta prioridad",
-        bgColor: "bg-gray-50",
-        borderColor: "border-slate-300",
-        textColor: "text-slate-800",
-        subtitleColor: "text-gray-600",
+        getMessage: (data: any) => "8 aplicaciones llevan más de 5 días sin revisión inicial",
+        getSubtitle: (data: any) => "Algunas son candidatos de alta prioridad",
+        bgColor: "bg-yellow-50",
+        borderColor: "border-yellow-500",
+        textColor: "text-yellow-800",
+        subtitleColor: "text-yellow-600",
         action: "Revisar Urgentes"
       },
       {
-        getMessage: () => "3 entrevistas programadas para mañana necesitan confirmación",
-        getSubtitle: () => "María González, Carlos Ruiz, Ana Martínez",
-        bgColor: "bg-gray-50",
-        borderColor: "border-slate-300",
-        textColor: "text-slate-800",
-        subtitleColor: "text-gray-600",
+        getMessage: (data: any) => "3 entrevistas programadas para mañana necesitan confirmación",
+        getSubtitle: (data: any) => "María González, Carlos Ruiz, Ana Martínez",
+        bgColor: "bg-blue-50",
+        borderColor: "border-blue-500",
+        textColor: "text-blue-800",
+        subtitleColor: "text-blue-600",
         action: "Confirmar"
       },
       {
-        getMessage: () => "5 candidatos aprobados esperan proceso de onboarding",
-        getSubtitle: () => "Programar sesiones de integración",
-        bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
-        textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600",
+        getMessage: (data: any) => "5 candidatos aprobados esperan proceso de onboarding",
+        getSubtitle: (data: any) => "Programar sesiones de integración",
+        bgColor: "bg-teal-50",
+        borderColor: "border-teal-500",
+        textColor: "text-teal-800",
+        subtitleColor: "text-teal-600",
         action: "Programar"
       },
       {
         getMessage: (data: any) => "Pipeline de reclutamiento funcionando óptimamente",
         getSubtitle: (data: any) => `Tasa de conversión del ${data?.conversionRate || 0}% supera objetivo del 15%`,
         bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
+        borderColor: "border-emerald-600",
         textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600"
+        subtitleColor: "text-emerald-600",
+        action: null
       }
     ]
   },
@@ -194,28 +196,28 @@ const hrConfig = {
         title: "Reporte de Reclutamiento",
         subtitle: "Métricas del mes",
         bgColor: "bg-emerald-50",
-        hoverColor: "hover:bg-emerald-100"
+        hoverColor: "bg-emerald-100"
       },
       {
         icon: "📞",
         title: "Programar Entrevistas",
         subtitle: "Calendario disponible",
-        bgColor: "bg-emerald-50",
-        hoverColor: "hover:bg-emerald-100"
+        bgColor: "bg-[#166534]/10",
+        hoverColor: "bg-[#166534]/20"
       },
       {
         icon: "💌",
         title: "Enviar Invitaciones",
         subtitle: "A candidatos seleccionados",
-        bgColor: "bg-gray-50",
-        hoverColor: "hover:bg-gray-100"
+        bgColor: "bg-teal-50",
+        hoverColor: "bg-teal-100"
       },
       {
         icon: "⚙️",
         title: "Optimizar Pipeline",
         subtitle: "Configurar proceso",
-        bgColor: "bg-gray-50",
-        hoverColor: "hover:bg-gray-100"
+        bgColor: "bg-slate-50",
+        hoverColor: "bg-slate-100"
       }
     ]
   }
@@ -232,7 +234,7 @@ const leadConfig = {
       getSubtitle: (data: any) => `de ${data?.totalProjects || 0} total`,
       subtitleColor: "text-emerald-600",
       icon: FolderOpen,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-[#166534] to-[#14532d]"
     },
     {
       label: "Miembros del Equipo",
@@ -248,7 +250,7 @@ const leadConfig = {
       getSubtitle: (data: any) => `${Math.round((data?.completedTasks || 0) / (data?.totalTasks || 1) * 100)}% progreso general`,
       subtitleColor: "text-emerald-600",
       icon: CheckSquare,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-teal-500 to-teal-600"
     },
     {
       label: "Deadlines Próximos",
@@ -256,7 +258,7 @@ const leadConfig = {
       getSubtitle: (data: any) => `${data?.overdueTasks || 0} atrasadas`,
       subtitleColor: "text-gray-600",
       icon: Target,
-      iconBg: "bg-gradient-to-br from-slate-500 to-slate-600"
+      iconBg: "bg-gradient-to-br from-[#84cc16] to-[#65a30d]"
     }
   ],
   mainComponent: ProjectsOverview,
@@ -266,39 +268,40 @@ const leadConfig = {
     title: "Alertas de Proyecto",
     items: [
       {
-        getMessage: () => "3 tareas críticas bloqueadas en EcoVerde",
-        getSubtitle: () => "Requieren intervención inmediata del líder",
-        bgColor: "bg-gray-50",
-        borderColor: "border-slate-300",
-        textColor: "text-slate-800",
-        subtitleColor: "text-gray-600",
+        getMessage: (data: any) => "3 tareas críticas bloqueadas en EcoVerde",
+        getSubtitle: (data: any) => "Requieren intervención inmediata del líder",
+        bgColor: "bg-red-50",
+        borderColor: "border-red-500",
+        textColor: "text-red-800",
+        subtitleColor: "text-red-600",
         action: "Resolver"
       },
       {
-        getMessage: () => "2 miembros del equipo reportan sobrecarga de trabajo",
-        getSubtitle: () => "María González y Carlos Ruiz necesitan reasignación",
-        bgColor: "bg-gray-50",
-        borderColor: "border-slate-300",
-        textColor: "text-slate-800",
-        subtitleColor: "text-gray-600",
+        getMessage: (data: any) => "2 miembros del equipo reportan sobrecarga de trabajo",
+        getSubtitle: (data: any) => "María González y Carlos Ruiz necesitan reasignación",
+        bgColor: "bg-yellow-50",
+        borderColor: "border-yellow-500",
+        textColor: "text-yellow-800",
+        subtitleColor: "text-yellow-600",
         action: "Revisar Carga"
       },
       {
-        getMessage: () => "Nuevo voluntario asignado al equipo TechEdu",
-        getSubtitle: () => "Ana Martínez se incorporó como Project Manager",
-        bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
-        textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600",
+        getMessage: (data: any) => "Nuevo voluntario asignado al equipo TechEdu",
+        getSubtitle: (data: any) => "Ana Martínez se incorporó como Project Manager",
+        bgColor: "bg-blue-50",
+        borderColor: "border-blue-500",
+        textColor: "text-blue-800",
+        subtitleColor: "text-blue-600",
         action: "Ver Perfil"
       },
       {
         getMessage: (data: any) => "Productividad del equipo supera objetivos",
         getSubtitle: (data: any) => `${data?.teamProductivity || 0}% de eficiencia, meta era 80%`,
         bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
+        borderColor: "border-emerald-600",
         textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600"
+        subtitleColor: "text-emerald-600",
+        action: null
       }
     ]
   },
@@ -309,29 +312,29 @@ const leadConfig = {
         icon: "📋",
         title: "Crear Nueva Tarea",
         subtitle: "Asignar al equipo",
-        bgColor: "bg-emerald-50",
-        hoverColor: "hover:bg-emerald-100"
+        bgColor: "bg-[#166534]/10",
+        hoverColor: "bg-[#166534]/20"
       },
       {
         icon: "👥",
         title: "Gestionar Equipo",
         subtitle: "Asignaciones y roles",
         bgColor: "bg-emerald-50",
-        hoverColor: "hover:bg-emerald-100"
+        hoverColor: "bg-emerald-100"
       },
       {
         icon: "📊",
         title: "Reporte de Progreso",
         subtitle: "Métricas del proyecto",
-        bgColor: "bg-gray-50",
-        hoverColor: "hover:bg-gray-100"
+        bgColor: "bg-blue-50",
+        hoverColor: "bg-blue-100"
       },
       {
         icon: "⏰",
         title: "Cronograma",
         subtitle: "Deadlines y fechas",
-        bgColor: "bg-gray-50",
-        hoverColor: "hover:bg-gray-100"
+        bgColor: "bg-slate-50",
+        hoverColor: "bg-slate-100"
       }
     ]
   }
@@ -348,7 +351,7 @@ const volunteerConfig = {
       getSubtitle: (data: any) => `${data?.pendingTasks || 0} tareas pendientes`,
       subtitleColor: "text-emerald-600",
       icon: Target,
-      iconBg: "bg-gradient-to-br from-emerald-500 to-emerald-600"
+      iconBg: "bg-gradient-to-br from-[#166534] to-[#14532d]"
     },
     {
       label: "Tareas Completadas",
@@ -364,7 +367,7 @@ const volunteerConfig = {
       getSubtitle: (data: any) => "Horas acumuladas",
       subtitleColor: "text-gray-600",
       icon: Clock,
-      iconBg: "bg-gradient-to-br from-slate-500 to-slate-600"
+      iconBg: "bg-gradient-to-br from-teal-500 to-teal-600"
     },
     {
       label: "Calificación Promedio",
@@ -372,7 +375,7 @@ const volunteerConfig = {
       getSubtitle: (data: any) => `${data?.evaluationsReceived || 0} evaluaciones`,
       subtitleColor: "text-gray-600",
       icon: Star,
-      iconBg: "bg-gradient-to-br from-slate-500 to-slate-600"
+      iconBg: "bg-gradient-to-br from-[#84cc16] to-[#65a30d]"
     }
   ],
   mainComponent: UpcomingTasks,
@@ -382,21 +385,22 @@ const volunteerConfig = {
     title: "Alertas de Voluntario",
     items: [
       {
-        getMessage: () => "Tienes 3 tareas próximas a vencer",
-        getSubtitle: () => "Revisa tu lista de tareas pendientes",
-        bgColor: "bg-gray-50",
-        borderColor: "border-slate-300",
-        textColor: "text-slate-800",
-        subtitleColor: "text-gray-600",
+        getMessage: (data: any) => "Tienes 3 tareas próximas a vencer",
+        getSubtitle: (data: any) => "Revisa tu lista de tareas pendientes",
+        bgColor: "bg-yellow-50",
+        borderColor: "border-yellow-500",
+        textColor: "text-yellow-800",
+        subtitleColor: "text-yellow-600",
         action: "Ver Tareas"
       },
       {
-        getMessage: () => "¡Felicitaciones! Has completado 45 tareas",
-        getSubtitle: () => "Sigue así, tu contribución es valiosa",
+        getMessage: (data: any) => "¡Felicitaciones! Has completado 45 tareas",
+        getSubtitle: (data: any) => "Sigue así, tu contribución es valiosa",
         bgColor: "bg-emerald-50",
-        borderColor: "border-emerald-400",
+        borderColor: "border-emerald-600",
         textColor: "text-emerald-800",
-        subtitleColor: "text-emerald-600"
+        subtitleColor: "text-emerald-600",
+        action: null
       }
     ]
   },
@@ -408,28 +412,28 @@ const volunteerConfig = {
         title: "Ver Proyectos",
         subtitle: "Explorar oportunidades",
         bgColor: "bg-emerald-50",
-        hoverColor: "hover:bg-emerald-100"
+        hoverColor: "bg-emerald-100"
       },
       {
         icon: "📄",
         title: "Mis Documentos",
         subtitle: "Archivos y recursos",
-        bgColor: "bg-emerald-50",
-        hoverColor: "hover:bg-emerald-100"
+        bgColor: "bg-teal-50",
+        hoverColor: "bg-teal-100"
       },
       {
         icon: "💬",
         title: "Mensajes",
         subtitle: "Comunicación del equipo",
-        bgColor: "bg-gray-50",
-        hoverColor: "hover:bg-gray-100"
+        bgColor: "bg-blue-50",
+        hoverColor: "bg-blue-100"
       },
       {
         icon: "⚙️",
         title: "Mi Perfil",
         subtitle: "Configuración personal",
-        bgColor: "bg-gray-50",
-        hoverColor: "hover:bg-gray-100"
+        bgColor: "bg-slate-50",
+        hoverColor: "bg-slate-100"
       }
     ]
   }

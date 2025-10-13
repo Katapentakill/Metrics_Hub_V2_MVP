@@ -26,10 +26,10 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
   const { usersByRole, projectStatus, monthlyActivity } = mockAdminChartData;
 
   return (
-    <div className="card p-6 space-y-6">
+    <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-6 shadow-sm">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-800 flex items-center">
-          <BarChart3 className="w-5 h-5 mr-2 text-emerald-600" />
+          <BarChart3 className="w-5 h-5 mr-2 text-[#166534]" />
           Estadísticas Detalladas
         </h3>
         <div className="flex items-center space-x-2 text-xs text-gray-600">
@@ -73,7 +73,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
         </h4>
         <div className="grid grid-cols-3 gap-4">
           {projectStatus.map((item) => (
-            <div key={item.status} className="text-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+            <div key={item.status} className="text-center p-3 bg-gray-50 border border-slate-200 rounded-lg hover:bg-gray-100 hover:border-[#059669] transition-all">
               <div className={`w-8 h-8 ${item.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white font-semibold text-sm`}>
                 {item.count}
               </div>
@@ -100,7 +100,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
               {monthlyActivity.map((month) => (
                 <div key={month.month} className="flex-1 flex flex-col items-center">
                   <div 
-                    className="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600"
+                    className="w-full bg-emerald-300 rounded-t transition-all duration-500 hover:bg-emerald-400"
                     style={{ height: `${(month.registrations / 15) * 100}%` }}
                   ></div>
                   <span className="text-xs text-gray-600 mt-1">{month.month}</span>
@@ -119,7 +119,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
               {monthlyActivity.map((month) => (
                 <div key={month.month} className="flex-1 flex flex-col items-center">
                   <div 
-                    className="w-full bg-emerald-500 rounded-t transition-all duration-500 hover:bg-emerald-600"
+                    className="w-full bg-teal-300 rounded-t transition-all duration-500 hover:bg-teal-400"
                     style={{ height: `${month.projects === 0 ? 5 : (month.projects / 3) * 100}%` }}
                   ></div>
                   <span className="text-xs text-gray-600 mt-1">{month.month}</span>

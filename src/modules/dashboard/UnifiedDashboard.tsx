@@ -81,12 +81,12 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="loading-skeleton h-8 w-64"></div>
+        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="card p-6">
-              <div className="loading-skeleton h-6 w-20 mb-2"></div>
-              <div className="loading-skeleton h-8 w-16"></div>
+            <div key={i} className="bg-white border border-slate-200 rounded-xl p-6">
+              <div className="h-6 w-20 bg-gray-200 rounded mb-2 animate-pulse"></div>
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div>
             </div>
           ))}
         </div>
@@ -99,7 +99,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
       <div className="max-w-7xl mx-auto py-8">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Acceso no autorizado</h2>
-          <p className="text-slate-600">No tienes permisos para acceder a este dashboard.</p>
+          <p className="text-gray-600">No tienes permisos para acceder a este dashboard.</p>
         </div>
       </div>
     );
@@ -107,11 +107,11 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
+      {/* Header - Icono con green-800 (#166534) */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-            <BarChart3 className="w-8 h-8 mr-3 text-emerald-600" />
+            <BarChart3 className="w-8 h-8 mr-3 text-[#166534]" />
             {config.title}
           </h1>
           <p className="text-gray-600 mt-1">{config.subtitle}</p>
@@ -121,21 +121,21 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
             <Calendar className="w-4 h-4 inline mr-1 text-slate-400" />
             Última actualización: {new Date().toLocaleString('es-ES')}
           </div>
-          <button className="flex items-center space-x-2 px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 transition-colors">
+          <button className="flex items-center space-x-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-gray-600 hover:text-slate-800 hover:bg-gray-50 transition-colors shadow-sm">
             <Activity className="w-4 h-4" />
             <span>Actualizar</span>
           </button>
         </div>
       </div>
 
-      {/* Métricas principales - KPI Cards mejoradas */}
+      {/* Métricas principales - KPI Cards con paleta institucional */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {config.metrics.map((metric, index) => (
           <div 
             key={index} 
-            className="relative overflow-hidden bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-emerald-200 transition-all duration-300 group"
+            className="relative overflow-hidden bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all duration-300 group"
           >
-            {/* Efecto de fondo gradiente sutil */}
+            {/* Efecto de fondo gradiente sutil con emerald */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-50 to-transparent rounded-full -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             
             <div className="relative flex items-start justify-between">
@@ -153,17 +153,17 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
                 )}
               </div>
               
-              {/* Icono con efecto hover */}
+              {/* Icono con fondo de escala de verdes y color blanco */}
               <div className={`w-14 h-14 ${metric.iconBg} rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                 <metric.icon className="w-7 h-7 text-white" />
               </div>
             </div>
 
-            {/* Barra de progreso inferior opcional */}
+            {/* Barra de progreso inferior con emerald */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-100">
               <div 
-                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-1000 ease-out"
-                style={{ width: '0%' }}
+                className="h-full bg-gradient-to-r from-[#059669] to-[#15803d] transition-all duration-1000 ease-out"
+                style={{ width: '75%' }}
               ></div>
             </div>
           </div>
@@ -196,30 +196,30 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
         </div>
       )}
 
-      {/* Alertas específicas del rol - PALETA EMERALD */}
+      {/* Alertas específicas del rol - Paleta institucional */}
       {config.alerts && (
-        <div className="card p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <div className="flex items-center space-x-2 mb-4">
-            <AlertTriangle className="w-5 h-5 text-emerald-600" />
+            <AlertTriangle className="w-5 h-5 text-[#059669]" />
             <h3 className="text-lg font-semibold text-slate-800">{config.alerts.title}</h3>
           </div>
           <div className="space-y-3">
             {config.alerts.items.map((alert, index) => (
-              <div key={index} className={`flex items-center justify-between p-3 ${alert.bgColor} rounded-lg border-l-4 ${alert.borderColor}`}>
+              <div key={index} className={`flex items-center justify-between p-4 ${alert.bgColor} rounded-lg border-l-4 ${alert.borderColor}`}>
                 <div>
                   <p className={`text-sm font-medium ${alert.textColor}`}>
                     {alert.getMessage(data)}
                   </p>
-                  <p className={`text-xs ${alert.subtitleColor}`}>
+                  <p className={`text-xs mt-1 ${alert.subtitleColor}`}>
                     {alert.getSubtitle(data)}
                   </p>
                 </div>
                 {alert.action ? (
-                  <button className="px-3 py-1 text-xs border border-slate-200 rounded-lg text-gray-600 hover:text-gray-800 hover:bg-gray-50 transition-colors">
+                  <button className="px-3 py-1 text-xs bg-white border border-slate-200 rounded-lg text-gray-600 hover:text-slate-800 hover:bg-gray-50 transition-colors shadow-sm">
                     {alert.action}
                   </button>
                 ) : (
-                  <Award className="w-5 h-5 text-emerald-600" />
+                  <Award className="w-5 h-5 text-[#059669]" />
                 )}
               </div>
             ))}
@@ -229,14 +229,14 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
 
       {/* Acciones rápidas específicas del rol */}
       {(config as any).quickActions && (
-        <div className="card p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">{(config as any).quickActions.title}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {(config as any).quickActions.actions.map((action: any, index: number) => (
-              <button key={index} className={`p-4 ${action.bgColor} hover:${action.hoverColor} rounded-lg transition-all text-center hover:shadow-lg`}>
+              <button key={index} className={`p-4 ${action.bgColor} hover:${action.hoverColor} border border-slate-200 rounded-lg transition-all text-center hover:shadow-md`}>
                 <div className="text-2xl mb-2">{action.icon}</div>
                 <p className="text-sm font-medium text-slate-800">{action.title}</p>
-                <p className="text-xs text-gray-600">{action.subtitle}</p>
+                <p className="text-xs text-gray-600 mt-1">{action.subtitle}</p>
               </button>
             ))}
           </div>
