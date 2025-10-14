@@ -60,12 +60,12 @@ export default function LeadUsers() {
       const userStats: UserStats = {
         total: availableUsers.length,
         active: availableUsers.filter(u => u.status === 'active').length,
-        inactive: 0, // No mostramos inactivos
-        suspended: 0, // No mostramos suspendidos
-        deleted: 0, // No mostramos eliminados
+        inactive: 0,
+        suspended: 0,
+        deleted: 0,
         byRole: {
-          admin: 0, // No mostramos admins
-          hr: 0, // No mostramos HR
+          admin: 0,
+          hr: 0,
           lead: availableUsers.filter(u => u.role === 'lead').length,
           volunteer: availableUsers.filter(u => u.role === 'volunteer').length,
           unassigned: 0,
@@ -166,11 +166,11 @@ export default function LeadUsers() {
     setShowContactVolunteer(true);
   };
 
-  // Funciones de utilidad
+  // Funciones de utilidad - PALETA INSTITUCIONAL
   const getAvailabilityColor = (hours: number) => {
-    if (hours >= 20) return 'bg-green-100 text-green-800 border-green-200';
-    if (hours >= 10) return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    return 'bg-red-100 text-red-800 border-red-200';
+    if (hours >= 20) return 'bg-emerald-50 text-emerald-800 border-emerald-600';
+    if (hours >= 10) return 'bg-yellow-50 text-yellow-800 border-yellow-500';
+    return 'bg-red-50 text-red-800 border-red-500';
   };
 
   const getAvailabilityLabel = (hours: number) => {
@@ -181,9 +181,9 @@ export default function LeadUsers() {
 
   const getSkillLevelColor = (level: string) => {
     switch (level) {
-      case 'expert': return 'text-purple-600';
-      case 'advanced': return 'text-green-600';
-      case 'intermediate': return 'text-blue-600';
+      case 'expert': return 'text-[#7c3aed]';
+      case 'advanced': return 'text-emerald-600';
+      case 'intermediate': return 'text-[#3b82f6]';
       case 'beginner': return 'text-yellow-600';
       default: return 'text-gray-600';
     }
@@ -195,17 +195,17 @@ export default function LeadUsers() {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="loading-skeleton h-8 w-64" />
+        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="card p-6">
-              <div className="loading-skeleton h-6 w-20 mb-2" />
-              <div className="loading-skeleton h-8 w-16" />
+            <div key={i} className="bg-white border border-slate-200 rounded-xl p-6">
+              <div className="h-6 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
             </div>
           ))}
         </div>
-        <div className="card p-6">
-          <div className="loading-skeleton h-96 w-full" />
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
+          <div className="h-96 w-full bg-gray-200 rounded animate-pulse" />
         </div>
       </div>
     );
@@ -213,75 +213,75 @@ export default function LeadUsers() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
+      {/* Header - Icono emerald-600 */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-            <Users className="w-8 h-8 mr-3 text-emerald-600" />
+            <Users className="w-10 h-10 text-emerald-600" />
             Voluntarios Disponibles
           </h1>
-          <p className="text-muted mt-1">Encuentra y conecta con voluntarios para tus proyectos</p>
+          <p className="text-gray-600 mt-1">Encuentra y conecta con voluntarios para tus proyectos</p>
         </div>
         <div className="text-right">
           <p className="text-sm text-slate-600">Mostrando solo voluntarios activos</p>
-          <p className="text-xs text-slate-500">Última actualización: {new Date().toLocaleTimeString('es-ES')}</p>
+          <p className="text-xs text-slate-400">Última actualización: {new Date().toLocaleTimeString('es-ES')}</p>
         </div>
       </div>
 
-      {/* Estadísticas */}
+      {/* Estadísticas - PALETA INSTITUCIONAL DE VERDES */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Total Disponibles</p>
+                <p className="text-sm font-medium text-gray-600">Total Disponibles</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.total}</p>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-sm text-gray-600 mt-1">
                   {Object.keys(stats.byCountry).length} países
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-xl flex items-center justify-center shadow-sm">
                 <Users className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Voluntarios</p>
+                <p className="text-sm font-medium text-gray-600">Voluntarios</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.byRole.volunteer}</p>
-                <p className="text-sm text-emerald-600">
+                <p className="text-sm text-gray-600">
                   {Math.round((stats.byRole.volunteer / stats.total) * 100)}% del total
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-sm">
                 <UserPlus className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Líderes de Proyecto</p>
+                <p className="text-sm font-medium text-gray-600">Líderes de Proyecto</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.byRole.lead}</p>
-                <p className="text-sm text-slate-500">Para colaboración</p>
+                <p className="text-sm text-gray-600">Para colaboración</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-sm">
                 <Award className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Categorías de Skills</p>
+                <p className="text-sm font-medium text-gray-600">Categorías de Skills</p>
                 <p className="text-3xl font-bold text-slate-800">{Object.keys(stats.bySkillCategory).length}</p>
-                <p className="text-sm text-blue-600">Áreas disponibles</p>
+                <p className="text-sm text-gray-600">Áreas disponibles</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#84cc16] to-[#65a30d] rounded-xl flex items-center justify-center shadow-sm">
                 <Star className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -290,7 +290,7 @@ export default function LeadUsers() {
       )}
 
       {/* Filtros y búsqueda */}
-      <div className="card p-6">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
           <div className="flex items-center space-x-4 flex-1">
             <div className="relative flex-1 max-w-md">
@@ -300,12 +300,12 @@ export default function LeadUsers() {
                 placeholder="Buscar por nombre, habilidades, universidad..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="btn-secondary flex items-center space-x-2"
+              className="bg-white border border-slate-200 px-4 py-2 rounded-lg text-gray-600 hover:text-slate-800 hover:bg-gray-50 transition-colors shadow-sm flex items-center space-x-2"
             >
               <Filter className="w-4 h-4" />
               <span>Filtros</span>
@@ -316,7 +316,7 @@ export default function LeadUsers() {
             <select
               value={selectedSkillCategory}
               onChange={(e) => setSelectedSkillCategory(e.target.value)}
-              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
             >
               <option value="all">Todas las habilidades</option>
               <option value="development">Desarrollo</option>
@@ -331,7 +331,7 @@ export default function LeadUsers() {
             <select
               value={selectedAvailability}
               onChange={(e) => setSelectedAvailability(e.target.value)}
-              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
             >
               <option value="all">Cualquier disponibilidad</option>
               <option value="20">Alta disponibilidad (20+ hrs)</option>
@@ -346,10 +346,10 @@ export default function LeadUsers() {
       </div>
 
       {/* Tabla */}
-      <div className="card overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-gray-50 border-b border-slate-200">
               <tr>
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Voluntario</th>
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Ubicación & Tiempo</th>
@@ -361,7 +361,7 @@ export default function LeadUsers() {
             </thead>
             <tbody className="divide-y divide-slate-200">
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-slate-50 transition-colors">
+                <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
@@ -371,7 +371,7 @@ export default function LeadUsers() {
                       </div>
                       <div>
                         <p className="font-semibold text-slate-800">{user.name}</p>
-                        <p className="text-sm text-slate-500 flex items-center">
+                        <p className="text-sm text-gray-600 flex items-center">
                           <Mail className="w-3 h-3 mr-1" />
                           {user.email}
                         </p>
@@ -381,10 +381,10 @@ export default function LeadUsers() {
                             {user.profile.phone}
                           </p>
                         )}
-                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium mt-1 ${
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border mt-1 ${
                           user.role === 'lead' 
-                            ? 'bg-purple-100 text-purple-800 border-purple-200' 
-                            : 'bg-blue-100 text-blue-800 border-blue-200'
+                            ? 'bg-teal-50 text-teal-800 border-teal-500' 
+                            : 'bg-green-50 text-[#166534] border-[#166534]'
                         }`}>
                           {user.role === 'lead' ? 'Líder de Proyecto' : 'Voluntario'}
                         </span>
@@ -399,7 +399,7 @@ export default function LeadUsers() {
                           <MapPin className="w-3 h-3 mr-1" />
                           {user.profile.city}, {user.profile.country}
                         </p>
-                        <p className="text-xs text-slate-500 flex items-center mt-1">
+                        <p className="text-xs text-gray-600 flex items-center mt-1">
                           <Clock className="w-3 h-3 mr-1" />
                           {user.profile.timezone} • {user.profile.preferred_hours}
                         </p>
@@ -425,7 +425,7 @@ export default function LeadUsers() {
                             </div>
                           ))}
                           {user.profile.skills.length > 3 && (
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-gray-600">
                               +{user.profile.skills.length - 3} más
                             </p>
                           )}
@@ -441,7 +441,7 @@ export default function LeadUsers() {
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getAvailabilityColor(user.profile?.hours_per_week || 0)}`}>
                         {user.profile?.hours_per_week}h/semana
                       </span>
-                      <p className="text-xs text-slate-500 mt-1">
+                      <p className="text-xs text-gray-600 mt-1">
                         {getAvailabilityLabel(user.profile?.hours_per_week || 0)}
                       </p>
                     </div>
@@ -453,7 +453,7 @@ export default function LeadUsers() {
                         <>
                           <p className="text-slate-800 font-medium text-xs">{user.profile.university}</p>
                           {user.profile.program && (
-                            <p className="text-slate-500 text-xs mt-1">{user.profile.program}</p>
+                            <p className="text-gray-600 text-xs mt-1">{user.profile.program}</p>
                           )}
                         </>
                       ) : (
@@ -467,7 +467,7 @@ export default function LeadUsers() {
                       {/* Botón para ver perfil completo */}
                       <button
                         onClick={() => handleViewUser(user.id)}
-                        className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="p-2 text-slate-500 hover:text-[#3b82f6] hover:bg-blue-50 rounded-lg transition-colors"
                         title="Ver perfil completo"
                       >
                         <Eye className="w-4 h-4" />
@@ -485,7 +485,7 @@ export default function LeadUsers() {
                       {/* Botón para contactar directamente */}
                       <button
                         onClick={() => handleContactVolunteer(user)}
-                        className="p-2 text-slate-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                        className="p-2 text-slate-500 hover:text-[#7c3aed] hover:bg-purple-50 rounded-lg transition-colors"
                         title="Contactar directamente"
                       >
                         <MessageSquare className="w-4 h-4" />
@@ -502,7 +502,7 @@ export default function LeadUsers() {
           <div className="text-center py-12">
             <Users className="w-12 h-12 text-slate-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-slate-600 mb-2">No se encontraron voluntarios</h3>
-            <p className="text-slate-500">
+            <p className="text-gray-600">
               {searchTerm || selectedSkillCategory !== 'all' || selectedAvailability !== 'all'
                 ? 'Intenta ajustar los filtros de búsqueda.'
                 : 'No hay voluntarios disponibles en este momento.'}

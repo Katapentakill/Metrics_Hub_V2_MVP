@@ -171,14 +171,14 @@ export default function AdminUsers() {
     setSelectedUser(null);
   };
 
-  // Funciones de utilidad
+  // Funciones de utilidad - PALETA INSTITUCIONAL
   const getRoleColor = (role: string) => {
     switch (role) {
-      case 'admin': return 'bg-red-100 text-red-800 border-red-200';
-      case 'hr': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'lead': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'volunteer': return 'bg-blue-100 text-blue-800 border-blue-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'admin': return 'bg-red-50 text-red-800 border-red-500';
+      case 'hr': return 'bg-teal-50 text-teal-800 border-teal-500';
+      case 'lead': return 'bg-emerald-50 text-emerald-800 border-emerald-600';
+      case 'volunteer': return 'bg-green-50 text-[#166534] border-[#166534]';
+      default: return 'bg-gray-50 text-gray-800 border-slate-200';
     }
   };
 
@@ -195,10 +195,10 @@ export default function AdminUsers() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'inactive': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'suspended': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'active': return 'bg-emerald-50 text-emerald-800 border-emerald-600';
+      case 'inactive': return 'bg-gray-50 text-gray-800 border-slate-200';
+      case 'suspended': return 'bg-red-50 text-red-800 border-red-500';
+      default: return 'bg-gray-50 text-gray-800 border-slate-200';
     }
   };
 
@@ -218,17 +218,17 @@ export default function AdminUsers() {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="loading-skeleton h-8 w-64" />
+        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="card p-6">
-              <div className="loading-skeleton h-6 w-20 mb-2" />
-              <div className="loading-skeleton h-8 w-16" />
+            <div key={i} className="bg-white border border-slate-200 rounded-xl p-6">
+              <div className="h-6 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
             </div>
           ))}
         </div>
-        <div className="card p-6">
-          <div className="loading-skeleton h-96 w-full" />
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
+          <div className="h-96 w-full bg-gray-200 rounded animate-pulse" />
         </div>
       </div>
     );
@@ -236,20 +236,20 @@ export default function AdminUsers() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
+      {/* Header - Icono green-800 */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-            <Users className="w-8 h-8 mr-3 text-emerald-600" />
+            <Users className="w-10 h-10 text-emerald-600" />
             Gestión de Usuarios
           </h1>
-          <p className="text-muted mt-1">Administra todos los usuarios del sistema Living Stones</p>
+          <p className="text-gray-600 mt-1">Administra todos los usuarios del sistema Living Stones</p>
         </div>
         <div className="flex items-center space-x-3">
           <ExportUsers users={filteredUsers} />
           <button
             onClick={handleCreateUser}
-            className="btn-living flex items-center space-x-2"
+            className="bg-gradient-to-r from-[#15803d] to-[#14532d] hover:from-[#166534] hover:to-[#15803d] text-white px-4 py-2 rounded-lg font-medium transition-all shadow-sm flex items-center space-x-2"
           >
             <Plus className="w-4 h-4" />
             <span>Crear Usuario</span>
@@ -257,60 +257,60 @@ export default function AdminUsers() {
         </div>
       </div>
 
-      {/* Estadísticas */}
+      {/* Estadísticas - PALETA INSTITUCIONAL DE VERDES */}
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Total Usuarios</p>
+                <p className="text-sm font-medium text-gray-600">Total Usuarios</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.total}</p>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-sm text-gray-600 mt-1">
                   {Object.keys(stats.byCountry).length} países
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-xl flex items-center justify-center shadow-sm">
                 <Users className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Usuarios Activos</p>
+                <p className="text-sm font-medium text-gray-600">Usuarios Activos</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.active}</p>
-                <p className="text-sm text-green-600">
+                <p className="text-sm text-gray-600">
                   {Math.round((stats.active / stats.total) * 100)}% del total
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-sm">
                 <UserCheck className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Voluntarios</p>
+                <p className="text-sm font-medium text-gray-600">Voluntarios</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.byRole.volunteer}</p>
-                <p className="text-sm text-slate-500">Rol más común</p>
+                <p className="text-sm text-gray-600">Rol más común</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-sm">
                 <UserCheck className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="card p-6 hover-lift">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-[#059669] transition-all">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted">Administradores</p>
+                <p className="text-sm font-medium text-gray-600">Administradores</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.byRole.admin}</p>
-                <p className="text-sm text-red-600">Acceso completo</p>
+                <p className="text-sm text-gray-600">Acceso completo</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#84cc16] to-[#65a30d] rounded-xl flex items-center justify-center shadow-sm">
                 <Shield className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -319,7 +319,7 @@ export default function AdminUsers() {
       )}
 
       {/* Filtros y búsqueda */}
-      <div className="card p-6">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
           <div className="flex items-center space-x-4 flex-1">
             <div className="relative flex-1 max-w-md">
@@ -329,12 +329,12 @@ export default function AdminUsers() {
                 placeholder="Buscar por nombre, email, habilidades..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="btn-secondary flex items-center space-x-2"
+              className="bg-white border border-slate-200 px-4 py-2 rounded-lg text-gray-600 hover:text-slate-800 hover:bg-gray-50 transition-colors shadow-sm flex items-center space-x-2"
             >
               <Filter className="w-4 h-4" />
               <span>Filtros</span>
@@ -345,7 +345,7 @@ export default function AdminUsers() {
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
             >
               <option value="all">Todos los roles</option>
               <option value="admin">Administrador</option>
@@ -358,7 +358,7 @@ export default function AdminUsers() {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
             >
               <option value="all">Todos los estados</option>
               <option value="active">Activo</option>
@@ -374,10 +374,10 @@ export default function AdminUsers() {
       </div>
 
       {/* Tabla */}
-      <div className="card overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-gray-50 border-b border-slate-200">
               <tr>
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Usuario</th>
                 <th className="text-left py-4 px-6 font-semibold text-slate-700">Rol</th>
@@ -390,7 +390,7 @@ export default function AdminUsers() {
             </thead>
             <tbody className="divide-y divide-slate-200">
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-slate-50 transition-colors">
+                <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center">
@@ -400,7 +400,7 @@ export default function AdminUsers() {
                       </div>
                       <div>
                         <p className="font-semibold text-slate-800">{user.name}</p>
-                        <p className="text-sm text-slate-500 flex items-center">
+                        <p className="text-sm text-gray-600 flex items-center">
                           <Mail className="w-3 h-3 mr-1" />
                           {user.email}
                         </p>
@@ -433,7 +433,7 @@ export default function AdminUsers() {
                           <MapPin className="w-3 h-3 mr-1" />
                           {user.profile.city}, {user.profile.country}
                         </p>
-                        <p className="text-xs text-slate-500">{user.profile.timezone}</p>
+                        <p className="text-xs text-gray-600">{user.profile.timezone}</p>
                       </div>
                     )}
                   </td>
@@ -449,7 +449,7 @@ export default function AdminUsers() {
                         })()}
                       </p>
                       {user.profile?.university && (
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-gray-600 mt-1">
                           📚 {user.profile.university}
                         </p>
                       )}
@@ -461,7 +461,7 @@ export default function AdminUsers() {
                       {user.last_login ? (
                         <>
                           <p className="text-slate-800">{formatDate(user.last_login)}</p>
-                          <p className="text-xs text-slate-500 flex items-center">
+                          <p className="text-xs text-gray-600 flex items-center">
                             <Calendar className="w-3 h-3 mr-1" />
                             {new Date(user.last_login).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
                           </p>
@@ -477,7 +477,7 @@ export default function AdminUsers() {
                       {/* Botón para ver perfil completo */}
                       <button
                         onClick={() => handleViewUser(user.id)}
-                        className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="p-2 text-slate-500 hover:text-[#3b82f6] hover:bg-blue-50 rounded-lg transition-colors"
                         title="Ver perfil completo"
                       >
                         <Eye className="w-4 h-4" />
@@ -516,7 +516,7 @@ export default function AdminUsers() {
           <div className="text-center py-12">
             <Users className="w-12 h-12 text-slate-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-slate-600 mb-2">No se encontraron usuarios</h3>
-            <p className="text-slate-500">
+            <p className="text-gray-600">
               {searchTerm || selectedRole !== 'all' || selectedStatus !== 'all'
                 ? 'Intenta ajustar los filtros de búsqueda.'
                 : 'No hay usuarios disponibles en este momento.'}
