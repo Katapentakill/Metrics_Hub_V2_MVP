@@ -59,7 +59,7 @@ const sections: SectionConfig[] = [
     href: '/hr/documents/hiring-and-onboarding',
     icon: Users,
     gradient: 'from-emerald-500 to-emerald-600',
-    bgHover: 'hover:bg-blue-50',
+    bgHover: 'hover:bg-emerald-50',
     stats: { label: 'Documents', value: 120, subValue: '+10 this week' },
   },
   {
@@ -77,7 +77,7 @@ const sections: SectionConfig[] = [
     href: '/hr/documents/volunteer-documents',
     icon: Users,
     gradient: 'from-green-500 to-green-600',
-    bgHover: 'hover:bg-purple-50',
+    bgHover: 'hover:bg-green-50',
     stats: { label: 'Files', value: 300, subValue: '50 pending' },
   },
   {
@@ -86,7 +86,7 @@ const sections: SectionConfig[] = [
     href: '/hr/documents/policies-guides',
     icon: Settings,
     gradient: 'from-lime-500 to-lime-600',
-    bgHover: 'hover:bg-orange-50',
+    bgHover: 'hover:bg-lime-50',
     stats: { label: 'Guides', value: 20, subValue: '1 urgent' },
   },
   {
@@ -95,7 +95,7 @@ const sections: SectionConfig[] = [
     href: '/hr/documents/volunteer-termination',
     icon: Settings,
     gradient: 'from-emerald-400 to-emerald-600',
-    bgHover: 'hover:bg-red-50',
+    bgHover: 'hover:bg-emerald-50',
     stats: { label: 'Terminations', value: 5, subValue: '1 this month' },
   },
   {
@@ -104,7 +104,7 @@ const sections: SectionConfig[] = [
     href: '/hr/documents/company-library',
     icon: BookOpen,
     gradient: 'from-teal-400 to-teal-600',
-    bgHover: 'hover:bg-emerald-50',
+    bgHover: 'hover:bg-teal-50',
     stats: { label: 'Documents', value: 500, subValue: '+20 this week' },
   },
 ];

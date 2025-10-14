@@ -59,7 +59,7 @@ const sections: SectionConfig[] = [
     href: '/volunteer/documents/my-application-files',
     icon: Users,
     gradient: 'from-emerald-500 to-emerald-600',
-    bgHover: 'hover:bg-blue-50',
+    bgHover: 'hover:bg-emerald-50',
     stats: { label: 'Documents', value: 120, subValue: '+10 this week' },
   },
   {
@@ -68,7 +68,7 @@ const sections: SectionConfig[] = [
     href: '/volunteer/documents/signed-documents',
     icon: Shield,
     gradient: 'from-teal-500 to-teal-600',
-    bgHover: 'hover:bg-green-50',
+    bgHover: 'hover:bg-teal-50',
     stats: { label: 'Volunteers', value: 60, subValue: '2 need review' },
   },
   {
@@ -77,7 +77,7 @@ const sections: SectionConfig[] = [
     href: '/volunteer/documents/project-resources',
     icon: Users,
     gradient: 'from-green-500 to-green-600',
-    bgHover: 'hover:bg-purple-50',
+    bgHover: 'hover:bg-green-50',
     stats: { label: 'Files', value: 300, subValue: '50 pending' },
   },
   {
