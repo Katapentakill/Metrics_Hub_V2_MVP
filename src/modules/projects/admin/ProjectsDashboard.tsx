@@ -1,15 +1,12 @@
 // UBICACIÓN: src/features/admin/projects/components/ProjectsDashboard.tsx
-// Dashboard de proyectos actualizado con navegación al Kanban
+// Dashboard de proyectos actualizado con navegación al Kanban y paleta institucional
 
 import React, { useState, useMemo } from 'react';
-// import { useRouter } from 'next/navigation'; // Original failing import
 
 // FIX: Mocking useRouter for environment compatibility
 const useRouter = () => ({
   push: (path: string) => {
     console.log(`[Router Mock] Attempted navigation to: ${path}`);
-    // You can replace this console log with actual routing logic 
-    // when running in a full Next.js environment.
   },
 });
 
@@ -31,27 +28,20 @@ import type { ProjectView } from '@/lib/map/projects/projectView';
 
 interface ProjectsDashboardProps {
   projects: ProjectView[];
-  // The 'timeframe' prop has been removed and converted into internal state
-  // for the component to manage its own filter selection.
 }
 
 export default function ProjectsDashboard({ 
-  projects = [], // FIX: Default to empty array to prevent 'length' access error on undefined projects
+  projects = [],
 }: ProjectsDashboardProps) {
   const router = useRouter();
   
-  // 1. Convert timeframe into internal state for a controlled component
   const [selectedTimeframe, setSelectedTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
   const [activeTab, setActiveTab] = useState<'overview' | 'performance' | 'team' | 'timeline'>('overview');
 
-  // Handler for the select element to update state
   const handleTimeframeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTimeframe(event.target.value as '7d' | '30d' | '90d' | '1y');
-    // Note: In a full implementation, this handler would also trigger a data refresh 
-    // or pass the new timeframe up to the parent component to fetch filtered data.
   };
 
-  // Función para navegar al proyecto
   const navigateToProject = (projectId: string) => {
     router.push(`/admin/projects/${projectId}`);
   };
@@ -67,7 +57,6 @@ export default function ProjectsDashboard({
     const totalMembers = projects.reduce((acc, p) => acc + (p.members?.length || 0), 0);
     const avgProgress = Math.round(projects.reduce((acc, p) => acc + p.progressPct, 0) / total || 0);
     
-    // Calcular proyectos en riesgo (deadline cercano o progreso bajo)
     const atRisk = projects.filter(p => {
       if (!p.project.deadline) return false;
       const daysUntilDeadline = Math.ceil(
@@ -76,9 +65,7 @@ export default function ProjectsDashboard({
       return (daysUntilDeadline <= 14 && p.progressPct < 80) || daysUntilDeadline < 0;
     }).length;
 
-    // Calcular utilización de equipos
     const teamUtilization = projects.reduce((acc, p) => {
-      // Assuming project.current_team_size and max_team_size are available
       if (p.project.max_team_size === 0) return acc;
       return acc + (p.project.current_team_size / p.project.max_team_size);
     }, 0) / total * 100;
@@ -97,12 +84,12 @@ export default function ProjectsDashboard({
     };
   }, [projects]);
 
-  // Datos para gráficos
+  // Datos para gráficos - PALETA INSTITUCIONAL
   const statusDistribution = [
-    { name: 'Activos', value: metrics.active, color: 'bg-emerald-500', textColor: 'text-emerald-600' },
-    { name: 'Completados', value: metrics.completed, color: 'bg-green-500', textColor: 'text-green-600' },
-    { name: 'Planificación', value: metrics.planning, color: 'bg-blue-500', textColor: 'text-blue-600' },
-    { name: 'Pausados', value: metrics.paused, color: 'bg-yellow-500', textColor: 'text-yellow-600' }
+    { name: 'Activos', value: metrics.active, color: 'bg-emerald-300', textColor: 'text-emerald-600' },
+    { name: 'Completados', value: metrics.completed, color: 'bg-green-300', textColor: 'text-[#166534]' },
+    { name: 'Planificación', value: metrics.planning, color: 'bg-blue-300', textColor: 'text-blue-600' },
+    { name: 'Pausados', value: metrics.paused, color: 'bg-yellow-300', textColor: 'text-yellow-600' }
   ];
 
   const progressRanges = useMemo(() => {
@@ -114,25 +101,33 @@ export default function ProjectsDashboard({
     return ranges;
   }, [projects]);
 
-  const getMetricCard = (title: string, value: string | number, change: string, icon: React.ElementType, trend: 'up' | 'down' | 'neutral' = 'neutral') => {
+  // Función para crear tarjetas de métricas con iconos de diferentes verdes
+  const getMetricCard = (
+    title: string, 
+    value: string | number, 
+    change: string, 
+    icon: React.ElementType, 
+    trend: 'up' | 'down' | 'neutral' = 'neutral',
+    iconBg: string // Nuevo parámetro para el fondo del icono
+  ) => {
     const Icon = icon;
     const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Target;
-    const trendColor = trend === 'up' ? 'text-green-500' : trend === 'down' ? 'text-red-500' : 'text-gray-500';
+    const trendColor = trend === 'up' ? 'text-emerald-600' : trend === 'down' ? 'text-red-500' : 'text-gray-600';
     
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-[#059669] transition-all">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-600 mb-1">{title}</p>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
+            <p className="text-3xl font-bold text-slate-800">{value}</p>
             <div className="flex items-center mt-2 text-sm">
               <TrendIcon className={`w-4 h-4 mr-1 ${trendColor}`} />
               <span className={trendColor}>{change}</span>
-              <span className="text-gray-500 ml-1">vs período anterior</span>
+              <span className="text-gray-600 ml-1">vs período anterior</span>
             </div>
           </div>
-          <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg flex items-center justify-center">
-            <Icon className="w-6 h-6 text-emerald-600" />
+          <div className={`w-12 h-12 ${iconBg} rounded-lg flex items-center justify-center shadow-sm`}>
+            <Icon className="w-6 h-6 text-white" />
           </div>
         </div>
       </div>
@@ -144,15 +139,15 @@ export default function ProjectsDashboard({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Panel de Proyectos</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Panel de Proyectos</h2>
           <p className="text-gray-600">Resumen y métricas de rendimiento (Filtro: {selectedTimeframe})</p>
         </div>
         
         <div className="flex items-center space-x-2">
           <select 
             value={selectedTimeframe} 
-            onChange={handleTimeframeChange} // FIX: Added onChange handler
-            className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 cursor-pointer"
+            onChange={handleTimeframeChange}
+            className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] cursor-pointer"
           >
             <option value="7d">Últimos 7 días</option>
             <option value="30d">Últimos 30 días</option>
@@ -162,17 +157,45 @@ export default function ProjectsDashboard({
         </div>
       </div>
 
-      {/* Métricas principales */}
+      {/* Métricas principales - cada una con diferente fondo de verde */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {getMetricCard("Total Proyectos", metrics.total, "+12%", Target, 'up')}
-        {getMetricCard("Proyectos Activos", metrics.active, "+8%", CheckCircle2, 'up')}
-        {getMetricCard("Progreso Promedio", `${metrics.avgProgress}%`, "+5%", BarChart3, 'up')}
-        {getMetricCard("En Riesgo", metrics.atRisk, "-3%", AlertTriangle, 'down')}
+        {getMetricCard(
+          "Total Proyectos", 
+          metrics.total, 
+          "+12%", 
+          Target, 
+          'up',
+          'bg-gradient-to-br from-[#166534] to-[#14532d]' // green-800 a green-900
+        )}
+        {getMetricCard(
+          "Proyectos Activos", 
+          metrics.active, 
+          "+8%", 
+          CheckCircle2, 
+          'up',
+          'bg-gradient-to-br from-emerald-500 to-emerald-600' // emerald
+        )}
+        {getMetricCard(
+          "Progreso Promedio", 
+          `${metrics.avgProgress}%`, 
+          "+5%", 
+          BarChart3, 
+          'up',
+          'bg-gradient-to-br from-teal-500 to-teal-600' // teal
+        )}
+        {getMetricCard(
+          "En Riesgo", 
+          metrics.atRisk, 
+          "-3%", 
+          AlertTriangle, 
+          'down',
+          'bg-gradient-to-br from-[#84cc16] to-[#65a30d]' // lime
+        )}
       </div>
 
-      {/* Tabs de navegación */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="border-b border-gray-200">
+      {/* Tabs de navegación - PALETA INSTITUCIONAL */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+        <div className="border-b border-slate-200">
           <nav className="flex space-x-8 px-6">
             {[
               { key: 'overview', label: 'Resumen', icon: BarChart3 },
@@ -185,8 +208,8 @@ export default function ProjectsDashboard({
                 onClick={() => setActiveTab(key as any)}
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === key
-                    ? 'border-emerald-500 text-emerald-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-[#166534] text-[#166534] bg-green-50'
+                    : 'border-transparent text-gray-600 hover:text-slate-900 hover:bg-gray-50'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -202,19 +225,19 @@ export default function ProjectsDashboard({
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Distribución por estado */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-800">Distribución por Estado</h3>
+                  <h3 className="text-lg font-semibold text-slate-800">Distribución por Estado</h3>
                   <div className="space-y-3">
                     {statusDistribution.map((status) => (
                       <div key={status.name} className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                           <div className={`w-3 h-3 rounded-full ${status.color}`}></div>
-                          <span className="text-sm font-medium text-gray-700">{status.name}</span>
+                          <span className="text-sm font-medium text-slate-700">{status.name}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <span className={`text-sm font-semibold ${status.textColor}`}>
                             {status.value}
                           </span>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-600">
                             ({Math.round((status.value / metrics.total) * 100)}%)
                           </span>
                         </div>
@@ -223,42 +246,42 @@ export default function ProjectsDashboard({
                   </div>
                 </div>
 
-                {/* Distribución por progreso */}
+                {/* Distribución por progreso - COLORES PASTEL 300 */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-800">Distribución por Progreso</h3>
+                  <h3 className="text-lg font-semibold text-slate-800">Distribución por Progreso</h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <span className="text-sm font-medium text-gray-700">Bajo (&lt;25%)</span>
+                        <div className="w-3 h-3 rounded-full bg-red-300"></div>
+                        <span className="text-sm font-medium text-slate-700">Bajo (&lt;25%)</span>
                       </div>
                       <span className="text-sm font-semibold text-red-600">{progressRanges.low}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <span className="text-sm font-medium text-gray-700">Medio (25-75%)</span>
+                        <div className="w-3 h-3 rounded-full bg-yellow-300"></div>
+                        <span className="text-sm font-medium text-slate-700">Medio (25-75%)</span>
                       </div>
                       <span className="text-sm font-semibold text-yellow-600">{progressRanges.medium}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span className="text-sm font-medium text-gray-700">Alto (&gt;75%)</span>
+                        <div className="w-3 h-3 rounded-full bg-green-300"></div>
+                        <span className="text-sm font-medium text-slate-700">Alto (&gt;75%)</span>
                       </div>
-                      <span className="text-sm font-semibold text-green-600">{progressRanges.high}</span>
+                      <span className="text-sm font-semibold text-emerald-600">{progressRanges.high}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Lista de proyectos destacados con navegación */}
+              {/* Lista de proyectos destacados */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-800">Proyectos Destacados</h3>
+                  <h3 className="text-lg font-semibold text-slate-800">Proyectos Destacados</h3>
                   <button 
                     onClick={() => router.push('/admin/projects')}
-                    className="text-emerald-600 hover:text-emerald-700 text-sm font-medium flex items-center space-x-1"
+                    className="text-[#22c55e] hover:text-[#059669] text-sm font-medium flex items-center space-x-1 transition-colors"
                   >
                     <span>Ver todos</span>
                     <ArrowRight className="w-4 h-4" />
@@ -266,46 +289,101 @@ export default function ProjectsDashboard({
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {projects.slice(0, 4).map((project) => (
-                    <div 
-                      key={project.project.id}
-                      className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer group"
-                      onClick={() => navigateToProject(project.project.id)}
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-gray-800 group-hover:text-emerald-600 transition-colors">
-                          {project.project.name}
-                        </h4>
-                        <Eye className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 transition-colors" />
-                      </div>
-                      
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
-                        <div className="flex items-center space-x-1">
-                          <Users className="w-3 h-3" />
-                          <span>{project.project.current_team_size}/{project.project.max_team_size}</span>
+                  {projects.slice(0, 4).map((project, index) => {
+                    // Asignar diferentes tonalidades de verde de la paleta institucional
+                    const greenBackgrounds = [
+                      'bg-gradient-to-br from-green-50 to-emerald-50',     // green-50 + emerald-50
+                      'bg-gradient-to-br from-emerald-50 to-teal-50',      // emerald-50 + teal-50
+                      'bg-gradient-to-br from-teal-50 to-green-50',        // teal-50 + green-50
+                      'bg-gradient-to-br from-lime-50 to-emerald-50'       // lime-50 + emerald-50
+                    ];
+                    const bgColor = greenBackgrounds[index % greenBackgrounds.length];
+                    
+                    return (
+                      <div 
+                        key={project.project.id}
+                        className={`${bgColor} border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:border-[#059669] transition-all duration-200 cursor-pointer group`}
+                        onClick={() => navigateToProject(project.project.id)}
+                      >
+                        {/* Header con avatar e icono */}
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                              {project.project.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-slate-800 group-hover:text-[#166534] transition-colors line-clamp-1">
+                                {project.project.name}
+                              </h4>
+                              <div className="flex items-center space-x-2 mt-1">
+                                <div className={`px-2 py-0.5 rounded-full text-xs font-medium border ${
+                                  project.project.status === 'active' ? 'bg-emerald-50 text-emerald-800 border-emerald-600' :
+                                  project.project.status === 'planning' ? 'bg-blue-50 text-blue-800 border-blue-500' :
+                                  project.project.status === 'completed' ? 'bg-green-50 text-[#166534] border-[#166534]' :
+                                  'bg-gray-50 text-gray-800 border-slate-200'
+                                }`}>
+                                  {project.project.status === 'active' ? 'Activo' : 
+                                   project.project.status === 'planning' ? 'Planificación' : 
+                                   project.project.status === 'completed' ? 'Completado' :
+                                   project.project.status}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigateToProject(project.project.id);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity bg-blue-50 hover:bg-blue-100 text-[#3b82f6] p-2 rounded-lg"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
                         </div>
-                        <div className={`px-2 py-1 rounded-full text-xs ${
-                          project.project.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
-                          project.project.status === 'planning' ? 'bg-blue-100 text-blue-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {project.project.status === 'active' ? 'Activo' : 
-                           project.project.status === 'planning' ? 'Planificación' : 
-                           project.project.status}
+                        
+                        {/* Métricas */}
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg p-2.5">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs text-gray-600 font-medium">Equipo</span>
+                              <Users className="w-3 h-3 text-gray-600" />
+                            </div>
+                            <div className="text-sm font-bold text-slate-800">
+                              {project.project.current_team_size}/{project.project.max_team_size}
+                            </div>
+                          </div>
+                          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg p-2.5">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs text-gray-600 font-medium">Progreso</span>
+                              <BarChart3 className="w-3 h-3 text-gray-600" />
+                            </div>
+                            <div className="text-sm font-bold text-slate-800">
+                              {project.progressPct}%
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Barra de progreso con colores pastel 300 */}
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-600">Completado</span>
+                            <span className="font-medium text-slate-800">{project.progressPct}%</span>
+                          </div>
+                          <div className="w-full bg-white/60 rounded-full h-2">
+                            <div 
+                              className={`h-2 rounded-full transition-all duration-300 ${
+                                project.progressPct >= 90 ? 'bg-green-300' :
+                                project.progressPct >= 70 ? 'bg-emerald-300' :
+                                project.progressPct >= 40 ? 'bg-yellow-300' :
+                                'bg-red-300'
+                              }`}
+                              style={{ width: `${project.progressPct}%` }}
+                            />
+                          </div>
                         </div>
                       </div>
-                      
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 bg-emerald-500 rounded-full transition-all duration-300"
-                          style={{ width: `${project.progressPct}%` }}
-                        />
-                      </div>
-                      <div className="text-right text-xs text-gray-500 mt-1">
-                        {project.progressPct}% completado
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -314,30 +392,30 @@ export default function ProjectsDashboard({
           {activeTab === 'performance' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-4">
-                <h3 className="text-lg font-semibold text-gray-800">Rendimiento de Proyectos</h3>
-                <div className="bg-gray-50 rounded-lg p-4 h-64 flex items-center justify-center">
+                <h3 className="text-lg font-semibold text-slate-800">Rendimiento de Proyectos</h3>
+                <div className="bg-gray-50 border border-slate-200 rounded-lg p-4 h-64 flex items-center justify-center">
                   <div className="text-center">
-                    <PieChart className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-500">Gráfico de rendimiento</p>
-                    <p className="text-xs text-gray-400">Implementar con librería de gráficos</p>
+                    <PieChart className="w-12 h-12 text-slate-400 mx-auto mb-2" />
+                    <p className="text-gray-600">Gráfico de rendimiento</p>
+                    <p className="text-xs text-slate-400">Implementar con librería de gráficos</p>
                   </div>
                 </div>
               </div>
               
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-800">Métricas Clave</h3>
+                <h3 className="text-lg font-semibold text-slate-800">Métricas Clave</h3>
                 <div className="space-y-3">
-                  <div className="bg-emerald-50 rounded-lg p-4">
+                  <div className="bg-emerald-50 border border-emerald-600 rounded-lg p-4">
                     <div className="text-2xl font-bold text-emerald-600">{metrics.completionRate}%</div>
-                    <div className="text-sm text-emerald-700">Tasa de Finalización</div>
+                    <div className="text-sm text-emerald-800">Tasa de Finalización</div>
                   </div>
-                  <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="bg-blue-50 border border-blue-500 rounded-lg p-4">
                     <div className="text-2xl font-bold text-blue-600">{metrics.teamUtilization}%</div>
-                    <div className="text-sm text-blue-700">Utilización de Equipos</div>
+                    <div className="text-sm text-blue-800">Utilización de Equipos</div>
                   </div>
-                  <div className="bg-orange-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-orange-600">{metrics.atRisk}</div>
-                    <div className="text-sm text-orange-700">Proyectos en Riesgo</div>
+                  <div className="bg-yellow-50 border border-yellow-500 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-yellow-600">{metrics.atRisk}</div>
+                    <div className="text-sm text-yellow-800">Proyectos en Riesgo</div>
                   </div>
                 </div>
               </div>
@@ -346,27 +424,27 @@ export default function ProjectsDashboard({
 
           {activeTab === 'team' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-800">Gestión de Equipos</h3>
+              <h3 className="text-lg font-semibold text-slate-800">Gestión de Equipos</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-500 rounded-lg p-4">
                   <div className="text-2xl font-bold text-blue-600">{metrics.totalMembers}</div>
-                  <div className="text-sm text-blue-700">Total Miembros</div>
+                  <div className="text-sm text-blue-800">Total Miembros</div>
                 </div>
-                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-600 rounded-lg p-4">
                   <div className="text-2xl font-bold text-emerald-600">
                     {Math.round(metrics.totalMembers / metrics.active || 0)}
                   </div>
-                  <div className="text-sm text-emerald-700">Promedio por Proyecto</div>
+                  <div className="text-sm text-emerald-800">Promedio por Proyecto</div>
                 </div>
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-300 rounded-lg p-4">
                   <div className="text-2xl font-bold text-purple-600">{metrics.teamUtilization}%</div>
-                  <div className="text-sm text-purple-700">Capacidad Utilizada</div>
+                  <div className="text-sm text-purple-800">Capacidad Utilizada</div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h4 className="font-medium text-gray-800 mb-4">Proyectos por Capacidad de Equipo</h4>
+              <div className="bg-gray-50 border border-slate-200 rounded-lg p-6">
+                <h4 className="font-medium text-slate-800 mb-4">Proyectos por Capacidad de Equipo</h4>
                 <div className="space-y-3">
                   {projects.slice(0, 5).map((project) => {
                     const utilization = (project.project.current_team_size / project.project.max_team_size) * 100;
@@ -376,7 +454,7 @@ export default function ProjectsDashboard({
                         className="flex items-center justify-between hover:bg-white rounded-lg p-2 cursor-pointer transition-colors"
                         onClick={() => navigateToProject(project.project.id)}
                       >
-                        <span className="text-sm font-medium text-gray-700 hover:text-emerald-600 transition-colors">
+                        <span className="text-sm font-medium text-slate-700 hover:text-[#166534] transition-colors">
                           {project.project.name}
                         </span>
                         <div className="flex items-center space-x-3">
@@ -384,7 +462,7 @@ export default function ProjectsDashboard({
                             <div 
                               className={`h-2 rounded-full ${
                                 utilization >= 90 ? 'bg-red-500' : 
-                                utilization >= 75 ? 'bg-yellow-500' : 'bg-emerald-500'
+                                utilization >= 75 ? 'bg-yellow-300' : 'bg-emerald-300'
                               }`}
                               style={{ width: `${Math.min(utilization, 100)}%` }}
                             />
@@ -403,7 +481,7 @@ export default function ProjectsDashboard({
 
           {activeTab === 'timeline' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-800">Cronograma de Proyectos</h3>
+              <h3 className="text-lg font-semibold text-slate-800">Cronograma de Proyectos</h3>
               
               <div className="space-y-4">
                 {projects
@@ -420,17 +498,17 @@ export default function ProjectsDashboard({
                     return (
                       <div 
                         key={project.project.id} 
-                        className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md cursor-pointer transition-all group"
+                        className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-lg hover:shadow-md hover:border-[#059669] cursor-pointer transition-all group"
                         onClick={() => navigateToProject(project.project.id)}
                       >
                         <div className="flex items-center space-x-4">
                           <div className={`w-3 h-3 rounded-full ${
                             isOverdue ? 'bg-red-500' : 
-                            isUrgent ? 'bg-orange-500' : 
-                            'bg-green-500'
+                            isUrgent ? 'bg-yellow-500' : 
+                            'bg-green-300'
                           }`}></div>
                           <div>
-                            <h4 className="font-medium text-gray-800 group-hover:text-emerald-600 transition-colors">
+                            <h4 className="font-medium text-slate-800 group-hover:text-[#166534] transition-colors">
                               {project.project.name}
                             </h4>
                             <p className="text-sm text-gray-600">{project.lead?.name}</p>
@@ -441,29 +519,29 @@ export default function ProjectsDashboard({
                           <div className="text-right">
                             <div className={`text-sm font-medium ${
                               isOverdue ? 'text-red-600' : 
-                              isUrgent ? 'text-orange-600' : 
+                              isUrgent ? 'text-yellow-600' : 
                               'text-gray-600'
                             }`}>
                               {isOverdue ? `${Math.abs(daysLeft)} días vencido` :
                                daysLeft === 0 ? 'Hoy' :
                                `${daysLeft} días restantes`}
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-600">
                               {deadline.toLocaleDateString('es-ES')}
                             </div>
                           </div>
                           
                           <div className="text-right">
-                            <div className="text-sm font-medium text-gray-800">{project.progressPct}%</div>
+                            <div className="text-sm font-medium text-slate-800">{project.progressPct}%</div>
                             <div className="w-16 bg-gray-200 rounded-full h-1 mt-1">
                               <div 
-                                className="h-1 bg-emerald-500 rounded-full"
+                                className="h-1 bg-emerald-300 rounded-full"
                                 style={{ width: `${project.progressPct}%` }}
                               />
                             </div>
                           </div>
                           
-                          <Eye className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 transition-colors" />
+                          <Eye className="w-4 h-4 text-slate-400 group-hover:text-[#3b82f6] transition-colors" />
                         </div>
                       </div>
                     );
