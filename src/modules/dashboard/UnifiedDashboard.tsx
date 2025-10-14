@@ -111,7 +111,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-            <BarChart3 className="w-8 h-8 mr-3 text-[#166534]" />
+            <BarChart3 className="w-10 h-10 text-emerald-600" />
             {config.title}
           </h1>
           <p className="text-gray-600 mt-1">{config.subtitle}</p>

@@ -240,7 +240,7 @@ export default function AdminUsers() {
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-            <Users className="w-8 h-8 mr-3 text-[#166534]" />
+            <Users className="w-10 h-10 text-emerald-600" />
             Gestión de Usuarios
           </h1>
           <p className="text-gray-600 mt-1">Administra todos los usuarios del sistema Living Stones</p>

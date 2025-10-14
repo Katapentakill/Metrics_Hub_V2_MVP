@@ -240,8 +240,8 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center mb-2">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-lg flex items-center justify-center shadow-sm mr-3">
-                  <MessageSquare className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-transparent rounded-lg flex items-center justify-center ">
+                  <MessageSquare className="w-10 h-10 text-emerald-600" />
                 </div>
                 <h1 className="text-3xl font-bold text-slate-800">Centro de Comunicaciones</h1>
               </div>

@@ -21,7 +21,6 @@ import {
   Mail,
   CheckCircle,
 } from 'lucide-react';
-import AdminBreadcrumb from './components/AdminBreadcrumb';
 
 // ============================================================================
 // INTERFACES
@@ -155,8 +154,8 @@ const sections: SectionItem[] = [
     description: 'Revisa un historial detallado de todas las actividades para asegurar la transparencia y el cumplimiento.',
     href: '/admin/recruitment/audits',
     icon: Shield,
-    gradient: 'from-teal-300 to-teal-400',
-    bgHover: 'hover:bg-teal-50',
+    gradient: 'from-slate-400 to-slate-500',
+    bgHover: 'hover:bg-slate-50',
     stats: { label: 'Logs', value: '1.2k', subValue: '0 alertas activas' },
     priority: 'low',
   },
@@ -335,13 +334,6 @@ export default function TalentManagementAdminPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/20 to-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
-        <AdminBreadcrumb
-          items={[
-            { label: 'Recruitment', href: '/admin/recruitment' },
-            { label: 'Talent Management' }
-          ]}
-        />
-
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-6">
             <UserPlus className="w-10 h-10 text-emerald-600" />

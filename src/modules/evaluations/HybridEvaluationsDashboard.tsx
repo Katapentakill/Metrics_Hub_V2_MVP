@@ -160,12 +160,12 @@ export default function HybridEvaluationsDashboard({
   return (
     <div className="space-y-6">
       {/* Header Principal - PALETA INSTITUCIONAL */}
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 mb-6">
+      <div className="bg-transparent ">
         <div className="flex items-center justify-between">
           <div>
             {/* Icono green-800 (#166534) - Color principal de marca */}
             <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-              <Award className="w-8 h-8 mr-3 text-[#166534]" />
+              <Award className="w-10 h-10 text-emerald-600" />
               Centro de Evaluaciones
             </h1>
             <p className="text-gray-600 mt-1">
