@@ -1,5 +1,5 @@
 // 📁 src/modules/evaluations/shared/HybridEvaluationsDashboard.tsx
-// Dashboard compartido con sistema de tabs para evaluaciones
+// Dashboard compartido con sistema de tabs para evaluaciones - Paleta Institucional
 
 "use client";
 
@@ -51,11 +51,9 @@ interface HybridEvaluationsDashboardProps {
   allUsers: ExtendedUserWithProfile[];
   allPeriods: EvaluationPeriod[];
   loading?: boolean;
-  // Props para personalización por rol
   role?: 'admin' | 'hr' | 'lead' | 'volunteer';
-  theme?:  'green' | 'blue' | 'purple' | 'emerald' | 'orange'; // Se permite 'emerald'
-  // Props para configuración de navegación
-  basePath?: string; // ej: '/admin', '/hr', '/lead'
+  theme?: 'green' | 'blue' | 'purple' | 'emerald' | 'orange';
+  basePath?: string;
 }
 
 type TabView = 'all' | 'by-user' | 'by-project';
@@ -69,7 +67,7 @@ export default function HybridEvaluationsDashboard({
   allPeriods,
   loading = false,
   role = 'admin',
-  theme = 'emerald', // CAMBIO: Default a 'emerald' para reflejar la marca
+  theme = 'emerald',
   basePath = '/admin'
 }: HybridEvaluationsDashboardProps) {
   const router = useRouter();
@@ -78,35 +76,6 @@ export default function HybridEvaluationsDashboard({
   const [showEvaluationDetails, setShowEvaluationDetails] = useState(false);
   const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationView | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-
-  // Configuración de tema (Ajustado para la paleta Verde Esmeralda/Gris)
-  const getThemeConfig = (currentTheme: string) => {
-    if (currentTheme === 'emerald') {
-      return {
-        // Títulos principales: slate-800
-        headerText: 'text-slate-800', 
-        // Color principal de la marca: emerald-600 (Iconos y elementos destacados)
-        buttonBg: 'bg-emerald-600 text-white hover:bg-emerald-700', 
-        // Bordes y acentos en focus: emerald-500/20 (Rings con transparencia)
-        focusRing: 'focus:ring-emerald-500/20 focus:ring-4 focus:border-emerald-500', 
-        // Tab activo: emerald-500/10 (Usando 10% para fondo suave) y emerald-600 (Texto/Borde)
-        tabActive: 'border-emerald-600 bg-emerald-500/10 text-emerald-600',
-        // Íconos secundarios: slate-400
-        iconSecondary: 'text-slate-400', 
-      };
-    }
-
-    // Fallback/Otros temas (usando 'green' original)
-    return {
-      headerText: 'text-gray-900',
-      buttonBg: 'bg-green-600 text-white hover:bg-green-700',
-      focusRing: 'focus:ring-green-500 focus:ring-4 focus:border-green-500',
-      tabActive: 'border-green-500 bg-green-50 text-green-600',
-      iconSecondary: 'text-gray-600',
-    };
-  };
-
-  const themeConfig = getThemeConfig(theme);
 
   // Sistema de tabs
   const tabs = [
@@ -174,7 +143,6 @@ export default function HybridEvaluationsDashboard({
   };
 
   if (loading) {
-    // Usando Grises Neutros para el esqueleto
     return (
       <div className="space-y-6">
         <div className="bg-gray-200 h-32 rounded-xl animate-pulse"></div>
@@ -191,26 +159,23 @@ export default function HybridEvaluationsDashboard({
 
   return (
     <div className="space-y-6">
-      {/* Header Principal */}
-      {/* Fondo de cards: white. Texto principal: slate-800 */}
-      <div className={`bg-white rounded-2xl shadow-sm p-8 ${themeConfig.headerText} mb-6`}> 
+      {/* Header Principal - PALETA INSTITUCIONAL */}
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 mb-6">
         <div className="flex items-center justify-between">
           <div>
-            {/* Títulos principales: text-slate-800. Ícono de marca: emerald-600 */}
+            {/* Icono green-800 (#166534) - Color principal de marca */}
             <h1 className="text-3xl font-bold text-slate-800 flex items-center">
-              <Award className="w-6 h-6 mr-2 text-emerald-600" /> 
+              <Award className="w-8 h-8 mr-3 text-[#166534]" />
               Centro de Evaluaciones
             </h1>
-            {/* Texto secundario: gray-600 */}
-            <p className="text-gray-600 mt-1"> 
+            <p className="text-gray-600 mt-1">
               Gestión integral del desempeño y desarrollo del talento
             </p>
           </div>
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowNewEvaluationModal(true)}
-              // Botón CTA: usa themeConfig.buttonBg (bg-emerald-600)
-              className={`${themeConfig.buttonBg} px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2`}
+              className="bg-gradient-to-r from-[#15803d] to-[#14532d] hover:from-[#166534] hover:to-[#15803d] text-white px-6 py-3 rounded-lg font-medium transition-all shadow-sm flex items-center space-x-2"
             >
               <Plus className="w-5 h-5" />
               <span>Nueva Evaluación</span>
@@ -219,68 +184,63 @@ export default function HybridEvaluationsDashboard({
         </div>
       </div>
 
-      {/* Estadísticas Generales */}
+      {/* Estadísticas Generales - KPIs con diferentes fondos de verde */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        {/* Total Evaluaciones */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        {/* Total Evaluaciones - green-800 */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-[#059669] transition-all">
           <div className="flex items-center justify-between mb-4">
-            {/* Ícono secundario: bg-gray-100 y slate-400 */}
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-slate-400" /> 
+            <div className="w-12 h-12 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-lg flex items-center justify-center shadow-sm">
+              <BarChart3 className="w-6 h-6 text-white" />
             </div>
-            {/* Texto con énfasis medio: gray-800 */}
-            <span className="text-2xl font-bold text-gray-800">{realtimeStats.total}</span>
+            <span className="text-2xl font-bold text-slate-800">{realtimeStats.total}</span>
           </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Total Evaluaciones</h3>
+          <h3 className="font-semibold text-slate-800 mb-1">Total Evaluaciones</h3>
           <p className="text-sm text-gray-600">En todos los proyectos</p>
         </div>
 
-        {/* Completadas - Destacar con emerald-600 */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        {/* Completadas - emerald */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-[#059669] transition-all">
           <div className="flex items-center justify-between mb-4">
-            {/* Ícono de marca: bg-emerald-100 y text-emerald-600 */}
-            <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-emerald-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
+              <CheckCircle className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-emerald-600">{realtimeStats.completed}</span>
           </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Completadas</h3>
+          <h3 className="font-semibold text-slate-800 mb-1">Completadas</h3>
           <p className="text-sm text-gray-600">
             {realtimeStats.completionRate.toFixed(1)}% de completitud
           </p>
         </div>
 
-        {/* Promedio General - Usar color neutral */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        {/* Promedio General - teal */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-[#059669] transition-all">
           <div className="flex items-center justify-between mb-4">
-            {/* Ícono neutral: bg-gray-100 y slate-400 */}
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-              <Award className="w-6 h-6 text-slate-400" />
+            <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center shadow-sm">
+              <Award className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-800">
+            <span className="text-2xl font-bold text-slate-800">
               {realtimeStats.averageScore.toFixed(1)}
             </span>
           </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Promedio General</h3>
+          <h3 className="font-semibold text-slate-800 mb-1">Promedio General</h3>
           <p className="text-sm text-gray-600">Puntuación sobre 5.0</p>
         </div>
 
-        {/* Vencidas - Usar color de riesgo (rojo) */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        {/* Vencidas - red (peligro) */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-yellow-400 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <AlertTriangle className="w-6 h-6 text-red-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg flex items-center justify-center shadow-sm">
+              <AlertTriangle className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-red-600">{realtimeStats.overdue}</span>
           </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Vencidas</h3>
+          <h3 className="font-semibold text-slate-800 mb-1">Vencidas</h3>
           <p className="text-sm text-gray-600">Requieren atención</p>
         </div>
       </div>
 
-      {/* Sistema de Tabs */}
-      {/* Bordes: slate-200 */}
+      {/* Sistema de Tabs - PALETA INSTITUCIONAL */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         {/* Header de Tabs */}
         <div className="border-b border-slate-200">
@@ -293,17 +253,14 @@ export default function HybridEvaluationsDashboard({
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex-shrink-0 px-6 py-4 border-b-2 transition-colors ${
                     activeTab === tab.id
-                      ? // Tab activo: usa themeConfig.tabActive (emerald-600 / bg-emerald-500/10)
-                        themeConfig.tabActive 
-                      : // Tab inactivo: texto gray-600 (Texto secundario) y hover bg-gray-50
-                        'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                      ? 'border-[#166534] bg-green-50 text-[#166534]'
+                      : 'border-transparent text-gray-600 hover:text-slate-900 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    {/* Ícono: usa el color del tab, si está activo usa emerald-600, si no slate-400 */}
-                    <IconComponent className={`w-5 h-5 ${activeTab === tab.id ? 'text-emerald-600' : 'text-slate-400'}`} />
+                    <IconComponent className={`w-5 h-5 ${activeTab === tab.id ? 'text-[#166534]' : 'text-slate-400'}`} />
                     <div className="text-left">
-                      <div className="font-medium text-gray-800">{tab.label}</div>
+                      <div className="font-medium text-slate-800">{tab.label}</div>
                       <div className="text-xs text-gray-600">
                         {tab.description} • {tab.count} elementos
                       </div>
@@ -316,13 +273,11 @@ export default function HybridEvaluationsDashboard({
         </div>
 
         {/* Barra de herramientas */}
-        {/* Fondo de contenedores: bg-gray-100 */}
-        <div className="p-4 border-b border-slate-200 bg-gray-100"> 
+        <div className="p-4 border-b border-slate-200 bg-gray-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {/* Búsqueda */}
               <div className="relative">
-                {/* Ícono: slate-400 */}
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
@@ -333,14 +288,12 @@ export default function HybridEvaluationsDashboard({
                   }
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  // Bordes: slate-200. Focus: usa themeConfig.focusRing (Anillos con transparencia)
-                  className={`pl-10 pr-4 py-2 border border-slate-200 rounded-lg w-64 ${themeConfig.focusRing} focus:border-transparent outline-none text-gray-800`}
+                  className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] text-slate-800"
                 />
               </div>
 
-              {/* Filtros específicos por tab */}
-              {/* Bordes: slate-200. Hover: bg-emerald-50 (fondo suave del color de marca) */}
-              <button className="flex items-center space-x-2 px-4 py-2 border border-slate-200 rounded-lg hover:bg-emerald-50 transition-colors text-gray-800">
+              {/* Filtros */}
+              <button className="flex items-center space-x-2 px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors text-slate-800 shadow-sm">
                 <Filter className="w-4 h-4 text-slate-400" />
                 <span>Filtros</span>
               </button>
@@ -353,7 +306,7 @@ export default function HybridEvaluationsDashboard({
         </div>
 
         {/* Contenido del Tab Activo */}
-        <div className="p-6">
+        <div className="p-6 bg-white">
           {activeTab === 'all' && (
             <EvaluationsListView
               evaluations={evaluations}
@@ -423,7 +376,6 @@ export default function HybridEvaluationsDashboard({
           }}
           onEdit={(evaluation) => {
             setShowEvaluationDetails(false);
-            // Aquí se podría abrir un modal de edición
             console.log('Editar evaluación:', evaluation.evaluation.id);
           }}
           onDelete={(evaluation) => {

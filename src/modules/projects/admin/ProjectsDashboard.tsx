@@ -189,7 +189,7 @@ export default function ProjectsDashboard({
           "-3%", 
           AlertTriangle, 
           'down',
-          'bg-gradient-to-br from-[#84cc16] to-[#65a30d]' // lime
+          'bg-gradient-to-br from-yellow-400 to-yellow-500' // yellow
         )}
       </div>
 

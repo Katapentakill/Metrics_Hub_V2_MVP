@@ -1,5 +1,5 @@
 // 📁 src/components/communications/CommunicationsPage.tsx
-// Componente compartido para comunicaciones del sistema
+// Componente compartido para comunicaciones del sistema - Paleta Institucional
 
 "use client";
 
@@ -170,34 +170,35 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
     try {
       const communication: Communication = {
         id: `comm_${Date.now()}`,
-      title: newCommunication.title || '',
-      content: newCommunication.content || '',
-      type: newCommunication.type || 'announcement',
-      priority: newCommunication.priority || 'medium',
-      status: newCommunication.status || 'draft',
-      author_id: 'current_user',
-      author_name: 'Usuario Actual',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      tags: newCommunication.tags || [],
-      excerpt: newCommunication.excerpt || '',
-      featured: newCommunication.featured || false,
-      target_audience: newCommunication.target_audience || 'all',
-      location: newCommunication.location,
-      deadline: newCommunication.deadline,
-      event_date: newCommunication.event_date,
-      registration_required: newCommunication.registration_required || false,
-      read_count: 0,
-      likes_count: 0,
-      comments_count: 0
-    };
+        title: newCommunication.title || '',
+        content: newCommunication.content || '',
+        type: newCommunication.type || 'announcement',
+        priority: newCommunication.priority || 'medium',
+        status: newCommunication.status || 'draft',
+        author_id: 'current_user',
+        author_name: 'Usuario Actual',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        tags: newCommunication.tags || [],
+        excerpt: newCommunication.excerpt || '',
+        featured: newCommunication.featured || false,
+        target_audience: newCommunication.target_audience || 'all',
+        location: newCommunication.location,
+        deadline: newCommunication.deadline,
+        event_date: newCommunication.event_date,
+        registration_required: newCommunication.registration_required || false,
+        read_count: 0,
+        likes_count: 0,
+        comments_count: 0
+      };
 
-    setCommunications(prev => [communication, ...prev]);
-    setStats(prev => ({ ...prev, total_communications: prev.total_communications + 1 }));
-  } catch (error) {
-    console.error("Error in handleCreateCommunication:", error);
-  }
-};
+      setCommunications(prev => [communication, ...prev]);
+      setStats(prev => ({ ...prev, total_communications: prev.total_communications + 1 }));
+      setShowCreateModal(false);
+    } catch (error) {
+      console.error("Error in handleCreateCommunication:", error);
+    }
+  };
 
   const handleEditCommunication = (communication: Communication) => setCommunicationToEdit(communication);
   const handleDeleteCommunication = (communication: Communication) => setCommunicationToDelete(communication);
@@ -207,25 +208,6 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
       setCommunications(prev => prev.filter(c => c.id !== communicationToDelete.id));
       setStats(prev => ({ ...prev, total_communications: prev.total_communications - 1 }));
       setCommunicationToDelete(null);
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'published': return 'bg-green-100 text-green-800';
-      case 'draft': return 'bg-yellow-100 text-yellow-800';
-      case 'archived': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-blue-100 text-blue-800';
-    }
-  };
-
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'announcement': return 'bg-blue-100 text-blue-800';
-      case 'news': return 'bg-green-100 text-green-800';
-      case 'event': return 'bg-purple-100 text-purple-800';
-      case 'reminder': return 'bg-orange-100 text-orange-800';
-      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -243,7 +225,7 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-t-emerald-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Cargando comunicaciones...</p>
         </div>
       </div>
@@ -253,14 +235,15 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header - PALETA INSTITUCIONAL */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              {/* Título con ícono */}
-              <div className="text-3xl font-bold text-slate-800 flex items-center">
-                <MessageSquare className="w-8 h-8 mr-3 text-emerald-600" />
-                <h1 className="text-3xl font-bold text-gray-900">Centro de Comunicaciones</h1>
+              <div className="flex items-center mb-2">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-lg flex items-center justify-center shadow-sm mr-3">
+                  <MessageSquare className="w-6 h-6 text-white" />
+                </div>
+                <h1 className="text-3xl font-bold text-slate-800">Centro de Comunicaciones</h1>
               </div>
               <p className="text-gray-600 mt-2">
                 {userRole === 'admin'
@@ -276,7 +259,7 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
             {canCreate && (
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="flex items-center space-x-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] hover:from-[#166534] hover:to-[#15803d] text-white rounded-lg transition-all shadow-sm"
               >
                 <Plus className="w-4 h-4" />
                 <span>Nueva Comunicación</span>
@@ -285,80 +268,84 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
           </div>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Diferentes fondos de verde */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <FileText className="w-6 h-6 text-blue-600" />
+          {/* Total */}
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-lg hover:border-[#059669] transition-all">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 mb-1">Total</p>
+                <p className="text-2xl font-bold text-slate-800">{stats.total_communications}</p>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total_communications}</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <CheckCircle className="w-6 h-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Publicadas</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.published_communications}</p>
+              <div className="w-12 h-12 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-lg flex items-center justify-center shadow-sm">
+                <FileText className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <Eye className="w-6 h-6 text-purple-600" />
+          {/* Publicadas */}
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-lg hover:border-[#059669] transition-all">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 mb-1">Publicadas</p>
+                <p className="text-2xl font-bold text-emerald-600">{stats.published_communications}</p>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Visualizaciones</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total_reads}</p>
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
+                <CheckCircle className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-orange-100 rounded-lg">
-                <Star className="w-6 h-6 text-orange-600" />
+          {/* Visualizaciones */}
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-lg hover:border-[#059669] transition-all">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 mb-1">Visualizaciones</p>
+                <p className="text-2xl font-bold text-slate-800">{stats.total_reads}</p>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Destacadas</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.featured_communications}</p>
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center shadow-sm">
+                <Eye className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </div>
+          
+          {/* Destacadas */}
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-lg hover:border-[#059669] transition-all">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 mb-1">Destacadas</p>
+                <p className="text-2xl font-bold text-slate-800">{stats.featured_communications}</p>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-[#84cc16] to-[#65a30d] rounded-lg flex items-center justify-center shadow-sm">
+                <Star className="w-6 h-6 text-white" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Buscar</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Buscar</label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar comunicaciones..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] text-slate-800"
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Tipo</label>
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] text-slate-800"
               >
                 <option value="all">Todos los tipos</option>
                 <option value="announcement">Anuncio</option>
@@ -370,11 +357,11 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
             
             {canViewAll && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Estado</label>
                 <select
                   value={selectedStatus}
                   onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] text-slate-800"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="published">Publicado</option>
@@ -385,11 +372,11 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
             )}
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Fecha</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Fecha</label>
               <select
                 value={selectedDateRange}
                 onChange={(e) => setSelectedDateRange(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] text-slate-800"
               >
                 <option value="all">Todas las fechas</option>
                 <option value="today">Hoy</option>
@@ -402,14 +389,14 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
         </div>
 
         {/* Communications List */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm">
+          <div className="p-6 border-b border-slate-200">
+            <h2 className="text-lg font-semibold text-slate-800">
               Comunicaciones ({filteredCommunications.length})
             </h2>
           </div>
           
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-slate-200">
             {paginatedCommunications.map((comm) => {
               const TypeIcon = getTypeIcon(comm.type);
               return (
@@ -417,8 +404,8 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
-                        <TypeIcon className="w-5 h-5 text-gray-500" />
-                        <h3 className="text-lg font-medium text-gray-900">{comm.title}</h3>
+                        <TypeIcon className="w-5 h-5 text-gray-600" />
+                        <h3 className="text-lg font-medium text-slate-800">{comm.title}</h3>
                         {comm.featured && (
                           <Star className="w-4 h-4 text-yellow-500 fill-current" />
                         )}
@@ -426,7 +413,7 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
                       
                       <p className="text-gray-600 mb-3 line-clamp-2">{comm.content}</p>
                       
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <div className="flex items-center space-x-4 text-sm text-gray-600">
                         <div className="flex items-center space-x-1">
                           <User className="w-4 h-4" />
                           <span>{comm.author_name}</span>
@@ -444,17 +431,17 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
                     
                     <div className="ml-4 flex-shrink-0 flex items-center space-x-2">
                       {canEdit && (
-                        <button onClick={() => handleEditCommunication(comm)}>
-                          <Edit3 className="w-5 h-5 text-blue-600 hover:text-blue-800" />
+                        <button onClick={() => handleEditCommunication(comm)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                          <Edit3 className="w-5 h-5 text-slate-600 hover:text-[#3b82f6]" />
                         </button>
                       )}
                       {canDelete && (
-                        <button onClick={() => handleDeleteCommunication(comm)}>
-                          <Trash2 className="w-5 h-5 text-red-600 hover:text-red-800" />
+                        <button onClick={() => handleDeleteCommunication(comm)} className="p-2 hover:bg-red-50 rounded-lg transition-colors">
+                          <Trash2 className="w-5 h-5 text-slate-600 hover:text-red-600" />
                         </button>
                       )}
-                      <button onClick={() => setSelectedCommunication(comm)}>
-                        <Eye className="w-5 h-5 text-gray-600 hover:text-gray-800" />
+                      <button onClick={() => setSelectedCommunication(comm)} className="p-2 hover:bg-blue-50 rounded-lg transition-colors">
+                        <Eye className="w-5 h-5 text-slate-600 hover:text-[#3b82f6]" />
                       </button>
                     </div>
                   </div>
@@ -465,11 +452,11 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-end items-center space-x-2 p-4">
+            <div className="flex justify-end items-center space-x-2 p-4 border-t border-slate-200">
               <button
                 onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-1 border rounded-lg bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="px-3 py-1 border border-slate-200 rounded-lg bg-white text-slate-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4 inline" />
               </button>
@@ -479,7 +466,11 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
                   <button
                     key={page}
                     onClick={() => handlePageChange(page)}
-                    className={`px-3 py-1 border rounded-lg ${page === currentPage ? 'bg-emerald-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                    className={`px-3 py-1 border rounded-lg transition-colors ${
+                      page === currentPage 
+                        ? 'bg-emerald-600 text-white border-emerald-600' 
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-gray-50'
+                    }`}
                   >
                     {page}
                   </button>
@@ -488,7 +479,7 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
               <button
                 onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 border rounded-lg bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="px-3 py-1 border border-slate-200 rounded-lg bg-white text-slate-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
               >
                 <ChevronRight className="w-4 h-4 inline" />
               </button>
