@@ -284,7 +284,7 @@ export default function AdminCandidateManagementPage() {
             </div>
             <Link
               href="/admin/recruitment/candidate-management/add-candidate"
-              className="px-6 py-3 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center gap-2 font-medium"
+              className="px-6 py-3 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center gap-2 font-medium"
             >
               <UserPlus className="w-5 h-5" />
               Agregar Candidato

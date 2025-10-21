@@ -1,3 +1,4 @@
+// src/app/admin/recruitment/job-openings/page.tsx
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -945,15 +946,15 @@ export default function AdminJobOpeningsPage() {
                           </div>
                         </div>
                         <div className="flex gap-2 items-center">
-                          {/* Botón Ver Candidatos (Info/Secundario): blue-500 (#3b82f6) [cite: 7] */}
-                          <button className="px-4 py-2 bg-[#3b82f6] text-white rounded-lg font-medium hover:bg-blue-600 transition-colors flex items-center gap-2">
+                          { /* Botón Ver Candidatos (Principal): Linear Gradiente #059669 to #1eb154, Letra Blanco [cite: 11] */}
+                          <button className="px-4 py-2 bg-gradient-to-r from-[#059669] to-[#04875e] text-white rounded-lg font-medium hover:from-[#047854] hover:to-[#036949] transition-colors flex items-center gap-2">
                             <Users className="w-4 h-4" />
                             Ver Candidatos
                           </button>
-                          {/* Botón Ver Detalles (Éxito): Linear Gradiente #059669 to #15803d, Letra Blanco [cite: 11] */}
+                          { /* Botón Ver Detalles (Secundario): Linear Gradiente #22c55e to #1eb154, Letra Blanco [cite: 11] */}
                           <button 
                             onClick={() => handleViewPublishedJob(job.id)} // <--- CAMBIO CLAVE
-                            className="px-4 py-2 bg-gradient-to-r from-[#059669] to-[#15803d] text-white rounded-lg font-medium hover:from-[#15803d] hover:to-[#059669] transition-colors flex items-center gap-2"
+                            className="px-4 py-2 bg-gradient-to-r from-[#22c55e] to-[#1eb154] text-white rounded-lg font-medium hover:from-[#1b9f4b] hover:to-[#188d43] transition-colors flex items-center gap-2"
                           >
                             <Eye className="w-4 h-4" />
                             Ver Detalles
