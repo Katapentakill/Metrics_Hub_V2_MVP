@@ -1,4 +1,4 @@
-// src/app/hr/recruitment/candidate-management/tracker/page.tsx
+// src/app/admin/recruitment/candidate-management/tracker/page.tsx
 'use client';
 import React, { useState, useMemo } from 'react';
 import {
@@ -29,8 +29,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import AdminPageLayout from '@/modules/recruitment/hr/components/AdminPageLayout';
-import AdminDashboardStats from '@/modules/recruitment/hr/components/AdminDashboardStats';
+import AdminPageLayout from '@/modules/recruitment/admin/components/AdminPageLayout';
+import AdminDashboardStats from '@/modules/recruitment/admin/components/AdminDashboardStats';
 import { CandidateRow } from '@/modules/recruitment/shared/CandidateRow';
 
 const initialMockData = getMockRecruitmentData(30); // Admin has a larger view
@@ -45,8 +45,8 @@ export default function AdminRecruitmentTrackerPage() {
   });
 
   // Admin permissions - full access
-  const permissions = ROLE_PERMISSIONS.hr;
-  const config = TABLE_CONFIG.hr;
+  const permissions = ROLE_PERMISSIONS.admin;
+  const config = TABLE_CONFIG.admin;
 
   const handleDelete = (id: string) => {
     setCandidates((prev) => prev.filter((c) => c.id !== id));
@@ -99,21 +99,21 @@ export default function AdminRecruitmentTrackerPage() {
     return result;
   }, [candidates, filters]);
 
-  // Calculate statistics for dashboard
+  // Calculate statistics for dashboard - PALETA VERDE
   const trackerStats = [
     {
       title: 'Total Candidatos',
       value: candidates.length,
       change: { value: 15, type: 'increase' as const, period: 'mes anterior' },
       icon: Users,
-      color: 'text-blue-600',
+      color: 'text-emerald-600',
     },
     {
       title: 'En Proceso',
       value: candidates.filter(c => ['HR Review', 'HR Interview Scheduled', 'HR Interview Completed', 'PM Interview Scheduled', 'PM Interview Completed'].includes(c.applicationStatus)).length,
       change: { value: 8, type: 'increase' as const, period: 'semana anterior' },
       icon: Clock,
-      color: 'text-orange-600',
+      color: 'text-teal-600',
     },
     {
       title: 'Aprobados',
@@ -127,7 +127,7 @@ export default function AdminRecruitmentTrackerPage() {
       value: candidates.filter(c => ['Application Received', 'Offer Sent'].includes(c.applicationStatus)).length,
       change: { value: -10, type: 'decrease' as const, period: 'semana anterior' },
       icon: AlertTriangle,
-      color: 'text-red-600',
+      color: 'text-lime-600',
     },
   ];
 
@@ -165,17 +165,16 @@ export default function AdminRecruitmentTrackerPage() {
         subtitle="Panel de Administración"
         description="Visualiza y gestiona el progreso detallado de todos los candidatos en el sistema de reclutamiento."
         icon={BarChart}
-        iconGradient="bg-gradient-to-br from-indigo-500 to-purple-600"
         breadcrumbItems={[
-          { label: 'Recruitment', href: '/hr/recruitment' },
-          { label: 'Candidate Management', href: '/hr/recruitment/candidate-management' },
+          { label: 'Recruitment', href: '/admin/recruitment' },
+          { label: 'Candidate Management', href: '/admin/recruitment/candidate-management' },
           { label: 'Tracker' }
         ]}
         headerActions={headerActions}
       >
         <div className="flex justify-center items-center h-64">
           <p className="text-xl text-slate-500">
-            {DEFAULT_TEXTS.noData.hr}
+            {DEFAULT_TEXTS.noData.admin}
           </p>
         </div>
       </AdminPageLayout>
@@ -188,10 +187,9 @@ export default function AdminRecruitmentTrackerPage() {
       subtitle="Panel de Administración"
       description="Visualiza y gestiona el progreso detallado de todos los candidatos. Edita estados, actualiza información y realiza seguimiento paso a paso del proceso de reclutamiento."
       icon={BarChart}
-      iconGradient="bg-gradient-to-br from-indigo-500 to-purple-600"
       breadcrumbItems={[
-        { label: 'Recruitment', href: '/hr/recruitment' },
-        { label: 'Candidate Management', href: '/hr/recruitment/candidate-management' },
+        { label: 'Recruitment', href: '/admin/recruitment' },
+        { label: 'Candidate Management', href: '/admin/recruitment/candidate-management' },
         { label: 'Tracker' }
       ]}
       headerActions={headerActions}
@@ -230,7 +228,7 @@ export default function AdminRecruitmentTrackerPage() {
                 name="status"
                 id="status"
                 onChange={handleFilterChange}
-                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
               >
                 <option value="all">Todos los Estados</option>
                 {CANDIDATE_STATUSES.map(s => (
@@ -248,7 +246,7 @@ export default function AdminRecruitmentTrackerPage() {
                 name="role"
                 id="role"
                 onChange={handleFilterChange}
-                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
               >
                 <option value="all">Todos los Roles</option>
                 {AVAILABLE_ROLES.map(r => (
@@ -266,7 +264,7 @@ export default function AdminRecruitmentTrackerPage() {
                 name="volunteerType"
                 id="volunteerType"
                 onChange={handleFilterChange}
-                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+                className="w-full rounded-md border-gray-300 bg-white py-2 pl-3 pr-10 text-sm text-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
               >
                 <option value="all">Todos los Tipos</option>
                 {VOLUNTEER_TYPES.map(vt => (
@@ -334,10 +332,10 @@ export default function AdminRecruitmentTrackerPage() {
         </div>
       </div>
 
-      {/* Summary Cards */}
+      {/* Summary Cards - PALETA VERDE */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-200">
-          <h3 className="font-semibold text-blue-900 mb-2">Estados Activos</h3>
+        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-6 rounded-lg border border-emerald-200">
+          <h3 className="font-semibold text-emerald-900 mb-2">Estados Activos</h3>
           <div className="space-y-2 text-sm">
             {CANDIDATE_STATUSES.slice(0, 4).map(status => (
               <div key={status} className="flex justify-between">
@@ -364,8 +362,8 @@ export default function AdminRecruitmentTrackerPage() {
           </div>
         </div>
         
-        <div className="bg-gradient-to-r from-orange-50 to-red-50 p-6 rounded-lg border border-orange-200">
-          <h3 className="font-semibold text-orange-900 mb-2">Roles Más Solicitados</h3>
+        <div className="bg-gradient-to-r from-teal-50 to-lime-50 p-6 rounded-lg border border-teal-200">
+          <h3 className="font-semibold text-teal-900 mb-2">Roles Más Solicitados</h3>
           <div className="space-y-2 text-sm">
             {AVAILABLE_ROLES.slice(0, 4).map(role => (
               <div key={role} className="flex justify-between">

@@ -103,11 +103,11 @@ const Card: React.FC<{ className?: string; children: React.ReactNode }> = ({ cla
     {children}
   </div>
 );
-const CardHeader: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => <div className={`p-5 pb-2 ${className || ''}`}>{children}</div>;
+const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pb-2">{children}</div>;
 const CardTitle: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
   <h3 className={`text-xl font-bold text-gray-900 ${className}`}>{children}</h3>
 );
-const CardContent: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => <div className={`p-5 pt-0 ${className || ''}`}>{children}</div>;
+const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pt-0">{children}</div>;
 
 
 // --- Types and Mock Data ---
@@ -185,7 +185,7 @@ const getStatusBadge = (status: OnboardingCandidate['status']) => {
   }
 };
 
-export default function OnboardingManagementPage() {
+export default function AdminOnboardingManagementPage() {
   const totalCandidates = mockOnboardingCandidates.length;
   const completed = mockOnboardingCandidates.filter(c => c.status === 'Completado').length;
   const inProgress = mockOnboardingCandidates.filter(c => c.status === 'En Progreso').length;
@@ -263,7 +263,7 @@ export default function OnboardingManagementPage() {
             key={candidate.id} 
             className="hover:shadow-lg transition-shadow duration-200 cursor-pointer h-full flex flex-col"
           >
-            <CardHeader className="pb-2">
+            <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <User className="w-5 h-5 text-purple-600" />
@@ -278,7 +278,7 @@ export default function OnboardingManagementPage() {
                 {getStatusBadge(candidate.status)}
               </div>
             </CardHeader>
-            <CardContent className="space-y-4 pt-4 flex-1 flex flex-col justify-between">
+            <CardContent>
                 <div>
                     <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                         <FileText className="h-4 w-4 text-gray-500" />
