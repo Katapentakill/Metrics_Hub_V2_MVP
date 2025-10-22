@@ -496,7 +496,7 @@ export default function VolunteerDocumentsPage() {
         
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg">
               <Users className="w-10 h-10 text-[#166534]" />
             </div>
             <div>
