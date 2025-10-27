@@ -10,7 +10,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const session = getAuthSession()
-    
+
     if (session) {
       // Redirigir según el rol si está autenticado
       const redirectPaths = {
@@ -22,8 +22,8 @@ export default function HomePage() {
       }
       router.push(redirectPaths[session.role])
     } else {
-      // Si no está autenticado, ir a login
-      router.push('/login')
+      // Si no está autenticado, ir a la página de ofertas públicas
+      router.push('/ofertas')
     }
   }, [router])
 

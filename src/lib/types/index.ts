@@ -12,6 +12,8 @@ export * from './communications';
 export * from './dashboard';
 export * from './files';
 export * from './notifications';
+export * from './jobOpenings';
+export * from './applications';
 
 // Tipos combinados y utilitarios
 export * from './combined';

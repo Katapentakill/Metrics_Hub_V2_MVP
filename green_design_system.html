@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Diseño Verde - Living Stones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header Simple -->
+        <div class="mb-12">
+            <div class="flex items-center space-x-3 mb-3">
+                <svg class="w-10 h-10 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-slate-900">Sistema de Diseño Verde</h1>
+            </div>
+            <p class="text-gray-600 text-lg">Paleta sencilla con tonalidades verdes • Living Stones</p>
+        </div>
+
+        <!-- Color Institucional -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Color Institucional</h2>
+                </div>
+                <p class="text-gray-600">Verde profundo • Identidad de marca</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-8 border border-slate-200">
+                <div class="flex items-center space-x-6">
+                    <div class="w-32 h-32 bg-green-800 rounded-lg shadow-md"></div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-green-800 mb-2">green-800</h3>
+                        <code class="text-lg bg-gray-100 px-4 py-2 rounded inline-block mb-3">#166534</code>
+                        <p class="text-gray-600">Logo, headers, botones principales, navegación</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paleta Verde Principal -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Escala de Verdes</h2>
+                </div>
+                <p class="text-gray-600">Del más claro al más oscuro</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-50 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-50</h3>
+                    <code class="text-xs text-gray-600">#f0fdf4</code>
+                    <p class="text-xs text-gray-600 mt-1">Fondos suaves</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-100 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-100</h3>
+                    <code class="text-xs text-gray-600">#dcfce7</code>
+                    <p class="text-xs text-gray-600 mt-1">Fondos hover</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-200 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-200</h3>
+                    <code class="text-xs text-gray-600">#bbf7d0</code>
+                    <p class="text-xs text-gray-600 mt-1">Bordes suaves</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-500 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-500</h3>
+                    <code class="text-xs text-gray-600">#22c55e</code>
+                    <p class="text-xs text-gray-600 mt-1">Botones</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-600 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-600</h3>
+                    <code class="text-xs text-gray-600">#16a34a</code>
+                    <p class="text-xs text-gray-600 mt-1">Hover</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-700 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-700</h3>
+                    <code class="text-xs text-gray-600">#15803d</code>
+                    <p class="text-xs text-gray-600 mt-1">Active</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-green-800 border-2">
+                    <div class="w-full h-20 bg-green-800 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-800 ⭐</h3>
+                    <code class="text-xs text-gray-600">#166534</code>
+                    <p class="text-xs text-green-800 font-bold mt-1">INSTITUCIONAL</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 bg-green-900 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">green-900</h3>
+                    <code class="text-xs text-gray-600">#14532d</code>
+                    <p class="text-xs text-gray-600 mt-1">Muy oscuro</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verdes Complementarios -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Verdes Complementarios</h2>
+                </div>
+                <p class="text-gray-600">Para estados y variaciones</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Emerald -->
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                    <div class="w-full h-24 bg-emerald-600 rounded mb-4"></div>
+                    <h3 class="text-xl font-bold text-green-800 mb-2">Emerald</h3>
+                    <code class="text-sm bg-gray-100 px-3 py-1 rounded">#059669</code>
+                    <p class="text-gray-600 mt-3">Para éxito, confirmaciones y focus states</p>
+                </div>
+                
+                <!-- Teal -->
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                    <div class="w-full h-24 bg-teal-500 rounded mb-4"></div>
+                    <h3 class="text-xl font-bold text-green-800 mb-2">Teal</h3>
+                    <code class="text-sm bg-gray-100 px-3 py-1 rounded">#14b8a6</code>
+                    <p class="text-gray-600 mt-3">Para información y elementos secundarios</p>
+                </div>
+                
+                <!-- Lime -->
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                    <div class="w-full h-24 bg-lime-500 rounded mb-4"></div>
+                    <h3 class="text-xl font-bold text-green-800 mb-2">Lime</h3>
+                    <code class="text-sm bg-gray-100 px-3 py-1 rounded">#84cc16</code>
+                    <p class="text-gray-600 mt-3">Para destacados y llamadas de atención</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colores por Rol de Usuario -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Colores por Rol de Usuario</h2>
+                </div>
+                <p class="text-gray-600">Cada tipo de usuario tiene su color de la paleta verde</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <!-- Admin -->
+                <div class="bg-white rounded-lg shadow-sm p-5 border border-slate-200">
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 h-20 bg-green-900 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-green-800 mb-1">Admin</h3>
+                        <code class="text-xs bg-green-100 text-green-900 px-2 py-1 rounded">green-900</code>
+                        <p class="text-xs text-gray-600 text-center mt-2">#14532d</p>
+                        <p class="text-xs text-gray-600 text-center mt-1">Administradores</p>
+                    </div>
+                </div>
+
+                <!-- HR -->
+                <div class="bg-white rounded-lg shadow-sm p-5 border border-slate-200">
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-green-800 mb-1">HR</h3>
+                        <code class="text-xs bg-teal-100 text-teal-800 px-2 py-1 rounded">teal-600</code>
+                        <p class="text-xs text-gray-600 text-center mt-2">#0d9488</p>
+                        <p class="text-xs text-gray-600 text-center mt-1">Recursos Humanos</p>
+                    </div>
+                </div>
+
+                <!-- Leader -->
+                <div class="bg-white rounded-lg shadow-sm p-5 border border-slate-200">
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 h-20 bg-lime-600 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-green-800 mb-1">Leader</h3>
+                        <code class="text-xs bg-lime-100 text-lime-800 px-2 py-1 rounded">lime-600</code>
+                        <p class="text-xs text-gray-600 text-center mt-2">#65a30d</p>
+                        <p class="text-xs text-gray-600 text-center mt-1">Líderes de Proyecto</p>
+                    </div>
+                </div>
+
+                <!-- Volunteer -->
+                <div class="bg-white rounded-lg shadow-sm p-5 border border-green-600 border-2">
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-green-800 mb-1">Volunteer ⭐</h3>
+                        <code class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">green-600</code>
+                        <p class="text-xs text-gray-600 text-center mt-2">#16a34a</p>
+                        <p class="text-xs text-gray-600 text-center mt-1">Voluntarios</p>
+                    </div>
+                </div>
+
+                <!-- Public -->
+                <div class="bg-white rounded-lg shadow-sm p-5 border border-slate-200">
+                    <div class="flex flex-col items-center">
+                        <div class="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mb-3">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-green-800 mb-1">Public</h3>
+                        <code class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded">emerald-700</code>
+                        <p class="text-xs text-gray-600 text-center mt-2">#047857</p>
+                        <p class="text-xs text-gray-600 text-center mt-1">Usuario Público</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo de uso en lista -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mt-6">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Ejemplo: Lista de Usuarios</h3>
+                </div>
+                <div class="space-y-3">
+                    <!-- Admin User -->
+                    <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                        <div class="w-10 h-10 bg-green-900 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-semibold text-sm">AM</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800">Admin Master</p>
+                            <p class="text-xs text-gray-600">Administrador del sistema</p>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-900 rounded text-xs font-medium">Admin</span>
+                    </div>
+
+                    <!-- HR User -->
+                    <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                        <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-semibold text-sm">MR</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800">María Rodríguez</p>
+                            <p class="text-xs text-gray-600">Gestión de talento</p>
+                        </div>
+                        <span class="px-2 py-1 bg-teal-100 text-teal-800 rounded text-xs font-medium">HR</span>
+                    </div>
+
+                    <!-- Leader User -->
+                    <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                        <div class="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-semibold text-sm">CG</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800">Carlos García</p>
+                            <p class="text-xs text-gray-600">Líder de Proyecto EcoVerde</p>
+                        </div>
+                        <span class="px-2 py-1 bg-lime-100 text-lime-800 rounded text-xs font-medium">Leader</span>
+                    </div>
+
+                    <!-- Volunteer User -->
+                    <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-semibold text-sm">AL</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800">Ana López</p>
+                            <p class="text-xs text-gray-600">Voluntaria activa</p>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-medium">Volunteer</span>
+                    </div>
+
+                    <!-- Public User -->
+                    <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50">
+                        <div class="w-10 h-10 bg-emerald-700 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-semibold text-sm">JM</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800">José Martínez</p>
+                            <p class="text-xs text-gray-600">Visitante registrado</p>
+                        </div>
+                        <span class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded text-xs font-medium">Public</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colores para Acciones -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Colores para Acciones</h2>
+                </div>
+                <p class="text-gray-600">Iconos y botones de acción con colores específicos</p>
+            </div>
+
+            <!-- Tabla de acciones -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Ver/View -->
+                    <div class="border-2 border-blue-500 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">VIEW</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Ver / View</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">blue-500</code>
+                        <p class="text-xs text-gray-600 mt-2">#3b82f6</p>
+                    </div>
+
+                    <!-- Editar/Edit -->
+                    <div class="border-2 border-emerald-600 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-semibold">EDIT</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Editar / Edit</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">emerald-600</code>
+                        <p class="text-xs text-gray-600 mt-2">#059669</p>
+                    </div>
+
+                    <!-- Eliminar/Delete -->
+                    <div class="border-2 border-red-500 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded font-semibold">DELETE</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Eliminar / Delete</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">red-500</code>
+                        <p class="text-xs text-gray-600 mt-2">#ef4444</p>
+                    </div>
+
+                    <!-- Crear/Add -->
+                    <div class="border-2 border-green-800 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-green-800 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-semibold">ADD</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Crear / Add</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">green-800</code>
+                        <p class="text-xs text-gray-600 mt-2">#166534</p>
+                    </div>
+
+                    <!-- Descargar/Download -->
+                    <div class="border-2 border-teal-600 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 px-2 py-1 rounded font-semibold">DOWNLOAD</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Descargar / Download</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">teal-600</code>
+                        <p class="text-xs text-gray-600 mt-2">#0d9488</p>
+                    </div>
+
+                    <!-- Compartir/Share -->
+                    <div class="border-2 border-purple-500 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded font-semibold">SHARE</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Compartir / Share</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">purple-500</code>
+                        <p class="text-xs text-gray-600 mt-2">#a855f7</p>
+                    </div>
+
+                    <!-- Configurar/Settings -->
+                    <div class="border-2 border-slate-600 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-slate-200 text-slate-800 px-2 py-1 rounded font-semibold">SETTINGS</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Configurar / Settings</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">slate-600</code>
+                        <p class="text-xs text-gray-600 mt-2">#475569</p>
+                    </div>
+
+                    <!-- Advertencia/Warning -->
+                    <div class="border-2 border-yellow-500 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded font-semibold">WARNING</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-1">Advertencia / Warning</h4>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">yellow-500</code>
+                        <p class="text-xs text-gray-600 mt-2">#eab308</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo en tabla -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Ejemplo: Tabla con Acciones</h3>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-slate-200">
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Proyecto</th>
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Estado</th>
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Líder</th>
+                                <th class="text-center py-3 px-4 text-sm font-semibold text-slate-900">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm text-slate-900 font-medium">Proyecto EcoVerde</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-medium">Activo</span>
+                                </td>
+                                <td class="py-3 px-4 text-sm text-gray-600">Carlos García</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <button class="p-2 hover:bg-blue-50 rounded-lg transition-colors group" title="Ver">
+                                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 hover:bg-emerald-50 rounded-lg transition-colors group" title="Editar">
+                                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 hover:bg-teal-50 rounded-lg transition-colors group" title="Descargar">
+                                            <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 hover:bg-red-50 rounded-lg transition-colors group" title="Eliminar">
+                                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-slate-100 hover:bg-gray-50">
+                                <td class="py-3 px-4 text-sm text-slate-900 font-medium">TechEdu Platform</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs font-medium">En revisión</span>
+                                </td>
+                                <td class="py-3 px-4 text-sm text-gray-600">Ana Martínez</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <button class="p-2 hover:bg-blue-50 rounded-lg transition-colors group" title="Ver">
+                                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 hover:bg-emerald-50 rounded-lg transition-colors group" title="Editar">
+                                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 hover:bg-teal-50 rounded-lg transition-colors group" title="Descargar">
+                                            <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 hover:bg-red-50 rounded-lg transition-colors group" title="Eliminar">
+                                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paleta para Gráficos y Visualizaciones -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Paleta para Gráficos</h2>
+                </div>
+                <p class="text-gray-600">Colores pasteles armoniosos para visualizaciones de datos</p>
+            </div>
+
+            <!-- Colores principales para gráficos -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #86EFAC;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Verde Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#86EFAC</code>
+                    <p class="text-xs text-gray-600 mt-1">green-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #6EE7B7;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Esmeralda Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#6EE7B7</code>
+                    <p class="text-xs text-gray-600 mt-1">emerald-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #5EEAD4;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Teal Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#5EEAD4</code>
+                    <p class="text-xs text-gray-600 mt-1">teal-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #93C5FD;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Azul Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#93C5FD</code>
+                    <p class="text-xs text-gray-600 mt-1">blue-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #D8B4FE;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Púrpura Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#D8B4FE</code>
+                    <p class="text-xs text-gray-600 mt-1">purple-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #FCA5A5;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Rojo Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#FCA5A5</code>
+                    <p class="text-xs text-gray-600 mt-1">red-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #FCD34D;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Amarillo Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#FCD34D</code>
+                    <p class="text-xs text-gray-600 mt-1">yellow-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #FDB4C3;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Rosa Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#FDB4C3</code>
+                    <p class="text-xs text-gray-600 mt-1">pink-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #BEF264;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Lima Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#BEF264</code>
+                    <p class="text-xs text-gray-600 mt-1">lime-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #FED7AA;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Naranja Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#FED7AA</code>
+                    <p class="text-xs text-gray-600 mt-1">orange-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #BAE6FD;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Cielo Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#BAE6FD</code>
+                    <p class="text-xs text-gray-600 mt-1">sky-300</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-20 rounded mb-3" style="background-color: #D1D5DB;"></div>
+                    <h4 class="font-bold text-slate-900 text-sm mb-1">Gris Pastel</h4>
+                    <code class="text-xs bg-gray-100 px-2 py-1 rounded">#D1D5DB</code>
+                    <p class="text-xs text-gray-600 mt-1">gray-300</p>
+                </div>
+            </div>
+
+            <!-- Ejemplo de gráfico -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Ejemplo: Gráfico de Barras</h3>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Barra 1 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-slate-900">Proyectos Activos</span>
+                            <span class="text-sm font-semibold text-slate-900">24</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-8">
+                            <div class="h-8 rounded-full flex items-center justify-end pr-3" style="width: 80%; background-color: #86EFAC;">
+                                <span class="text-xs font-semibold text-slate-900">80%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barra 2 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-slate-900">En Revisión</span>
+                            <span class="text-sm font-semibold text-slate-900">18</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-8">
+                            <div class="h-8 rounded-full flex items-center justify-end pr-3" style="width: 60%; background-color: #5EEAD4;">
+                                <span class="text-xs font-semibold text-slate-900">60%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barra 3 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-slate-900">Completados</span>
+                            <span class="text-sm font-semibold text-slate-900">15</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-8">
+                            <div class="h-8 rounded-full flex items-center justify-end pr-3" style="width: 50%; background-color: #93C5FD;">
+                                <span class="text-xs font-semibold text-slate-900">50%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barra 4 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-slate-900">Pendientes</span>
+                            <span class="text-sm font-semibold text-slate-900">12</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-8">
+                            <div class="h-8 rounded-full flex items-center justify-end pr-3" style="width: 40%; background-color: #D8B4FE;">
+                                <span class="text-xs font-semibold text-slate-900">40%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barra 5 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-slate-900">Pausados</span>
+                            <span class="text-sm font-semibold text-slate-900">6</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-8">
+                            <div class="h-8 rounded-full flex items-center justify-end pr-3" style="width: 20%; background-color: #FCD34D;">
+                                <span class="text-xs font-semibold text-slate-900">20%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leyenda -->
+                <div class="mt-6 pt-4 border-t border-slate-200">
+                    <p class="text-xs text-gray-600 mb-3 font-semibold">Paleta recomendada para gráficos:</p>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-4 h-4 rounded" style="background-color: #86EFAC;"></div>
+                            <span class="text-xs text-gray-600">Verde</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-4 h-4 rounded" style="background-color: #5EEAD4;"></div>
+                            <span class="text-xs text-gray-600">Teal</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-4 h-4 rounded" style="background-color: #93C5FD;"></div>
+                            <span class="text-xs text-gray-600">Azul</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-4 h-4 rounded" style="background-color: #D8B4FE;"></div>
+                            <span class="text-xs text-gray-600">Púrpura</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-4 h-4 rounded" style="background-color: #FCD34D;"></div>
+                            <span class="text-xs text-gray-600">Amarillo</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-4 h-4 rounded" style="background-color: #FED7AA;"></div>
+                            <span class="text-xs text-gray-600">Naranja</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sistema de Alertas -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Sistema de Alertas</h2>
+                </div>
+                <p class="text-gray-600">Notificaciones y mensajes con colores identificadores</p>
+            </div>
+
+            <!-- Grid de tipos de alertas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Alerta de Éxito -->
+                <div class="bg-emerald-50 border-l-4 border-emerald-600 rounded-lg p-5">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-emerald-900 mb-1">Éxito / Success</h4>
+                            <p class="text-sm text-emerald-800">Operación completada correctamente. Los cambios se han guardado.</p>
+                            <div class="mt-3 flex items-center space-x-2">
+                                <span class="text-xs bg-emerald-200 text-emerald-900 px-2 py-1 rounded font-medium">emerald-600</span>
+                                <code class="text-xs text-emerald-700">#059669</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerta de Información -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-5">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-blue-900 mb-1">Información / Info</h4>
+                            <p class="text-sm text-blue-800">Hay una actualización disponible. Revisa las nuevas funciones.</p>
+                            <div class="mt-3 flex items-center space-x-2">
+                                <span class="text-xs bg-blue-200 text-blue-900 px-2 py-1 rounded font-medium">blue-500</span>
+                                <code class="text-xs text-blue-700">#3b82f6</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerta de Advertencia -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-5">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-yellow-900 mb-1">Advertencia / Warning</h4>
+                            <p class="text-sm text-yellow-800">Tu sesión expirará en 5 minutos. Guarda tu trabajo.</p>
+                            <div class="mt-3 flex items-center space-x-2">
+                                <span class="text-xs bg-yellow-200 text-yellow-900 px-2 py-1 rounded font-medium">yellow-500</span>
+                                <code class="text-xs text-yellow-700">#eab308</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerta de Error -->
+                <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-5">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-red-900 mb-1">Error / Danger</h4>
+                            <p class="text-sm text-red-800">No se pudo completar la operación. Verifica tu conexión.</p>
+                            <div class="mt-3 flex items-center space-x-2">
+                                <span class="text-xs bg-red-200 text-red-900 px-2 py-1 rounded font-medium">red-500</span>
+                                <code class="text-xs text-red-700">#ef4444</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas compactas -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mb-6">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Alertas Compactas</h3>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Success compacto -->
+                    <div class="flex items-center space-x-3 bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+                        <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-sm text-emerald-900 font-medium">Archivo subido correctamente</p>
+                    </div>
+
+                    <!-- Info compacto -->
+                    <div class="flex items-center space-x-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-sm text-blue-900 font-medium">Recuerda completar tu perfil</p>
+                    </div>
+
+                    <!-- Warning compacto -->
+                    <div class="flex items-center space-x-3 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        <svg class="w-5 h-5 text-yellow-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <p class="text-sm text-yellow-900 font-medium">Espacio de almacenamiento bajo (15% restante)</p>
+                    </div>
+
+                    <!-- Error compacto -->
+                    <div class="flex items-center space-x-3 bg-red-50 border border-red-200 rounded-lg p-3">
+                        <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-sm text-red-900 font-medium">Error al procesar el pago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas con acciones -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Alertas con Botones de Acción</h3>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Success con acción -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <h5 class="font-bold text-emerald-900 mb-1">¡Proyecto creado exitosamente!</h5>
+                                    <p class="text-sm text-emerald-800">Tu proyecto "EcoVerde 2025" está listo para comenzar.</p>
+                                </div>
+                            </div>
+                            <button class="ml-4 px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors">
+                                Ver Proyecto
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Warning con acción -->
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                <div>
+                                    <h5 class="font-bold text-yellow-900 mb-1">Actualización pendiente</h5>
+                                    <p class="text-sm text-yellow-800">Hay una nueva versión disponible con mejoras de seguridad.</p>
+                                </div>
+                            </div>
+                            <button class="ml-4 px-4 py-2 bg-yellow-600 text-white text-sm font-semibold rounded-lg hover:bg-yellow-700 transition-colors">
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de referencia -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mt-6">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Referencia Rápida de Colores</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-slate-200">
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Tipo</th>
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Color</th>
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Código</th>
+                                <th class="text-left py-3 px-4 text-sm font-semibold text-slate-900">Uso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-100">
+                                <td class="py-3 px-4 text-sm font-medium text-slate-900">Success</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-6 bg-emerald-600 rounded"></div>
+                                        <span class="text-sm text-gray-600">emerald-600</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-sm text-gray-600">#059669</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">Operaciones exitosas, confirmaciones</td>
+                            </tr>
+                            <tr class="border-b border-slate-100">
+                                <td class="py-3 px-4 text-sm font-medium text-slate-900">Info</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-6 bg-blue-500 rounded"></div>
+                                        <span class="text-sm text-gray-600">blue-500</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-sm text-gray-600">#3b82f6</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">Información general, tips, actualizaciones</td>
+                            </tr>
+                            <tr class="border-b border-slate-100">
+                                <td class="py-3 px-4 text-sm font-medium text-slate-900">Warning</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-6 bg-yellow-500 rounded"></div>
+                                        <span class="text-sm text-gray-600">yellow-500</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-sm text-gray-600">#eab308</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">Advertencias, precauciones, atención requerida</td>
+                            </tr>
+                            <tr class="border-b border-slate-100">
+                                <td class="py-3 px-4 text-sm font-medium text-slate-900">Error</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-6 h-6 bg-red-500 rounded"></div>
+                                        <span class="text-sm text-gray-600">red-500</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-sm text-gray-600">#ef4444</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">Errores, fallos, acciones destructivas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colores Neutros -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Colores Neutros</h2>
+                </div>
+                <p class="text-gray-600">Para textos, bordes y fondos</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-16 bg-slate-800 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">slate-800</h3>
+                    <code class="text-xs text-gray-600">#1e293b</code>
+                    <p class="text-xs text-gray-600 mt-1">Títulos</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-16 bg-gray-600 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">gray-600</h3>
+                    <code class="text-xs text-gray-600">#4b5563</code>
+                    <p class="text-xs text-gray-600 mt-1">Texto normal</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-16 bg-slate-200 rounded mb-3"></div>
+                    <h3 class="font-bold text-green-800">slate-200</h3>
+                    <code class="text-xs text-gray-600">#e2e8f0</code>
+                    <p class="text-xs text-gray-600 mt-1">Bordes</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
+                    <div class="w-full h-16 bg-gray-50 rounded mb-3 border border-gray-300"></div>
+                    <h3 class="font-bold text-green-800">gray-50</h3>
+                    <code class="text-xs text-gray-600">#f9fafb</code>
+                    <p class="text-xs text-gray-600 mt-1">Fondos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejemplos de Uso -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Ejemplos de Uso</h2>
+                </div>
+                <p class="text-gray-600">Componentes con el sistema de colores</p>
+            </div>
+
+            <!-- Cards con Iconos -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mb-6">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Tarjetas con Iconos</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <!-- Card Verde Institucional -->
+                    <div class="bg-white border-2 border-slate-200 rounded-lg p-4 hover:border-green-800 transition-colors">
+                        <div class="w-12 h-12 bg-green-800 rounded-lg flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-slate-800 mb-1">Organización</h4>
+                        <p class="text-xs text-gray-600">Gestión institucional</p>
+                    </div>
+
+                    <!-- Card Emerald -->
+                    <div class="bg-white border-2 border-slate-200 rounded-lg p-4 hover:border-emerald-600 transition-colors">
+                        <div class="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-slate-800 mb-1">Completado</h4>
+                        <p class="text-xs text-gray-600">Tareas finalizadas</p>
+                    </div>
+
+                    <!-- Card Teal -->
+                    <div class="bg-white border-2 border-slate-200 rounded-lg p-4 hover:border-teal-500 transition-colors">
+                        <div class="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-slate-800 mb-1">Información</h4>
+                        <p class="text-xs text-gray-600">Datos relevantes</p>
+                    </div>
+
+                    <!-- Card Lime -->
+                    <div class="bg-white border-2 border-slate-200 rounded-lg p-4 hover:border-lime-500 transition-colors">
+                        <div class="w-12 h-12 bg-lime-500 rounded-lg flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-slate-800 mb-1">Destacado</h4>
+                        <p class="text-xs text-gray-600">Contenido especial</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Header -->
+            <div class="bg-green-800 text-white rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold">Living Stones</h3>
+                        <p class="text-green-100 text-sm">Sistema de Gestión</p>
+                    </div>
+                    <button class="bg-white text-green-800 px-6 py-2 rounded font-semibold hover:bg-green-50">
+                        Ingresar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mb-6">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Botones</h3>
+                </div>
+                <div class="space-y-3">
+                    <button class="w-full bg-green-800 text-white px-6 py-3 rounded font-semibold hover:bg-green-700">
+                        Botón Principal (green-800)
+                    </button>
+                    <button class="w-full bg-green-500 text-white px-6 py-3 rounded font-semibold hover:bg-green-600">
+                        Botón Secundario (green-500)
+                    </button>
+                    <button class="w-full bg-emerald-600 text-white px-6 py-3 rounded font-semibold hover:bg-emerald-700">
+                        Botón de Éxito (emerald-600)
+                    </button>
+                    <button class="w-full border-2 border-slate-200 text-gray-800 px-6 py-3 rounded font-semibold hover:bg-gray-50">
+                        Botón Neutral
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cards y Badges -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mb-6">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Cards de Estado</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-green-50 border-2 border-green-800 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <p class="text-green-800 font-semibold text-sm">Proyectos Activos</p>
+                            <div class="w-10 h-10 bg-green-800 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-green-800">24</p>
+                    </div>
+                    <div class="bg-emerald-50 border-2 border-emerald-600 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <p class="text-emerald-800 font-semibold text-sm">Completados</p>
+                            <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-emerald-700">156</p>
+                    </div>
+                    <div class="bg-teal-50 border-2 border-teal-500 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <p class="text-teal-800 font-semibold text-sm">Horas</p>
+                            <div class="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-teal-700">1,240</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <p class="text-sm font-semibold text-slate-800 mb-3">Badges</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium border border-green-800">Institucional</span>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-medium">Completado</span>
+                        <span class="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-sm font-medium">En Proceso</span>
+                        <span class="px-3 py-1 bg-lime-100 text-lime-800 rounded-full text-sm font-medium">Nuevo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 mb-6">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Input con Focus</h3>
+                </div>
+                <label class="block text-slate-900 font-semibold mb-2">Campo de texto</label>
+                <input 
+                    type="text" 
+                    placeholder="Escribe aquí..." 
+                    class="w-full px-4 py-3 border-2 border-slate-200 rounded focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20"
+                >
+            </div>
+
+            <!-- Tabs -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                <div class="flex items-center space-x-2 mb-4">
+                    <svg class="w-5 h-5 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    <h3 class="text-lg font-bold text-slate-900">Navegación con Tabs</h3>
+                </div>
+                
+                <!-- Tabs Estilo 1: Línea inferior -->
+                <div class="mb-6">
+                    <p class="text-sm text-gray-600 mb-3">Estilo con línea inferior</p>
+                    <div class="border-b-2 border-slate-200">
+                        <div class="flex space-x-1">
+                            <button class="px-6 py-3 text-sm font-semibold text-green-800 bg-green-50 border-b-2 border-green-800 -mb-0.5 rounded-t-lg">
+                                General
+                            </button>
+                            <button class="px-6 py-3 text-sm font-semibold text-gray-600 hover:text-slate-900 hover:bg-gray-50 hover:border-b-2 hover:border-slate-300 -mb-0.5 rounded-t-lg">
+                                Proyectos
+                            </button>
+                            <button class="px-6 py-3 text-sm font-semibold text-gray-600 hover:text-slate-900 hover:bg-gray-50 hover:border-b-2 hover:border-slate-300 -mb-0.5 rounded-t-lg">
+                                Equipo
+                            </button>
+                            <button class="px-6 py-3 text-sm font-semibold text-gray-600 hover:text-slate-900 hover:bg-gray-50 hover:border-b-2 hover:border-slate-300 -mb-0.5 rounded-t-lg">
+                                Configuración
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Estilo 2: Con fondo -->
+                <div class="mb-6">
+                    <p class="text-sm text-gray-600 mb-3">Estilo con fondo de color</p>
+                    <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
+                        <button class="flex-1 px-4 py-2 text-sm font-semibold text-white bg-green-800 rounded-md">
+                            Todos
+                        </button>
+                        <button class="flex-1 px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-white hover:text-slate-900 rounded-md transition-colors">
+                            Activos
+                        </button>
+                        <button class="flex-1 px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-white hover:text-slate-900 rounded-md transition-colors">
+                            Completados
+                        </button>
+                        <button class="flex-1 px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-white hover:text-slate-900 rounded-md transition-colors">
+                            Archivados
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs Estilo 3: Con iconos -->
+                <div class="mb-6">
+                    <p class="text-sm text-gray-600 mb-3">Estilo con iconos</p>
+                    <div class="flex space-x-1">
+                        <button class="flex items-center space-x-2 px-4 py-3 text-sm font-semibold text-white bg-green-800 rounded-lg shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span>Inicio</span>
+                        </button>
+                        <button class="flex items-center space-x-2 px-4 py-3 text-sm font-semibold text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            <span>Usuarios</span>
+                        </button>
+                        <button class="flex items-center space-x-2 px-4 py-3 text-sm font-semibold text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            <span>Reportes</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs Estilo 4: Pills -->
+                <div>
+                    <p class="text-sm text-gray-600 mb-3">Estilo Pills (Píldoras)</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="px-4 py-2 text-sm font-semibold text-white bg-green-800 rounded-full">
+                            Todos (24)
+                        </button>
+                        <button class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors">
+                            En Progreso (12)
+                        </button>
+                        <button class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors">
+                            Pendientes (8)
+                        </button>
+                        <button class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors">
+                            Completados (4)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guía Rápida -->
+        <section>
+            <div class="mb-6">
+                <div class="flex items-center space-x-3 mb-2">
+                    <svg class="w-7 h-7 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-slate-900">Guía de Uso</h2>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                    <h3 class="font-semibold text-emerald-600 mb-3">✓ Hacer</h3>
+                    <ul class="space-y-2 text-gray-700 text-sm">
+                        <li>• Usar green-800 como color principal de marca</li>
+                        <li>• Aplicar emerald para estados de éxito</li>
+                        <li>• Usar slate-900 para títulos</li>
+                        <li>• Mantener fondos blancos o gray-50</li>
+                        <li>• Usar bordes slate-200 para separar</li>
+                        <li>• Tab activo: green-800 con fondo o borde</li>
+                        <li>• Tabs inactivos: gray-600 con hover</li>
+                        <li>• Gráficos: usar colores pastel (300) para visualizaciones</li>
+                        <li>• Combinar máximo 5-6 colores pasteles en un gráfico</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                    <h3 class="font-semibold text-red-600 mb-3">✗ Evitar</h3>
+                    <ul class="space-y-2 text-gray-700 text-sm">
+                        <li>• No mezclar más de 2 verdes juntos</li>
+                        <li>• Evitar lime en grandes áreas</li>
+                        <li>• No usar green-800 en texto largo</li>
+                        <li>• Evitar fondos muy oscuros</li>
+                        <li>• No sobrecargar con colores</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

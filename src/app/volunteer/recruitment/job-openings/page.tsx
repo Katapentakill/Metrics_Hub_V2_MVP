@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { getMockJobOpenings } from '@/lib/data/jobOpenings';
+import { JobOpening } from '@/lib/types/jobOpenings';
 import {
   Briefcase,
   Search,
@@ -27,25 +29,6 @@ import {
   ArrowLeft
 } from 'lucide-react';
 
-// [Types remain the same - omitted for brevity but include all original types]
-interface Job {
-  id: string;
-  title: string;
-  team: string;
-  type: string;
-  description: string;
-  datePosted: string;
-  urgent: boolean;
-  skills: string[];
-  timeCommitment: string;
-  location: string;
-  difficulty: string;
-  applicants: number;
-  featured: boolean;
-  requirements?: string[];
-  responsibilities?: string[];
-}
-
 interface Application {
   id: string;
   jobId: string;
@@ -67,92 +50,25 @@ interface Application {
   };
 }
 
-const mockJobs: Job[] = [
-  {
-    id: 'job-1',
-    title: 'Asistente de Marketing Digital',
-    team: 'Marketing',
-    type: 'Voluntario',
-    description: 'Apoya en la gestión de redes sociales y la creación de contenido para campañas. Colabora con el equipo creativo en el desarrollo de estrategias digitales.',
-    datePosted: '2025-09-10',
-    urgent: false,
-    skills: ['Social Media', 'Diseño Gráfico', 'Canva', 'Analytics'],
-    timeCommitment: '10-15 horas/semana',
-    location: 'Remoto',
-    difficulty: 'Intermedio',
-    applicants: 12,
-    featured: true,
-    requirements: ['Experiencia previa en redes sociales', 'Conocimientos de diseño', 'Disponibilidad de 10-15 horas semanales'],
-    responsibilities: ['Gestionar calendarios de contenido', 'Crear posts para redes sociales', 'Analizar métricas de engagement']
-  },
-  {
-    id: 'job-2',
-    title: 'Coordinador de Eventos',
-    team: 'Operaciones',
-    type: 'Voluntario',
-    description: 'Colabora en la planificación y ejecución de eventos y talleres para nuestra comunidad. Gestiona logística y coordina con proveedores.',
-    datePosted: '2025-09-12',
-    urgent: true,
-    skills: ['Organización', 'Comunicación', 'Gestión de Proyectos', 'Liderazgo'],
-    timeCommitment: '15-20 horas/semana',
-    location: 'Híbrido',
-    difficulty: 'Avanzado',
-    applicants: 8,
-    featured: false,
-    requirements: ['Experiencia en organización de eventos', 'Habilidades de comunicación excelentes', 'Capacidad de trabajo bajo presión'],
-    responsibilities: ['Coordinar logística de eventos', 'Gestionar proveedores', 'Supervisar ejecución de talleres']
-  },
-  {
-    id: 'job-3',
-    title: 'Tutor de Programación',
-    team: 'Educación',
-    type: 'Voluntario',
-    description: 'Enseña conceptos básicos de programación a estudiantes principiantes. Crea material educativo y proporciona mentoría personalizada.',
-    datePosted: '2025-09-08',
-    urgent: false,
-    skills: ['JavaScript', 'Python', 'Enseñanza', 'Paciencia'],
-    timeCommitment: '5-10 horas/semana',
-    location: 'Remoto',
-    difficulty: 'Principiante',
-    applicants: 25,
-    featured: false,
-    requirements: ['Conocimientos de programación', 'Pasión por la enseñanza', 'Paciencia con principiantes'],
-    responsibilities: ['Dar tutorías individuales', 'Crear material educativo', 'Evaluar progreso de estudiantes']
-  },
-  {
-    id: 'job-4',
-    title: 'Diseñador UX/UI',
-    team: 'Tecnología',
-    type: 'Voluntario',
-    description: 'Diseña interfaces de usuario intuitivas y atractivas para nuestras plataformas digitales. Colabora estrechamente con desarrolladores.',
-    datePosted: '2025-09-14',
-    urgent: true,
-    skills: ['Figma', 'Adobe XD', 'Prototipado', 'Research'],
-    timeCommitment: '12-18 horas/semana',
-    location: 'Remoto',
-    difficulty: 'Avanzado',
-    applicants: 5,
-    featured: true,
-    requirements: ['Portfolio de diseño UX/UI', 'Dominio de Figma', 'Experiencia con metodologías de diseño'],
-    responsibilities: ['Diseñar interfaces', 'Realizar investigación de usuarios', 'Colaborar con desarrolladores']
-  }
-];
-
 const getDifficultyColor = (difficulty: string) => {
-  const colors = {
+  const colors: Record<string, string> = {
+    'Entry Level': 'bg-emerald-100 text-emerald-700 border-emerald-300',
+    'Intermediate': 'bg-blue-100 text-blue-700 border-blue-300',
+    'Advanced': 'bg-purple-100 text-purple-700 border-purple-300',
+    'Expert': 'bg-red-100 text-red-700 border-red-300',
     'Principiante': 'bg-emerald-100 text-emerald-700 border-emerald-300',
     'Intermedio': 'bg-gray-100 text-gray-700 border-slate-300',
     'Avanzado': 'bg-slate-100 text-slate-700 border-slate-300'
   };
-  return colors[difficulty as keyof typeof colors] || 'bg-gray-100 text-gray-700';
+  return colors[difficulty] || 'bg-gray-100 text-gray-700';
 };
 
-const getTimeAgo = (dateString: string) => {
-  const date = new Date(dateString);
+const getTimeAgo = (date: Date | string) => {
+  const actualDate = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();
-  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffTime = Math.abs(now.getTime() - actualDate.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
+
   if (diffDays === 1) return 'Hace 1 día';
   if (diffDays < 7) return `Hace ${diffDays} días`;
   if (diffDays < 30) return `Hace ${Math.ceil(diffDays / 7)} semanas`;
@@ -160,7 +76,7 @@ const getTimeAgo = (dateString: string) => {
 };
 
 // Application Form Modal Component
-function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () => void; onSubmit: (data: any) => void }) {
+function ApplicationModal({ job, onClose, onSubmit }: { job: JobOpening; onClose: () => void; onSubmit: (data: any) => void }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -181,7 +97,7 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
         <div className="sticky top-0 bg-emerald-600 p-6 text-white flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold mb-1">Aplicar a {job.title}</h2>
-            <p className="text-emerald-200">{job.team} • {job.location}</p>
+            <p className="text-emerald-200">{job.department} • {job.location}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">
             <X className="w-6 h-6" />
@@ -195,7 +111,7 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-emerald-600" />
-                <span>{job.timeCommitment}</span>
+                <span>{job.hoursPerWeek}h/semana</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-emerald-600" />
@@ -320,7 +236,7 @@ function ApplicationModal({ job, onClose, onSubmit }: { job: Job; onClose: () =>
 }
 
 // Job Details Modal
-function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => void; onApply: () => void }) {
+function JobDetailsModal({ job, onClose, onApply }: { job: JobOpening; onClose: () => void; onApply: () => void }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-slate-200">
@@ -328,20 +244,12 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
           <div className="flex justify-between items-start mb-4">
             <div className="flex-1">
               <div className="flex gap-2 mb-3">
-                {job.urgent && (
-                  <span className="bg-white text-emerald-600 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                    <Zap className="w-3 h-3" />
-                    URGENTE
-                  </span>
-                )}
-                {job.featured && (
-                  <span className="bg-white bg-opacity-20 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full">
-                    DESTACADA
-                  </span>
-                )}
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${getDifficultyColor(job.experienceLevel).split(' ')[0]} ${getDifficultyColor(job.experienceLevel).split(' ')[1]}`}>
+                  {job.experienceLevel}
+                </span>
               </div>
               <h2 className="text-3xl font-bold mb-2">{job.title}</h2>
-              <p className="text-emerald-200">{job.team} • {job.type}</p>
+              <p className="text-emerald-200">{job.department} • {job.jobType}</p>
             </div>
             <button onClick={onClose} className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">
               <X className="w-6 h-6" />
@@ -351,7 +259,7 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3">
               <Clock className="w-4 h-4 text-emerald-500 " />
-              <p className="text-xs font-semibold text-gray-500 items-center">{job.timeCommitment}</p>
+              <p className="text-xs font-semibold text-gray-500 items-center">{job.hoursPerWeek}h/semana</p>
             </div>
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3">
               <MapPin className="w-4 h-4 text-emerald-500" />
@@ -359,7 +267,7 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
             </div>
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-3">
               <Users className="w-4 h-4 text-emerald-500" />
-              <p className="text-xs font-semibold text-gray-500 items-center">{job.applicants} aplicantes</p>
+              <p className="text-xs font-semibold text-gray-500 items-center">{job.applicantsCount} postulantes</p>
             </div>
           </div>
         </div>
@@ -370,7 +278,7 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
             <p className="text-gray-700 leading-relaxed">{job.description}</p>
           </div>
 
-          {job.responsibilities && (
+          {job.responsibilities && job.responsibilities.length > 0 && (
             <div>
               <h3 className="font-bold text-lg text-slate-800 mb-3">Responsabilidades</h3>
               <ul className="space-y-2">
@@ -384,7 +292,7 @@ function JobDetailsModal({ job, onClose, onApply }: { job: Job; onClose: () => v
             </div>
           )}
 
-          {job.requirements && (
+          {job.requirements && job.requirements.length > 0 && (
             <div>
               <h3 className="font-bold text-lg text-slate-800 mb-3">Requisitos</h3>
               <ul className="space-y-2">
@@ -435,35 +343,45 @@ export default function VolunteerRecruitmentSystem() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [selectedTeam, setSelectedTeam] = useState('all');
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [selectedJob, setSelectedJob] = useState<JobOpening | null>(null);
   const [showJobDetails, setShowJobDetails] = useState(false);
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [userApplication, setUserApplication] = useState<Application | null>(null);
 
-  const filteredJobs = mockJobs.filter(job => {
-    const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         job.team.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         job.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    let matchesFilter = true;
-    if (selectedFilter === 'urgent') matchesFilter = job.urgent;
-    else if (selectedFilter === 'remote') matchesFilter = job.location === 'Remoto';
-    else if (selectedFilter === 'featured') matchesFilter = job.featured;
-    
-    let matchesTeam = true;
-    if (selectedTeam !== 'all') matchesTeam = job.team === selectedTeam;
-    
-    return matchesSearch && matchesFilter && matchesTeam;
-  });
+  // Obtener ofertas reales publicadas
+  const allJobs = useMemo(() => {
+    const jobs = getMockJobOpenings(50);
+    return jobs.filter(job => job.status === 'published');
+  }, []);
 
-  const teams = [...new Set(mockJobs.map(job => job.team))];
-  const stats = {
-    total: mockJobs.length,
-    urgent: mockJobs.filter(j => j.urgent).length,
-    applications: mockJobs.reduce((acc, job) => acc + job.applicants, 0)
-  };
+  const filteredJobs = useMemo(() => {
+    return allJobs.filter(job => {
+      const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           job.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           job.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const handleJobClick = (job: Job) => {
+      let matchesFilter = true;
+      if (selectedFilter === 'remote') matchesFilter = job.locationType === 'Remote';
+      else if (selectedFilter === 'hybrid') matchesFilter = job.locationType === 'Hybrid';
+
+      let matchesTeam = true;
+      if (selectedTeam !== 'all') matchesTeam = job.department === selectedTeam;
+
+      return matchesSearch && matchesFilter && matchesTeam;
+    });
+  }, [allJobs, searchTerm, selectedFilter, selectedTeam]);
+
+  const teams = useMemo(() => {
+    return [...new Set(allJobs.map(job => job.department))];
+  }, [allJobs]);
+
+  const stats = useMemo(() => ({
+    total: allJobs.length,
+    urgent: 0, // Las ofertas reales no tienen flag urgent
+    applications: allJobs.reduce((acc, job) => acc + job.applicantsCount, 0)
+  }), [allJobs]);
+
+  const handleJobClick = (job: JobOpening) => {
     setSelectedJob(job);
     setShowJobDetails(true);
   };
@@ -474,7 +392,7 @@ export default function VolunteerRecruitmentSystem() {
   };
 
   const handleApplicationSubmit = (data: any) => {
-    const job = mockJobs.find(j => j.id === data.jobId);
+    const job = allJobs.find(j => j.id === data.jobId);
     if (!job) return;
 
     const newApplication: Application = {
@@ -504,7 +422,7 @@ export default function VolunteerRecruitmentSystem() {
   };
 
   if (view === 'application' && userApplication) {
-    const job = mockJobs.find(j => j.id === userApplication.jobId);
+    const job = allJobs.find(j => j.id === userApplication.jobId);
     
     return (
       <div className="min-h-screen bg-gray-50 p-8">
@@ -528,7 +446,7 @@ export default function VolunteerRecruitmentSystem() {
                   <Briefcase className="w-5 h-5 text-emerald-600" />
                   <span className="text-xl font-semibold text-slate-800">{job?.title}</span>
                 </div>
-                <p className="text-gray-600">Equipo {job?.team}</p>
+                <p className="text-gray-600">Equipo {job?.department}</p>
               </div>
               
               <div className="text-center bg-gray-50 rounded-xl p-6 border border-slate-200">
@@ -791,15 +709,14 @@ export default function VolunteerRecruitmentSystem() {
             </div>
             
             <div className="flex gap-3">
-              <select 
-                value={selectedFilter} 
+              <select
+                value={selectedFilter}
                 onChange={(e) => setSelectedFilter(e.target.value)}
                 className="px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
               >
                 <option value="all">Todas</option>
-                <option value="urgent">Urgentes</option>
-                <option value="remote">Remotas</option>
-                <option value="featured">Destacadas</option>
+                <option value="remote">Remoto</option>
+                <option value="hybrid">Híbrido</option>
               </select>
               
               <select 
@@ -859,19 +776,11 @@ export default function VolunteerRecruitmentSystem() {
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredJobs.map((job) => (
               <div key={job.id} className="group bg-white rounded-xl border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-                {(job.urgent || job.featured) && (
+                {job.applicantsCount > 20 && (
                   <div className="flex gap-2 p-4 pb-0">
-                    {job.urgent && (
-                      <span className="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                        <Zap className="w-3 h-3" />
-                        URGENTE
-                      </span>
-                    )}
-                    {job.featured && (
-                      <span className="bg-slate-700 text-white text-xs font-bold px-3 py-1 rounded-full">
-                        DESTACADA
-                      </span>
-                    )}
+                    <span className="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      POPULAR
+                    </span>
                   </div>
                 )}
                 
@@ -883,11 +792,11 @@ export default function VolunteerRecruitmentSystem() {
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Users className="w-4 h-4" />
-                        <span className="font-medium">{job.team}</span>
+                        <span className="font-medium">{job.department}</span>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getDifficultyColor(job.difficulty)}`}>
-                      {job.difficulty}
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getDifficultyColor(job.experienceLevel)}`}>
+                      {job.experienceLevel}
                     </span>
                   </div>
                   
@@ -898,7 +807,7 @@ export default function VolunteerRecruitmentSystem() {
                   <div className="grid grid-cols-1 gap-2 mb-4 p-3 bg-gray-50 rounded-xl border border-slate-200">
                     <div className="flex items-center gap-2 text-sm">
                       <Clock className="w-4 h-4 text-slate-400" />
-                      <span className="text-gray-700 font-medium">{job.timeCommitment}</span>
+                      <span className="text-gray-700 font-medium">{job.hoursPerWeek}h/semana</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <MapPin className="w-4 h-4 text-slate-400" />
@@ -906,7 +815,7 @@ export default function VolunteerRecruitmentSystem() {
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <TrendingUp className="w-4 h-4 text-slate-400" />
-                      <span className="text-gray-700 font-medium">{job.applicants} aplicaciones</span>
+                      <span className="text-gray-700 font-medium">{job.applicantsCount} postulantes</span>
                     </div>
                   </div>
                   
@@ -928,7 +837,7 @@ export default function VolunteerRecruitmentSystem() {
                   <div className="flex items-center justify-between pt-4 border-t border-slate-200 mt-auto">
                     <span className="text-xs text-gray-600 font-medium flex items-center gap-1">
                       <Clock className="w-3 h-3" />
-                      {getTimeAgo(job.datePosted)}
+                      {getTimeAgo(job.publishedDate || new Date())}
                     </span>
                     
                     <button 
