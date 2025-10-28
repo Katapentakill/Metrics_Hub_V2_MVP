@@ -2,64 +2,73 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { 
-  BookOpen, 
-  Search, 
-  Filter, 
+import {
+  Users,
+  Search,
+  Filter,
   Download,
   Grid3x3,
   List,
   SortAsc,
   SortDesc,
   FileText,
-  ImageIcon,
-  File,
   Folder,
   Star,
   Clock,
-  Users,
+  User,
   TrendingUp,
   ChevronDown,
   Plus,
   X,
-  FileSpreadsheet,
-  Presentation,
-  Files
+  CheckCircle,
+  AlertTriangle,
+  Eye,
+  Calendar,
+  Files,
+  FileCheck,
+  IdCard,
+  ShieldCheck,
+  FileSignature
 } from 'lucide-react';
 
 // ============================================================================
 // INTERFACES & TYPES
 // ============================================================================
 
-interface Document {
+interface VolunteerDocument {
   id: string;
-  name: string;
-  type: 'pdf' | 'docx' | 'xlsx' | 'pptx' | 'image' | 'other';
-  category: string;
-  size: number;
-  uploadedBy: string;
-  uploadedAt: Date;
-  downloads: number;
+  volunteerName: string;
+  volunteerEmail: string;
+  documentName: string;
+  documentType: 'application' | 'certification' | 'identification' | 'background-check' | 'agreement' | 'other';
+  category: 'Applications' | 'Certifications' | 'ID Documents' | 'Background Checks' | 'Agreements' | 'Other';
+  status: 'pending-review' | 'approved' | 'rejected' | 'expired';
+  submittedAt: Date;
+  reviewedBy?: string;
+  reviewedAt?: Date;
+  expirationDate?: Date;
   isFavorite: boolean;
+  notes?: string;
+  size: number;
   tags: string[];
-  description?: string;
 }
 
 type ViewMode = 'grid' | 'list';
-type SortBy = 'name' | 'date' | 'downloads' | 'size';
+type SortBy = 'submittedDate' | 'volunteerName' | 'status';
 type SortOrder = 'asc' | 'desc';
-type DocumentType = 'all' | 'pdf' | 'docx' | 'xlsx' | 'pptx' | 'image' | 'other';
+type DocumentTypeFilter = 'all' | 'application' | 'certification' | 'identification' | 'background-check' | 'agreement' | 'other';
 
 interface FilterState {
   search: string;
   category: string;
+  status: string;
+  showFavorites: boolean;
   dateRange: string;
   tags: string[];
-  showFavorites: boolean;
 }
 
 interface TabConfig {
-  id: DocumentType;
+  id: DocumentTypeFilter;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
@@ -79,129 +88,178 @@ const tabs: TabConfig[] = [
     bgColor: 'bg-gray-50'
   },
   { 
-    id: 'pdf', 
-    label: 'PDFs', 
+    id: 'application', 
+    label: 'Applications', 
     icon: FileText, 
-    color: 'text-[#166534]', // green-800
+    color: 'text-[#166534]',
     bgColor: 'bg-green-50'
   },
   { 
-    id: 'docx', 
-    label: 'Word Docs', 
-    icon: FileText, 
-    color: 'text-[#059669]', // emerald
+    id: 'certification', 
+    label: 'Certifications', 
+    icon: FileCheck, 
+    color: 'text-[#059669]',
     bgColor: 'bg-emerald-50'
   },
   { 
-    id: 'xlsx', 
-    label: 'Spreadsheets', 
-    icon: FileSpreadsheet, 
-    color: 'text-[#14b8a6]', // teal
+    id: 'identification', 
+    label: 'ID Documents', 
+    icon: IdCard, 
+    color: 'text-[#14b8a6]',
     bgColor: 'bg-teal-50'
   },
   { 
-    id: 'pptx', 
-    label: 'Presentations', 
-    icon: Presentation, 
-    color: 'text-[#84cc16]', // lime
+    id: 'background-check', 
+    label: 'Background Checks', 
+    icon: ShieldCheck, 
+    color: 'text-[#84cc16]',
     bgColor: 'bg-lime-50'
   },
   { 
-    id: 'image', 
-    label: 'Images', 
-    icon: ImageIcon, 
-    color: 'text-[#14b8a6]', // teal
-    bgColor: 'bg-teal-50'
+    id: 'agreement', 
+    label: 'Agreements', 
+    icon: FileSignature, 
+    color: 'text-[#22c55e]',
+    bgColor: 'bg-green-100'
   },
 ];
+
+const categories = ['All Categories', 'Applications', 'Certifications', 'ID Documents', 'Background Checks', 'Agreements', 'Other'];
+const statusOptions = ['All Status', 'pending-review', 'approved', 'rejected', 'expired'];
+const availableTags = ['urgent', 'verified', 'new', 'expiring-soon', 'renewal', 'initial', 'updated', 'complete', 'incomplete', 'follow-up', 'training', 'compliance'];
 
 // ============================================================================
 // MOCK DATA
 // ============================================================================
 
-const mockDocuments: Document[] = [
+const mockDocuments: VolunteerDocument[] = [
   {
     id: '1',
-    name: 'Employee Handbook 2025.pdf',
-    type: 'pdf',
-    category: 'HR Resources',
-    size: 2456789,
-    uploadedBy: 'Sarah Johnson',
-    uploadedAt: new Date('2025-09-15'),
-    downloads: 234,
-    isFavorite: true,
-    tags: ['handbook', 'hr', 'policies'],
-    description: 'Complete employee handbook with updated policies and procedures'
+    volunteerName: 'María González',
+    volunteerEmail: 'maria.gonzalez@email.com',
+    documentName: 'Volunteer Application Form',
+    documentType: 'application',
+    category: 'Applications',
+    status: 'pending-review',
+    submittedAt: new Date('2025-10-01'),
+    isFavorite: false,
+    size: 234567,
+    tags: ['new', 'urgent']
   },
   {
     id: '2',
-    name: 'Brand Guidelines.pdf',
-    type: 'pdf',
-    category: 'Marketing',
-    size: 5678901,
-    uploadedBy: 'Mike Chen',
-    uploadedAt: new Date('2025-08-22'),
-    downloads: 189,
+    volunteerName: 'Carlos Rodríguez',
+    volunteerEmail: 'carlos.r@email.com',
+    documentName: 'First Aid Certification',
+    documentType: 'certification',
+    category: 'Certifications',
+    status: 'approved',
+    submittedAt: new Date('2025-09-15'),
+    reviewedBy: 'Sarah Johnson',
+    reviewedAt: new Date('2025-09-16'),
+    expirationDate: new Date('2026-09-15'),
     isFavorite: true,
-    tags: ['brand', 'marketing', 'design'],
-    description: 'Official brand guidelines including logos, colors, and typography'
+    notes: 'Valid certification from Red Cross',
+    size: 456789,
+    tags: ['verified', 'training']
   },
   {
     id: '3',
-    name: 'Project Management Template.xlsx',
-    type: 'xlsx',
-    category: 'Templates',
-    size: 345678,
-    uploadedBy: 'Lisa Wang',
-    uploadedAt: new Date('2025-09-01'),
-    downloads: 156,
+    volunteerName: 'Ana Martínez',
+    volunteerEmail: 'ana.m@email.com',
+    documentName: 'Government ID - Driver License',
+    documentType: 'identification',
+    category: 'ID Documents',
+    status: 'approved',
+    submittedAt: new Date('2025-09-28'),
+    reviewedBy: 'Mike Chen',
+    reviewedAt: new Date('2025-09-28'),
     isFavorite: false,
-    tags: ['template', 'project', 'management'],
-    description: 'Standardized project management tracking template'
+    size: 345678,
+    tags: ['verified', 'complete']
   },
   {
     id: '4',
-    name: 'Organization Chart 2025.pptx',
-    type: 'pptx',
-    category: 'Administrative',
-    size: 1234567,
-    uploadedBy: 'David Martinez',
-    uploadedAt: new Date('2025-09-10'),
-    downloads: 98,
-    isFavorite: false,
-    tags: ['org-chart', 'structure'],
-    description: 'Current organizational structure and reporting lines'
+    volunteerName: 'Luis Hernández',
+    volunteerEmail: 'luis.h@email.com',
+    documentName: 'Background Check Report',
+    documentType: 'background-check',
+    category: 'Background Checks',
+    status: 'approved',
+    submittedAt: new Date('2025-09-20'),
+    reviewedBy: 'Sarah Johnson',
+    reviewedAt: new Date('2025-09-21'),
+    isFavorite: true,
+    notes: 'Clean background check',
+    size: 567890,
+    tags: ['verified', 'compliance']
   },
   {
     id: '5',
-    name: 'Training Materials - Onboarding.pdf',
-    type: 'pdf',
-    category: 'Training',
-    size: 3456789,
-    uploadedBy: 'Sarah Johnson',
-    uploadedAt: new Date('2025-09-20'),
-    downloads: 167,
-    isFavorite: true,
-    tags: ['training', 'onboarding', 'hr'],
-    description: 'Comprehensive onboarding materials for new volunteers'
+    volunteerName: 'Elena Torres',
+    volunteerEmail: 'elena.t@email.com',
+    documentName: 'Volunteer Service Agreement',
+    documentType: 'agreement',
+    category: 'Agreements',
+    status: 'approved',
+    submittedAt: new Date('2025-09-25'),
+    reviewedBy: 'David Martinez',
+    reviewedAt: new Date('2025-09-25'),
+    isFavorite: false,
+    size: 123456,
+    tags: ['complete', 'initial']
   },
   {
     id: '6',
-    name: 'Safety Protocols.docx',
-    type: 'docx',
-    category: 'Safety',
-    size: 456789,
-    uploadedBy: 'John Smith',
-    uploadedAt: new Date('2025-08-30'),
-    downloads: 145,
+    volunteerName: 'Roberto Silva',
+    volunteerEmail: 'roberto.s@email.com',
+    documentName: 'CPR Certification',
+    documentType: 'certification',
+    category: 'Certifications',
+    status: 'expired',
+    submittedAt: new Date('2024-01-10'),
+    reviewedBy: 'Sarah Johnson',
+    reviewedAt: new Date('2024-01-11'),
+    expirationDate: new Date('2025-01-10'),
     isFavorite: false,
-    tags: ['safety', 'protocols', 'compliance'],
-    description: 'Standard safety protocols and emergency procedures'
+    notes: 'Certification has expired - needs renewal',
+    size: 234567,
+    tags: ['expiring-soon', 'renewal', 'follow-up']
   },
+  {
+    id: '7',
+    volunteerName: 'Patricia Ramírez',
+    volunteerEmail: 'patricia.r@email.com',
+    documentName: 'Volunteer Application - Youth Program',
+    documentType: 'application',
+    category: 'Applications',
+    status: 'rejected',
+    submittedAt: new Date('2025-09-18'),
+    reviewedBy: 'Mike Chen',
+    reviewedAt: new Date('2025-09-19'),
+    notes: 'Does not meet minimum age requirement',
+    isFavorite: false,
+    size: 198765,
+    tags: ['incomplete']
+  },
+  {
+    id: '8',
+    volunteerName: 'Fernando López',
+    volunteerEmail: 'fernando.l@email.com',
+    documentName: 'Teaching Certification',
+    documentType: 'certification',
+    category: 'Certifications',
+    status: 'approved',
+    submittedAt: new Date('2025-09-30'),
+    reviewedBy: 'Lisa Wang',
+    reviewedAt: new Date('2025-10-01'),
+    expirationDate: new Date('2027-09-30'),
+    isFavorite: true,
+    notes: 'Licensed educator - approved for tutoring program',
+    size: 678901,
+    tags: ['verified', 'training', 'complete']
+  }
 ];
-
-const categories = ['All Categories', 'HR Resources', 'Marketing', 'Templates', 'Administrative', 'Training', 'Safety', 'Finance', 'Events', 'Photos', 'Branding', 'Legal', 'Reports'];
-const availableTags = ['handbook', 'hr', 'policies', 'brand', 'marketing', 'design', 'template', 'project', 'management', 'org-chart', 'training', 'onboarding', 'safety', 'compliance'];
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -224,324 +282,369 @@ const formatDate = (date: Date): string => {
 };
 
 // Iconos con FONDO de escala de verdes e ICONO BLANCO (según guía)
-const getFileIcon = (type: Document['type'], size: 'sm' | 'md' = 'md') => {
-  const iconClass = size === 'sm' ? 'w-4 h-4' : 'w-5 h-5';
+const getDocumentIcon = (type: VolunteerDocument['documentType']) => {
+  const iconClass = "w-6 h-6 text-white";
+  const containerClass = "w-12 h-12 rounded-lg flex items-center justify-center";
+  
   switch (type) {
-    case 'pdf':
-      return <FileText className={`${iconClass} text-white`} />;
-    case 'docx':
-      return <FileText className={`${iconClass} text-white`} />;
-    case 'xlsx':
-      return <FileSpreadsheet className={`${iconClass} text-white`} />;
-    case 'pptx':
-      return <Presentation className={`${iconClass} text-white`} />;
-    case 'image':
-      return <ImageIcon className={`${iconClass} text-white`} />;
+    case 'application':
+      return (
+        <div className={`${containerClass} bg-gradient-to-br from-[#166534] to-[#14532d]`}>
+          <FileText className={iconClass} />
+        </div>
+      );
+    case 'certification':
+      return (
+        <div className={`${containerClass} bg-gradient-to-br from-[#059669] to-[#047857]`}>
+          <FileCheck className={iconClass} />
+        </div>
+      );
+    case 'identification':
+      return (
+        <div className={`${containerClass} bg-gradient-to-br from-[#14b8a6] to-[#0f766e]`}>
+          <IdCard className={iconClass} />
+        </div>
+      );
+    case 'background-check':
+      return (
+        <div className={`${containerClass} bg-gradient-to-br from-[#84cc16] to-[#65a30d]`}>
+          <ShieldCheck className={iconClass} />
+        </div>
+      );
+    case 'agreement':
+      return (
+        <div className={`${containerClass} bg-gradient-to-br from-[#22c55e] to-[#16a34a]`}>
+          <FileSignature className={iconClass} />
+        </div>
+      );
     default:
-      return <File className={`${iconClass} text-white`} />;
+      return (
+        <div className={`${containerClass} bg-gradient-to-br from-gray-500 to-gray-600`}>
+          <FileText className={iconClass} />
+        </div>
+      );
   }
 };
 
-// Función para obtener el fondo del icono según tipo de documento
-const getIconBackground = (type: Document['type']): string => {
-  switch (type) {
-    case 'pdf':
-      return 'bg-[#166534]'; // green-800
-    case 'docx':
-      return 'bg-[#059669]'; // emerald
-    case 'xlsx':
-      return 'bg-[#14b8a6]'; // teal
-    case 'pptx':
-      return 'bg-[#84cc16]'; // lime
-    case 'image':
-      return 'bg-[#14b8a6]'; // teal
-    default:
-      return 'bg-gray-500';
+const getStatusBadge = (status: VolunteerDocument['status']) => {
+  switch (status) {
+    case 'approved':
+      return (
+        <span className="flex items-center gap-1 text-xs text-green-700 bg-green-50 px-2 py-1 rounded-full font-medium">
+          <CheckCircle className="w-3 h-3" /> Approved
+        </span>
+      );
+    case 'pending-review':
+      return (
+        <span className="flex items-center gap-1 text-xs text-yellow-700 bg-yellow-50 px-2 py-1 rounded-full font-medium">
+          <Clock className="w-3 h-3" /> Pending Review
+        </span>
+      );
+    case 'rejected':
+      return (
+        <span className="flex items-center gap-1 text-xs text-red-700 bg-red-50 px-2 py-1 rounded-full font-medium">
+          <X className="w-3 h-3" /> Rejected
+        </span>
+      );
+    case 'expired':
+      return (
+        <span className="flex items-center gap-1 text-xs text-orange-700 bg-orange-50 px-2 py-1 rounded-full font-medium">
+          <AlertTriangle className="w-3 h-3" /> Expired
+        </span>
+      );
   }
 };
 
 // ============================================================================
-// SUB-COMPONENTS
+// COMPONENTS
 // ============================================================================
 
-const StatsCard = ({ icon: Icon, label, value, trend, iconBg }: { 
+interface StatsCardProps {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  value: string | number;
-  trend?: string;
-  iconBg: string;
-}) => (
-  <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-[#059669] transition-all">
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-sm text-gray-600 mb-1">{label}</p>
-        <p className="text-3xl font-bold text-slate-800">{value}</p>
-        {trend && (
-          <div className="flex items-center mt-2 text-sm">
-            <TrendingUp className="w-4 h-4 mr-1 text-emerald-600" />
-            <span className="text-emerald-600">{trend}</span>
-            <span className="text-gray-600 ml-1">vs período anterior</span>
-          </div>
-        )}
-      </div>
-      <div className={`w-12 h-12 ${iconBg} rounded-lg flex items-center justify-center shadow-sm`}>
-        <Icon className="w-6 h-6 text-white" />
+  value: number;
+  color: string;
+}
+
+const StatsCard = ({ icon: Icon, label, value, color }: StatsCardProps) => {
+  const colorClasses = {
+    green: 'from-[#166534] to-[#14532d]',
+    yellow: 'from-yellow-500 to-yellow-600',
+    emerald: 'from-[#059669] to-[#047857]',
+    blue: 'from-blue-500 to-blue-600',
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-4">
+        <div className={`p-3 bg-gradient-to-br ${colorClasses[color as keyof typeof colorClasses]} rounded-lg`}>
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+        <div>
+          <p className="text-sm text-gray-600 font-medium">{label}</p>
+          <p className="text-2xl font-bold text-slate-800">{value}</p>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-const DocumentCard = ({ doc, onToggleFavorite, onDownload }: {
-  doc: Document;
+interface DocumentCardProps {
+  doc: VolunteerDocument;
   onToggleFavorite: (id: string) => void;
-  onDownload: (id: string) => void;
-}) => (
-  <div className="bg-white rounded-lg border border-slate-200 hover:shadow-lg transition-all duration-300 overflow-hidden group">
-    <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-green-50/30 to-transparent">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3 flex-1">
-          {/* ICONO: Fondo verde de la escala, icono blanco */}
-          <div className={`p-2 ${getIconBackground(doc.type)} rounded-lg`}>
-            {getFileIcon(doc.type)}
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-slate-800 truncate group-hover:text-[#166534] transition-colors">
-              {doc.name}
-            </h3>
-            <p className="text-xs text-gray-500 mt-1">{doc.category}</p>
-          </div>
-        </div>
+  onView: (id: string) => void;
+}
+
+const DocumentCard = ({ doc, onToggleFavorite, onView }: DocumentCardProps) => {
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-all p-6 group">
+      <div className="flex items-start justify-between mb-4">
+        {getDocumentIcon(doc.documentType)}
         <button
           onClick={() => onToggleFavorite(doc.id)}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         >
-          <Star 
-            className={`w-5 h-5 ${doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
+          <Star
+            className={`w-5 h-5 ${
+              doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'
+            }`}
           />
         </button>
       </div>
-    </div>
 
-    <div className="p-4">
-      {doc.description && (
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{doc.description}</p>
+      <h3 className="font-semibold text-slate-800 mb-1 line-clamp-1">{doc.documentName}</h3>
+      <p className="text-sm text-gray-600 mb-2 flex items-center gap-1">
+        <User className="w-3 h-3" />
+        {doc.volunteerName}
+      </p>
+
+      <div className="flex items-center gap-2 mb-3">
+        {getStatusBadge(doc.status)}
+        <span className="text-xs text-gray-500">{formatFileSize(doc.size)}</span>
+      </div>
+
+      {doc.tags && doc.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-3">
+          {doc.tags.slice(0, 3).map(tag => (
+            <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+              {tag}
+            </span>
+          ))}
+        </div>
       )}
-      
-      <div className="flex flex-wrap gap-1 mb-3">
-        {doc.tags.slice(0, 3).map(tag => (
-          <span
-            key={tag}
-            className="px-2 py-0.5 bg-green-50 text-[#166534] text-xs rounded-full border border-green-200"
-          >
-            {tag}
-          </span>
-        ))}
-        {doc.tags.length > 3 && (
-          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
-            +{doc.tags.length - 3}
-          </span>
-        )}
-      </div>
 
-      <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-        <div className="flex items-center gap-1">
-          <Users className="w-3 h-3" />
-          <span>{doc.uploadedBy}</span>
-        </div>
-        <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+        <div className="flex items-center gap-1 text-xs text-gray-500">
           <Clock className="w-3 h-3" />
-          <span>{formatDate(doc.uploadedAt)}</span>
+          {formatDate(doc.submittedAt)}
         </div>
+        <button
+          onClick={() => onView(doc.id)}
+          className="px-3 py-1.5 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-lg text-sm hover:shadow-lg transition-all flex items-center gap-1"
+        >
+          <Eye className="w-3 h-3" />
+          View
+        </button>
       </div>
 
-      <div className="flex items-center gap-4 text-xs text-gray-600 pt-3 border-t border-gray-100">
-        <div className="flex items-center gap-1">
-          <Download className="w-3 h-3" />
-          <span>{doc.downloads}</span>
+      {doc.notes && (
+        <div className="mt-3 pt-3 border-t border-slate-100">
+          <p className="text-xs text-gray-600 italic line-clamp-2">{doc.notes}</p>
         </div>
-        <div className="flex items-center gap-1">
-          <File className="w-3 h-3" />
-          <span>{formatFileSize(doc.size)}</span>
-        </div>
-      </div>
+      )}
     </div>
+  );
+};
 
-    <div className="p-4 bg-gray-50 border-t border-gray-100 flex gap-2">
-      <button
-        onClick={() => onDownload(doc.id)}
-        className="flex-1 px-3 py-2 bg-gradient-to-r from-[#22c55e] to-[#1dad52] text-white text-sm rounded-lg hover:shadow-md transition-all flex items-center justify-center gap-2"
-      >
-        <Download className="w-4 h-4" />
-        Download
-      </button>
-      <button className="px-3 py-2 bg-white border border-slate-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
-        View
-      </button>
-    </div>
-  </div>
-);
+const DocumentListItem = ({ doc, onToggleFavorite, onView }: DocumentCardProps) => {
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-all p-4 group">
+      <div className="flex items-center gap-4">
+        {getDocumentIcon(doc.documentType)}
 
-const DocumentListItem = ({ doc, onToggleFavorite, onDownload }: {
-  doc: Document;
-  onToggleFavorite: (id: string) => void;
-  onDownload: (id: string) => void;
-}) => (
-  <div className="bg-white rounded-lg border border-slate-200 hover:shadow-md transition-all duration-200 p-4">
-    <div className="flex items-center gap-4">
-      {/* ICONO: Fondo verde de la escala, icono blanco */}
-      <div className={`p-3 ${getIconBackground(doc.type)} rounded-lg`}>
-        {getFileIcon(doc.type)}
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <h3 className="font-semibold text-slate-800 mb-1 hover:text-[#166534] transition-colors cursor-pointer">
-              {doc.name}
-            </h3>
-            {doc.description && (
-              <p className="text-sm text-gray-600 mb-2 line-clamp-1">{doc.description}</p>
-            )}
-            <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
-              <span className="flex items-center gap-1">
-                <Folder className="w-3 h-3" />
-                {doc.category}
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <Users className="w-3 h-3" />
-                {doc.uploadedBy}
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {formatDate(doc.uploadedAt)}
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <Download className="w-3 h-3" />
-                {doc.downloads}
-              </span>
-              <span>•</span>
-              <span>{formatFileSize(doc.size)}</span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between mb-1">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-slate-800 line-clamp-1">{doc.documentName}</h3>
+              <p className="text-sm text-gray-600 flex items-center gap-1">
+                <User className="w-3 h-3" />
+                {doc.volunteerName}
+              </p>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2">
             <button
               onClick={() => onToggleFavorite(doc.id)}
-              className="p-2 hover:bg-gray-100 rounded transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors ml-2"
             >
-              <Star 
-                className={`w-5 h-5 ${doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
+              <Star
+                className={`w-5 h-5 ${
+                  doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'
+                }`}
               />
             </button>
-            <button
-              onClick={() => onDownload(doc.id)}
-              className="px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white text-sm rounded-lg hover:shadow-md transition-all flex items-center gap-2"
-            >
-              <Download className="w-4 h-4" />
-              Download
-            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            {getStatusBadge(doc.status)}
+            <span className="text-xs text-gray-500">{formatFileSize(doc.size)}</span>
+            <span className="text-xs text-gray-500 flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              {formatDate(doc.submittedAt)}
+            </span>
+            {doc.tags && doc.tags.length > 0 && (
+              <div className="flex gap-1">
+                {doc.tags.slice(0, 3).map(tag => (
+                  <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
+
+        <button
+          onClick={() => onView(doc.id)}
+          className="px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-lg text-sm hover:shadow-lg transition-all flex items-center gap-2"
+        >
+          <Eye className="w-4 h-4" />
+          View
+        </button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
-export default function CompanyLibrary() {
-  const [documents, setDocuments] = useState<Document[]>(mockDocuments);
-  const [activeTab, setActiveTab] = useState<DocumentType>('all');
+export default function VolunteerDocuments() {
+  const [documents] = useState<VolunteerDocument[]>(mockDocuments);
+  const [activeTab, setActiveTab] = useState<DocumentTypeFilter>('all');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [sortBy, setSortBy] = useState<SortBy>('date');
+  const [sortBy, setSortBy] = useState<SortBy>('submittedDate');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     category: 'All Categories',
+    status: 'All Status',
+    showFavorites: false,
     dateRange: 'all',
-    tags: [],
-    showFavorites: false
+    tags: []
   });
-  const [showFilters, setShowFilters] = useState(false);
 
-  const documentCounts = useMemo(() => {
-    const counts: Record<DocumentType, number> = {
-      all: documents.length,
-      pdf: documents.filter(d => d.type === 'pdf').length,
-      docx: documents.filter(d => d.type === 'docx').length,
-      xlsx: documents.filter(d => d.type === 'xlsx').length,
-      pptx: documents.filter(d => d.type === 'pptx').length,
-      image: documents.filter(d => d.type === 'image').length,
-      other: documents.filter(d => d.type === 'other').length,
-    };
-    return counts;
-  }, [documents]);
+  // Filter by active tab
+  const tabFilteredDocuments = useMemo(() => {
+    if (activeTab === 'all') return documents;
+    return documents.filter(doc => doc.documentType === activeTab);
+  }, [documents, activeTab]);
 
+  // Apply additional filters
   const filteredDocuments = useMemo(() => {
-    let filtered = [...documents];
+    return tabFilteredDocuments.filter(doc => {
+      // Search filter
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        if (
+          !doc.documentName.toLowerCase().includes(searchLower) &&
+          !doc.volunteerName.toLowerCase().includes(searchLower) &&
+          !doc.volunteerEmail.toLowerCase().includes(searchLower)
+        ) {
+          return false;
+        }
+      }
 
-    if (activeTab !== 'all') {
-      filtered = filtered.filter(doc => doc.type === activeTab);
-    }
+      // Category filter
+      if (filters.category !== 'All Categories' && doc.category !== filters.category) {
+        return false;
+      }
 
-    if (filters.search) {
-      filtered = filtered.filter(doc =>
-        doc.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-        doc.description?.toLowerCase().includes(filters.search.toLowerCase())
-      );
-    }
+      // Status filter
+      if (filters.status !== 'All Status' && doc.status !== filters.status) {
+        return false;
+      }
 
-    if (filters.category !== 'All Categories') {
-      filtered = filtered.filter(doc => doc.category === filters.category);
-    }
+      // Favorites filter
+      if (filters.showFavorites && !doc.isFavorite) {
+        return false;
+      }
 
-    if (filters.showFavorites) {
-      filtered = filtered.filter(doc => doc.isFavorite);
-    }
+      // Tags filter
+      if (filters.tags.length > 0) {
+        const hasAllTags = filters.tags.every(tag => doc.tags.includes(tag));
+        if (!hasAllTags) {
+          return false;
+        }
+      }
 
-    if (filters.tags.length > 0) {
-      filtered = filtered.filter(doc =>
-        filters.tags.some(tag => doc.tags.includes(tag))
-      );
-    }
+      // Date range filter
+      if (filters.dateRange !== 'all') {
+        const now = new Date();
+        const docDate = new Date(doc.submittedAt);
+        const diffTime = Math.abs(now.getTime() - docDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    filtered.sort((a, b) => {
+        switch (filters.dateRange) {
+          case 'today':
+            if (diffDays > 1) return false;
+            break;
+          case 'week':
+            if (diffDays > 7) return false;
+            break;
+          case 'month':
+            if (diffDays > 30) return false;
+            break;
+          case 'quarter':
+            if (diffDays > 90) return false;
+            break;
+        }
+      }
+
+      return true;
+    }).sort((a, b) => {
       let comparison = 0;
       switch (sortBy) {
-        case 'name':
-          comparison = a.name.localeCompare(b.name);
+        case 'volunteerName':
+          comparison = a.volunteerName.localeCompare(b.volunteerName);
           break;
-        case 'date':
-          comparison = a.uploadedAt.getTime() - b.uploadedAt.getTime();
+        case 'status':
+          comparison = a.status.localeCompare(b.status);
           break;
-        case 'downloads':
-          comparison = a.downloads - b.downloads;
-          break;
-        case 'size':
-          comparison = a.size - b.size;
+        case 'submittedDate':
+        default:
+          comparison = new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime();
           break;
       }
       return sortOrder === 'asc' ? comparison : -comparison;
     });
+  }, [tabFilteredDocuments, filters, sortBy, sortOrder]);
 
-    return filtered;
-  }, [documents, activeTab, filters, sortBy, sortOrder]);
+  // Document counts by type
+  const documentCounts = useMemo(() => {
+    const counts: Record<DocumentTypeFilter, number> = {
+      all: documents.length,
+      application: 0,
+      certification: 0,
+      identification: 0,
+      'background-check': 0,
+      agreement: 0,
+      other: 0
+    };
+    
+    documents.forEach(doc => {
+      counts[doc.documentType]++;
+    });
+    
+    return counts;
+  }, [documents]);
 
   const handleToggleFavorite = (id: string) => {
-    setDocuments(docs =>
-      docs.map(doc =>
-        doc.id === id ? { ...doc, isFavorite: !doc.isFavorite } : doc
-      )
-    );
+    console.log('Toggling favorite for:', id);
   };
 
-  const handleDownload = (id: string) => {
-    console.log('Downloading document:', id);
+  const handleView = (id: string) => {
+    console.log('Viewing document:', id);
   };
 
   const toggleTag = (tag: string) => {
@@ -557,93 +660,77 @@ export default function CompanyLibrary() {
     setFilters({
       search: '',
       category: 'All Categories',
+      status: 'All Status',
+      showFavorites: false,
       dateRange: 'all',
-      tags: [],
-      showFavorites: false
+      tags: []
     });
   };
 
   const stats = {
-    totalDocuments: filteredDocuments.length,
-    favorites: documents.filter(d => d.isFavorite).length,
-    totalDownloads: documents.reduce((sum, d) => sum + d.downloads, 0),
-    totalSize: documents.reduce((sum, d) => sum + d.size, 0)
+    total: documents.length,
+    pending: documents.filter(d => d.status === 'pending-review').length,
+    approved: documents.filter(d => d.status === 'approved').length,
+    favorites: documents.filter(d => d.isFavorite).length
   };
 
+  const isFilterActive = 
+    filters.search || 
+    filters.category !== 'All Categories' || 
+    filters.status !== 'All Status' || 
+    filters.showFavorites ||
+    filters.tags.length > 0;
+
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
+        
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <BookOpen className="w-10 h-10 text-[#166534]" />
+            <div className="p-3 bg-gradient-to-br from-[#166534] to-[#14532d] rounded-xl shadow-lg">
+              <Users className="w-10 h-10 text-white" />
+            </div>
             <div>
-              <h1 className="text-4xl font-bold text-slate-800">Company Library</h1>
+              <h1 className="text-4xl font-bold text-slate-900">Documentos de Voluntarios</h1>
               <p className="text-gray-600 mt-1">
-                Documentos de referencia generales y recursos compartidos de la organización
+                Gestiona y accede a todos los documentos enviados por los voluntarios, como formularios de solicitud y certificaciones.
               </p>
             </div>
           </div>
-
-          {/* Stats Cards - cada una con diferente fondo de verde */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            <StatsCard
-              icon={FileText}
-              label="Documents Found"
-              value={stats.totalDocuments}
-              iconBg="bg-gradient-to-br from-[#166534] to-[#14532d]"
-            />
-            <StatsCard
-              icon={Star}
-              label="Favorites"
-              value={stats.favorites}
-              iconBg="bg-gradient-to-br from-green-500 to-green-600"
-            />
-            <StatsCard
-              icon={Download}
-              label="Total Downloads"
-              value={stats.totalDownloads}
-              trend="+12%"
-              iconBg="bg-gradient-to-br from-teal-500 to-teal-600"
-            />
-            <StatsCard
-              icon={Folder}
-              label="Storage Used"
-              value={formatFileSize(stats.totalSize)}
-              iconBg="bg-gradient-to-br from-emerald-400 to-emerald-500"
-            />
+          
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            <StatsCard icon={FileText} label="Total Documents" value={stats.total} color="green" />
+            <StatsCard icon={Clock} label="Pending Review" value={stats.pending} color="yellow" />
+            <StatsCard icon={CheckCircle} label="Approved" value={stats.approved} color="emerald" />
+            <StatsCard icon={Star} label="Favorites" value={stats.favorites} color="blue" />
           </div>
         </div>
 
-        {/* Tabs - Escala de Verdes */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 mb-6 overflow-hidden">
-          <div className="flex overflow-x-auto scrollbar-hide">
-            {tabs.map((tab) => {
-              const count = documentCounts[tab.id];
+        {/* Tabs */}
+        <div className="mb-6 overflow-x-auto">
+          <div className="flex gap-2 pb-2">
+            {tabs.map(tab => {
+              const Icon = tab.icon;
               const isActive = activeTab === tab.id;
+              const count = documentCounts[tab.id];
               
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`
-                    flex items-center gap-2 px-6 py-4 font-medium transition-all whitespace-nowrap
-                    border-b-2 flex-shrink-0
-                    ${isActive 
-                      ? `${tab.color} border-current ${tab.bgColor}` 
-                      : 'text-gray-600 border-transparent hover:text-slate-800 hover:bg-gray-50'
-                    }
-                  `}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                    isActive
+                      ? `${tab.bgColor} ${tab.color} shadow-sm border-2 border-${tab.color.replace('text-', '')}`
+                      : 'bg-white text-gray-600 hover:bg-gray-50 border border-slate-200'
+                  }`}
                 >
-                  <tab.icon className="w-5 h-5" />
-                  <span>{tab.label}</span>
-                  <span className={`
-                    px-2 py-0.5 rounded-full text-xs font-semibold
-                    ${isActive 
-                      ? 'bg-white shadow-sm' 
-                      : 'bg-gray-100 text-gray-600'
-                    }
-                  `}>
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                    isActive ? 'bg-white bg-opacity-80' : 'bg-gray-100'
+                  }`}>
                     {count}
                   </span>
                 </button>
@@ -660,7 +747,7 @@ export default function CompanyLibrary() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search documents..."
+                  placeholder="Search by volunteer name, email, or document..."
                   value={filters.search}
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#166534]"
@@ -702,7 +789,7 @@ export default function CompanyLibrary() {
 
             <button className="px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2">
               <Plus className="w-4 h-4" />
-              Upload
+              Add Document
             </button>
           </div>
 
@@ -726,6 +813,21 @@ export default function CompanyLibrary() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Status
+                  </label>
+                  <select
+                    value={filters.status}
+                    onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#166534]"
+                  >
+                    {statusOptions.map(status => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Sort By
                   </label>
                   <div className="flex gap-2">
@@ -734,10 +836,9 @@ export default function CompanyLibrary() {
                       onChange={(e) => setSortBy(e.target.value as SortBy)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#166534]"
                     >
-                      <option value="name">Name</option>
-                      <option value="date">Date</option>
-                      <option value="downloads">Downloads</option>
-                      <option value="size">Size</option>
+                      <option value="submittedDate">Submitted Date</option>
+                      <option value="volunteerName">Volunteer Name</option>
+                      <option value="status">Status</option>
                     </select>
                     <button
                       onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
@@ -747,23 +848,23 @@ export default function CompanyLibrary() {
                     </button>
                   </div>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Date Range
-                  </label>
-                  <select
-                    value={filters.dateRange}
-                    onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#166534]"
-                  >
-                    <option value="all">All Time</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                    <option value="quarter">This Quarter</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Date Range
+                </label>
+                <select
+                  value={filters.dateRange}
+                  onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#166534] mb-4"
+                >
+                  <option value="all">All Time</option>
+                  <option value="today">Today</option>
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
+                  <option value="quarter">This Quarter</option>
+                </select>
               </div>
 
               <div className="mb-4">
@@ -771,7 +872,7 @@ export default function CompanyLibrary() {
                   Filter by Tags
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {availableTags.slice(0, 12).map(tag => (
+                  {availableTags.map(tag => (
                     <button
                       key={tag}
                       onClick={() => toggleTag(tag)}
@@ -810,13 +911,14 @@ export default function CompanyLibrary() {
           )}
         </div>
 
+        {/* Results Info */}
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm text-gray-600">
             Showing <span className="font-semibold">{filteredDocuments.length}</span> of{' '}
             <span className="font-semibold">{documentCounts[activeTab]}</span> documents
             {activeTab !== 'all' && <span className="text-gray-400"> in {tabs.find(t => t.id === activeTab)?.label}</span>}
           </p>
-          {(filters.search || filters.category !== 'All Categories' || filters.tags.length > 0 || filters.showFavorites) && (
+          {isFilterActive && (
             <button
               onClick={clearFilters}
               className="text-sm text-[#22c55e] hover:text-[#059669] font-medium flex items-center gap-1"
@@ -827,6 +929,7 @@ export default function CompanyLibrary() {
           )}
         </div>
 
+        {/* Documents Grid/List */}
         {filteredDocuments.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
             <div className="max-w-md mx-auto">
@@ -835,12 +938,12 @@ export default function CompanyLibrary() {
               </div>
               <h3 className="text-xl font-semibold text-slate-800 mb-2">No documents found</h3>
               <p className="text-gray-600 mb-6">
-                {filters.search || filters.category !== 'All Categories' || filters.tags.length > 0
+                {isFilterActive
                   ? 'Try adjusting your filters or search terms'
                   : `No ${activeTab !== 'all' ? tabs.find(t => t.id === activeTab)?.label.toLowerCase() : 'documents'} available yet`
                 }
               </p>
-              {(filters.search || filters.category !== 'All Categories' || filters.tags.length > 0) && (
+              {isFilterActive && (
                 <button
                   onClick={clearFilters}
                   className="px-4 py-2 bg-[#166534] text-white rounded-lg hover:bg-[#14532d] transition-colors"
@@ -857,7 +960,7 @@ export default function CompanyLibrary() {
                 key={doc.id}
                 doc={doc}
                 onToggleFavorite={handleToggleFavorite}
-                onDownload={handleDownload}
+                onView={handleView}
               />
             ))}
           </div>
@@ -868,7 +971,7 @@ export default function CompanyLibrary() {
                 key={doc.id}
                 doc={doc}
                 onToggleFavorite={handleToggleFavorite}
-                onDownload={handleDownload}
+                onView={handleView}
               />
             ))}
           </div>

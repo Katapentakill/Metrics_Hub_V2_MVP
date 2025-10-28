@@ -346,7 +346,7 @@ export default function UniversalHeader({
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false); 
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false); 
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); 
   const [notificationCount] = useState(3);
   
   // Estado para submenú móvil (Documentos)
@@ -424,6 +424,15 @@ export default function UniversalHeader({
       setShowUserMenu(false);
     }
   }, [session, userRole, router]);
+
+  // Funciones para el menú retráctil
+  const handleMouseEnterSidebar = useCallback(() => {
+    setSidebarCollapsed(false);
+  }, []);
+
+  const handleMouseLeaveSidebar = useCallback(() => {
+    setSidebarCollapsed(true);
+  }, []);
 
 
   // --- Header Público ---
@@ -673,6 +682,8 @@ export default function UniversalHeader({
       {/* --- SIDEBAR IZQUIERDO (Desktop) --- */}
       <aside 
         ref={sidebarRef}
+        onMouseEnter={handleMouseEnterSidebar}
+        onMouseLeave={handleMouseLeaveSidebar}
         className={`hidden lg:block fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white border-r border-slate-200 shadow-sm transition-all duration-300 z-40 ${
           sidebarCollapsed ? 'w-20' : 'w-64'
         }`}

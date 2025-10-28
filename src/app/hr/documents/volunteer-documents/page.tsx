@@ -195,67 +195,80 @@ const formatDate = (date: Date): string => {
   }).format(date);
 };
 
+// Estados con colores según guía
 const getStatusBadge = (status: VolunteerDocument['status']) => {
   switch (status) {
     case 'approved':
-      return <span className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+      return <span className="flex items-center gap-1 text-xs text-green-700 bg-green-50 px-2 py-1 rounded-full font-medium">
         <CheckCircle className="w-3 h-3" /> Approved
       </span>;
     case 'pending-review':
-      return <span className="flex items-center gap-1 text-xs text-yellow-600 bg-yellow-50 px-2 py-1 rounded-full">
+      return <span className="flex items-center gap-1 text-xs text-yellow-700 bg-yellow-50 px-2 py-1 rounded-full font-medium">
         <Clock className="w-3 h-3" /> Pending Review
       </span>;
     case 'rejected':
-      return <span className="flex items-center gap-1 text-xs text-red-600 bg-red-50 px-2 py-1 rounded-full">
+      return <span className="flex items-center gap-1 text-xs text-red-700 bg-red-50 px-2 py-1 rounded-full font-medium">
         <X className="w-3 h-3" /> Rejected
       </span>;
     case 'expired':
-      return <span className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
+      return <span className="flex items-center gap-1 text-xs text-orange-700 bg-orange-50 px-2 py-1 rounded-full font-medium">
         <AlertTriangle className="w-3 h-3" /> Expired
       </span>;
   }
 };
 
-const StatsCard = ({ icon: Icon, label, value, trend, color = 'orange' }: { 
+// StatsCard con colores institucionales
+const StatsCard = ({ icon: Icon, label, value, trend, color = 'green' }: { 
     icon: React.ComponentType<{ className?: string }>;
     label: string;
     value: string | number;
     trend?: string;
     color?: string;
-  }) => (
-    <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+  }) => {
+  const colorClasses = {
+    green: 'from-[#166534] to-[#14532d]',
+    emerald: 'from-[#059669] to-[#047857]',
+    yellow: 'from-yellow-500 to-yellow-600',
+    blue: 'from-blue-500 to-blue-600',
+  };
+
+  return (
+    <div className="bg-white rounded-lg p-4 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-2">
-        <Icon className={`w-5 h-5 text-${color}-500`} />
+        <div className={`p-2 bg-gradient-to-br ${colorClasses[color as keyof typeof colorClasses]} rounded-lg`}>
+          <Icon className="w-5 h-5 text-white" />
+        </div>
         {trend && (
-          <span className="text-xs font-medium text-green-600 flex items-center gap-1">
+          <span className="text-xs font-medium text-[#059669] flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
             {trend}
           </span>
         )}
       </div>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
-      <p className="text-sm text-gray-600">{label}</p>
+      <p className="text-2xl font-bold text-[#1e293b]">{value}</p>
+      <p className="text-sm text-[#4b5563]">{label}</p>
     </div>
   );
+};
 
 const DocumentCard = ({ doc, onToggleFavorite, onView }: {
   doc: VolunteerDocument;
   onToggleFavorite: (id: string) => void;
   onView: (id: string) => void;
 }) => (
-  <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
-    <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-orange-50 to-transparent">
+  <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+    <div className="p-4 border-b border-[#e2e8f0] bg-gradient-to-r from-green-50 to-transparent">
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-            <User className="w-5 h-5 text-orange-600" />
+          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <User className="w-5 h-5 text-[#166534]" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-900 truncate">{doc.volunteerName}</h3>
-            <p className="text-xs text-gray-500 truncate">{doc.volunteerEmail}</p>
+            <h3 className="font-semibold text-[#1e293b] truncate">{doc.volunteerName}</h3>
+            <p className="text-xs text-[#4b5563] truncate">{doc.volunteerEmail}</p>
           </div>
         </div>
-        <button onClick={() => onToggleFavorite(doc.id)} className="p-1 hover:bg-gray-100 rounded transition-colors">
+        <button onClick={() => onToggleFavorite(doc.id)} className="p-1 hover:bg-gray-50 rounded transition-colors">
           <Star className={`w-5 h-5 ${doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`} />
         </button>
       </div>
@@ -266,21 +279,21 @@ const DocumentCard = ({ doc, onToggleFavorite, onView }: {
 
     <div className="p-4">
       <div className="mb-3">
-        <h4 className="font-medium text-gray-900 mb-1">{doc.documentName}</h4>
-        <p className="text-xs text-orange-500">{doc.category}</p>
+        <h4 className="font-medium text-[#1e293b] mb-1">{doc.documentName}</h4>
+        <p className="text-xs text-[#059669]">{doc.category}</p>
       </div>
       
       {doc.notes && (
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2 italic">"{doc.notes}"</p>
+        <p className="text-sm text-[#4b5563] mb-3 line-clamp-2 italic">"{doc.notes}"</p>
       )}
       
-      <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-gray-500 pt-3 border-t border-gray-100">
+      <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-gray-500 pt-3 border-t border-[#e2e8f0]">
         <div className="flex items-center gap-1">
           <Clock className="w-3 h-3" />
           <span>{formatDate(doc.submittedAt)}</span>
         </div>
         {doc.reviewedBy && (
-          <div className="flex items-center gap-1 text-green-600">
+          <div className="flex items-center gap-1 text-[#059669]">
             <CheckCircle className="w-3 h-3" />
             <span>{doc.reviewedBy}</span>
           </div>
@@ -294,15 +307,15 @@ const DocumentCard = ({ doc, onToggleFavorite, onView }: {
       </div>
     </div>
 
-    <div className="p-4 bg-gray-50 border-t border-gray-100 flex gap-2">
+    <div className="p-4 bg-gray-50 border-t border-[#e2e8f0] flex gap-2">
       <button
         onClick={() => onView(doc.id)}
-        className="flex-1 px-3 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
+        className="flex-1 px-3 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white text-sm rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2"
       >
         <Eye className="w-4 h-4" />
         View
       </button>
-      <button className="px-3 py-2 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+      <button className="px-3 py-2 bg-white border border-slate-200 text-[#4b5563] text-sm rounded-lg hover:bg-gray-50 transition-colors">
         <Download className="w-4 h-4" />
       </button>
     </div>
@@ -314,27 +327,27 @@ const DocumentListItem = ({ doc, onToggleFavorite, onView }: {
   onToggleFavorite: (id: string) => void;
   onView: (id: string) => void;
 }) => (
-  <div className="bg-white rounded-xl border border-gray-200 hover:shadow-md transition-all duration-200 p-4">
+  <div className="bg-white rounded-xl border border-slate-200 hover:shadow-md transition-all duration-200 p-4">
     <div className="flex items-center gap-4">
-      <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-        <User className="w-6 h-6 text-orange-600" />
+      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+        <User className="w-6 h-6 text-[#166534]" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-gray-900">{doc.volunteerName}</h3>
+              <h3 className="font-semibold text-[#1e293b]">{doc.volunteerName}</h3>
               {getStatusBadge(doc.status)}
             </div>
-            <p className="text-sm text-gray-600 mb-1">{doc.documentName}</p>
+            <p className="text-sm text-[#4b5563] mb-1">{doc.documentName}</p>
             <p className="text-xs text-gray-500 mb-2">{doc.volunteerEmail}</p>
             
             {doc.notes && (
-              <p className="text-sm text-gray-600 mb-2 italic">"{doc.notes}"</p>
+              <p className="text-sm text-[#4b5563] mb-2 italic">"{doc.notes}"</p>
             )}
             
             <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
-              <span className="flex items-center gap-1 text-orange-500">
+              <span className="flex items-center gap-1 text-[#059669]">
                 <Folder className="w-3 h-3" />
                 {doc.category}
               </span>
@@ -343,7 +356,7 @@ const DocumentListItem = ({ doc, onToggleFavorite, onView }: {
                 Submitted: {formatDate(doc.submittedAt)}
               </span>
               {doc.reviewedBy && (
-                <span className="flex items-center gap-1 text-green-600">
+                <span className="flex items-center gap-1 text-[#059669]">
                   <CheckCircle className="w-3 h-3" />
                   Reviewed by {doc.reviewedBy}
                 </span>
@@ -359,12 +372,12 @@ const DocumentListItem = ({ doc, onToggleFavorite, onView }: {
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
-            <button onClick={() => onToggleFavorite(doc.id)} className="p-2 hover:bg-gray-100 rounded transition-colors">
+            <button onClick={() => onToggleFavorite(doc.id)} className="p-2 hover:bg-gray-50 rounded transition-colors">
               <Star className={`w-5 h-5 ${doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`} />
             </button>
             <button
               onClick={() => onView(doc.id)}
-              className="px-4 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white text-sm rounded-lg hover:shadow-lg transition-all flex items-center gap-2"
             >
               <Eye className="w-4 h-4" />
               View
@@ -381,24 +394,24 @@ const DocumentMinimalistItem = ({ doc, onToggleFavorite, onView }: {
   onToggleFavorite: (id: string) => void;
   onView: (id: string) => void;
 }) => (
-  <div className="bg-white rounded-lg border border-gray-200 hover:border-orange-400 hover:shadow-sm transition-all duration-150 p-3">
+  <div className="bg-white rounded-lg border border-slate-200 hover:border-[#059669] hover:shadow-sm transition-all duration-150 p-3">
     <div className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-3 flex-1 min-w-0">
-        <User className="w-4 h-4 text-orange-600 flex-shrink-0" />
-        <span className="font-medium text-gray-800 text-sm truncate">{doc.volunteerName}</span>
+        <User className="w-4 h-4 text-[#166534] flex-shrink-0" />
+        <span className="font-medium text-[#1e293b] text-sm truncate">{doc.volunteerName}</span>
         <span className="text-xs text-gray-500 truncate hidden md:inline">- {doc.documentName}</span>
-        <span className="text-xs text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full whitespace-nowrap hidden lg:inline-flex">
+        <span className="text-xs text-[#059669] bg-green-50 px-2 py-0.5 rounded-full whitespace-nowrap hidden lg:inline-flex">
           {doc.category}
         </span>
         {getStatusBadge(doc.status)}
       </div>
       <div className="flex items-center gap-3 flex-shrink-0">
-        <button onClick={() => onToggleFavorite(doc.id)} className="p-1 hover:bg-gray-100 rounded transition-colors">
+        <button onClick={() => onToggleFavorite(doc.id)} className="p-1 hover:bg-gray-50 rounded transition-colors">
           <Star className={`w-4 h-4 ${doc.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`} />
         </button>
         <button
           onClick={() => onView(doc.id)}
-          className="p-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
+          className="p-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white text-sm rounded-lg hover:shadow-lg transition-all"
         >
           <Eye className="w-4 h-4" />
         </button>
@@ -491,31 +504,32 @@ export default function VolunteerDocumentsPage() {
   const isFilterActive = filters.search || filters.category !== 'All Categories' || filters.status !== 'All Status' || filters.showFavorites;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+    <div className="min-h-screen bg-[#f9fafb] p-8">
       <div className="max-w-7xl mx-auto">
         
+        {/* Header con icono sin fondo, color green-800 */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg">
-              <Users className="w-10 h-10 text-[#166534]" />
-            </div>
+            <Users className="w-10 h-10 text-[#166534]" />
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">Documentos de Voluntarios</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-4xl font-bold text-[#1e293b]">Documentos de Voluntarios</h1>
+              <p className="text-[#4b5563] mt-1">
                 Gestiona y accede a todos los documentos enviados por los voluntarios, como formularios de solicitud y certificaciones.
               </p>
             </div>
           </div>
           
+          {/* Stats Cards con colores institucionales */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            <StatsCard icon={FileText} label="Total Documents" value={stats.total} color="orange" />
+            <StatsCard icon={FileText} label="Total Documents" value={stats.total} color="green" />
             <StatsCard icon={Clock} label="Pending Review" value={stats.pending} color="yellow" />
-            <StatsCard icon={CheckCircle} label="Approved" value={stats.approved} color="green" />
-            <StatsCard icon={Star} label="Favorites" value={stats.favorites} color="blue" />
+            <StatsCard icon={CheckCircle} label="Approved" value={stats.approved} color="emerald" />
+            <StatsCard icon={Star} label="Favorites" value={stats.favorites} color="emerald" />
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        {/* Search & Filters */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
           <div className="flex flex-wrap items-center gap-4 mb-4">
             
             <div className="flex-1 min-w-[300px]">
@@ -526,44 +540,44 @@ export default function VolunteerDocumentsPage() {
                   placeholder="Search by volunteer name, email, or document..."
                   value={filters.search}
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]"
                 />
               </div>
             </div>
             
             <div className="flex gap-2">
-              <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+              <button onClick={() => setViewMode('grid')} className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-green-50 text-[#166534]' : 'bg-gray-100 text-[#4b5563] hover:bg-gray-200'}`}>
                 <Grid3x3 className="w-5 h-5" />
               </button>
-              <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+              <button onClick={() => setViewMode('list')} className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-green-50 text-[#166534]' : 'bg-gray-100 text-[#4b5563] hover:bg-gray-200'}`}>
                 <List className="w-5 h-5" />
               </button>
-              <button onClick={() => setViewMode('minimalist')} className={`p-2 rounded-lg transition-colors ${viewMode === 'minimalist' ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+              <button onClick={() => setViewMode('minimalist')} className={`p-2 rounded-lg transition-colors ${viewMode === 'minimalist' ? 'bg-green-50 text-[#166534]' : 'bg-gray-100 text-[#4b5563] hover:bg-gray-200'}`}>
                 <Minimize2 className="w-5 h-5" />
               </button>
             </div>
 
-            <button onClick={() => setShowFilters(!showFilters)} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+            <button onClick={() => setShowFilters(!showFilters)} className="px-4 py-2 bg-gray-100 text-[#4b5563] rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
               <Filter className="w-4 h-4" />
               Filters
               <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
             </button>
             
-            <button className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2">
+            <button className="px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2">
               <Plus className="w-4 h-4" />
               Add Document
             </button>
           </div>
 
           {showFilters && (
-            <div className="pt-4 border-t border-gray-200">
+            <div className="pt-4 border-t border-[#e2e8f0]">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <label className="block text-sm font-medium text-[#4b5563] mb-2">Category</label>
                   <select
                     value={filters.category}
                     onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]"
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -572,11 +586,11 @@ export default function VolunteerDocumentsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                  <label className="block text-sm font-medium text-[#4b5563] mb-2">Status</label>
                   <select
                     value={filters.status}
                     onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]"
                   >
                     {statusOptions.map(status => (
                       <option key={status} value={status}>{status}</option>
@@ -585,12 +599,12 @@ export default function VolunteerDocumentsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                  <label className="block text-sm font-medium text-[#4b5563] mb-2">Sort By</label>
                   <div className="flex gap-2">
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value as SortBy)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#059669]"
                     >
                       <option value="submittedDate">Submitted Date</option>
                       <option value="volunteerName">Volunteer Name</option>
@@ -612,12 +626,12 @@ export default function VolunteerDocumentsPage() {
                     type="checkbox"
                     checked={filters.showFavorites}
                     onChange={(e) => setFilters(prev => ({ ...prev, showFavorites: e.target.checked }))}
-                    className="w-4 h-4 text-orange-600 rounded focus:ring-2 focus:ring-orange-500"
+                    className="w-4 h-4 text-[#166534] rounded focus:ring-2 focus:ring-[#059669]"
                   />
                   <Star className="w-4 h-4 text-yellow-500" />
-                  <span className="text-sm font-medium text-gray-700">Show Favorites Only</span>
+                  <span className="text-sm font-medium text-[#4b5563]">Show Favorites Only</span>
                 </label>
-                <button onClick={clearFilters} className="text-sm text-orange-600 hover:text-orange-700 font-medium">
+                <button onClick={clearFilters} className="text-sm text-[#22c55e] hover:text-[#059669] font-medium transition-colors">
                   Clear All Filters
                 </button>
               </div>
@@ -625,27 +639,29 @@ export default function VolunteerDocumentsPage() {
           )}
         </div>
 
+        {/* Results Counter */}
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[#4b5563]">
             Showing <span className="font-semibold">{filteredDocuments.length}</span> of <span className="font-semibold">{documents.length}</span> documents
           </p>
           {isFilterActive && (
-            <button onClick={clearFilters} className="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1">
+            <button onClick={clearFilters} className="text-sm text-[#22c55e] hover:text-[#059669] font-medium flex items-center gap-1 transition-colors">
               <X className="w-4 h-4" />
               Clear Filters
             </button>
           )}
         </div>
 
+        {/* Documents Display */}
         {filteredDocuments.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
             <div className="max-w-md mx-auto">
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
                 <FileText className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No documents found</h3>
-              <p className="text-gray-600 mb-6">Try adjusting your filters or search terms</p>
-              <button onClick={clearFilters} className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+              <h3 className="text-xl font-semibold text-[#1e293b] mb-2">No documents found</h3>
+              <p className="text-[#4b5563] mb-6">Try adjusting your filters or search terms</p>
+              <button onClick={clearFilters} className="px-4 py-2 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-lg hover:shadow-lg transition-all">
                 Clear Filters
               </button>
             </div>
