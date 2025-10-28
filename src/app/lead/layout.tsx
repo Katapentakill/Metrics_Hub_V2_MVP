@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import HeaderLead from '@/components/layout/Lead/HeaderLead';
 import {FooterLead} from '@/components/layout/Lead/FooterLead';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 interface LeadLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface LeadLayoutProps {
 export default function LeadLayout({ children }: LeadLayoutProps) {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { isCollapsed } = useSidebar();
 
   useEffect(() => {
     const session = localStorage.getItem('auth_session');
@@ -54,9 +56,9 @@ export default function LeadLayout({ children }: LeadLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <HeaderLead />
-      <main className="admin-main-content flex-grow">
+      <main className={`admin-main-content flex-grow ${ isCollapsed } ? 'lg:ml-20' : 'lg:ml-64'`}>
         <div className="page-container">
           {children}
         </div>

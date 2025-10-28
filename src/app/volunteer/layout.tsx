@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import HeaderVolunteer from '@/components/layout/Volunteer/HeaderVolunteer';
 import {FooterVolunteer} from '@/components/layout/Volunteer/FooterVolunteer';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 interface VolunteerLayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface VolunteerLayoutProps {
 export default function VolunteerLayout({ children }: VolunteerLayoutProps) {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { isCollapsed } = useSidebar();
 
   useEffect(() => {
     const session = localStorage.getItem('auth_session');
@@ -55,7 +57,7 @@ export default function VolunteerLayout({ children }: VolunteerLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <HeaderVolunteer />
-      <main className="admin-main-content">
+      <main className={`admin-main-content ${ isCollapsed } ? 'lg:ml-20' : 'lg:ml-64'`}>
         <div className="page-container">
           {children}
         </div>
