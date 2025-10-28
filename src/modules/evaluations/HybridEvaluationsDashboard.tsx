@@ -5,6 +5,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSidebar } from '@/contexts/SidebarContext'; // ✅ NUEVO IMPORT
 import { 
   List, 
   Users, 
@@ -70,12 +71,20 @@ export default function HybridEvaluationsDashboard({
   theme = 'emerald',
   basePath = '/admin'
 }: HybridEvaluationsDashboardProps) {
+  // ✅ Hook para el estado del sidebar
+  const { isCollapsed: isSidebarCollapsed } = useSidebar();
+  
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabView>('all');
   const [showNewEvaluationModal, setShowNewEvaluationModal] = useState(false);
   const [showEvaluationDetails, setShowEvaluationDetails] = useState(false);
   const [selectedEvaluation, setSelectedEvaluation] = useState<EvaluationView | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // ✅ Padding dinámico responsive basado en el estado del sidebar
+  const containerPadding = isSidebarCollapsed 
+    ? 'px-4 sm:px-6 lg:pl-24 lg:pr-8'  // Colapsado: responsive + compensar sidebar
+    : 'pl-4 lg:pl-72 pr-4 lg:pr-8';     // Expandido: compensar sidebar expandido
 
   // Sistema de tabs
   const tabs = [
@@ -144,7 +153,7 @@ export default function HybridEvaluationsDashboard({
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className={`space-y-6 ${containerPadding} transition-all duration-300`}>
         <div className="bg-gray-200 h-32 rounded-xl animate-pulse"></div>
         <div className="bg-gray-200 h-12 rounded-xl animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -158,7 +167,7 @@ export default function HybridEvaluationsDashboard({
   }
 
   return (
-    <div className="space-y-6">
+    <div className={`space-y-6 ${containerPadding} transition-all duration-300`}>
       {/* Header Principal - PALETA INSTITUCIONAL */}
       <div className="bg-transparent ">
         <div className="flex items-center justify-between">

@@ -4,6 +4,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSidebar } from '@/contexts/SidebarContext'; // ✅ NUEVO IMPORT
 import {
   Megaphone,
   Plus,
@@ -65,6 +66,9 @@ interface CommunicationsPageProps {
 }
 
 export default function CommunicationsPage({ allowedRoles, currentUserId }: CommunicationsPageProps) {
+  // ✅ Hook para el estado del sidebar
+  const { isCollapsed: isSidebarCollapsed } = useSidebar();
+  
   const [userRole, setUserRole] = useState<string>('');
   const [communications, setCommunications] = useState<Communication[]>([]);
   const [stats, setStats] = useState<CommunicationStats>({
@@ -86,6 +90,12 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
   const [communicationToDelete, setCommunicationToDelete] = useState<Communication | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+
+  // ✅ Padding dinámico responsive basado en el estado del sidebar
+  const containerPadding = isSidebarCollapsed 
+    ? 'px-4 sm:px-6 lg:pl-24 lg:pr-8'  // Colapsado: responsive + compensar sidebar
+    : 'pl-4 lg:pl-72 pr-4 lg:pr-8';     // Expandido: compensar sidebar expandido
+
 
   // Cargar datos basados en el rol del usuario
   useEffect(() => {
@@ -234,7 +244,7 @@ export default function CommunicationsPage({ allowedRoles, currentUserId }: Comm
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div className={`max-w-7xl mx-auto py-8 ${containerPadding} transition-all duration-300`}>
         {/* Header - PALETA INSTITUCIONAL */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
