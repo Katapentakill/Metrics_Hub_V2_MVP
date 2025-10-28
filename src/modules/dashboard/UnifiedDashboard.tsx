@@ -44,10 +44,14 @@ const containerPadding = isSidebarCollapsed
       try {
         // Verificar sesión
         const sessionData = getAuthSession();
+        console.log('sessionData:', sessionData);
         if (!sessionData || sessionData.role !== role) {
           return;
         }
         setSession(sessionData);
+
+        console.log('role:', role);
+        console.log('dashboardConfig[role]:', dashboardConfig[role]);
 
         // Simular carga de datos
         await new Promise(resolve => setTimeout(resolve, 2000));
