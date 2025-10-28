@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSidebar } from '@/contexts/SidebarContext'; 
 import { 
   Calendar, 
   Activity,
@@ -25,11 +26,18 @@ interface UnifiedDashboardProps {
 }
 
 export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
+  const { isCollapsed: isSidebarCollapsed } = useSidebar();
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [session, setSession] = useState<any>(null);
 
   const config = dashboardConfig[role];
+
+  // Padding dinámico basado en el estado del sidebar
+//const containerPadding = isSidebarCollapsed ? 'pl-4 lg:pl-20' : 'pl-4 lg:pl-64';
+const containerPadding = isSidebarCollapsed 
+  ? 'px-4 sm:px-6 lg:pl-24 lg:pr-8'  // Colapsado: responsive como max-w-7xl
+  : 'pl-72 pr-4 lg:pr-8';             // Expandido: compensar sidebar
 
   useEffect(() => {
     const loadDashboardData = async () => {
@@ -80,7 +88,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className={`max-w-7xl mx-auto space-y-6 ${containerPadding} pr-6 transition-all duration-300`}>
         <div className="h-8 w-64 bg-gray-200 rounded animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
@@ -96,7 +104,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
 
   if (!data || !session) {
     return (
-      <div className="max-w-7xl mx-auto py-8">
+      <div className={`max-w-7xl mx-auto py-8 ${containerPadding} pr-6 transition-all duration-300`}>
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Acceso no autorizado</h2>
           <p className="text-gray-600">No tienes permisos para acceder a este dashboard.</p>
@@ -106,7 +114,7 @@ export default function UnifiedDashboard({ role }: UnifiedDashboardProps) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className={`max-w-7xl mx-auto space-y-6 ${containerPadding} pr-6 transition-all duration-300`}>
       {/* Header - Icono con green-800 (#166534) */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>

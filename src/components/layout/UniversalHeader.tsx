@@ -1,6 +1,9 @@
+// src/components/layout/UniversalHeader.tsx
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { useSidebar } from '@/contexts/SidebarContext';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation'; 
@@ -346,7 +349,7 @@ export default function UniversalHeader({
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false); 
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); 
+  const { isCollapsed: sidebarCollapsed, setIsCollapsed: setSidebarCollapsed } = useSidebar();
   const [notificationCount] = useState(3);
   
   // Estado para submenú móvil (Documentos)
