@@ -8,39 +8,41 @@ export function FooterAdmin() {
 
 
   return (
-    <footer className={`bg-white border-t border-slate-200 text-gray-600 mt-12 transition-all duration-300 ${isCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
-      <div className="max-w-7xl mx-auto px-6 py-12">
+    <footer className={`bg-green-900 text-green-50 mt-20 transition-all duration-300 ${isCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo y descripción del admin */}
-          <div className="col-span-1 md:col-span-3 space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-700 to-green-800 rounded-xl flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
+                <div className="w-5 h-5 bg-green-600 rounded-md flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 bg-white rounded-sm"></div>
+                </div>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-800">Living Stones Admin</h3>
-                <p className="text-sm text-gray-600">Panel de Control Administrativo</p>
+                <h3 className="text-2xl font-bold text-white">Living Stones Admin</h3>
+                <p className="text-sm text-green-100">Panel de Control Administrativo</p>
               </div>
             </div>
-            <p className="text-sm text-gray-600 max-w-md">
+            <p className="text-green-100 mb-4 max-w-md">
               Sistema completo de gestión de voluntarios con control total sobre usuarios, proyectos, 
               evaluaciones y configuraciones del sistema.
             </p>
-            <div className="flex items-center space-x-4 text-xs text-gray-600">
+            <div className="flex items-center space-x-4 text-xs text-green-100">
               <div className="flex items-center space-x-1">
-                <Users className="w-4 h-4 text-green-800" />
+                <Users className="w-4 h-4 text-green-300" />
                 <span>Administrar Usuarios</span>
               </div>
               <div className="flex items-center space-x-1">
-                <Shield className="w-4 h-4 text-blue-500" />
+                <Shield className="w-4 h-4 text-green-300" />
                 <span>Supervisar Proyectos</span>
               </div>
               <div className="flex items-center space-x-1">
-                <ClipboardList className="w-4 h-4 text-yellow-500" />
+                <ClipboardList className="w-4 h-4 text-green-300" />
                 <span>Sistema de Evaluaciones</span>
               </div>
               <div className="flex items-center space-x-1">
-                <Settings className="w-4 h-4 text-teal-500" />
+                <Settings className="w-4 h-4 text-green-300" />
                 <span>Configuración del Sistema</span>
               </div>
             </div>
@@ -48,11 +50,11 @@ export function FooterAdmin() {
         </div>
 
         {/* Información del sistema */}
-        <div className="mt-8 pt-8 border-t border-slate-200">
+        <div className="border-t border-green-800 mt-8 pt-8">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
-            <div className="flex items-center space-x-6 text-sm text-gray-600">
+            <div className="flex items-center space-x-6 text-sm text-green-100">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-emerald-600 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span>Sistema Operativo</span>
               </div>
               <div>
@@ -60,7 +62,7 @@ export function FooterAdmin() {
               </div>
             </div>
             
-            <div className="text-xs text-gray-600">
+            <div className="text-sm text-green-200">
               © 2024 Living Stones Admin Panel
             </div>
           </div>

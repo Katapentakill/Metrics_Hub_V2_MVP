@@ -1,44 +1,41 @@
 // src/components/layout/Public/FooterPublic.tsx
 'use client';
 import Link from 'next/link';
-import { useSidebar } from '@/contexts/SidebarContext';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 export default function FooterPublic() {
-  const { isCollapsed } = useSidebar();
-
   return (
-    <footer className={`bg-slate-900 text-slate-300 mt-12 transition-all duration-300 ${isCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
-      <div className="max-w-7xl mx-auto px-6 py-12">
+    <footer className="bg-green-900 text-green-50 mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg">
-                <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 bg-emerald-500 rounded-sm"></div>
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
+                <div className="w-5 h-5 bg-green-600 rounded-md flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 bg-white rounded-sm"></div>
                 </div>
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white">Living Stones</h3>
-                <p className="text-xs text-slate-400">Volunteer System</p>
+                <p className="text-xs text-green-100">Volunteer System</p>
               </div>
             </div>
-            <p className="text-sm text-slate-400 leading-relaxed">
+            <p className="text-sm text-green-100 leading-relaxed">
               Conectamos voluntarios apasionados con proyectos que generan impacto social positivo en comunidades alrededor del mundo.
             </p>
             
             <div className="flex items-center gap-4">
-              <a href="#" className="p-2 bg-slate-800 rounded-lg hover:bg-emerald-600 transition-colors">
-                <Facebook className="w-4 h-4" />
+              <a href="#" className="w-10 h-10 bg-green-800 hover:bg-green-700 rounded-lg flex items-center justify-center transition-colors">
+                <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 bg-slate-800 rounded-lg hover:bg-emerald-600 transition-colors">
-                <Twitter className="w-4 h-4" />
+              <a href="#" className="w-10 h-10 bg-green-800 hover:bg-green-700 rounded-lg flex items-center justify-center transition-colors">
+                <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 bg-slate-800 rounded-lg hover:bg-emerald-600 transition-colors">
-                <Instagram className="w-4 h-4" />
+              <a href="#" className="w-10 h-10 bg-green-800 hover:bg-green-700 rounded-lg flex items-center justify-center transition-colors">
+                <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 bg-slate-800 rounded-lg hover:bg-emerald-600 transition-colors">
-                <Linkedin className="w-4 h-4" />
+              <a href="#" className="w-10 h-10 bg-green-800 hover:bg-green-700 rounded-lg flex items-center justify-center transition-colors">
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -46,19 +43,19 @@ export default function FooterPublic() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Enlaces Rápidos</h4>
             <nav className="space-y-2">
-              <Link href="/login" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="/login" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Iniciar Sesión
               </Link>
-              <Link href="/register" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="/register" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Registrarse
               </Link>
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Cómo Funciona
               </Link>
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Proyectos Activos
               </Link>
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Testimonios
               </Link>
             </nav>
@@ -67,19 +64,19 @@ export default function FooterPublic() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Soporte</h4>
             <nav className="space-y-2">
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Centro de Ayuda
               </Link>
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Preguntas Frecuentes
               </Link>
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Guías para Voluntarios
               </Link>
-              <Link href="/forgot-password" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="/forgot-password" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Restablecer Contraseña
               </Link>
-              <Link href="#" className="block text-sm hover:text-emerald-400 transition-colors">
+              <Link href="#" className="block text-sm text-green-100 hover:text-white transition-colors">
                 Contactar Soporte
               </Link>
             </nav>
@@ -89,16 +86,16 @@ export default function FooterPublic() {
             <h4 className="text-lg font-semibold text-white">Contacto</h4>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-emerald-400" />
-                <span className="text-sm">info@livingstones.org</span>
+                <Mail className="w-5 h-5 text-green-300 flex-shrink-0" />
+                <span className="text-sm text-green-100">info@livingstones.org</span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-emerald-400" />
-                <span className="text-sm">+1 (555) 123-HELP</span>
+                <Phone className="w-5 h-5 text-green-300 flex-shrink-0" />
+                <span className="text-sm text-green-100">+1 (555) 123-HELP</span>
               </div>
               <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-emerald-400 mt-0.5" />
-                <div className="text-sm">
+                <MapPin className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-green-100">
                   <p>123 Volunteer Street</p>
                   <p>Impact City, IC 12345</p>
                   <p>United States</p>
@@ -108,23 +105,10 @@ export default function FooterPublic() {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-slate-400">
-              © 2024 Living Stones. Todos los derechos reservados.
-            </p>
-            <div className="flex items-center gap-6">
-              <Link href="#" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">
-                Política de Privacidad
-              </Link>
-              <Link href="#" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">
-                Términos de Servicio
-              </Link>
-              <Link href="#" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">
-                Cookies
-              </Link>
-            </div>
-          </div>
+        <div className="border-t border-green-800 mt-8 pt-8 text-center">
+          <p className="text-green-200 text-sm">
+            © 2024 Living Stones. Todos los derechos reservados.
+          </p>
         </div>
       </div>
     </footer>
