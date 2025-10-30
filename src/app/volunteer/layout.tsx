@@ -57,7 +57,7 @@ export default function VolunteerLayout({ children }: VolunteerLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <HeaderVolunteer />
-      <main className={`admin-main-content ${ isCollapsed } ? 'lg:ml-20' : 'lg:ml-64'`}>
+      <main className={`admin-main-content ${ isCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
         <div className="page-container">
           {children}
         </div>
