@@ -92,7 +92,7 @@ const containerPadding = isSidebarCollapsed
 
   if (isLoading) {
     return (
-      <div className={`max-w-7xl mx-auto space-y-6 ${containerPadding} pr-6 transition-all duration-300`}>
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pr-6 transition-all duration-300`}>
         <div className="h-8 w-64 bg-gray-200 rounded animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
@@ -108,7 +108,7 @@ const containerPadding = isSidebarCollapsed
 
   if (!data || !session) {
     return (
-      <div className={`max-w-7xl mx-auto py-8 ${containerPadding} pr-6 transition-all duration-300`}>
+      <div className={`max-w-7xl mx-auto py-8 pr-6 transition-all duration-300`}>
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Acceso no autorizado</h2>
           <p className="text-gray-600">No tienes permisos para acceder a este dashboard.</p>
@@ -118,7 +118,7 @@ const containerPadding = isSidebarCollapsed
   }
 
   return (
-    <div className={`max-w-7xl mx-auto space-y-6 ${containerPadding} pr-6 transition-all duration-300`}>
+    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pr-6 transition-all duration-300`}>
       {/* Header - Icono con green-800 (#166534) */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
