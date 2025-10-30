@@ -58,7 +58,7 @@ export default function LeadLayout({ children }: LeadLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <HeaderLead />
-      <main className={`admin-main-content flex-grow ${ isCollapsed } ? 'lg:ml-20' : 'lg:ml-64'`}>
+      <main className={`admin-main-content flex-grow ${ isCollapsed ? 'lg:ml-20' : 'lg:ml-64' }`}>
         <div className="page-container">
           {children}
         </div>
