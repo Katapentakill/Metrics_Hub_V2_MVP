@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import Image from 'next/image';
 
 export default function PublicFooter() {
   return (
@@ -12,11 +13,7 @@ export default function PublicFooter() {
           {/* About */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
-                <div className="w-5 h-5 bg-green-600 rounded-md flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 bg-white rounded-sm"></div>
-                </div>
-              </div>
+              <Image src='/images/logo-lsf-usa-white-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               <h3 className="text-2xl font-bold text-white">Living Stones</h3>
             </div>
             <p className="text-green-100 mb-4 max-w-md">

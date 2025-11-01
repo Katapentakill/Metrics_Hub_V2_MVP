@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogIn, UserPlus, Briefcase, Info, Heart } from 'lucide-react';
+import Image from 'next/image';
 
 export default function PublicHeader() {
   const pathname = usePathname();
@@ -18,11 +19,7 @@ export default function PublicHeader() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/ofertas" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-              <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center">
-                <div className="w-2.5 h-2.5 bg-green-600 rounded-sm"></div>
-              </div>
-            </div>
+            <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-green-600 to-green-700 text-transparent bg-clip-text">
                 Living Stones

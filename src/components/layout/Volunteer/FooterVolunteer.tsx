@@ -2,6 +2,7 @@
 'use client';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { Heart, BookOpen, Award, MessageSquare, Target } from 'lucide-react';
+import Image from 'next/image';
 
 export function FooterVolunteer() {
   const { isCollapsed } = useSidebar();
@@ -13,11 +14,7 @@ export function FooterVolunteer() {
           {/* Logo y descripción del Volunteer */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
-                <div className="w-5 h-5 bg-green-600 rounded-md flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 bg-white rounded-sm"></div>
-                </div>
-              </div>
+              <Image src='/images/logo-lsf-usa-white-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               <div>
                 <h3 className="text-2xl font-bold text-white">Living Stones Volunteer</h3>
                 <p className="text-sm text-green-100">Panel de Voluntario</p>

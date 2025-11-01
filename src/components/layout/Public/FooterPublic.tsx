@@ -2,6 +2,7 @@
 'use client';
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import Image from 'next/image';
 
 export default function FooterPublic() {
   return (
@@ -11,9 +12,7 @@ export default function FooterPublic() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
-                <div className="w-5 h-5 bg-green-600 rounded-md flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 bg-white rounded-sm"></div>
-                </div>
+                <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white">Living Stones</h3>

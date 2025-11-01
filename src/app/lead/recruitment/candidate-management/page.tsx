@@ -149,15 +149,15 @@ export default function LeadRecruitmentTrackerPage() {
 
   const headerActions = (
     <>
-      <Button variant="outline" onClick={handleRefresh}>
+      <Button variant="outline" onClick={handleRefresh} className="border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-green-300">
         <RefreshCw className="mr-2 h-4 w-4" />
         Actualizar
       </Button>
-      <Button variant="outline" onClick={handleExport}>
+      <Button variant="outline" onClick={handleExport} className="border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-green-300">
         <Download className="mr-2 h-4 w-4" />
         Exportar
       </Button>
-      <Button size="lg" className="shadow-lg">
+      <Button size="lg" className="shadow-lg bg-gradient-to-r from-[#15803d] to-[#14532d] text-white hover:from-[#14532d] hover:to-[#15803d]">
         <Plus className="mr-2 h-5 w-5" />
         Agregar Candidato
       </Button>
@@ -208,11 +208,11 @@ export default function LeadRecruitmentTrackerPage() {
       headerActions={headerActions}
     >
       {/* Team Indicator Badge */}
-      <div className="mb-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-4 shadow-lg">
+      <div className="mb-6 bg-gradient-to-r from-green-800 to-emerald-600 text-white rounded-lg p-4 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold">Equipo Vitalink</h3>
-            <p className="text-sm text-indigo-100">
+            <p className="text-sm text-emerald-100">
               Mostrando solo candidatos asignados a tu equipo
             </p>
           </div>

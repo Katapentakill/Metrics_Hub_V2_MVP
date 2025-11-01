@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Briefcase, PlusCircle, Clock, CheckCircle, AlertCircle, TrendingUp, Users, Calendar, Eye, Filter, ArrowUpDown, X, Edit, Trash2, PauseCircle, PlayCircle, MoreVertical } from 'lucide-react';
 
-// Types
+// Types (sin cambios)
 type JobStatus = 'Pendiente' | 'En Revisión' | 'Nuevo' | 'Activa' | 'Por Vencer' | 'Pausada' | 'Eliminada';
 type Priority = 'Alta' | 'Media' | 'Baja';
 type TabId = 'requested' | 'published';
@@ -37,39 +37,39 @@ interface PublishedJob {
   positions: number;
 }
 
-// Mock data (Modified publishedJobs to include Pausada/Eliminada status for demonstration)
+// Mock data actualizado con colores de la guía
 const jobOpeningsStats = [
   {
     title: 'Total Vacantes',
     value: 36,
     change: { value: 15, type: 'increase', period: 'mes anterior' },
     icon: Briefcase,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
+    color: 'text-green-800',
+    bgColor: 'bg-green-50',
   },
   {
     title: 'Pendientes de Aprobación',
     value: 12,
     change: { value: 20, type: 'increase', period: 'semana anterior' },
     icon: Clock,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-50',
+    color: 'text-emerald-600',
+    bgColor: 'bg-emerald-50',
   },
   {
     title: 'Publicadas y Activas',
     value: 24,
     change: { value: 8, type: 'increase', period: 'mes anterior' },
     icon: CheckCircle,
-    color: 'text-green-600',
-    bgColor: 'bg-green-50',
+    color: 'text-teal-600',
+    bgColor: 'bg-teal-50',
   },
   {
     title: 'Próximas a Vencer',
     value: 3,
     change: { value: -25, type: 'decrease', period: 'semana anterior' },
     icon: AlertCircle,
-    color: 'text-red-600',
-    bgColor: 'bg-red-50',
+    color: 'text-lime-600',
+    bgColor: 'bg-lime-50',
   },
 ];
 
@@ -192,14 +192,13 @@ export default function AdminJobOpeningsPage() {
   // --- Actions State ---
   const [openActionMenuId, setOpenActionMenuId] = useState<number | null>(null);
 
-
   const tabs: Array<{ id: TabId; label: string; icon: React.ComponentType<{ className?: string }>; count: number; color: string }> = [
     {
       id: 'requested',
       label: 'Mis Solicitudes de Vacantes',
       icon: Clock,
       count: requestedJobs.filter(j => j.status !== 'Activa').length,
-      color: 'orange',
+      color: 'emerald',
     },
     {
       id: 'published',
@@ -212,45 +211,40 @@ export default function AdminJobOpeningsPage() {
 
   const getStatusColor = (status: JobStatus): string => {
     const colors: Record<JobStatus, string> = {
-      'Pendiente': 'bg-yellow-100 text-yellow-800',
-      'En Revisión': 'bg-blue-100 text-blue-800',
-      'Nuevo': 'bg-purple-100 text-purple-800',
-      'Activa': 'bg-green-100 text-green-800',
-      'Por Vencer': 'bg-orange-100 text-orange-800',
-      'Pausada': 'bg-gray-100 text-gray-800',
-      'Eliminada': 'bg-red-100 text-red-800',
+      'Pendiente': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'En Revisión': 'bg-blue-100 text-blue-800 border-blue-200',
+      'Nuevo': 'bg-purple-100 text-purple-800 border-purple-200',
+      'Activa': 'bg-green-100 text-green-800 border-green-200',
+      'Por Vencer': 'bg-orange-100 text-orange-800 border-orange-200',
+      'Pausada': 'bg-gray-100 text-gray-800 border-gray-200',
+      'Eliminada': 'bg-red-100 text-red-800 border-red-200',
     };
     return colors[status];
   };
 
   const getPriorityColor = (priority: Priority): string => {
     const colors: Record<Priority, string> = {
-      'Alta': 'bg-red-100 text-red-800',
-      'Media': 'bg-yellow-100 text-yellow-800',
-      'Baja': 'bg-green-100 text-green-800',
+      'Alta': 'bg-red-100 text-red-800 border-red-200',
+      'Media': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'Baja': 'bg-green-100 text-green-800 border-green-200',
     };
     return colors[priority];
   };
 
-  // HANDLERS DE NAVEGACIÓN
+  // HANDLERS DE NAVEGACIÓN (sin cambios)
   const handleViewRequestedJob = (jobId: number) => {
-    // Redirecciona a la página de detalles de la solicitud
     window.location.href = `/lead/recruitment/job-openings/requested/${jobId}`;
   };
 
   const handleViewPublishedJob = (jobId: number) => {
-    // Redirecciona a la página de detalles de la publicación (nueva ruta)
     window.location.href = `/lead/recruitment/job-openings/published/${jobId}`;
   };
-  // FIN HANDLERS DE NAVEGACIÓN
-
 
   const handlePublishedJobAction = (jobId: number, action: 'edit' | 'delete' | 'pause' | 'activate') => {
     setPublishedJobsList(prev => prev.map(job => {
       if (job.id === jobId) {
         if (action === 'edit') {
             console.log(`Modificar/Editar postulación ${jobId}`);
-            // En un caso real, podrías redirigir a handleViewPublishedJob(jobId) o a una ruta de edición
             return job; 
         } else if (action === 'delete') {
             console.log(`Eliminar postulación ${jobId}`);
@@ -285,7 +279,6 @@ export default function AdminJobOpeningsPage() {
   });
   
   // --- Published Jobs Logic (NEW/Modified) ---
-
   const publishedDepartments = Array.from(new Set(initialPublishedJobs.map(job => job.department)));
   
   const clearPublishedFilters = () => {
@@ -336,75 +329,73 @@ export default function AdminJobOpeningsPage() {
     });
   }, [publishedJobsList, publishedFilterStatus, publishedFilterDepartment, publishedFilterCandidates, publishedSortBy, publishedSortOrder]);
 
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/20 to-white">
       <div className="p-8 max-w-7xl mx-auto">
-        {/* Breadcrumb & Header ... (existing code) */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-          <a href="/hr/recruitment" className="hover:text-green-600 transition-colors">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-sm text-slate-600 mb-6">
+          <a href="/hr/recruitment" className="hover:text-green-800 transition-colors">
             Recruitment
           </a>
           <span>/</span>
-          <a href="/hr/recruitment" className="hover:text-green-600 transition-colors">
+          <a href="/hr/recruitment" className="hover:text-green-800 transition-colors">
             Talent Management
           </a>
           <span>/</span>
-          <span className="text-gray-900 font-medium">Gestión de Vacantes</span>
+          <span className="text-slate-800 font-medium">Gestión de Vacantes</span>
         </div>
 
         {/* Header */}
         <div className="flex justify-between items-start mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-green-500 text-white shadow-lg">
+            <div className="p-3 rounded-xl bg-gradient-to-br from-green-800 to-emerald-600 text-white shadow-lg">
               <Briefcase className="w-8 h-8" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">Gestión de Vacantes</h1>
-              <p className="text-xl text-gray-600">Panel de Administración</p>
+              <h1 className="text-4xl font-bold text-slate-800">Gestión de Vacantes</h1>
+              <p className="text-xl text-slate-600">Panel de Administración</p>
             </div>
           </div>
-          <button className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+          <button className="px-6 py-3 bg-gradient-to-r from-[#15803d] to-[#14532d] text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
             <PlusCircle className="w-5 h-5" />
             Solicitar Nueva Vacante
           </button>
         </div>
 
-        <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-4xl">
+        <p className="text-slate-600 text-lg leading-relaxed mb-8 max-w-4xl">
           Gestiona todas las vacantes de la organización. Revisa solicitudes pendientes y supervisa las vacantes publicadas activamente.
         </p>
 
-        {/* Stats Cards ... (existing code) */}
+        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {jobOpeningsStats.map((stat) => {
             const Icon = stat.icon;
             return (
-              <div key={stat.title} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <div key={stat.title} className="group relative bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-xl hover:border-green-200 transition-all duration-300">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                    <Icon className={`w-6 h-6 ${stat.color}`} />
+                  <div className="p-3 rounded-lg bg-gradient-to-br from-green-800 to-emerald-600">
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
                   <div className={`flex items-center gap-1 text-sm font-medium ${
-                    stat.change.type === 'increase' ? 'text-green-600' : 'text-red-600'
+                    stat.change.type === 'increase' ? 'text-green-800' : 'text-red-500'
                   }`}>
                     <TrendingUp className={`w-4 h-4 ${stat.change.type === 'decrease' ? 'rotate-180' : ''}`} />
                     {Math.abs(stat.change.value)}%
                   </div>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                  <p className="text-sm text-gray-600">{stat.title}</p>
-                  <p className="text-xs text-gray-500 mt-1">vs {stat.change.period}</p>
+                  <p className="text-3xl font-bold text-slate-800 mb-1">{stat.value}</p>
+                  <p className="text-sm font-medium text-slate-600">{stat.title}</p>
+                  <p className="text-xs text-slate-500 mt-1">vs {stat.change.period}</p>
                 </div>
               </div>
             );
           })}
         </div>
 
-
         {/* Tabs Navigation */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="flex border-b border-gray-200">
+        <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden mb-8">
+          <div className="flex border-b border-slate-200">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -414,16 +405,16 @@ export default function AdminJobOpeningsPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex-1 flex items-center justify-center gap-3 px-6 py-4 font-semibold transition-all ${
                     isActive
-                      ? 'bg-gradient-to-r from-green-50 to-blue-50 text-green-700 border-b-2 border-green-600'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? 'text-green-800 bg-green-50 border-b-2 border-green-800'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span>{tab.label}</span>
                   <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                     isActive 
-                      ? `bg-${tab.color}-100 text-${tab.color}-700`
-                      : 'bg-gray-100 text-gray-600'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-slate-100 text-slate-600'
                   }`}>
                     {tab.count}
                   </span>
@@ -435,10 +426,9 @@ export default function AdminJobOpeningsPage() {
           {/* Tab Content */}
           <div className="p-6">
             {activeTab === 'requested' && (
-              // ... (Requested Jobs Filter/Sort/Display - Using handleViewRequestedJob)
               <div>
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Vacantes Solicitadas</h2>
+                  <h2 className="text-2xl font-bold text-slate-800">Vacantes Solicitadas</h2>
                   <div className="flex gap-2 relative">
                     {/* Filter Button */}
                     <div className="relative">
@@ -447,23 +437,23 @@ export default function AdminJobOpeningsPage() {
                           setShowFilters(!showFilters);
                           setShowSort(false);
                         }}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2 hover:border-green-300"
                       >
                         <Filter className="w-4 h-4" />
                         Filtrar
                         {(selectedStatus !== 'all' || selectedPriority !== 'all' || selectedDepartment !== 'all') && (
-                          <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                          <span className="w-2 h-2 bg-green-800 rounded-full"></span>
                         )}
                       </button>
                       
                       {/* Filter Dropdown */}
                       {showFilters && (
-                        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-10 max-h-[500px] overflow-hidden flex flex-col">
-                          <div className="flex justify-between items-center p-4 border-b border-gray-200">
-                            <h3 className="font-semibold text-gray-900">Filtros</h3>
+                        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-slate-200 z-10 max-h-[500px] overflow-hidden flex flex-col">
+                          <div className="flex justify-between items-center p-4 border-b border-slate-200">
+                            <h3 className="font-semibold text-slate-800">Filtros</h3>
                             <button 
                               onClick={() => setShowFilters(false)}
-                              className="text-gray-400 hover:text-gray-600"
+                              className="text-slate-400 hover:text-slate-600"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -472,13 +462,13 @@ export default function AdminJobOpeningsPage() {
                           <div className="overflow-y-auto p-4 space-y-4 flex-1">
                             {/* Status Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Estado
                               </label>
                               <select
                                 value={selectedStatus}
                                 onChange={(e) => setSelectedStatus(e.target.value as JobStatus | 'all')}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todos</option>
                                 <option value="Nuevo">Nuevo</option>
@@ -489,13 +479,13 @@ export default function AdminJobOpeningsPage() {
 
                             {/* Priority Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Prioridad
                               </label>
                               <select
                                 value={selectedPriority}
                                 onChange={(e) => setSelectedPriority(e.target.value as Priority | 'all')}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todas</option>
                                 <option value="Alta">Alta</option>
@@ -506,13 +496,13 @@ export default function AdminJobOpeningsPage() {
 
                             {/* Department Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Departamento
                               </label>
                               <select
                                 value={selectedDepartment}
                                 onChange={(e) => setSelectedDepartment(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todos</option>
                                 {departments.map(dept => (
@@ -522,16 +512,16 @@ export default function AdminJobOpeningsPage() {
                             </div>
                           </div>
 
-                          <div className="flex gap-2 p-4 border-t border-gray-200 bg-gray-50">
+                          <div className="flex gap-2 p-4 border-t border-slate-200 bg-slate-50">
                             <button
                               onClick={clearRequestedFilters}
-                              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                              className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-100 transition-colors"
                             >
                               Limpiar
                             </button>
                             <button
                               onClick={() => setShowFilters(false)}
-                              className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+                              className="flex-1 px-4 py-2 bg-gradient-to-r from-green-800 to-emerald-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-emerald-700 transition-colors"
                             >
                               Aplicar
                             </button>
@@ -547,7 +537,7 @@ export default function AdminJobOpeningsPage() {
                           setShowSort(!showSort);
                           setShowFilters(false);
                         }}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2 hover:border-green-300"
                       >
                         <ArrowUpDown className="w-4 h-4" />
                         Ordenar
@@ -555,22 +545,22 @@ export default function AdminJobOpeningsPage() {
 
                       {/* Sort Dropdown */}
                       {showSort && (
-                        <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 z-10 py-2">
-                          <div className="px-4 py-2 border-b border-gray-200">
-                            <h3 className="font-semibold text-gray-900 text-sm">Ordenar por</h3>
+                        <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-10 py-2">
+                          <div className="px-4 py-2 border-b border-slate-200">
+                            <h3 className="font-semibold text-slate-800 text-sm">Ordenar por</h3>
                           </div>
                           <button
-                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between text-gray-700"
+                            className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between text-slate-700"
                           >
                             <span>Fecha de solicitud</span>
                           </button>
                           <button
-                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between text-gray-700"
+                            className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between text-slate-700"
                           >
                             <span>Prioridad</span>
                           </button>
                           <button
-                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between text-gray-700"
+                            className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between text-slate-700"
                           >
                             <span>Título</span>
                           </button>
@@ -584,7 +574,7 @@ export default function AdminJobOpeningsPage() {
                 {(selectedStatus !== 'all' || selectedPriority !== 'all' || selectedDepartment !== 'all') && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {selectedStatus !== 'all' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm border border-blue-200">
                         Estado: {selectedStatus}
                         <button onClick={() => setSelectedStatus('all')} className="hover:bg-blue-200 rounded-full p-0.5">
                           <X className="w-3 h-3" />
@@ -592,7 +582,7 @@ export default function AdminJobOpeningsPage() {
                       </span>
                     )}
                     {selectedPriority !== 'all' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm border border-orange-200">
                         Prioridad: {selectedPriority}
                         <button onClick={() => setSelectedPriority('all')} className="hover:bg-orange-200 rounded-full p-0.5">
                           <X className="w-3 h-3" />
@@ -600,7 +590,7 @@ export default function AdminJobOpeningsPage() {
                       </span>
                     )}
                     {selectedDepartment !== 'all' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm border border-purple-200">
                         Depto: {selectedDepartment}
                         <button onClick={() => setSelectedDepartment('all')} className="hover:bg-purple-200 rounded-full p-0.5">
                           <X className="w-3 h-3" />
@@ -612,20 +602,20 @@ export default function AdminJobOpeningsPage() {
 
                 <div className="space-y-4">
                   {filteredRequestedJobs.map((job) => (
-                    <div key={job.id} className="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:border-green-300 hover:shadow-md transition-all">
+                    <div key={job.id} className="bg-white rounded-xl border border-slate-200 hover:border-green-300 hover:shadow-2xl transition-all duration-300 p-6">
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-bold text-gray-900">{job.title}</h3>
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(job.status)}`}>
+                            <h3 className="text-lg font-bold text-slate-800">{job.title}</h3>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(job.status)}`}>
                               {job.status}
                             </span>
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(job.priority)}`}>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getPriorityColor(job.priority)}`}>
                               {job.priority} Prioridad
                             </span>
                           </div>
-                          <p className="text-gray-600 mb-2">{job.department}</p>
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                          <p className="text-slate-600 mb-2">{job.department}</p>
+                          <div className="flex items-center gap-4 text-sm text-slate-500">
                             <div className="flex items-center gap-1">
                               <Users className="w-4 h-4" />
                               <span>Solicitado por: {job.requester}</span>
@@ -642,7 +632,7 @@ export default function AdminJobOpeningsPage() {
                         </div>
                         <button 
                           onClick={() => handleViewRequestedJob(job.id)}
-                          className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
+                          className="px-6 py-2 bg-gradient-to-r from-green-800 to-emerald-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-emerald-700 transition-colors flex items-center gap-2"
                         >
                           <Eye className="w-5 h-5" />
                           Ver Detalles
@@ -656,32 +646,32 @@ export default function AdminJobOpeningsPage() {
             {activeTab === 'published' && (
               <div>
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Vacantes Publicadas y Activas</h2>
+                  <h2 className="text-2xl font-bold text-slate-800">Vacantes Publicadas y Activas</h2>
                   <div className="flex gap-2 relative">
-                    {/* Filter Button for Published (Modified) */}
+                    {/* Filter Button for Published */}
                     <div className="relative">
                       <button 
                         onClick={() => {
                           setShowFilters(!showFilters);
                           setShowSort(false);
                         }}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2 hover:border-green-300"
                       >
                         <Filter className="w-4 h-4" />
                         Filtrar
                         {(publishedFilterStatus !== 'all' || publishedFilterDepartment !== 'all' || publishedFilterCandidates !== 'all') && (
-                          <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                          <span className="w-2 h-2 bg-green-800 rounded-full"></span>
                         )}
                       </button>
                       
-                      {/* Filter Dropdown for Published (Modified) */}
+                      {/* Filter Dropdown for Published */}
                       {showFilters && (
-                        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-10 max-h-[500px] overflow-hidden flex flex-col">
-                          <div className="flex justify-between items-center p-4 border-b border-gray-200">
-                            <h3 className="font-semibold text-gray-900">Filtros</h3>
+                        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-slate-200 z-10 max-h-[500px] overflow-hidden flex flex-col">
+                          <div className="flex justify-between items-center p-4 border-b border-slate-200">
+                            <h3 className="font-semibold text-slate-800">Filtros</h3>
                             <button 
                               onClick={() => setShowFilters(false)}
-                              className="text-gray-400 hover:text-gray-600"
+                              className="text-slate-400 hover:text-slate-600"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -690,31 +680,30 @@ export default function AdminJobOpeningsPage() {
                           <div className="overflow-y-auto p-4 space-y-4 flex-1">
                             {/* Status Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Estado
                               </label>
                               <select
                                 value={publishedFilterStatus}
                                 onChange={(e) => setPublishedFilterStatus(e.target.value as JobStatus | 'all')}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todos</option>
                                 <option value="Activa">Activa</option>
                                 <option value="Por Vencer">Por Vencer</option>
                                 <option value="Pausada">Pausada</option>
-                              
                               </select>
                             </div>
 
                             {/* Department Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Departamento
                               </label>
                               <select
                                 value={publishedFilterDepartment}
                                 onChange={(e) => setPublishedFilterDepartment(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todos</option>
                                 {publishedDepartments.map(dept => (
@@ -725,13 +714,13 @@ export default function AdminJobOpeningsPage() {
 
                             {/* Candidates Range Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Número de Candidatos
                               </label>
                               <select
                                 value={publishedFilterCandidates}
                                 onChange={(e) => setPublishedFilterCandidates(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todos</option>
                                 <option value="0-10">0-10 candidatos</option>
@@ -741,33 +730,33 @@ export default function AdminJobOpeningsPage() {
                               </select>
                             </div>
 
-                            {/* Expiry Filter (Placeholder, logic would be complex for real date ranges) */}
+                            {/* Expiry Filter */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label className="block text-sm font-medium text-slate-700 mb-2">
                                 Fecha de Vencimiento
                               </label>
                               <select
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-green-800 focus:border-transparent"
                               >
                                 <option value="all">Todas</option>
                                 <option value="next-7">Próximos 7 días</option>
                                 <option value="next-15">Próximos 15 días</option>
                                 <option value="next-30">Próximos 30 días</option>
-                                <option value="expired">Vencidas (Realizada con filtro de estado 'Por Vencer')</option>
+                                <option value="expired">Vencidas</option>
                               </select>
                             </div>
                           </div>
 
-                          <div className="flex gap-2 p-4 border-t border-gray-200 bg-gray-50">
+                          <div className="flex gap-2 p-4 border-t border-slate-200 bg-slate-50">
                             <button
                               onClick={clearPublishedFilters}
-                              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                              className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-100 transition-colors"
                             >
                               Limpiar
                             </button>
                             <button
                               onClick={() => setShowFilters(false)}
-                              className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+                              className="flex-1 px-4 py-2 bg-gradient-to-r from-green-800 to-emerald-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-emerald-700 transition-colors"
                             >
                               Aplicar
                             </button>
@@ -776,29 +765,29 @@ export default function AdminJobOpeningsPage() {
                       )}
                     </div>
 
-                    {/* Sort Button for Published (Modified) */}
+                    {/* Sort Button for Published */}
                     <div className="relative">
                       <button 
                         onClick={() => {
                           setShowSort(!showSort);
                           setShowFilters(false);
                         }}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2 hover:border-green-300"
                       >
                         <ArrowUpDown className="w-4 h-4" />
                         Ordenar
                       </button>
 
-                      {/* Sort Dropdown for Published (Modified) */}
+                      {/* Sort Dropdown for Published */}
                       {showSort && (
-                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 z-10 py-2">
-                          <div className="px-4 py-2 border-b border-gray-200">
-                            <h3 className="font-semibold text-gray-900 text-sm">Ordenar por</h3>
+                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 z-10 py-2">
+                          <div className="px-4 py-2 border-b border-slate-200">
+                            <h3 className="font-semibold text-slate-800 text-sm">Ordenar por</h3>
                           </div>
                           <button
                             onClick={() => applyPublishedSort('publishDate')}
-                            className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between ${
-                              publishedSortBy === 'publishDate' ? 'text-green-600 font-medium' : 'text-gray-700'
+                            className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between ${
+                              publishedSortBy === 'publishDate' ? 'text-green-800 font-medium' : 'text-slate-700'
                             }`}
                           >
                             <span>Fecha de publicación</span>
@@ -808,8 +797,8 @@ export default function AdminJobOpeningsPage() {
                           </button>
                           <button
                             onClick={() => applyPublishedSort('expiryDate')}
-                            className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between ${
-                              publishedSortBy === 'expiryDate' ? 'text-green-600 font-medium' : 'text-gray-700'
+                            className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between ${
+                              publishedSortBy === 'expiryDate' ? 'text-green-800 font-medium' : 'text-slate-700'
                             }`}
                           >
                             <span>Fecha de vencimiento</span>
@@ -819,8 +808,8 @@ export default function AdminJobOpeningsPage() {
                           </button>
                           <button
                             onClick={() => applyPublishedSort('applications')}
-                            className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between ${
-                              publishedSortBy === 'applications' ? 'text-green-600 font-medium' : 'text-gray-700'
+                            className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between ${
+                              publishedSortBy === 'applications' ? 'text-green-800 font-medium' : 'text-slate-700'
                             }`}
                           >
                             <span>Número de candidatos</span>
@@ -830,8 +819,8 @@ export default function AdminJobOpeningsPage() {
                           </button>
                           <button
                             onClick={() => applyPublishedSort('title')}
-                            className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors flex items-center justify-between ${
-                              publishedSortBy === 'title' ? 'text-green-600 font-medium' : 'text-gray-700'
+                            className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 transition-colors flex items-center justify-between ${
+                              publishedSortBy === 'title' ? 'text-green-800 font-medium' : 'text-slate-700'
                             }`}
                           >
                             <span>Título</span>
@@ -849,7 +838,7 @@ export default function AdminJobOpeningsPage() {
                 {(publishedFilterStatus !== 'all' || publishedFilterDepartment !== 'all' || publishedFilterCandidates !== 'all') && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {publishedFilterStatus !== 'all' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm border border-blue-200">
                         Estado: {publishedFilterStatus}
                         <button onClick={() => setPublishedFilterStatus('all')} className="hover:bg-blue-200 rounded-full p-0.5">
                           <X className="w-3 h-3" />
@@ -857,7 +846,7 @@ export default function AdminJobOpeningsPage() {
                       </span>
                     )}
                     {publishedFilterDepartment !== 'all' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm border border-purple-200">
                         Depto: {publishedFilterDepartment}
                         <button onClick={() => setPublishedFilterDepartment('all')} className="hover:bg-purple-200 rounded-full p-0.5">
                           <X className="w-3 h-3" />
@@ -865,7 +854,7 @@ export default function AdminJobOpeningsPage() {
                       </span>
                     )}
                     {publishedFilterCandidates !== 'all' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm border border-orange-200">
                         Candidatos: {publishedFilterCandidates}
                         <button onClick={() => setPublishedFilterCandidates('all')} className="hover:bg-orange-200 rounded-full p-0.5">
                           <X className="w-3 h-3" />
@@ -877,17 +866,17 @@ export default function AdminJobOpeningsPage() {
                 
                 <div className="space-y-4">
                   {filteredAndSortedPublishedJobs.map((job) => (
-                    <div key={job.id} className="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:border-green-300 hover:shadow-md transition-all">
+                    <div key={job.id} className="bg-white rounded-xl border border-slate-200 hover:border-green-300 hover:shadow-2xl transition-all duration-300 p-6">
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-bold text-gray-900">{job.title}</h3>
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(job.status)}`}>
+                            <h3 className="text-lg font-bold text-slate-800">{job.title}</h3>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(job.status)}`}>
                               {job.status}
                             </span>
                           </div>
-                          <p className="text-gray-600 mb-2">{job.department}</p>
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                          <p className="text-slate-600 mb-2">{job.department}</p>
+                          <div className="flex items-center gap-4 text-sm text-slate-500">
                             <div className="flex items-center gap-1">
                               <Calendar className="w-4 h-4" />
                               <span>Publicada: {job.publishDate}</span>
@@ -907,34 +896,34 @@ export default function AdminJobOpeningsPage() {
                           </div>
                         </div>
                         <div className="flex gap-2 items-center">
-                          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2">
+                          <button className="px-4 py-2 bg-gradient-to-r from-[#059669] to-[#04875e] text-white rounded-lg font-medium hover:from-[#047854] hover:to-[#036949] transition-colors flex items-center gap-2">
                             <Users className="w-4 h-4" />
                             Ver Candidatos
                           </button>
                           <button 
                             onClick={() => handleViewPublishedJob(job.id)} // <--- CAMBIO CLAVE
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
+                            className="px-4 py-2 bg-gradient-to-r from-[#22c55e] to-[#1eb154] text-white rounded-lg font-medium hover:from-[#1b9f4b] hover:to-[#188d43] transition-colors flex items-center gap-2"
                           >
                             <Eye className="w-4 h-4" />
                             Ver Detalles
                           </button>
                           
-                          {/* --- Acciones/Edit Dropdown (NEW) --- */}
+                          {/* Acciones/Edit Dropdown */}
                           <div className="relative">
                             <button
                               onClick={() => setOpenActionMenuId(openActionMenuId === job.id ? null : job.id)}
-                              className="p-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                              className="p-2 border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors hover:border-green-300"
                             >
                               <MoreVertical className="w-5 h-5" />
                             </button>
                             
                             {openActionMenuId === job.id && (
-                              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 z-20 py-1">
-                                <div className="px-3 py-2 text-xs font-semibold text-gray-500 border-b">Acciones</div>
+                              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-20 py-1">
+                                <div className="px-3 py-2 text-xs font-semibold text-slate-500 border-b">Acciones</div>
                                 
                                 <button
                                   onClick={() => handlePublishedJobAction(job.id, 'edit')}
-                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                                  className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"
                                 >
                                   <Edit className="w-4 h-4 text-blue-500" />
                                   Modificar Postulación
@@ -943,7 +932,7 @@ export default function AdminJobOpeningsPage() {
                                 {job.status === 'Activa' || job.status === 'Por Vencer' ? (
                                   <button
                                     onClick={() => handlePublishedJobAction(job.id, 'pause')}
-                                    className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                                    className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"
                                   >
                                     <PauseCircle className="w-4 h-4 text-yellow-600" />
                                     Pausar Postulación
@@ -951,7 +940,7 @@ export default function AdminJobOpeningsPage() {
                                 ) : (
                                   <button
                                     onClick={() => handlePublishedJobAction(job.id, 'activate')}
-                                    className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                                    className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2"
                                   >
                                     <PlayCircle className="w-4 h-4 text-green-600" />
                                     Reactivar Postulación
@@ -970,14 +959,12 @@ export default function AdminJobOpeningsPage() {
                               </div>
                             )}
                           </div>
-                          {/* --- END Acciones/Edit Dropdown --- */}
-
                         </div>
                       </div>
                     </div>
                   ))}
                   {filteredAndSortedPublishedJobs.length === 0 && (
-                      <div className="text-center py-12 text-gray-500">
+                      <div className="text-center py-12 text-slate-500">
                           <AlertCircle className="w-8 h-8 mx-auto mb-2" />
                           <p>No se encontraron vacantes publicadas con los filtros y criterios de búsqueda actuales.</p>
                       </div>
@@ -985,7 +972,6 @@ export default function AdminJobOpeningsPage() {
                 </div>
               </div>
             )}
-            
           </div>
         </div>
       </div>

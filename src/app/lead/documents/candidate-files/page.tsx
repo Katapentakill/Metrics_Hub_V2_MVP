@@ -1,22 +1,20 @@
 'use client';
 import { useState, useMemo } from 'react';
-import { 
-  UserCheck, 
-  Search, 
-  Filter, 
+import {
+  UserCheck,
+  Search,
+  Filter,
   Download,
   Grid3x3,
   List,
   SortAsc,
   SortDesc,
   FileText,
-  Folder,
   Star,
   Clock,
   Users,
   TrendingUp,
   ChevronDown,
-  X,
   File,
   ExternalLink,
   Sparkles,
@@ -109,59 +107,58 @@ const mockCandidates: Candidate[] = [
 const roles = ['Todos los Roles', 'Desarrollador Frontend', 'UX Designer', 'Project Manager', 'Backend Developer'];
 const statuses = ['Todos', 'En Proceso', 'Entrevista', 'Aprobado', 'En Revisión'];
 
-const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat('es-ES', {
+const formatDate = (date: Date): string =>
+  new Intl.DateTimeFormat('es-ES', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
   }).format(date);
-};
 
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'Aprobado':
-      return 'bg-green-100 text-green-700 border-green-200';
+      return 'bg-green-100 text-green-800 border-green-200';
     case 'Entrevista':
-      return 'bg-blue-100 text-blue-700 border-blue-200';
+      return 'bg-emerald-100 text-emerald-700 border-emerald-200';
     case 'En Proceso':
-      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      return 'bg-lime-100 text-lime-700 border-lime-200';
+    case 'En Revisión':
+      return 'bg-teal-100 text-teal-700 border-teal-200';
     default:
       return 'bg-gray-100 text-gray-700 border-gray-200';
   }
 };
 
 const StatsCard = ({ icon: Icon, label, value, trend }: any) => (
-  <div className="group relative bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:shadow-xl hover:border-indigo-200 transition-all duration-300">
+  <div className="group relative bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-xl hover:border-green-200 transition-all duration-300">
     <div className="flex items-center justify-between mb-3">
-      <div className="p-2.5 rounded-lg bg-gradient-to-br from-indigo-50 to-indigo-100">
-        <Icon className="w-5 h-5 text-indigo-600" />
+      <div className="p-2.5 rounded-lg bg-gradient-to-br from-green-800 to-emerald-600">
+        <Icon className="w-5 h-5 text-white" />
       </div>
       {trend && (
-        <span className="text-xs font-semibold text-indigo-600 flex items-center gap-1 px-2 py-1 bg-indigo-50 rounded-full">
+        <span className="text-xs font-semibold text-green-800 flex items-center gap-1 px-2 py-1 bg-green-50 rounded-full">
           <TrendingUp className="w-3 h-3" />
           {trend}
         </span>
       )}
     </div>
-    <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
-    <p className="text-sm font-medium text-gray-600">{label}</p>
+    <p className="text-3xl font-bold text-slate-800 mb-1">{value}</p>
+    <p className="text-sm font-medium text-slate-600">{label}</p>
   </div>
 );
 
 const CandidateCard = ({ candidate, onToggleFavorite }: any) => (
-  <div className="group bg-white rounded-xl border border-gray-200 hover:border-indigo-300 hover:shadow-2xl transition-all duration-300 overflow-hidden">
-    <div className="relative p-5 border-b border-gray-100">
+  <div className="group bg-white rounded-xl border border-slate-200 hover:border-green-300 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+    <div className="relative p-5 border-b border-slate-100">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="p-3 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl">
-            <UserCheck className="w-6 h-6 text-indigo-600" />
+          <div className="p-3 bg-gradient-to-br from-green-800 to-emerald-600 rounded-xl">
+            <UserCheck className="w-6 h-6 text-white" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-gray-900 truncate text-base mb-1">
-              {candidate.name}
-            </h3>
+            <h3 className="font-bold text-slate-800 truncate text-base mb-1">{candidate.name}</h3>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-medium text-gray-500 px-2 py-0.5 bg-gray-100 rounded-full flex items-center gap-1">
+              <span className="text-xs font-medium text-slate-500 px-2 py-0.5 bg-slate-100 rounded-full flex items-center gap-1">
                 <Briefcase className="w-3 h-3" />
                 {candidate.role}
               </span>
@@ -171,44 +168,49 @@ const CandidateCard = ({ candidate, onToggleFavorite }: any) => (
             </div>
           </div>
         </div>
-        <button onClick={() => onToggleFavorite(candidate.id)} className="p-2 hover:bg-yellow-50 rounded-lg">
-          <Star className={`w-5 h-5 ${candidate.isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+        <button onClick={() => onToggleFavorite(candidate.id)} className="p-2 hover:bg-lime-50 rounded-lg">
+          <Star className={`w-5 h-5 ${candidate.isFavorite ? 'fill-lime-400 text-lime-400' : 'text-slate-300'}`} />
         </button>
       </div>
     </div>
 
     <div className="p-5">
       <div className="space-y-2 mb-4">
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Mail className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2 text-sm text-slate-600">
+          <Mail className="w-4 h-4 text-slate-400" />
           <span className="truncate">{candidate.email}</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Clock className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2 text-sm text-slate-600">
+          <Clock className="w-4 h-4 text-slate-400" />
           <span>Aplicó: {formatDate(candidate.appliedAt)}</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Download className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2 text-sm text-slate-600">
+          <Download className="w-4 h-4 text-slate-400" />
           <span>{candidate.downloads} vistas</span>
         </div>
       </div>
-      
+
       <div className="flex flex-wrap gap-1.5 mb-4">
         {candidate.tags.map((tag: string) => (
-          <span key={tag} className="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-full">
+          <span key={tag} className="px-2.5 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
             {tag}
           </span>
         ))}
       </div>
     </div>
 
-    <div className="p-4 bg-gray-50 border-t border-gray-100 flex gap-2">
-      <a href={candidate.cvLink} target="_blank" rel="noopener noreferrer" className="flex-1 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-indigo-700 hover:to-purple-700 flex items-center justify-center gap-2">
+    <div className="p-4 bg-gray-50 border-t border-slate-100 flex gap-2">
+      <a
+        href={candidate.cvLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 px-4 py-2.5 bg-gradient-to-r from-green-800 to-emerald-600 text-white text-sm font-semibold rounded-lg hover:from-green-700 hover:to-emerald-700 flex items-center justify-center gap-2"
+      >
         <ExternalLink className="w-4 h-4" />
         Ver CV
         <ArrowRight className="w-4 h-4" />
       </a>
-      <button className="px-4 py-2.5 bg-white border-2 border-gray-200 text-gray-700 rounded-lg hover:border-indigo-300">
+      <button className="px-4 py-2.5 bg-white border-2 border-slate-200 text-slate-700 rounded-lg hover:border-green-300">
         <Eye className="w-4 h-4" />
       </button>
     </div>
@@ -232,9 +234,10 @@ export default function LeadCandidateFiles() {
     let filtered = [...candidates];
 
     if (filters.search) {
-      filtered = filtered.filter(c =>
-        c.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-        c.email.toLowerCase().includes(filters.search.toLowerCase())
+      filtered = filtered.filter(
+        c =>
+          c.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+          c.email.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
@@ -269,33 +272,32 @@ export default function LeadCandidateFiles() {
     return filtered;
   }, [candidates, filters, sortBy, sortOrder]);
 
-  const handleToggleFavorite = (id: string) => {
-    setCandidates(cands => cands.map(c => c.id === id ? { ...c, isFavorite: !c.isFavorite } : c));
-  };
+  const handleToggleFavorite = (id: string) =>
+    setCandidates(cands => cands.map(c => (c.id === id ? { ...c, isFavorite: !c.isFavorite } : c)));
 
   const stats = {
     total: candidates.length,
     inProcess: candidates.filter(c => c.status === 'En Proceso').length,
     interview: candidates.filter(c => c.status === 'Entrevista').length,
-    favorites: candidates.filter(c => c.isFavorite).length,
+    favorites: candidates.filter(c => c.isFavorite).length
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/20 to-white p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="relative">
-              <div className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-xl">
-                <UserCheck className="w-10 h-10 text-white" />
-              </div>
+            <div className="p-4 bg-gradient-to-br from-green-800 to-emerald-600 rounded-2xl shadow-xl">
+              <UserCheck className="w-10 h-10 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <h1 className="text-4xl font-bold text-gray-900">Documentos de Candidatos</h1>
-                <Sparkles className="w-6 h-6 text-indigo-500" />
+                <h1 className="text-4xl font-bold text-slate-800">Documentos de Candidatos</h1>
+                <Sparkles className="w-6 h-6 text-emerald-600" />
               </div>
-              <p className="text-gray-600 text-lg">CVs y documentos de postulación de candidatos del equipo Vitalink</p>
+              <p className="text-slate-600 text-lg">
+                CVs y documentos de postulación de candidatos del equipo Vitalink
+              </p>
             </div>
           </div>
 
@@ -307,17 +309,18 @@ export default function LeadCandidateFiles() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-6">
+        {/* Filtros */}
+        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6">
           <div className="flex flex-wrap items-center gap-4 mb-4">
             <div className="flex-1 min-w-[300px]">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Buscar candidatos..."
                   value={filters.search}
-                  onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                  className="w-full pl-12 pr-4 py-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-800"
                 />
               </div>
             </div>
@@ -325,13 +328,21 @@ export default function LeadCandidateFiles() {
             <div className="flex gap-2">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-3 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-indigo-100 text-indigo-600 shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                className={`p-3 rounded-xl transition-all ${
+                  viewMode === 'grid'
+                    ? 'bg-green-100 text-green-800 shadow-md'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
               >
                 <Grid3x3 className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-3 rounded-xl transition-all ${viewMode === 'list' ? 'bg-indigo-100 text-indigo-600 shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                className={`p-3 rounded-xl transition-all ${
+                  viewMode === 'list'
+                    ? 'bg-green-100 text-green-800 shadow-md'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
               >
                 <List className="w-5 h-5" />
               </button>
@@ -339,7 +350,7 @@ export default function LeadCandidateFiles() {
 
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-5 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 flex items-center gap-2"
+              className="px-5 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 flex items-center gap-2"
             >
               <Filter className="w-4 h-4" />
               Filtros
@@ -348,47 +359,60 @@ export default function LeadCandidateFiles() {
           </div>
 
           {showFilters && (
-            <div className="pt-6 border-t-2 border-gray-100">
+            <div className="pt-6 border-t-2 border-slate-100">
+              {/* Opciones */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Rol</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Rol</label>
                   <select
                     value={filters.role}
-                    onChange={(e) => setFilters(prev => ({ ...prev, role: e.target.value }))}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                    onChange={e => setFilters(prev => ({ ...prev, role: e.target.value }))}
+                    className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-green-700"
                   >
-                    {roles.map(role => <option key={role} value={role}>{role}</option>)}
+                    {roles.map(role => (
+                      <option key={role} value={role}>
+                        {role}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Estado</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Estado</label>
                   <select
                     value={filters.status}
-                    onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                    onChange={e => setFilters(prev => ({ ...prev, status: e.target.value }))}
+                    className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-green-700"
                   >
-                    {statuses.map(status => <option key={status} value={status}>{status}</option>)}
+                    {statuses.map(status => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Ordenar</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Ordenar</label>
                   <div className="flex gap-2">
                     <select
                       value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value as SortBy)}
-                      className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500"
+                      onChange={e => setSortBy(e.target.value as SortBy)}
+                      className="flex-1 px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-green-700"
                     >
                       <option value="name">Nombre</option>
                       <option value="date">Fecha</option>
                       <option value="role">Rol</option>
                     </select>
                     <button
-                      onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
-                      className="px-3 py-3 bg-gray-100 rounded-xl hover:bg-gray-200"
+                      onClick={() => setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))}
+                      className="px-3 py-3 bg-slate-100 rounded-xl hover:bg-slate-200"
                     >
-                      {sortOrder === 'asc' ? <SortAsc className="w-5 h-5" /> : <SortDesc className="w-5 h-5" />}
+                      {sortOrder === 'asc' ? (
+                        <SortAsc className="w-5 h-5" />
+                      ) : (
+                        <SortDesc className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -398,28 +422,29 @@ export default function LeadCandidateFiles() {
                 <input
                   type="checkbox"
                   checked={filters.showFavorites}
-                  onChange={(e) => setFilters(prev => ({ ...prev, showFavorites: e.target.checked }))}
+                  onChange={e => setFilters(prev => ({ ...prev, showFavorites: e.target.checked }))}
                   className="w-4 h-4"
                 />
-                <Star className="w-4 h-4 text-yellow-500" />
-                <span className="text-sm font-bold text-gray-700">Solo Destacados</span>
+                <Star className="w-4 h-4 text-lime-600" />
+                <span className="text-sm font-bold text-slate-700">Solo Destacados</span>
               </label>
             </div>
           )}
         </div>
 
+        {/* Resultados */}
         <div className="mb-4">
-          <p className="text-sm font-medium text-gray-600">
-            Mostrando <span className="font-bold text-gray-900">{filteredCandidates.length}</span> de{' '}
-            <span className="font-bold text-gray-900">{candidates.length}</span> candidatos
+          <p className="text-sm font-medium text-slate-600">
+            Mostrando <span className="font-bold text-slate-800">{filteredCandidates.length}</span> de{' '}
+            <span className="font-bold text-slate-800">{candidates.length}</span> candidatos
           </p>
         </div>
 
         {filteredCandidates.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12 text-center">
-            <FileText className="w-20 h-20 mx-auto mb-4 text-gray-300" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No hay candidatos</h3>
-            <p className="text-gray-600">No se encontraron candidatos con los filtros seleccionados</p>
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-12 text-center">
+            <FileText className="w-20 h-20 mx-auto mb-4 text-slate-300" />
+            <h3 className="text-xl font-bold text-slate-800 mb-2">No hay candidatos</h3>
+            <p className="text-slate-600">No se encontraron candidatos con los filtros seleccionados</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
