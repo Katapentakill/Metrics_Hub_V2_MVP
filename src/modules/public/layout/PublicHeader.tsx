@@ -21,7 +21,7 @@ export default function PublicHeader() {
           <Link href="/ofertas" className="flex items-center gap-3 group">
             <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-green-600 to-green-700 text-transparent bg-clip-text">
+              <h1 className="text-xl font-bold text-green-800">
                 Living Stones
               </h1>
               <p className="text-xs text-gray-500 -mt-1">Voluntariado</p>

@@ -448,7 +448,7 @@ export default function UniversalHeader({
             <Link href="/" className="flex items-center gap-3">
               <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               <div>
-                <h1 className="text-xl font-bold text-gradient">{config.title}</h1>
+                <h1 className="text-xl font-bold text-green-800">{config.title}</h1>
                 <p className="text-xs text-muted -mt-1">{config.subtitle}</p>
               </div>
             </Link>
@@ -529,7 +529,7 @@ export default function UniversalHeader({
             <a href={`/${userRole}/dashboard`} className="flex items-center space-x-3">
               <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               <div>
-                <h1 className={`text-lg font-bold ${titleClass}`}>
+                <h1 className={`text-xl font-bold text-green-800`}>
                   {config.title}
                 </h1>
                 <p className={`text-xs ${subtitleClass} -mt-1 hidden sm:block`}>
