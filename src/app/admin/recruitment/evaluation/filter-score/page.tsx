@@ -6,9 +6,8 @@ import { Sliders, Settings, CheckCircle, Clock, AlertCircle, TrendingUp, Users, 
 
 // --- Shared Components for Auto-Containment ---
 
-// Reemplazo simplificado para '@/components/ui/button'
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline' | 'ghost' | 'destructive';
+  variant?: 'default' | 'outline' | 'ghost' | 'destructive' | 'success' | 'secondary';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -22,10 +21,12 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   };
 
   const variantClasses = {
-    default: 'bg-blue-600 text-white hover:bg-blue-700 shadow-md',
-    outline: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50',
+    default: 'bg-gradient-to-br from-green-700 to-green-900 text-white hover:from-green-800 hover:to-green-950 shadow-md',
+    secondary: 'bg-gradient-to-br from-green-400 to-emerald-600 text-white hover:from-green-500 hover:to-emerald-700 shadow-md',
+    success: 'bg-gradient-to-br from-emerald-600 to-green-700 text-white hover:from-emerald-700 hover:to-green-800 shadow-md',
+    outline: 'bg-white text-gray-700 border border-slate-200 hover:bg-gray-50',
     ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
-    destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-md',
+    destructive: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
   };
 
   return (
@@ -38,14 +39,11 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   );
 };
 
-// Reemplazo simplificado para '@/modules/recruitment/admin/components/AdminPageLayout'
 interface AdminPageLayoutProps {
   title: string;
   subtitle: string;
   description: string;
   icon: React.ElementType;
-  iconGradient: string;
-  breadcrumbItems: { label: string; href?: string }[];
   headerActions?: React.ReactNode;
   children: React.ReactNode;
 }
@@ -55,37 +53,17 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
   subtitle,
   description,
   icon: Icon,
-  iconGradient,
-  breadcrumbItems,
   headerActions,
   children,
 }) => (
   <div className="min-h-screen bg-gray-50">
     <div className="p-8 max-w-7xl mx-auto">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-        {breadcrumbItems.map((item, index) => (
-          <React.Fragment key={index}>
-            {item.href ? (
-              <a href={item.href} className="hover:text-blue-600 transition-colors">
-                {item.label}
-              </a>
-            ) : (
-              <span className="text-gray-900 font-medium">{item.label}</span>
-            )}
-            {index < breadcrumbItems.length - 1 && <span>/</span>}
-          </React.Fragment>
-        ))}
-      </div>
-
       {/* Header */}
       <div className="flex justify-between items-start mb-8">
         <div className="flex items-center gap-4">
-          <div className={`p-4 rounded-xl text-white shadow-lg ${iconGradient}`}>
-            <Icon className="w-8 h-8" />
-          </div>
+          <Icon className="w-10 h-10 text-green-800" />
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
+            <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
             <p className="text-xl text-gray-600">{subtitle}</p>
           </div>
         </div>
@@ -151,7 +129,7 @@ const mockStats = {
 };
 
 const getRuleColor = (status: ScoringRule['status']): string => {
-  return status === 'Activa' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
+  return status === 'Activa' ? 'bg-green-100 text-green-800 border-green-300' : 'bg-yellow-100 text-yellow-800 border-yellow-300';
 };
 
 export default function AdminFilterScorePage() {
@@ -177,14 +155,8 @@ export default function AdminFilterScorePage() {
       subtitle="Configuración y Auditoría"
       description="Configura el motor de puntuación de candidatos para clasificar las solicitudes basándose en reglas predefinidas de experiencia, habilidades y requisitos. Audita los resultados para garantizar la equidad."
       icon={Sliders}
-      iconGradient="bg-gradient-to-br from-purple-500 to-pink-500"
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/admin/recruitment' },
-        { label: 'Evaluación', href: '/admin/recruitment/evaluation' },
-        { label: 'Filtro y Puntuación' }
-      ]}
       headerActions={
-        <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+        <Button size="lg" variant="default">
           <PlusCircle className="w-5 h-5 mr-2" />
           Crear Nueva Regla
         </Button>
@@ -192,53 +164,61 @@ export default function AdminFilterScorePage() {
     >
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-purple-600">Reglas Activas</p>
-              <p className="text-3xl font-bold text-gray-900">{mockStats.activeRules}</p>
+              <p className="text-sm font-medium text-emerald-600">Reglas Activas</p>
+              <p className="text-3xl font-bold text-slate-800">{mockStats.activeRules}</p>
             </div>
-            <Settings className="w-8 h-8 text-purple-500" />
+            <div className="bg-emerald-600 p-3 rounded-lg">
+              <Settings className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-blue-600">Total de Reglas</p>
-              <p className="text-3xl font-bold text-gray-900">{mockStats.totalRules}</p>
+              <p className="text-3xl font-bold text-slate-800">{mockStats.totalRules}</p>
             </div>
-            <Sliders className="w-8 h-8 text-blue-500" />
+            <div className="bg-blue-500 p-3 rounded-lg">
+              <Sliders className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-green-600">Candidatos Procesados</p>
-              <p className="text-3xl font-bold text-gray-900">{mockStats.candidatesProcessed}</p>
+              <p className="text-sm font-medium text-teal-600">Candidatos Procesados</p>
+              <p className="text-3xl font-bold text-slate-800">{mockStats.candidatesProcessed}</p>
             </div>
-            <Users className="w-8 h-8 text-green-500" />
+            <div className="bg-teal-600 p-3 rounded-lg">
+              <Users className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-orange-600">Puntuación Promedio</p>
-              <p className="text-3xl font-bold text-gray-900">{mockStats.averageScore}</p>
+              <p className="text-sm font-medium text-yellow-600">Puntuación Promedio</p>
+              <p className="text-3xl font-bold text-slate-800">{mockStats.averageScore}</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-orange-500" />
+            <div className="bg-yellow-500 p-3 rounded-lg">
+              <TrendingUp className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Rules Management Section */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <Settings className="w-6 h-6 text-purple-600" />
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
+        <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+          <Settings className="w-6 h-6 text-green-800" />
           Reglas de Puntuación ({rules.length})
         </h2>
         
         {/* Table Header */}
-        <div className="grid grid-cols-12 font-semibold text-gray-600 border-b pb-3 mb-4 text-sm">
+        <div className="grid grid-cols-12 font-semibold text-gray-600 border-b border-slate-200 pb-3 mb-4 text-sm">
           <span className="col-span-4">Nombre y Disparador</span>
           <span className="col-span-2 text-center">Ponderación</span>
           <span className="col-span-2 text-center">Estado</span>
@@ -249,15 +229,17 @@ export default function AdminFilterScorePage() {
         {/* Rules List */}
         <div className="space-y-4">
           {rules.map((rule) => (
-            <div key={rule.id} className="grid grid-cols-12 items-center border border-gray-100 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+            <div key={rule.id} className="grid grid-cols-12 items-center border border-slate-200 p-4 rounded-lg hover:bg-gray-50 transition-colors">
               
               {/* Name and Trigger */}
               <div className="col-span-4">
-                <p className="font-semibold text-gray-900 flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-purple-500" />
+                <p className="font-semibold text-slate-800 flex items-center gap-2">
+                    <span className="bg-green-800 p-1 rounded inline-flex">
+                      <CheckCircle className="w-4 h-4 text-white" />
+                    </span>
                     {rule.name}
                 </p>
-                <p className="text-sm text-gray-500 mt-1 pl-7">{rule.trigger}</p>
+                <p className="text-sm text-gray-600 mt-1 pl-7">{rule.trigger}</p>
               </div>
               
               {/* Weight */}
@@ -269,13 +251,13 @@ export default function AdminFilterScorePage() {
               
               {/* Status */}
               <div className="col-span-2 text-center">
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getRuleColor(rule.status)}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getRuleColor(rule.status)}`}>
                   {rule.status}
                 </span>
               </div>
               
               {/* Last Updated */}
-              <div className="col-span-2 text-center text-sm text-gray-500">
+              <div className="col-span-2 text-center text-sm text-gray-600">
                 {rule.lastUpdated}
               </div>
               
@@ -287,7 +269,7 @@ export default function AdminFilterScorePage() {
                   {rule.status === 'Activa' ? (
                     <Clock className="w-5 h-5 text-yellow-500" />
                   ) : (
-                    <AlertCircle className="w-5 h-5 text-green-500" />
+                    <AlertCircle className="w-5 h-5 text-green-600" />
                   )}
                 </Button>
                 <Button variant="ghost" size="sm" title="Editar">
@@ -310,14 +292,17 @@ export default function AdminFilterScorePage() {
       </div>
 
       {/* Audit and Testing Quick Access */}
-      <div className="mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl">
+      <div className="mt-8 p-6 bg-green-50 border border-green-200 rounded-xl">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">📊 Auditoría de Puntuación</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-2 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-green-800" />
+              Auditoría de Puntuación
+            </h3>
             <p className="text-gray-600">Revisa el historial de puntuaciones aplicadas y simula el impacto de las reglas antes de activarlas.</p>
           </div>
           <a href="/admin/recruitment/evaluation/audit">
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+            <Button size="lg" variant="default">
               <TrendingUp className="w-5 h-5 mr-2" />
               Realizar Auditoría
             </Button>

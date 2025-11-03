@@ -1,4 +1,4 @@
-// src/modules/recruitment/lead/components/AdminCandidateTracker.tsx
+// src/modules/recruitment/hr/components/AdminCandidateTracker.tsx
 import { useState } from 'react';
 import { 
   Users, 

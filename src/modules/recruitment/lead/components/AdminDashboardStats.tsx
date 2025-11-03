@@ -1,4 +1,4 @@
-// src/modules/recruitment/lead/components/AdminDashboardStats.tsx
+// src/modules/recruitment/hr/components/AdminDashboardStats.tsx
 import { LucideIcon, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 

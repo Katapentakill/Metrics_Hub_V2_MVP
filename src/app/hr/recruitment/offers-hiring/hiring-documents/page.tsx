@@ -8,7 +8,7 @@ import { Mail, User, Briefcase, Calendar, CheckCircle, Clock, FileText, Upload, 
 
 // Reemplazo simplificado para '@/components/ui/button'
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline' | 'ghost' | 'destructive';
+  variant?: 'default' | 'outline' | 'ghost' | 'destructive' | 'success' | 'secondary';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -22,10 +22,12 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   };
 
   const variantClasses = {
-    default: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md',
-    outline: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50',
+    default: 'bg-gradient-to-br from-green-700 to-green-900 text-white hover:from-green-800 hover:to-green-950 shadow-md',
+    secondary: 'bg-gradient-to-br from-green-400 to-emerald-600 text-white hover:from-green-500 hover:to-emerald-700 shadow-md',
+    success: 'bg-gradient-to-br from-emerald-600 to-green-700 text-white hover:from-emerald-700 hover:to-green-800 shadow-md',
+    outline: 'bg-white text-gray-700 border border-slate-200 hover:bg-gray-50',
     ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
-    destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-md',
+    destructive: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
   };
 
   return (
@@ -44,8 +46,6 @@ interface AdminPageLayoutProps {
   subtitle: string;
   description: string;
   icon: React.ElementType;
-  iconGradient: string;
-  breadcrumbItems: { label: string; href?: string }[];
   headerActions?: React.ReactNode;
   children: React.ReactNode;
 }
@@ -55,37 +55,17 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
   subtitle,
   description,
   icon: Icon,
-  iconGradient,
-  breadcrumbItems,
   headerActions,
   children,
 }) => (
   <div className="min-h-screen bg-gray-50">
     <div className="p-8 max-w-7xl mx-auto">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-        {breadcrumbItems.map((item, index) => (
-          <React.Fragment key={index}>
-            {item.href ? (
-              <a href={item.href} className="hover:text-indigo-600 transition-colors">
-                {item.label}
-              </a>
-            ) : (
-              <span className="text-gray-900 font-medium">{item.label}</span>
-            )}
-            {index < breadcrumbItems.length - 1 && <span>/</span>}
-          </React.Fragment>
-        ))}
-      </div>
-
       {/* Header */}
       <div className="flex justify-between items-start mb-8">
         <div className="flex items-center gap-4">
-          <div className={`p-4 rounded-xl text-white shadow-lg ${iconGradient}`}>
-            <Icon className="w-8 h-8" />
-          </div>
+          <Icon className="w-10 h-10 text-green-800" />
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
+            <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
             <p className="text-xl text-gray-600">{subtitle}</p>
           </div>
         </div>
@@ -99,13 +79,13 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
 
 // Reemplazo simplificado para las Cards
 const Card: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
-  <div className={`bg-white rounded-xl shadow-sm border border-gray-100 ${className}`}>
+  <div className={`bg-white rounded-xl shadow-sm border border-slate-200 ${className}`}>
     {children}
   </div>
 );
 const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pb-2">{children}</div>;
 const CardTitle: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
-  <h3 className={`text-xl font-bold text-gray-900 ${className}`}>{children}</h3>
+  <h3 className={`text-xl font-bold text-slate-800 ${className}`}>{children}</h3>
 );
 const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pt-0">{children}</div>;
 
@@ -182,15 +162,9 @@ export default function AdminHiringDocumentsPage() {
       subtitle="Módulo de Cumplimiento"
       description="Supervisa y gestiona todos los documentos legales y de recursos humanos de los nuevos contratados y voluntarios. Asegura que todos los archivos estén cargados y firmados."
       icon={FileCheck}
-      iconGradient="bg-gradient-to-br from-green-500 to-teal-600"
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/hr/recruitment' },
-        { label: 'Oferta y Contratación', href: '/hr/recruitment/offers-hiring' },
-        { label: 'Documentación' }
-      ]}
       headerActions={
         <div className="flex gap-3">
-          <Button variant="default" size="md" className="bg-green-600 hover:bg-green-700">
+          <Button variant="default" size="md">
             <Upload className="w-5 h-5 mr-2" />
             Subir Documento
           </Button>
@@ -203,63 +177,73 @@ export default function AdminHiringDocumentsPage() {
     >
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total de Documentos</p>
-              <p className="text-3xl font-bold text-gray-900">{totalDocuments}</p>
+              <p className="text-3xl font-bold text-slate-800">{totalDocuments}</p>
             </div>
-            <FileText className="w-8 h-8 text-gray-500" />
+            <div className="bg-teal-500 p-3 rounded-lg">
+              <FileText className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-yellow-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-yellow-600">Pendientes de Firma</p>
-              <p className="text-3xl font-bold text-gray-900">{pendingSignature}</p>
+              <p className="text-3xl font-bold text-slate-800">{pendingSignature}</p>
             </div>
-            <Clock className="w-8 h-8 text-yellow-500" />
+            <div className="bg-yellow-500 p-3 rounded-lg">
+              <Clock className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-green-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-green-600">Documentos Firmados</p>
-              <p className="text-3xl font-bold text-gray-900">{signedDocuments}</p>
+              <p className="text-sm font-medium text-emerald-600">Documentos Firmados</p>
+              <p className="text-3xl font-bold text-slate-800">{signedDocuments}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-500" />
+            <div className="bg-emerald-600 p-3 rounded-lg">
+              <CheckCircle className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-red-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-red-600">Archivos Rechazados</p>
-              <p className="text-3xl font-bold text-gray-900">{mockDocuments.filter(d => d.status === 'Rechazado').length}</p>
+              <p className="text-3xl font-bold text-slate-800">{mockDocuments.filter(d => d.status === 'Rechazado').length}</p>
             </div>
-            <XCircle className="w-8 h-8 text-red-500" />
+            <div className="bg-red-500 p-3 rounded-lg">
+              <XCircle className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Documents List */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Archivos Recientes</h2>
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
+        <h2 className="text-2xl font-bold text-slate-800 mb-6">Archivos Recientes</h2>
         
         <div className="space-y-4">
           {mockDocuments.map((doc) => (
-            <div key={doc.id} className="p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow flex items-center justify-between bg-gray-50">
+            <div key={doc.id} className="p-4 border border-slate-200 rounded-lg hover:shadow-md transition-shadow flex items-center justify-between bg-gray-50">
               <div className="flex-1 min-w-0 flex items-center gap-4">
-                <FileText className="w-6 h-6 text-indigo-500 flex-shrink-0" />
+                <div className="bg-green-800 p-2 rounded-lg">
+                  <FileText className="w-6 h-6 text-white flex-shrink-0" />
+                </div>
                 <div>
-                  <div className="text-lg font-semibold text-gray-900 truncate">{doc.name}</div>
+                  <div className="text-lg font-semibold text-slate-800 truncate">{doc.name}</div>
                   <div className="text-sm text-gray-600">
-                    {doc.type} | Candidato: <span className="font-medium text-gray-800">{doc.candidate}</span>
+                    {doc.type} | Candidato: <span className="font-medium text-slate-800">{doc.candidate}</span>
                   </div>
                 </div>
               </div>
               
               <div className="flex items-center gap-4 flex-shrink-0">
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-600">
                   Cargado el: {doc.uploadDate}
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(doc.status)}`}>
@@ -270,7 +254,7 @@ export default function AdminHiringDocumentsPage() {
                   <Button 
                     size="sm" 
                     variant="ghost" 
-                    className="text-blue-600 hover:bg-blue-50"
+                    className="text-blue-500 hover:bg-blue-50"
                     title="Ver/Previsualizar Documento"
                   >
                     <Eye className="w-4 h-4" />
@@ -278,7 +262,7 @@ export default function AdminHiringDocumentsPage() {
                   <Button 
                     size="sm" 
                     variant="ghost" 
-                    className="text-gray-600 hover:bg-gray-100"
+                    className="text-teal-600 hover:bg-teal-50"
                     title="Descargar Archivo"
                   >
                     <Download className="w-4 h-4" />

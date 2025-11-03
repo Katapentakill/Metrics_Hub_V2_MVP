@@ -1,4 +1,4 @@
-// src/modules/recruitment/lead/components/AdminBreadcrumb.tsx
+// src/modules/recruitment/hr/components/AdminBreadcrumb.tsx
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 
@@ -15,7 +15,7 @@ export default function AdminBreadcrumb({ items }: AdminBreadcrumbProps) {
   return (
     <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
       <Link 
-        href="/lead/recruitment" 
+        href="/hr/recruitment" 
         className="flex items-center hover:text-blue-600 transition-colors"
       >
         <Home className="w-4 h-4 mr-1" />
