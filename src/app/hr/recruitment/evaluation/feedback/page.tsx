@@ -4,85 +4,83 @@
 import { useState } from 'react';
 import { 
   MessageSquare, Star, Clock, Users, Briefcase, 
-  CheckCircle, Filter, Eye, PlusCircle, // Incluyendo PlusCircle
+  CheckCircle, Filter, Eye, PlusCircle,
   AlertCircle 
 } from 'lucide-react';
 
-// --- DEFINICIONES DE COMPONENTES INTERNOS PARA RESOLVER ERRORES DE COMPILACIÓN ---
+// --- Shared Components for Auto-Containment ---
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'outline' | 'ghost' | 'destructive' | 'success' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = 'md', className = '', ...props }) => {
+  const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg transition-colors duration-150';
+  
+  const sizeClasses = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg',
+  };
+
+  const variantClasses = {
+    default: 'bg-gradient-to-br from-green-700 to-green-900 text-white hover:from-green-800 hover:to-green-950 shadow-md',
+    secondary: 'bg-gradient-to-br from-green-400 to-emerald-600 text-white hover:from-green-500 hover:to-emerald-700 shadow-md',
+    success: 'bg-gradient-to-br from-emerald-600 to-green-700 text-white hover:from-emerald-700 hover:to-green-800 shadow-md',
+    outline: 'bg-white text-gray-700 border border-slate-200 hover:bg-gray-50',
+    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
+    destructive: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
+  };
+
+  return (
+    <button
+      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
 
 interface AdminPageLayoutProps {
   title: string;
   subtitle: string;
   description: string;
   icon: React.ElementType;
-  iconGradient: string;
-  breadcrumbItems: { label: string; href?: string }[];
-  headerActions: React.ReactNode;
+  headerActions?: React.ReactNode;
   children: React.ReactNode;
 }
 
-// Minimal AdminPageLayout implementation (to satisfy the import)
-const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({ title, subtitle, description, icon: Icon, iconGradient, breadcrumbItems, headerActions, children }) => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white p-8">
-        {/* Simplified Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-6 max-w-7xl mx-auto">
-          {breadcrumbItems.map((item, index) => (
-            <span key={index} className="flex items-center">
-              {item.href ? (
-                <a href={item.href} className="hover:text-green-600 transition-colors">{item.label}</a> // Usando <a> en lugar de Link
-              ) : (
-                <span className="text-gray-900 font-medium">{item.label}</span>
-              )}
-              {index < breadcrumbItems.length - 1 && <span className="mx-1">/</span>}
-            </span>
-          ))}
+const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
+  title,
+  subtitle,
+  description,
+  icon: Icon,
+  headerActions,
+  children,
+}) => (
+  <div className="min-h-screen bg-gray-50">
+    <div className="p-8 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="flex justify-between items-start mb-8">
+        <div className="flex items-center gap-4">
+          <Icon className="w-10 h-10 text-green-800" />
+          <div>
+            <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
+            <p className="text-xl text-gray-600">{subtitle}</p>
+          </div>
         </div>
-
-        {/* Header */}
-        <div className="max-w-7xl mx-auto mb-8">
-            <div className="flex justify-between items-start">
-                <div className="flex items-center gap-4">
-                    <div className={`p-4 rounded-xl text-white shadow-lg ${iconGradient}`}>
-                        <Icon className="w-8 h-8" />
-                    </div>
-                    <div>
-                        <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
-                        <p className="text-xl text-gray-600">{subtitle}</p>
-                    </div>
-                </div>
-                {headerActions}
-            </div>
-            <p className="text-gray-600 text-lg leading-relaxed mt-4 max-w-4xl">{description}</p>
-        </div>
-        <div className="max-w-7xl mx-auto">
-            {children}
-        </div>
+        {headerActions}
+      </div>
+      <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-4xl">{description}</p>
+      {children}
     </div>
-  );
-};
+  </div>
+);
 
-// Minimal Button implementation (to satisfy the import)
-const Button = ({ children, variant, size, onClick, className = '' }: any) => {
-    let baseStyle = 'px-4 py-2 rounded-lg font-semibold transition-all flex items-center justify-center';
-    let variantStyle = 'bg-blue-600 text-white hover:bg-blue-700 shadow-md';
-    if (variant === 'outline') {
-        variantStyle = 'border border-gray-300 text-gray-700 bg-white hover:bg-gray-100';
-    }
-    if (size === 'sm') {
-        baseStyle = 'px-3 py-2 text-sm rounded-lg font-semibold transition-all flex items-center justify-center';
-    }
-    
-    return (
-        <button className={`${baseStyle} ${variantStyle} ${className}`} onClick={onClick}>
-            {children}
-        </button>
-    );
-};
-// --- FIN DEFINICIONES DE COMPONENTES INTERNOS ---
+// --- Mock Data ---
 
-
-// Mock Data
 interface FeedbackItem {
   id: number;
   candidate: string;
@@ -137,16 +135,10 @@ export default function AdminFeedbackPage() {
       subtitle="Revisión y Auditoría de Calificaciones"
       description="Centraliza las calificaciones y comentarios de los entrevistadores. Asegura la objetividad y calidad en la fase de selección."
       icon={MessageSquare}
-      iconGradient="bg-gradient-to-br from-blue-500 to-purple-600"
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/hr/recruitment' },
-        { label: 'Evaluación', href: '/hr/recruitment/evaluation' },
-        { label: 'Feedback del Equipo' }
-      ]}
       headerActions={
         <div className="flex gap-3">
-          <Button variant="outline" size="sm">
-            <Users className="w-4 h-4 mr-2" />
+          <Button variant="outline" size="md">
+            <Users className="w-5 h-5 mr-2" />
             Gestionar Entrevistadores
           </Button>
         </div>
@@ -155,30 +147,51 @@ export default function AdminFeedbackPage() {
       
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-5 shadow-sm">
-          <p className="text-sm font-medium text-yellow-700 mb-1">Feedback Pendiente</p>
-          <p className="text-3xl font-bold text-yellow-900">{mockFeedback.filter(f => f.status === 'Pendiente').length}</p>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-yellow-600">Feedback Pendiente</p>
+              <p className="text-3xl font-bold text-slate-800">{mockFeedback.filter(f => f.status === 'Pendiente').length}</p>
+            </div>
+            <div className="bg-yellow-500 p-3 rounded-lg">
+              <Clock className="w-8 h-8 text-white" />
+            </div>
+          </div>
         </div>
-        <div className="bg-green-50 border border-green-300 rounded-xl p-5 shadow-sm">
-          <p className="text-sm font-medium text-green-700 mb-1">Feedback Revisado</p>
-          <p className="text-3xl font-bold text-green-900">{mockFeedback.filter(f => f.status === 'Revisado').length}</p>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-emerald-600">Feedback Revisado</p>
+              <p className="text-3xl font-bold text-slate-800">{mockFeedback.filter(f => f.status === 'Revisado').length}</p>
+            </div>
+            <div className="bg-emerald-600 p-3 rounded-lg">
+              <CheckCircle className="w-8 h-8 text-white" />
+            </div>
+          </div>
         </div>
-        <div className="bg-blue-50 border border-blue-300 rounded-xl p-5 shadow-sm">
-          <p className="text-sm font-medium text-blue-700 mb-1">Puntuación Promedio</p>
-          <p className="text-3xl font-bold text-blue-900">{averageRating} <Star className="w-5 h-5 inline-block text-yellow-500 fill-current" /></p>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-blue-600">Puntuación Promedio</p>
+              <p className="text-3xl font-bold text-slate-800">{averageRating} <Star className="w-5 h-5 inline-block text-yellow-500 fill-current" /></p>
+            </div>
+            <div className="bg-blue-500 p-3 rounded-lg">
+              <Star className="w-8 h-8 text-white" />
+            </div>
+          </div>
         </div>
       </div>
       
       {/* Main Content: Filter and List */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Items de Feedback Recientes</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Items de Feedback Recientes</h2>
           <div className="flex gap-4 items-center">
             <Filter className="w-5 h-5 text-gray-500" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as FeedbackItem['status'] | 'Todos')}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium focus:ring-2 focus:ring-emerald-500"
             >
               <option value="Pendiente">Pendiente de Revisión</option>
               <option value="Revisado">Revisado</option>
@@ -195,14 +208,14 @@ export default function AdminFeedbackPage() {
           {filteredFeedback.map(item => (
             <div 
               key={item.id} 
-              className="flex items-center justify-between p-4 border border-gray-200 rounded-lg transition-colors hover:bg-gray-50"
+              className="flex items-center justify-between p-4 border border-slate-200 rounded-lg transition-colors hover:bg-gray-50"
             >
               <div className="flex items-center gap-4 flex-1">
                 <div className={`p-2 rounded-full border ${getStatusColor(item.status)}`}>
                   {item.status === 'Pendiente' ? <Clock className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">{item.candidate}</p>
+                  <p className="font-semibold text-slate-800">{item.candidate}</p>
                   <p className="text-sm text-gray-600 flex items-center gap-2">
                     <Briefcase className="w-4 h-4" />
                     {item.jobTitle}
@@ -212,12 +225,12 @@ export default function AdminFeedbackPage() {
 
               <div className="text-center w-40">
                 <p className="text-sm font-medium text-gray-500">Evaluador</p>
-                <p className="font-medium text-gray-700">{item.interviewer}</p>
+                <p className="font-medium text-slate-800">{item.interviewer}</p>
               </div>
 
               <div className="text-center w-28">
                 <p className="text-sm font-medium text-gray-500">Fecha</p>
-                <p className="font-medium text-gray-700">{item.date}</p>
+                <p className="font-medium text-slate-800">{item.date}</p>
               </div>
               
               <div className="text-center w-36">
@@ -226,7 +239,7 @@ export default function AdminFeedbackPage() {
               </div>
 
               <div className="w-40 flex justify-end">
-                <Button size="sm" className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700">
+                <Button size="sm" variant="secondary" className="flex items-center gap-1">
                   <Eye className="w-4 h-4" />
                   Revisar
                 </Button>

@@ -1,10 +1,92 @@
 // src/app/admin/recruitment/evaluation/interview-management/page.tsx
-import { CalendarCheck, Clock, Users, MapPin, Video, Phone, MessageSquare, Filter, Plus, Calendar, Download } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import AdminPageLayout from '@/modules/recruitment/admin/components/AdminPageLayout';
+'use client';
 
-// Mock data for interviews
+import { CalendarCheck, Clock, Users, MapPin, Video, Phone, MessageSquare, Filter, Plus, Calendar, Download } from 'lucide-react';
+
+// --- Shared Components for Auto-Containment ---
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'outline' | 'ghost' | 'destructive' | 'success' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = 'md', className = '', ...props }) => {
+  const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg transition-colors duration-150';
+  
+  const sizeClasses = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg',
+  };
+
+  const variantClasses = {
+    default: 'bg-gradient-to-br from-green-700 to-green-900 text-white hover:from-green-800 hover:to-green-950 shadow-md',
+    secondary: 'bg-gradient-to-br from-green-400 to-emerald-600 text-white hover:from-green-500 hover:to-emerald-700 shadow-md',
+    success: 'bg-gradient-to-br from-emerald-600 to-green-700 text-white hover:from-emerald-700 hover:to-green-800 shadow-md',
+    outline: 'bg-white text-gray-700 border border-slate-200 hover:bg-gray-50',
+    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
+    destructive: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
+  };
+
+  return (
+    <button
+      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+interface AdminPageLayoutProps {
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: React.ElementType;
+  headerActions?: React.ReactNode;
+  children: React.ReactNode;
+}
+
+const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
+  title,
+  subtitle,
+  description,
+  icon: Icon,
+  headerActions,
+  children,
+}) => (
+  <div className="min-h-screen bg-gray-50">
+    <div className="p-8 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="flex justify-between items-start mb-8">
+        <div className="flex items-center gap-4">
+          <Icon className="w-10 h-10 text-green-800" />
+          <div>
+            <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
+            <p className="text-xl text-gray-600">{subtitle}</p>
+          </div>
+        </div>
+        {headerActions}
+      </div>
+      <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-4xl">{description}</p>
+      {children}
+    </div>
+  </div>
+);
+
+const Card: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
+  <div className={`bg-white rounded-xl shadow-sm border border-slate-200 ${className}`}>
+    {children}
+  </div>
+);
+const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pb-2">{children}</div>;
+const CardTitle: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
+  <h3 className={`text-xl font-bold text-slate-800 ${className}`}>{children}</h3>
+);
+const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pt-0">{children}</div>;
+
+// --- Mock data ---
+
 const todayInterviews = [
   {
     id: 1,
@@ -73,11 +155,11 @@ const upcomingInterviews = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'confirmed': return 'bg-green-100 text-green-800';
-    case 'pending': return 'bg-yellow-100 text-yellow-800';
-    case 'rescheduled': return 'bg-orange-100 text-orange-800';
-    case 'cancelled': return 'bg-red-100 text-red-800';
-    default: return 'bg-gray-100 text-gray-800';
+    case 'confirmed': return 'bg-green-100 text-green-800 border-green-300';
+    case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+    case 'rescheduled': return 'bg-orange-100 text-orange-800 border-orange-300';
+    case 'cancelled': return 'bg-red-100 text-red-800 border-red-300';
+    default: return 'bg-gray-100 text-gray-800 border-gray-300';
   }
 };
 
@@ -91,19 +173,12 @@ const getTypeIcon = (type: string) => {
 };
 
 export default function InterviewManagementPage() {
-  console.log('iconGradient:', "bg-gradient-to-br from-green-500 to-blue-600");
   return (
     <AdminPageLayout
       title="Gestión de Entrevistas"
       subtitle="Panel de Control"
       description="Supervisa y coordina todas las entrevistas programadas por el equipo. Gestiona horarios, confirma asistencias y mantén un seguimiento completo del proceso de evaluación."
       icon={CalendarCheck}
-      iconGradient= "bg-gradient-to-br from-green-500 to-blue-600"
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/admin/recruitment' },
-        { label: 'Evaluación', href: '/admin/recruitment/evaluation' },
-        { label: 'Gestión de Entrevistas' }
-      ]}
       headerActions={
         <div className="flex gap-3">
           <Button variant="outline" size="sm">
@@ -114,7 +189,7 @@ export default function InterviewManagementPage() {
             <Download className="w-4 h-4 mr-2" />
             Exportar
           </Button>
-          <Button size="sm">
+          <Button size="sm" variant="default">
             <Plus className="w-4 h-4 mr-2" />
             Nueva Entrevista
           </Button>
@@ -122,45 +197,53 @@ export default function InterviewManagementPage() {
       }
     >
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-blue-600">Hoy</p>
-              <p className="text-2xl font-bold text-blue-900">8</p>
+              <p className="text-3xl font-bold text-slate-800">8</p>
               <p className="text-xs text-blue-600">entrevistas</p>
             </div>
-            <Calendar className="w-8 h-8 text-blue-500" />
+            <div className="bg-blue-500 p-3 rounded-lg">
+              <Calendar className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-green-600">Esta Semana</p>
-              <p className="text-2xl font-bold text-green-900">23</p>
-              <p className="text-xs text-green-600">programadas</p>
+              <p className="text-sm font-medium text-emerald-600">Esta Semana</p>
+              <p className="text-3xl font-bold text-slate-800">23</p>
+              <p className="text-xs text-emerald-600">programadas</p>
             </div>
-            <CalendarCheck className="w-8 h-8 text-green-500" />
+            <div className="bg-emerald-600 p-3 rounded-lg">
+              <CalendarCheck className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-yellow-600">Pendientes</p>
-              <p className="text-2xl font-bold text-yellow-900">12</p>
+              <p className="text-3xl font-bold text-slate-800">12</p>
               <p className="text-xs text-yellow-600">confirmación</p>
             </div>
-            <Clock className="w-8 h-8 text-yellow-500" />
+            <div className="bg-yellow-500 p-3 rounded-lg">
+              <Clock className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-purple-600">Entrevistadores</p>
-              <p className="text-2xl font-bold text-purple-900">15</p>
-              <p className="text-xs text-purple-600">activos</p>
+              <p className="text-sm font-medium text-teal-600">Entrevistadores</p>
+              <p className="text-3xl font-bold text-slate-800">15</p>
+              <p className="text-xs text-teal-600">activos</p>
             </div>
-            <Users className="w-8 h-8 text-purple-500" />
+            <div className="bg-teal-600 p-3 rounded-lg">
+              <Users className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -171,7 +254,7 @@ export default function InterviewManagementPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CalendarCheck className="w-5 h-5 text-blue-600" />
+                <CalendarCheck className="w-5 h-5 text-green-800" />
                 Entrevistas de Hoy
                 <span className="ml-auto text-sm font-normal text-gray-500">
                   {new Date().toLocaleDateString('es-ES', { 
@@ -186,15 +269,15 @@ export default function InterviewManagementPage() {
             <CardContent>
               <div className="space-y-4">
                 {todayInterviews.map((interview) => (
-                  <div key={interview.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div key={interview.id} className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <div className="flex items-center gap-2">
                             {getTypeIcon(interview.type)}
-                            <span className="font-semibold text-gray-900">{interview.candidateName}</span>
+                            <span className="font-semibold text-slate-800">{interview.candidateName}</span>
                           </div>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(interview.status)}`}>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(interview.status)}`}>
                             {interview.status === 'confirmed' ? 'Confirmada' : 
                              interview.status === 'pending' ? 'Pendiente' : 
                              interview.status === 'rescheduled' ? 'Reprogramada' : 'Cancelada'}
@@ -217,7 +300,7 @@ export default function InterviewManagementPage() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button variant="ghost" size="sm">
                           <MessageSquare className="w-4 h-4" />
                         </Button>
                         <Button variant="outline" size="sm">
@@ -237,23 +320,23 @@ export default function InterviewManagementPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-green-600" />
+                <Calendar className="w-5 h-5 text-green-800" />
                 Próximas Entrevistas
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {upcomingInterviews.map((day, index) => (
-                  <div key={index} className="border-l-4 border-green-500 pl-4">
+                  <div key={index} className="border-l-4 border-green-600 pl-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-gray-900">{day.date}</h4>
+                      <h4 className="font-semibold text-slate-800">{day.date}</h4>
                       <span className="text-sm text-gray-500">{day.count} entrevistas</span>
                     </div>
                     <div className="space-y-2">
                       {day.interviews.map((interview, idx) => (
                         <div key={idx} className="text-sm">
                           <div className="flex items-center justify-between">
-                            <span className="font-medium">{interview.time}</span>
+                            <span className="font-medium text-slate-800">{interview.time}</span>
                             <span className="text-gray-500">{interview.candidate}</span>
                           </div>
                           <p className="text-gray-400 text-xs">{interview.position}</p>

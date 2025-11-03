@@ -2,13 +2,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UserCheck, Clock, CheckCircle2, User, Briefcase, FileText, TrendingUp, Calendar, ArrowRight, UserPlus, Users } from 'lucide-react'; // Added UserPlus and Users
+import { UserCheck, Clock, CheckCircle2, User, Briefcase, FileText, TrendingUp, Calendar, ArrowRight, UserPlus, Users } from 'lucide-react';
 
 // --- Shared Components for Auto-Containment ---
 
 // Reemplazo simplificado para '@/components/ui/button'
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline' | 'ghost' | 'destructive';
+  variant?: 'default' | 'outline' | 'ghost' | 'destructive' | 'success' | 'secondary';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -22,10 +22,12 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   };
 
   const variantClasses = {
-    default: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md',
-    outline: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50',
+    default: 'bg-gradient-to-br from-green-700 to-green-900 text-white hover:from-green-800 hover:to-green-950 shadow-md',
+    secondary: 'bg-gradient-to-br from-green-400 to-emerald-600 text-white hover:from-green-500 hover:to-emerald-700 shadow-md',
+    success: 'bg-gradient-to-br from-emerald-600 to-green-700 text-white hover:from-emerald-700 hover:to-green-800 shadow-md',
+    outline: 'bg-white text-gray-700 border border-slate-200 hover:bg-gray-50',
     ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
-    destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-md',
+    destructive: 'bg-red-500 text-white hover:bg-red-600 shadow-md',
   };
 
   return (
@@ -38,14 +40,12 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   );
 };
 
-// Reemplazo simplificado para '@/modules/recruitment/hr/components/AdminPageLayout'
+// Reemplazo simplificado para '@/modules/recruitment/admin/components/AdminPageLayout'
 interface AdminPageLayoutProps {
   title: string;
   subtitle: string;
   description: string;
   icon: React.ElementType;
-  iconGradient: string;
-  breadcrumbItems: { label: string; href?: string }[];
   headerActions?: React.ReactNode;
   children: React.ReactNode;
 }
@@ -55,37 +55,17 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
   subtitle,
   description,
   icon: Icon,
-  iconGradient,
-  breadcrumbItems,
   headerActions,
   children,
 }) => (
   <div className="min-h-screen bg-gray-50">
     <div className="p-8 max-w-7xl mx-auto">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-        {breadcrumbItems.map((item, index) => (
-          <React.Fragment key={index}>
-            {item.href ? (
-              <a href={item.href} className="hover:text-indigo-600 transition-colors">
-                {item.label}
-              </a>
-            ) : (
-              <span className="text-gray-900 font-medium">{item.label}</span>
-            )}
-            {index < breadcrumbItems.length - 1 && <span>/</span>}
-          </React.Fragment>
-        ))}
-      </div>
-
       {/* Header */}
       <div className="flex justify-between items-start mb-8">
         <div className="flex items-center gap-4">
-          <div className={`p-4 rounded-xl text-white shadow-lg ${iconGradient}`}>
-            <Icon className="w-8 h-8" />
-          </div>
+          <Icon className="w-10 h-10 text-green-800" />
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
+            <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
             <p className="text-xl text-gray-600">{subtitle}</p>
           </div>
         </div>
@@ -99,13 +79,13 @@ const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
 
 // Reemplazo simplificado para las Cards
 const Card: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
-  <div className={`bg-white rounded-xl shadow-sm border border-gray-100 ${className}`}>
+  <div className={`bg-white rounded-xl shadow-sm border border-slate-200 ${className}`}>
     {children}
   </div>
 );
 const CardHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pb-2">{children}</div>;
 const CardTitle: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => (
-  <h3 className={`text-xl font-bold text-gray-900 ${className}`}>{children}</h3>
+  <h3 className={`text-xl font-bold text-slate-800 ${className}`}>{children}</h3>
 );
 const CardContent: React.FC<{ children: React.ReactNode }> = ({ children }) => <div className="p-5 pt-0">{children}</div>;
 
@@ -166,19 +146,19 @@ const getStatusBadge = (status: OnboardingCandidate['status']) => {
   switch (status) {
     case 'Completado':
       return (
-        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-700">
+        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-700 border border-green-300">
           <CheckCircle2 className="mr-1 h-3 w-3" /> Completado
         </span>
       );
     case 'En Progreso':
       return (
-        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-700">
+        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 border border-blue-300">
           <Clock className="mr-1 h-3 w-3" /> En Progreso
         </span>
       );
     case 'Pendiente':
       return (
-        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-700">
+        <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-300">
           <Clock className="mr-1 h-3 w-3" /> Pendiente
         </span>
       );
@@ -197,15 +177,9 @@ export default function AdminOnboardingManagementPage() {
       subtitle="Supervisión de Nuevos Miembros"
       description="Supervisa el proceso de incorporación de todos los nuevos miembros del equipo, desde la firma de documentos hasta la asignación de roles. Asegura una transición fluida."
       icon={UserCheck}
-      iconGradient="bg-gradient-to-br from-purple-500 to-indigo-600"
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/hr/recruitment' },
-        { label: 'Oferta y Contratación', href: '/hr/recruitment/offers-hiring' },
-        { label: 'Onboarding' }
-      ]}
       headerActions={
         <div className="flex gap-3">
-          <Button variant="default" size="md" className="bg-purple-600 hover:bg-purple-700">
+          <Button variant="default" size="md">
             <UserPlus className="w-5 h-5 mr-2" />
             Añadir Nuevo Contratado
           </Button>
@@ -218,40 +192,48 @@ export default function AdminOnboardingManagementPage() {
     >
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total en Onboarding</p>
-              <p className="text-3xl font-bold text-gray-900">{totalCandidates}</p>
+              <p className="text-3xl font-bold text-slate-800">{totalCandidates}</p>
             </div>
-            <Users className="w-8 h-8 text-gray-500" />
+            <div className="bg-teal-600 p-3 rounded-lg">
+              <Users className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-green-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-green-600">Completados</p>
-              <p className="text-3xl font-bold text-gray-900">{completed}</p>
+              <p className="text-sm font-medium text-emerald-600">Completados</p>
+              <p className="text-3xl font-bold text-slate-800">{completed}</p>
             </div>
-            <CheckCircle2 className="w-8 h-8 text-green-500" />
+            <div className="bg-emerald-600 p-3 rounded-lg">
+              <CheckCircle2 className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-blue-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-blue-600">En Progreso</p>
-              <p className="text-3xl font-bold text-gray-900">{inProgress}</p>
+              <p className="text-3xl font-bold text-slate-800">{inProgress}</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-blue-500" />
+            <div className="bg-blue-500 p-3 rounded-lg">
+              <TrendingUp className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-white border border-yellow-200 rounded-xl p-5 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-yellow-600">Pendientes de Inicio</p>
-              <p className="text-3xl font-bold text-gray-900">{pending}</p>
+              <p className="text-3xl font-bold text-slate-800">{pending}</p>
             </div>
-            <Clock className="w-8 h-8 text-yellow-500" />
+            <div className="bg-yellow-500 p-3 rounded-lg">
+              <Clock className="w-8 h-8 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -264,17 +246,21 @@ export default function AdminOnboardingManagementPage() {
             className="hover:shadow-lg transition-shadow duration-200 cursor-pointer h-full flex flex-col"
           >
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <User className="w-5 h-5 text-purple-600" />
+                  <div className="bg-green-800 p-2 rounded-lg">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
                   <div>
                     <CardTitle className="text-lg font-medium">{candidate.name}</CardTitle>
-                    <p className="text-sm text-gray-500 flex items-center gap-1">
+                    <p className="text-sm text-gray-600 flex items-center gap-1">
                         <Briefcase className='w-3 h-3' />
                         {candidate.role}
                     </p>
                   </div>
                 </div>
+              </div>
+              <div className="flex justify-end">
                 {getStatusBadge(candidate.status)}
               </div>
             </CardHeader>
@@ -282,11 +268,11 @@ export default function AdminOnboardingManagementPage() {
                 <div>
                     <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                         <FileText className="h-4 w-4 text-gray-500" />
-                        <span>Paso Actual: <span className='font-medium text-gray-800'>{candidate.onboardingStep}</span></span>
+                        <span>Paso Actual: <span className='font-medium text-slate-800'>{candidate.onboardingStep}</span></span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
                         <Calendar className="h-4 w-4 text-gray-500" />
-                        <span>Inicio de Rol: <span className='font-medium text-gray-800'>{candidate.startDate}</span></span>
+                        <span>Inicio de Rol: <span className='font-medium text-slate-800'>{candidate.startDate}</span></span>
                     </div>
 
                     {/* Progress Bar */}
@@ -297,7 +283,7 @@ export default function AdminOnboardingManagementPage() {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div 
-                                className="h-2.5 rounded-full bg-purple-600 transition-all duration-500" 
+                                className="h-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-green-700 transition-all duration-500" 
                                 style={{ width: `${candidate.progressPercent}%` }}
                             ></div>
                         </div>
@@ -305,7 +291,7 @@ export default function AdminOnboardingManagementPage() {
                 </div>
                 
                 {/* Actions */}
-                <div className='flex gap-2 pt-4 border-t border-gray-100 mt-4'>
+                <div className='flex gap-2 pt-4 border-t border-slate-200 mt-4'>
                     <Button 
                         size="sm" 
                         variant="outline" 
@@ -318,7 +304,7 @@ export default function AdminOnboardingManagementPage() {
                         <Button 
                             size="sm" 
                             variant="default" 
-                            className='flex-1 bg-purple-600 hover:bg-purple-700'
+                            className='flex-1'
                             onClick={() => console.log(`Avanzar paso para ${candidate.name}`)}
                         >
                             <ArrowRight className='w-4 h-4 mr-1' />

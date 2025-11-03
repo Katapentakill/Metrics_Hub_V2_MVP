@@ -152,35 +152,43 @@ export default function AdminCandidateDatabasePage() {
     return result;
   }, [candidates, searchTerm, filters]);
 
-  // Estadísticas para el dashboard - PALETA VERDE
+  // Estadísticas para el dashboard - Aplicando guía de diseño
   const databaseStats = [
     {
       title: 'Total Candidatos',
       value: candidates.length,
       change: { value: 12, type: 'increase' as const, period: 'mes anterior' },
       icon: Users,
-      color: 'text-emerald-600',
+      color: 'text-teal-600',
+      iconBg: 'bg-teal-600',
+      iconColor: 'text-white',
     },
     {
       title: 'Candidatos Activos',
       value: candidates.filter(c => !['Rejected by HR', 'Rejected by PM', 'Rejected by Candidate'].includes(c.applicationStatus)).length,
       change: { value: 8, type: 'increase' as const, period: 'semana anterior' },
       icon: TrendingUp,
-      color: 'text-teal-600',
+      color: 'text-emerald-600',
+      iconBg: 'bg-emerald-600',
+      iconColor: 'text-white',
     },
     {
       title: 'Promedio Experiencia',
       value: `${Math.round(candidates.reduce((sum, c) => sum + c.experience, 0) / candidates.length)} años`,
       change: { value: 5, type: 'increase' as const, period: 'año anterior' },
       icon: Award,
-      color: 'text-green-600',
+      color: 'text-blue-600',
+      iconBg: 'bg-blue-500',
+      iconColor: 'text-white',
     },
     {
       title: 'Fuentes Activas',
       value: new Set(candidates.map(c => c.source)).size,
       change: { value: 15, type: 'increase' as const, period: 'trimestre anterior' },
       icon: BarChart3,
-      color: 'text-lime-600',
+      color: 'text-yellow-600',
+      iconBg: 'bg-yellow-500',
+      iconColor: 'text-white',
     },
   ];
 
@@ -211,7 +219,7 @@ export default function AdminCandidateDatabasePage() {
         <Download className="mr-2 h-4 w-4" />
         Exportar
       </Button>
-      <Button size="lg" className="shadow-lg">
+      <Button size="lg" className="bg-gradient-to-br from-green-700 to-green-900 hover:from-green-800 hover:to-green-950 text-white shadow-md">
         <UserPlus className="mr-2 h-5 w-5" />
         Agregar Candidato
       </Button>
@@ -224,17 +232,12 @@ export default function AdminCandidateDatabasePage() {
       subtitle="Panel de Administración"
       description="Accede a un repositorio completo con todos los perfiles de candidatos en la historia de la organización. Busca, filtra y gestiona información detallada de cada candidato."
       icon={Search}
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/admin/recruitment' },
-        { label: 'Candidate Management', href: '/admin/recruitment/candidate-management' },
-        { label: 'Database' }
-      ]}
       headerActions={headerActions}
     >
       <AdminDashboardStats stats={databaseStats} />
 
       {/* Búsqueda Principal */}
-      <Card className="mb-6">
+      <Card className="mb-6 border-slate-200">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="relative flex-1">
@@ -243,7 +246,7 @@ export default function AdminCandidateDatabasePage() {
                 placeholder="Buscar por nombre, email, rol, ubicación o habilidades..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 text-base"
+                className="pl-12 text-base border-slate-200 focus:border-emerald-600 focus:ring-emerald-600"
               />
             </div>
             <div className="text-sm text-gray-600">
@@ -261,17 +264,17 @@ export default function AdminCandidateDatabasePage() {
       />
 
       {/* Vista de Tabla */}
-      <Card>
+      <Card className="border-slate-200">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-slate-800">
+            <FileText className="w-5 h-5 text-green-800" />
             Lista de Candidatos
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-gray-50 border-b border-slate-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Candidato
@@ -296,18 +299,18 @@ export default function AdminCandidateDatabasePage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-slate-200">
                 {filteredCandidates.map((candidate) => {
                   const statusProps = getStatusBadgeProps(candidate.applicationStatus);
                   return (
                     <tr key={candidate.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                          <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm">
                             {candidate.name.split(' ').map(n => n[0]).join('')}
                           </div>
                           <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">{candidate.name}</div>
+                            <div className="text-sm font-medium text-slate-800">{candidate.name}</div>
                             <div className="text-sm text-gray-500 flex items-center gap-1">
                               <MapPin className="w-3 h-3" />
                               {candidate.location}
@@ -315,7 +318,7 @@ export default function AdminCandidateDatabasePage() {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
                         <div className="flex items-center gap-1 mb-1">
                           <Mail className="w-3 h-3 text-gray-400" />
                           {candidate.email}
@@ -326,12 +329,12 @@ export default function AdminCandidateDatabasePage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 mb-1">{candidate.appliedRole}</div>
+                        <div className="text-sm font-medium text-slate-800 mb-1">{candidate.appliedRole}</div>
                         <AdminStatusBadge status={statusProps.status} size="sm">
                           {statusProps.text}
                         </AdminStatusBadge>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
                         <div className="flex items-center gap-1 mb-1">
                           <Briefcase className="w-3 h-3 text-gray-400" />
                           {candidate.experience} años exp.
@@ -341,12 +344,12 @@ export default function AdminCandidateDatabasePage() {
                       <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1">
                           {candidate.skills.slice(0, 3).map((skill, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs">
+                            <span key={idx} className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs border border-green-200">
                               {skill}
                             </span>
                           ))}
                           {candidate.skills.length > 3 && (
-                            <span className="px-2 py-1 bg-gray-50 text-gray-600 rounded text-xs">
+                            <span className="px-2 py-1 bg-gray-50 text-gray-600 rounded text-xs border border-gray-200">
                               +{candidate.skills.length - 3}
                             </span>
                           )}
@@ -378,10 +381,10 @@ export default function AdminCandidateDatabasePage() {
       </Card>
 
       {filteredCandidates.length === 0 && (
-        <Card>
+        <Card className="border-slate-200">
           <CardContent className="text-center py-12">
             <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No se encontraron candidatos</h3>
+            <h3 className="text-lg font-medium text-slate-800 mb-2">No se encontraron candidatos</h3>
             <p className="text-gray-500">
               Intenta ajustar los filtros de búsqueda o términos para encontrar candidatos.
             </p>
@@ -392,31 +395,31 @@ export default function AdminCandidateDatabasePage() {
         </Card>
       )}
 
-      {/* Resumen de Estadísticas - PALETA VERDE */}
+      {/* Resumen de Estadísticas */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border-slate-200">
           <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-emerald-600">{new Set(candidates.map(c => c.appliedRole)).size}</div>
+            <div className="text-2xl font-bold text-teal-600">{new Set(candidates.map(c => c.appliedRole)).size}</div>
             <div className="text-sm text-gray-600">Roles Únicos</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-slate-200">
           <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-teal-600">{new Set(candidates.map(c => c.location)).size}</div>
+            <div className="text-2xl font-bold text-emerald-600">{new Set(candidates.map(c => c.location)).size}</div>
             <div className="text-sm text-gray-600">Ubicaciones</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-slate-200">
           <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-blue-600">
               ${Math.round(candidates.reduce((sum, c) => sum + c.salary, 0) / candidates.length / 1000)}K
             </div>
             <div className="text-sm text-gray-600">Salario Promedio</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-slate-200">
           <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-lime-600">{new Set(candidates.map(c => c.source)).size}</div>
+            <div className="text-2xl font-bold text-yellow-600">{new Set(candidates.map(c => c.source)).size}</div>
             <div className="text-sm text-gray-600">Fuentes de Reclutamiento</div>
           </CardContent>
         </Card>

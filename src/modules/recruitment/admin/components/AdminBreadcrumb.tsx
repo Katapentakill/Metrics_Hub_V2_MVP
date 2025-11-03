@@ -8,15 +8,20 @@ interface BreadcrumbItem {
 }
 
 interface AdminBreadcrumbProps {
-  items: BreadcrumbItem[];
+  items?: BreadcrumbItem[]; // Hacer items opcional
 }
 
 export default function AdminBreadcrumb({ items }: AdminBreadcrumbProps) {
+  // Si no hay items, no renderizar nada
+  if (!items || items.length === 0) {
+    return null;
+  }
+
   return (
     <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
       <Link 
         href="/admin/recruitment" 
-        className="flex items-center hover:text-blue-600 transition-colors"
+        className="flex items-center hover:text-green-600 transition-colors"
       >
         <Home className="w-4 h-4 mr-1" />
         Admin
@@ -28,12 +33,12 @@ export default function AdminBreadcrumb({ items }: AdminBreadcrumbProps) {
           {item.href ? (
             <Link 
               href={item.href} 
-              className="hover:text-blue-600 transition-colors"
+              className="hover:text-green-600 transition-colors"
             >
               {item.label}
             </Link>
           ) : (
-            <span className="text-gray-900 font-medium">{item.label}</span>
+            <span className="text-slate-800 font-medium">{item.label}</span>
           )}
         </div>
       ))}
