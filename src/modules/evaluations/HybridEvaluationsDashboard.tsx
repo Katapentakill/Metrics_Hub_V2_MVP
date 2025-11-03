@@ -153,7 +153,7 @@ export default function HybridEvaluationsDashboard({
 
   if (loading) {
     return (
-      <div className={`space-y-6 ${containerPadding} transition-all duration-300`}>
+      <div className={`space-y-6 transition-all duration-300`}>
         <div className="bg-gray-200 h-32 rounded-xl animate-pulse"></div>
         <div className="bg-gray-200 h-12 rounded-xl animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -167,7 +167,7 @@ export default function HybridEvaluationsDashboard({
   }
 
   return (
-    <div className={`space-y-6 ${containerPadding} transition-all duration-300`}>
+    <div className={`space-y-6 transition-all duration-300`}>
       {/* Header Principal - PALETA INSTITUCIONAL */}
       <div className="bg-transparent ">
         <div className="flex items-center justify-between">

@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import HeaderAdmin from '@/components/layout/Admin/HeaderAdmin';
 import {FooterAdmin} from '@/components/layout/Admin/FooterAdmin';
+import { useSidebar } from '@/contexts/SidebarContext';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { isCollapsed } = useSidebar();
 
   useEffect(() => {
     const session = localStorage.getItem('auth_session');
@@ -56,7 +58,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <HeaderAdmin />
-      <main className="admin-main-content">
+      <main className={`admin-main-content ${ isCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
         <div className="page-container">
           {children}
         </div>

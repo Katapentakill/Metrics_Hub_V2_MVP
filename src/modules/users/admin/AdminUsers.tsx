@@ -3,6 +3,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSidebar } from '@/contexts/SidebarContext';
 import { 
   Users, 
   Search, 
@@ -33,6 +34,7 @@ import ExportUserModal from '@/modules/users/admin/modals/ExportUserModal';
 
 export default function AdminUsers() {
   const router = useRouter();
+  const { isCollapsed } = useSidebar();
   const [users, setUsers] = useState<ExtendedUserWithProfile[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<ExtendedUserWithProfile[]>([]);
   const [stats, setStats] = useState<UserStats | null>(null);
@@ -217,25 +219,27 @@ export default function AdminUsers() {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white border border-slate-200 rounded-xl p-6">
-              <div className="h-6 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
-              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
-            </div>
-          ))}
-        </div>
-        <div className="bg-white border border-slate-200 rounded-xl p-6">
-          <div className="h-96 w-full bg-gray-200 rounded animate-pulse" />
+      <div className={`transition-all duration-300`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="bg-white border border-slate-200 rounded-xl p-6">
+                <div className="h-6 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+                <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+          <div className="bg-white border border-slate-200 rounded-xl p-6">
+            <div className="h-96 w-full bg-gray-200 rounded animate-pulse" />
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 transition-all duration-300`}>
       {/* Header - Icono green-800 */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
         <div>
@@ -280,7 +284,7 @@ export default function AdminUsers() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Usuarios Activos</p>
                 <p className="text-3xl font-bold text-slate-800">{stats.active}</p>
-                <p className="text-sm textgray-600">
+                <p className="text-sm text-gray-600">
                   {Math.round((stats.active / stats.total) * 100)}% del total
                 </p>
               </div>

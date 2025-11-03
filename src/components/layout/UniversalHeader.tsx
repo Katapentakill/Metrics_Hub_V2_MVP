@@ -446,13 +446,9 @@ export default function UniversalHeader({
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
-              <div className={`flex items-center justify-center w-10 h-10 bg-gradient-to-br ${config.gradient} rounded-xl shadow-lg`}>
-                <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 bg-living-green-500 rounded-sm"></div>
-                </div>
-              </div>
+              <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               <div>
-                <h1 className="text-xl font-bold text-gradient">{config.title}</h1>
+                <h1 className="text-xl font-bold text-green-800">{config.title}</h1>
                 <p className="text-xs text-muted -mt-1">{config.subtitle}</p>
               </div>
             </Link>
@@ -504,7 +500,7 @@ export default function UniversalHeader({
     ? (isVolunteer ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/60 shadow-sm' : 'nav-header')
     : 'relative bg-white border-b border-slate-200/60 shadow-sm'; // Clase para relativo si isFixed=false
     
-  const titleClass = isVolunteer ? 'text-slate-800' : 'text-gradient';
+  const titleClass = isVolunteer ? 'text-slate-400' : 'text-gradient';
   const subtitleClass = isVolunteer ? 'text-slate-500' : 'text-muted';
 
   // Degradado para el icono principal del logo (basado en el rol, pero blanco o esmeralda)
@@ -531,11 +527,9 @@ export default function UniversalHeader({
             </button>
 
             <a href={`/${userRole}/dashboard`} className="flex items-center space-x-3">
-              <div className={`w-9 h-9 bg-gradient-to-br ${config.gradient} rounded-xl flex items-center justify-center`}>
-                <IconComponent className={`w-5 h-5 ${mainIconClass}`} />
-              </div>
+              <Image src='/images/logo-lsf-usa-icono.png' alt='logo-lsf-usa-icono (1)' width={36} height={36}/>
               <div>
-                <h1 className={`text-lg font-bold ${titleClass}`}>
+                <h1 className={`text-xl font-bold text-green-800`}>
                   {config.title}
                 </h1>
                 <p className={`text-xs ${subtitleClass} -mt-1 hidden sm:block`}>

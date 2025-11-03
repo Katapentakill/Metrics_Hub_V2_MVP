@@ -258,7 +258,7 @@ export default function AdminOffersHiringPage() {
             </div>
             <div className="flex gap-3">
               <Link href="/admin/recruitment/offers-hiring/offer-generation">
-                <Button variant="default" size="md">
+                <Button variant="default" size="md" className='bg-gradient-to-r from-[#15803d] to-[#14532d]'>
                   <Mail className="w-5 h-5 mr-2" />
                   Nueva Oferta
                 </Button>

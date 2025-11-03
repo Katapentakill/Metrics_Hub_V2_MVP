@@ -32,8 +32,8 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'default', size = '
   };
 
   const variantClasses = {
-    default: 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-lg',
-    outline: 'bg-white text-slate-700 border-2 border-slate-200 hover:border-emerald-500 hover:text-emerald-600',
+    default: 'bg-gradient-to-r from-[#15803d] to-[#14532d] text-white hover:from-[#14532d] hover:to-[#15803d] shadow-md hover:shadow-lg',
+    outline: 'bg-white text-slate-700 border border-slate-200 hover:border-green-300 hover:bg-slate-50',
     ghost: 'bg-transparent text-slate-700 hover:bg-slate-100',
     destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-md',
   };
@@ -57,23 +57,23 @@ const StatCard: React.FC<{
   color: string;
 }> = ({ label, value, icon: Icon, trend, color }) => {
   const isUp = trend && trend.includes('+');
-  const trendColor = isUp ? 'text-emerald-700 bg-emerald-50' : 'text-red-700 bg-red-50';
+  const trendColor = isUp ? 'text-green-800 bg-green-50' : 'text-red-700 bg-red-50';
 
   return (
-    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300">
+    <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition-all duration-300">
       <div className="flex items-start justify-between mb-3">
         <div className={`p-3 rounded-lg ${color}`}>
           <Icon className="w-5 h-5 text-white" />
         </div>
         {trend && (
           <div className={`flex items-center gap-1 px-2 py-1 rounded-full ${trendColor}`}>
-            <TrendingUp className={`w-3 h-3 ${isUp ? 'text-emerald-700' : 'text-red-700 rotate-180'}`} />
+            <TrendingUp className={`w-3 h-3 ${isUp ? 'text-green-800' : 'text-red-700 rotate-180'}`} />
             <span className="text-xs font-medium">{trend}</span>
           </div>
         )}
       </div>
-      <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
-      <p className="text-sm text-gray-600">{label}</p>
+      <p className="text-3xl font-bold text-slate-800 mb-1">{value}</p>
+      <p className="text-sm text-slate-600">{label}</p>
     </div>
   );
 };
@@ -97,7 +97,7 @@ const SectionCard: React.FC<{
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`
-        relative overflow-hidden bg-white rounded-xl border-2 border-gray-200 block
+        relative overflow-hidden bg-white rounded-xl border-2 border-slate-200 block
         hover:shadow-2xl hover:-translate-y-2 
         transition-all duration-300 cursor-pointer
         ${bgHover}
@@ -118,7 +118,7 @@ const SectionCard: React.FC<{
             
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-xl font-bold text-gray-900 group-hover:text-gray-700 transition-colors">
+                <h3 className="text-xl font-bold text-slate-800 group-hover:text-slate-700 transition-colors">
                   {title}
                 </h3>
                 {priority === 'high' && (
@@ -135,7 +135,7 @@ const SectionCard: React.FC<{
                 `}>
                   {stats.value}
                 </span>
-                <span className="text-xs font-medium text-gray-500">
+                <span className="text-xs font-medium text-slate-500">
                   {stats.label}
                 </span>
               </div>
@@ -143,13 +143,13 @@ const SectionCard: React.FC<{
           </div>
           
           <ArrowRight className={`
-            w-6 h-6 text-gray-400 transition-all duration-300
-            ${isHovered ? 'text-gray-700 translate-x-1' : ''}
+            w-6 h-6 text-slate-400 transition-all duration-300
+            ${isHovered ? 'text-slate-700 translate-x-1' : ''}
           `} />
         </div>
 
         {stats.subValue && (
-          <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 ml-16">
+          <div className="flex items-center gap-2 text-xs text-slate-500 mb-3 ml-16">
             <Activity className="w-3 h-3" />
             <span>{stats.subValue}</span>
           </div>
@@ -157,14 +157,14 @@ const SectionCard: React.FC<{
       </div>
       
       <div className="px-6 pb-6">
-        <p className="text-sm text-gray-600 leading-relaxed mb-4">
+        <p className="text-sm text-slate-600 leading-relaxed mb-4">
           {description}
         </p>
         
-        <div className="pt-4 border-t border-gray-100">
+        <div className="pt-4 border-t border-slate-100">
           <span className={`
             text-sm font-medium transition-colors
-            ${isHovered ? 'text-emerald-600' : 'text-gray-400'}
+            ${isHovered ? 'text-green-800' : 'text-slate-400'}
           `}>
             Explorar sección →
           </span>
@@ -182,8 +182,8 @@ const offersHiringSections = [
     description: 'Gestiona la creación y el estado de todas las cartas de oferta. Visualiza quién ha aceptado y quién está pendiente de respuesta.',
     href: '/hr/recruitment/offers-hiring/offer-generation',
     icon: Mail,
-    gradient: 'from-emerald-500 to-emerald-600',
-    bgHover: 'hover:bg-emerald-50',
+    gradient: 'from-green-800 to-emerald-600',
+    bgHover: 'hover:bg-green-50',
     stats: { label: 'Pendientes', value: 5, subValue: '13 aceptadas, 18 enviadas' },
     priority: 'high' as const,
   },
@@ -192,8 +192,8 @@ const offersHiringSections = [
     description: 'Supervisa el proceso de onboarding para todos los nuevos miembros del equipo, asegurando que se cumplan todos los pasos.',
     href: '/hr/recruitment/offers-hiring/onboarding-management',
     icon: UserPlus,
-    gradient: 'from-teal-500 to-teal-600',
-    bgHover: 'hover:bg-teal-50',
+    gradient: 'from-green-800 to-emerald-600',
+    bgHover: 'hover:bg-green-50',
     stats: { label: 'En Proceso', value: 8, subValue: '3 completados esta semana' },
     priority: 'medium' as const,
   },
@@ -202,7 +202,7 @@ const offersHiringSections = [
     description: 'Accede a todos los documentos de contratación de los nuevos empleados y voluntarios, incluyendo contratos y formularios firmados.',
     href: '/hr/recruitment/offers-hiring/hiring-documents',
     icon: FileCheck,
-    gradient: 'from-green-500 to-green-600',
+    gradient: 'from-green-800 to-emerald-600',
     bgHover: 'hover:bg-green-50',
     stats: { label: 'Por Firmar', value: 2, subValue: '15 documentos firmados' },
     priority: 'medium' as const,
@@ -215,28 +215,28 @@ const quickStats = [
     value: 18,
     trend: '+15%',
     icon: Mail,
-    color: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
+    color: 'bg-gradient-to-br from-green-800 to-emerald-600',
   },
   {
     title: 'Ofertas Aceptadas',
     value: 13,
     trend: '+8%',
     icon: Handshake,
-    color: 'bg-gradient-to-br from-teal-500 to-teal-600',
+    color: 'bg-gradient-to-br from-green-800 to-emerald-600',
   },
   {
     title: 'Onboarding Activo',
     value: 8,
     trend: '+12%',
     icon: UserPlus,
-    color: 'bg-gradient-to-br from-green-500 to-green-600',
+    color: 'bg-gradient-to-br from-green-800 to-emerald-600',
   },
   {
     title: 'Contratos Pendientes',
     value: 5,
     trend: '-20%',
     icon: FileCheck,
-    color: 'bg-gradient-to-br from-lime-500 to-lime-600',
+    color: 'bg-gradient-to-br from-green-800 to-emerald-600',
   },
 ];
 
@@ -250,21 +250,21 @@ export default function AdminOffersHiringPage() {
         <div className="mb-10">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <Handshake className="w-10 h-10 text-emerald-600" />
+              <Handshake className="w-10 h-10 text-green-800" />
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Ofertas y Contratación</h1>
-                <p className="text-gray-600 mt-1">Gestión de Ofertas y Onboarding</p>
+                <h1 className="text-3xl font-bold text-slate-800">Ofertas y Contratación</h1>
+                <p className="text-slate-600 mt-1">Gestión de Ofertas y Onboarding</p>
               </div>
             </div>
             <div className="flex gap-3">
               <Link href="/hr/recruitment/offers-hiring/offer-generation">
-                <Button variant="default" size="md">
+                <Button variant="default" size="lg" className="px-6 py-3">
                   <Mail className="w-5 h-5 mr-2" />
                   Nueva Oferta
                 </Button>
               </Link>
               <Link href="/hr/recruitment/offers-hiring/onboarding-management">
-                <Button variant="outline" size="md">
+                <Button variant="outline" size="lg" className="px-6 py-3">
                   <UserPlus className="w-5 h-5 mr-2" />
                   Iniciar Onboarding
                 </Button>
@@ -289,8 +289,8 @@ export default function AdminOffersHiringPage() {
 
         {/* Description */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Herramientas de Gestión</h2>
-          <p className="text-gray-600">
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">Herramientas de Gestión</h2>
+          <p className="text-slate-600">
             Supervisa y gestiona la etapa final del proceso de reclutamiento, desde el envío de la oferta formal hasta la finalización del proceso de onboarding.
           </p>
         </div>
@@ -313,19 +313,19 @@ export default function AdminOffersHiringPage() {
         </div>
 
         {/* Quick Access Banner */}
-        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-xl p-6 shadow-sm">
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-emerald-200 rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <BookOpen className="w-6 h-6 text-emerald-600" />
-                <h3 className="text-xl font-bold text-slate-900">Revisión de Documentación</h3>
+                <BookOpen className="w-6 h-6 text-green-800" />
+                <h3 className="text-xl font-bold text-slate-800">Revisión de Documentación</h3>
               </div>
               <p className="text-slate-600">
                 Accede directamente al repositorio de contratos y documentos de los nuevos ingresos.
               </p>
             </div>
             <Link href="/hr/recruitment/offers-hiring/hiring-documents">
-              <Button size="lg" className="whitespace-nowrap">
+              <Button size="lg" className="whitespace-nowrap px-6 py-3">
                 <FileCheck className="w-5 h-5 mr-2" />
                 Ver Documentos
               </Button>
