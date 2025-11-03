@@ -22,11 +22,52 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AdminPageLayout from '@/modules/recruitment/hr/components/AdminPageLayout';
-import AdminDashboardStats from '@/modules/recruitment/hr/components/AdminDashboardStats';
-import AdminAdvancedFilters from '@/modules/recruitment/hr/components/AdminAdvancedFilters';
 import AdminStatusBadge from '@/modules/recruitment/hr/components/AdminStatusBadge';
 import { getMockRecruitmentData, MockCandidate } from '@/lib/data/mockRecruitmentData';
 import { CANDIDATE_STATUSES, AVAILABLE_ROLES, VOLUNTEER_TYPES } from '@/modules/recruitment/shared/constants';
+
+// ============================================================================
+// KPI CARD COMPONENT (mismo diseño que Tracker/Document Hub)
+// ============================================================================
+
+const StatCard = ({ 
+  label, 
+  value, 
+  trend, 
+  icon: Icon, 
+  color 
+}: {
+  label: string;
+  value: string | number;
+  trend?: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+}) => {
+  const isUp = trend && trend.includes('+');
+  const trendColor = isUp ? 'text-emerald-700 bg-emerald-50' : 'text-red-700 bg-red-50';
+
+  return (
+    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300">
+      <div className="flex items-start justify-between mb-3">
+        <div className={`p-3 rounded-lg ${color}`}>
+          <Icon className="w-5 h-5 text-white" />
+        </div>
+        {trend && (
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-full ${trendColor}`}>
+            <TrendingUp className={`w-3 h-3 ${isUp ? 'text-emerald-700' : 'text-red-700 rotate-180'}`} />
+            <span className="text-xs font-medium">{trend}</span>
+          </div>
+        )}
+      </div>
+      <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
+      <p className="text-sm text-gray-600">{label}</p>
+    </div>
+  );
+};
+
+// ============================================================================
+// DATOS
+// ============================================================================
 
 // Generar datos más ricos para la base de datos
 const generateEnhancedCandidateData = (baseData: MockCandidate[]) => {
@@ -55,143 +96,68 @@ const generateEnhancedCandidateData = (baseData: MockCandidate[]) => {
 
 const initialMockData = generateEnhancedCandidateData(getMockRecruitmentData(150));
 
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
 export default function AdminCandidateDatabasePage() {
   const [candidates] = useState(initialMockData);
-  const [filters, setFilters] = useState<Record<string, any>>({});
-  const [searchTerm, setSearchTerm] = useState('');
+  const [filters, setFilters] = useState({
+    search: '',
+    status: 'all',
+    role: 'all',
+    volunteerType: 'all',
+    location: 'all',
+  });
 
-  // Filtros avanzados configuración
-  const filterOptions = [
-    {
-      key: 'applicationStatus',
-      label: 'Estado de Aplicación',
-      type: 'select' as const,
-      options: CANDIDATE_STATUSES.map(status => ({ value: status, label: status }))
-    },
-    {
-      key: 'appliedRole',
-      label: 'Rol Aplicado',
-      type: 'select' as const,
-      options: AVAILABLE_ROLES.map(role => ({ value: role, label: role }))
-    },
-    {
-      key: 'volunteerType',
-      label: 'Tipo de Voluntario',
-      type: 'select' as const,
-      options: VOLUNTEER_TYPES.map(type => ({ value: type, label: type }))
-    },
-    {
-      key: 'location',
-      label: 'Ubicación',
-      type: 'select' as const,
-      options: [...new Set(candidates.map(c => c.location))].map(loc => ({ value: loc, label: loc }))
-    },
-    {
-      key: 'experience',
-      label: 'Años de Experiencia',
-      type: 'select' as const,
-      options: [
-        { value: '0-2', label: '0-2 años' },
-        { value: '3-5', label: '3-5 años' },
-        { value: '6-10', label: '6-10 años' },
-        { value: '10+', label: '10+ años' }
-      ]
-    },
-    {
-      key: 'source',
-      label: 'Fuente de Reclutamiento',
-      type: 'select' as const,
-      options: [...new Set(candidates.map(c => c.source))].map(source => ({ value: source, label: source }))
-    },
-    {
-      key: 'availability',
-      label: 'Disponibilidad',
-      type: 'select' as const,
-      options: [...new Set(candidates.map(c => c.availability))].map(avail => ({ value: avail, label: avail }))
-    },
-    {
-      key: 'lastActivity',
-      label: 'Última Actividad',
-      type: 'date' as const
-    }
-  ];
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      search: '',
+      status: 'all',
+      role: 'all',
+      volunteerType: 'all',
+      location: 'all',
+    });
+  };
 
   // Filtrar candidatos
   const filteredCandidates = useMemo(() => {
     let result = candidates;
 
     // Búsqueda por texto
-    if (searchTerm) {
+    if (filters.search) {
       result = result.filter(candidate =>
-        candidate.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        candidate.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        candidate.appliedRole.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        candidate.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        candidate.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()))
+        candidate.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        candidate.email.toLowerCase().includes(filters.search.toLowerCase()) ||
+        candidate.appliedRole.toLowerCase().includes(filters.search.toLowerCase()) ||
+        candidate.location.toLowerCase().includes(filters.search.toLowerCase()) ||
+        candidate.skills.some(skill => skill.toLowerCase().includes(filters.search.toLowerCase()))
       );
     }
 
-    // Aplicar filtros
-    Object.entries(filters).forEach(([key, value]) => {
-      if (!value) return;
-      
-      if (key === 'experience') {
-        const [min, max] = value.split('-').map(Number);
-        if (value === '10+') {
-          result = result.filter(c => c.experience >= 10);
-        } else {
-          result = result.filter(c => c.experience >= min && c.experience <= (max || min));
-        }
-      } else if (key === 'lastActivity') {
-        result = result.filter(c => c.lastActivity >= value);
-      } else {
-        result = result.filter(c => c[key as keyof typeof c] === value);
-      }
-    });
+    if (filters.status !== 'all') {
+      result = result.filter(c => c.applicationStatus === filters.status);
+    }
+
+    if (filters.role !== 'all') {
+      result = result.filter(c => c.appliedRole === filters.role);
+    }
+
+    if (filters.volunteerType !== 'all') {
+      result = result.filter(c => c.volunteerType === filters.volunteerType);
+    }
+
+    if (filters.location !== 'all') {
+      result = result.filter(c => c.location === filters.location);
+    }
 
     return result;
-  }, [candidates, searchTerm, filters]);
-
-  // Estadísticas para el dashboard - PALETA VERDE
-  const databaseStats = [
-    {
-      title: 'Total Candidatos',
-      value: candidates.length,
-      change: { value: 12, type: 'increase' as const, period: 'mes anterior' },
-      icon: Users,
-      color: 'text-emerald-600',
-    },
-    {
-      title: 'Candidatos Activos',
-      value: candidates.filter(c => !['Rejected by HR', 'Rejected by PM', 'Rejected by Candidate'].includes(c.applicationStatus)).length,
-      change: { value: 8, type: 'increase' as const, period: 'semana anterior' },
-      icon: TrendingUp,
-      color: 'text-teal-600',
-    },
-    {
-      title: 'Promedio Experiencia',
-      value: `${Math.round(candidates.reduce((sum, c) => sum + c.experience, 0) / candidates.length)} años`,
-      change: { value: 5, type: 'increase' as const, period: 'año anterior' },
-      icon: Award,
-      color: 'text-green-600',
-    },
-    {
-      title: 'Fuentes Activas',
-      value: new Set(candidates.map(c => c.source)).size,
-      change: { value: 15, type: 'increase' as const, period: 'trimestre anterior' },
-      icon: BarChart3,
-      color: 'text-lime-600',
-    },
-  ];
-
-  const handleFiltersChange = (newFilters: Record<string, any>) => {
-    setFilters(newFilters);
-  };
-
-  const handleClearFilters = () => {
-    setFilters({});
-    setSearchTerm('');
-  };
+  }, [candidates, filters]);
 
   const handleExport = () => {
     console.log('Exportando base de datos de candidatos...');
@@ -211,216 +177,343 @@ export default function AdminCandidateDatabasePage() {
         <Download className="mr-2 h-4 w-4" />
         Exportar
       </Button>
-      <Button size="lg" className="shadow-lg">
+      <Button 
+        size="lg" 
+        className="bg-gradient-to-br from-green-700 to-green-900 hover:from-green-800 hover:to-green-950 text-white shadow-md"
+      >
         <UserPlus className="mr-2 h-5 w-5" />
         Agregar Candidato
       </Button>
     </>
   );
 
-  return (
-    <AdminPageLayout
-      title="Base de Datos de Candidatos"
-      subtitle="Panel de Administración"
-      description="Accede a un repositorio completo con todos los perfiles de candidatos en la historia de la organización. Busca, filtra y gestiona información detallada de cada candidato."
-      icon={Search}
-      breadcrumbItems={[
-        { label: 'Recruitment', href: '/hr/recruitment' },
-        { label: 'Candidate Management', href: '/hr/recruitment/candidate-management' },
-        { label: 'Database' }
-      ]}
-      headerActions={headerActions}
-    >
-      <AdminDashboardStats stats={databaseStats} />
+  const locations = [...new Set(candidates.map(c => c.location))];
 
-      {/* Búsqueda Principal */}
-      <Card className="mb-6">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                placeholder="Buscar por nombre, email, rol, ubicación o habilidades..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 text-base"
-              />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-emerald-50/20 to-gray-100">
+      <AdminPageLayout
+        title="Base de Datos de Candidatos"
+        subtitle="Panel de Administración"
+        description="Accede a un repositorio completo con todos los perfiles de candidatos en la historia de la organización. Busca, filtra y gestiona información detallada de cada candidato."
+        icon={Search}
+        headerActions={headerActions}
+      >
+        {/* KPI Cards - Mismo diseño que Tracker/Document Hub */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <StatCard
+            icon={Users}
+            label="Total Candidatos"
+            value={candidates.length}
+            trend="+12%"
+            color="bg-gradient-to-br from-emerald-500 to-emerald-600"
+          />
+          <StatCard
+            icon={TrendingUp}
+            label="Candidatos Activos"
+            value={candidates.filter(c => !['Rejected by HR', 'Rejected by PM', 'Rejected by Candidate'].includes(c.applicationStatus)).length}
+            trend="+8%"
+            color="bg-gradient-to-br from-teal-500 to-teal-600"
+          />
+          <StatCard
+            icon={Award}
+            label="Promedio Experiencia"
+            value={`${Math.round(candidates.reduce((sum, c) => sum + c.experience, 0) / candidates.length)} años`}
+            trend="+5%"
+            color="bg-gradient-to-br from-green-500 to-green-600"
+          />
+          <StatCard
+            icon={BarChart3}
+            label="Fuentes Activas"
+            value={new Set(candidates.map(c => c.source)).size}
+            trend="+15%"
+            color="bg-gradient-to-br from-lime-500 to-lime-600"
+          />
+        </div>
+
+        {/* Filters Section - Mismo diseño que Tracker */}
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6 border border-slate-200">
+          <h3 className="text-lg font-semibold text-slate-800 mb-4">Filtros de Búsqueda</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {/* Search Field */}
+            <div className="lg:col-span-2">
+              <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-2">
+                Buscar Candidato
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  type="text"
+                  name="search"
+                  id="search"
+                  placeholder="Nombre, email, rol, ubicación o habilidades..."
+                  value={filters.search}
+                  onChange={handleFilterChange}
+                  className="pl-10 border-slate-200 focus:border-emerald-600 focus:ring-emerald-600"
+                />
+              </div>
             </div>
-            <div className="text-sm text-gray-600">
-              {filteredCandidates.length} de {candidates.length} candidatos
+
+            {/* Status Filter */}
+            <div>
+              <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
+                Estado
+              </label>
+              <select
+                name="status"
+                id="status"
+                value={filters.status}
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-slate-200 bg-white py-2 pl-3 pr-10 text-sm text-gray-600 focus:border-emerald-600 focus:ring-emerald-600"
+              >
+                <option value="all">Todos los Estados</option>
+                {CANDIDATE_STATUSES.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Role Filter */}
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-slate-700 mb-2">
+                Rol
+              </label>
+              <select
+                name="role"
+                id="role"
+                value={filters.role}
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-slate-200 bg-white py-2 pl-3 pr-10 text-sm text-gray-600 focus:border-emerald-600 focus:ring-emerald-600"
+              >
+                <option value="all">Todos los Roles</option>
+                {AVAILABLE_ROLES.map(r => (
+                  <option key={r} value={r}>{r}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Volunteer Type Filter */}
+            <div>
+              <label htmlFor="volunteerType" className="block text-sm font-medium text-slate-700 mb-2">
+                Tipo de Voluntario
+              </label>
+              <select
+                name="volunteerType"
+                id="volunteerType"
+                value={filters.volunteerType}
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-slate-200 bg-white py-2 pl-3 pr-10 text-sm text-gray-600 focus:border-emerald-600 focus:ring-emerald-600"
+              >
+                <option value="all">Todos los Tipos</option>
+                {VOLUNTEER_TYPES.map(vt => (
+                  <option key={vt} value={vt}>{vt}</option>
+                ))}
+              </select>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      <AdminAdvancedFilters
-        filters={filterOptions}
-        onFiltersChange={handleFiltersChange}
-        onClearFilters={handleClearFilters}
-        activeFilters={filters}
-      />
+          {/* Segunda fila de filtros */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-4">
+            {/* Location Filter */}
+            <div>
+              <label htmlFor="location" className="block text-sm font-medium text-slate-700 mb-2">
+                Ubicación
+              </label>
+              <select
+                name="location"
+                id="location"
+                value={filters.location}
+                onChange={handleFilterChange}
+                className="w-full rounded-md border-slate-200 bg-white py-2 pl-3 pr-10 text-sm text-gray-600 focus:border-emerald-600 focus:ring-emerald-600"
+              >
+                <option value="all">Todas las Ubicaciones</option>
+                {locations.map(loc => (
+                  <option key={loc} value={loc}>{loc}</option>
+                ))}
+              </select>
+            </div>
 
-      {/* Vista de Tabla */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
-            Lista de Candidatos
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Candidato
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contacto
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Rol & Estado
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Experiencia & Educación
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Habilidades
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Última Actividad
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Acciones
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredCandidates.map((candidate) => {
-                  const statusProps = getStatusBadgeProps(candidate.applicationStatus);
-                  return (
-                    <tr key={candidate.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                            {candidate.name.split(' ').map(n => n[0]).join('')}
-                          </div>
-                          <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">{candidate.name}</div>
-                            <div className="text-sm text-gray-500 flex items-center gap-1">
-                              <MapPin className="w-3 h-3" />
-                              {candidate.location}
+            {/* Clear Filters Button */}
+            <div className="lg:col-span-4 flex items-end">
+              <Button 
+                variant="outline" 
+                onClick={handleClearFilters}
+                className="w-full md:w-auto"
+              >
+                Limpiar Filtros
+              </Button>
+            </div>
+          </div>
+          
+          {/* Results Summary */}
+          <div className="mt-4 pt-4 border-t border-slate-200">
+            <p className="text-sm text-gray-600">
+              Mostrando <span className="font-medium text-slate-800">{filteredCandidates.length}</span> de <span className="font-medium text-slate-800">{candidates.length}</span> candidatos
+            </p>
+          </div>
+        </div>
+
+        {/* Vista de Tabla */}
+        <Card className="border-slate-200">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-slate-800">
+              <FileText className="w-5 h-5 text-green-800" />
+              Lista de Candidatos
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-slate-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Candidato
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Contacto
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Rol & Estado
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Experiencia & Educación
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Habilidades
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Última Actividad
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-slate-200">
+                  {filteredCandidates.map((candidate) => {
+                    const statusProps = getStatusBadgeProps(candidate.applicationStatus);
+                    return (
+                      <tr key={candidate.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                              {candidate.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div className="ml-3">
+                              <div className="text-sm font-medium text-slate-800">{candidate.name}</div>
+                              <div className="text-sm text-gray-500 flex items-center gap-1">
+                                <MapPin className="w-3 h-3" />
+                                {candidate.location}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex items-center gap-1 mb-1">
-                          <Mail className="w-3 h-3 text-gray-400" />
-                          {candidate.email}
-                        </div>
-                        <div className="flex items-center gap-1 text-gray-500">
-                          <Phone className="w-3 h-3 text-gray-400" />
-                          {candidate.phone}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 mb-1">{candidate.appliedRole}</div>
-                        <AdminStatusBadge status={statusProps.status} size="sm">
-                          {statusProps.text}
-                        </AdminStatusBadge>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex items-center gap-1 mb-1">
-                          <Briefcase className="w-3 h-3 text-gray-400" />
-                          {candidate.experience} años exp.
-                        </div>
-                        <div className="text-gray-500">{candidate.education}</div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-wrap gap-1">
-                          {candidate.skills.slice(0, 3).map((skill, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs">
-                              {skill}
-                            </span>
-                          ))}
-                          {candidate.skills.length > 3 && (
-                            <span className="px-2 py-1 bg-gray-50 text-gray-600 rounded text-xs">
-                              +{candidate.skills.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {candidate.lastActivity}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="ghost" title="Ver detalles">
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="ghost" title="Editar">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {filteredCandidates.length === 0 && (
-        <Card>
-          <CardContent className="text-center py-12">
-            <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No se encontraron candidatos</h3>
-            <p className="text-gray-500">
-              Intenta ajustar los filtros de búsqueda o términos para encontrar candidatos.
-            </p>
-            <Button variant="outline" onClick={handleClearFilters} className="mt-4">
-              Limpiar Filtros
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Resumen de Estadísticas - PALETA VERDE */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-emerald-600">{new Set(candidates.map(c => c.appliedRole)).size}</div>
-            <div className="text-sm text-gray-600">Roles Únicos</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-teal-600">{new Set(candidates.map(c => c.location)).size}</div>
-            <div className="text-sm text-gray-600">Ubicaciones</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-green-600">
-              ${Math.round(candidates.reduce((sum, c) => sum + c.salary, 0) / candidates.length / 1000)}K
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
+                          <div className="flex items-center gap-1 mb-1">
+                            <Mail className="w-3 h-3 text-gray-400" />
+                            {candidate.email}
+                          </div>
+                          <div className="flex items-center gap-1 text-gray-500">
+                            <Phone className="w-3 h-3 text-gray-400" />
+                            {candidate.phone}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-slate-800 mb-1">{candidate.appliedRole}</div>
+                          <AdminStatusBadge status={statusProps.status} size="sm">
+                            {statusProps.text}
+                          </AdminStatusBadge>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800">
+                          <div className="flex items-center gap-1 mb-1">
+                            <Briefcase className="w-3 h-3 text-gray-400" />
+                            {candidate.experience} años exp.
+                          </div>
+                          <div className="text-gray-500">{candidate.education}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-wrap gap-1">
+                            {candidate.skills.slice(0, 3).map((skill, idx) => (
+                              <span key={idx} className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs border border-green-200">
+                                {skill}
+                              </span>
+                            ))}
+                            {candidate.skills.length > 3 && (
+                              <span className="px-2 py-1 bg-gray-50 text-gray-600 rounded text-xs border border-gray-200">
+                                +{candidate.skills.length - 3}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {candidate.lastActivity}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="ghost" title="Ver detalles">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button size="sm" variant="ghost" title="Editar">
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <div className="text-sm text-gray-600">Salario Promedio</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-2xl font-bold text-lime-600">{new Set(candidates.map(c => c.source)).size}</div>
-            <div className="text-sm text-gray-600">Fuentes de Reclutamiento</div>
-          </CardContent>
-        </Card>
-      </div>
-    </AdminPageLayout>
+
+        {filteredCandidates.length === 0 && (
+          <Card className="border-slate-200 mt-6">
+            <CardContent className="text-center py-12">
+              <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-slate-800 mb-2">No se encontraron candidatos</h3>
+              <p className="text-gray-500">
+                Intenta ajustar los filtros de búsqueda o términos para encontrar candidatos.
+              </p>
+              <Button variant="outline" onClick={handleClearFilters} className="mt-4">
+                Limpiar Filtros
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Resumen de Estadísticas */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+          <Card className="border-slate-200">
+            <CardContent className="p-6 text-center">
+              <div className="text-2xl font-bold text-teal-600">{new Set(candidates.map(c => c.appliedRole)).size}</div>
+              <div className="text-sm text-gray-600">Roles Únicos</div>
+            </CardContent>
+          </Card>
+          <Card className="border-slate-200">
+            <CardContent className="p-6 text-center">
+              <div className="text-2xl font-bold text-emerald-600">{new Set(candidates.map(c => c.location)).size}</div>
+              <div className="text-sm text-gray-600">Ubicaciones</div>
+            </CardContent>
+          </Card>
+          <Card className="border-slate-200">
+            <CardContent className="p-6 text-center">
+              <div className="text-2xl font-bold text-blue-600">
+                ${Math.round(candidates.reduce((sum, c) => sum + c.salary, 0) / candidates.length / 1000)}K
+              </div>
+              <div className="text-sm text-gray-600">Salario Promedio</div>
+            </CardContent>
+          </Card>
+          <Card className="border-slate-200">
+            <CardContent className="p-6 text-center">
+              <div className="text-2xl font-bold text-yellow-600">{new Set(candidates.map(c => c.source)).size}</div>
+              <div className="text-sm text-gray-600">Fuentes de Reclutamiento</div>
+            </CardContent>
+          </Card>
+        </div>
+      </AdminPageLayout>
+    </div>
   );
 }

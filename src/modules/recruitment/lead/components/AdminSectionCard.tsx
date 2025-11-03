@@ -1,4 +1,4 @@
-// src/modules/recruitment/lead/components/AdminSectionCard.tsx
+// src/modules/recruitment/hr/components/AdminSectionCard.tsx
 import Link from 'next/link';
 import { LucideIcon, ArrowRight } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';

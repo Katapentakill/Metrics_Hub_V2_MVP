@@ -28,9 +28,9 @@ export default function AdminPageLayout({
   children,
 }: AdminPageLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
-      <div className="bg-white border-b border-slate-200 px-8 py-6">
+    <div className="min-h-screen bg-transparent">
+      {/* Header Section - COMPLETAMENTE TRANSPARENTE */}
+      <div className="bg-transparent border-b border-transparent px-8 py-6">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb - Solo renderizar si hay items */}
           {breadcrumbItems && breadcrumbItems.length > 0 && (
@@ -42,12 +42,12 @@ export default function AdminPageLayout({
             <div className="flex items-center gap-3">
               {/* ✅ ICONO SIN FONDO - COLOR GREEN-800 según guía */}
               {Icon && (
-                <Icon className="w-8 h-8 text-green-800" />
+                <Icon className="w-10 h-10 text-green-800" />
               )}
               <div>
                 <h1 className="text-3xl font-bold text-slate-800">{title}</h1>
                 {subtitle && (
-                  <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+                  <p className="text-sm text-gray-600 mt-1 font-medium">{subtitle}</p>
                 )}
               </div>
             </div>
@@ -62,13 +62,13 @@ export default function AdminPageLayout({
 
           {/* Description */}
           {description && (
-            <p className="text-gray-600 mt-2 max-w-3xl">{description}</p>
+            <p className="text-sm text-gray-600 mt-2 max-w-3xl">{description}</p>
           )}
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-8 py-6">
+      {/* Main Content - TRANSPARENTE */}
+      <div className="max-w-7xl mx-auto px-8 py-6 bg-transparent">
         {children}
       </div>
     </div>

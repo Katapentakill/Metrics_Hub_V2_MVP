@@ -1,4 +1,5 @@
 // src/modules/recruitment/hr/components/AdminPageLayout.tsx
+import React from 'react';
 import { LucideIcon } from 'lucide-react';
 import AdminBreadcrumb from './AdminBreadcrumb';
 
@@ -10,12 +11,11 @@ interface BreadcrumbItem {
 interface AdminPageLayoutProps {
   title: string;
   subtitle?: string;
-  description: string;
-  icon: LucideIcon;
-  breadcrumbItems: BreadcrumbItem[];
-  children: React.ReactNode;
+  description?: string;
+  icon?: LucideIcon;
   headerActions?: React.ReactNode;
-  iconGradient?: string;
+  breadcrumbItems?: BreadcrumbItem[]; // Opcional
+  children: React.ReactNode;
 }
 
 export default function AdminPageLayout({
@@ -23,36 +23,52 @@ export default function AdminPageLayout({
   subtitle,
   description,
   icon: Icon,
+  headerActions,
   breadcrumbItems,
   children,
-  headerActions
 }: AdminPageLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="p-8 max-w-7xl mx-auto">
-        <AdminBreadcrumb items={breadcrumbItems} />
-        
-        <div className="flex justify-between items-start mb-8">
-          <div className="flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-emerald-600 text-white shadow-lg">
-              <Icon className="w-8 h-8" />
+    <div className="min-h-screen bg-transparent">
+      {/* Header Section - COMPLETAMENTE TRANSPARENTE */}
+      <div className="bg-transparent border-b border-transparent px-8 py-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Breadcrumb - Solo renderizar si hay items */}
+          {breadcrumbItems && breadcrumbItems.length > 0 && (
+            <AdminBreadcrumb items={breadcrumbItems} />
+          )}
+
+          {/* Título con Icono */}
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              {/* ✅ ICONO SIN FONDO - COLOR GREEN-800 según guía */}
+              {Icon && (
+                <Icon className="w-10 h-10 text-green-800" />
+              )}
+              <div>
+                <h1 className="text-3xl font-bold text-slate-800">{title}</h1>
+                {subtitle && (
+                  <p className="text-sm text-gray-600 mt-1 font-medium">{subtitle}</p>
+                )}
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl font-bold text-slate-800">{title}</h1>
-              {subtitle && <p className="text-xl text-gray-600">{subtitle}</p>}
-            </div>
+
+            {/* Header Actions */}
+            {headerActions && (
+              <div className="flex items-center gap-3">
+                {headerActions}
+              </div>
+            )}
           </div>
-          {headerActions && (
-            <div className="flex gap-3">
-              {headerActions}
-            </div>
+
+          {/* Description */}
+          {description && (
+            <p className="text-sm text-gray-600 mt-2 max-w-3xl">{description}</p>
           )}
         </div>
-        
-        <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-4xl">
-          {description}
-        </p>
+      </div>
 
+      {/* Main Content - TRANSPARENTE */}
+      <div className="max-w-7xl mx-auto px-8 py-6 bg-transparent">
         {children}
       </div>
     </div>
